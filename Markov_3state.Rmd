@@ -63,12 +63,6 @@ v_names_states  <- c("Healthy", "Sick", "Dead")
 n_states        <- length(v_names_states)        
 # We're just taking the number of health states from the number of names we came up with, i.e. 3 names to reflect three health states 
 
-# Discounting factors
-d_c             <- 0.03                          
-# discount rate for costs
-d_e             <- 0.03                          
-# discount rate for QALYs
-
 # Strategy names
 v_names_str     <- c("Standard of Care",         
                      "Treatment A", 
@@ -98,30 +92,49 @@ p_HD      <- 0.01  # probability of dying when healthy
 # Alternatively, C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\4_cSTM - time-dependent models_material shows you how to use a life-table, as does the material from the York course, but I really think there's no need to get that detailed in our own analysis.
 
 
-## State rewards
+## Health State Values (AKA State rewards)
 # Costs and utilities  
+# Basically the outcomes we are interested in coming out of this model, so we'll look at the cohorts costs over the time horizon and the quality adjusted life years in our cohort over this time horizon.
+
 c_H       <- 400   # cost of one cycle in healthy state
 c_S       <- 1000  # cost of one cycle in sick state
 c_D       <- 0     # cost of one cycle in dead state
+
+# Above is the cost for each state, healthy, sick and dead,
+
 c_trtA    <- 800   # cost of treatment A (per cycle) in healthy state
 c_trtB    <- 1500  # cost of treatment B (per cycle) in healthy state
+
+# We make the cost of treatment above so that when we have treatment strategies we can add this cost of treatment to anyone whose being treated when they receive the treatment.
+
 u_H       <- 1     # utility when healthy 
 u_S       <- 0.5   # utility when sick
 u_D       <- 0     # utility when dead
-d_e       <- 0.03  # discount rate per cycle equal discount of costs and QALYs by 3%
-d_c       <- 0.03  # discount rate per cycle equal discount of costs and QAL  
+
+# Then we define the utilities per health states.
+
+
+# Discounting factors
+d_c             <- 0.03                          
+# discount rate for costs
+d_e             <- 0.03                          
+# discount rate for QALYs
+
+# discount rate per cycle equal discount of costs and QALYs by 3%
 
 # Discount weight (equal discounting is assumed for costs and effects)
 v_dwc <- 1 / (1 + d_c) ^ (0:n_cycles) 
 v_dwe <- 1 / (1 + d_e) ^ (0:n_cycles) 
+
+# So, we create a discount weight vector above, to understand the way this works I'll have to return to my York notes on discounting
+
+
 ```
 
 Discount rate for costs and utilities I've set as 3% here, I need to return to this and set it as 4%.
+I also need to return to it more generally with the notes I wrote from York on discounting.
 Also I set up 3 strategies, i.e. standard of care, treatment A and Treatment B, it would be very easy to change this to just 2 strategies above.
 I need to change the health state names from "healthy, sick and dead" to "PFS, OS, Dead"
-
-
-
 
 
 ## Draw the state-transition cohort model
@@ -141,6 +154,12 @@ plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.8,
 ```
 
 # 04 Define and initialize matrices and vectors
+
+
+We initalise our structure below.
+
+This is where we will store all of the model output, and all the things that we need to track over time as we are simulating the progression of this cohort through this disease process.
+
 
 ## 04.1 Cohort trace
 
