@@ -1,80 +1,41 @@
 ---
-title: '3-state Markov model in R'
-author: "The DARTH workgroup"
+title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
+author: "Jonathan Briody (1) | Kathleen Bennett (1)"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
-Developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup:
+(1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
 
-Fernando Alarid-Escudero, PhD (1) 
 
-Eva A. Enns, MS, PhD (2)	
+**Correspondence:**
 
-M.G. Myriam Hunink, MD, PhD (3,4)
+Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland. Email: jonathanbriody@rcsi.ie
 
-Hawre J. Jalal, MD, PhD (5) 
 
-Eline M. Krijkamp, MSc (3)	
+**Funding Information:**
 
-Petros Pechlivanoglou, PhD (6,7)
-
-Alan Yang, MSc (7)
-
-In collaboration of: 		
-
-1. Division of Public Administration, Center for Research and Teaching in 
-   Economics (CIDE), Aguascalientes, Mexico
-2. University of Minnesota School of Public Health, Minneapolis, MN, USA
-3. Erasmus MC, Rotterdam, The Netherlands
-4. Harvard T.H. Chan School of Public Health, Boston, USA
-5. University of Pittsburgh Graduate School of Public Health, Pittsburgh, PA, USA
-6. University of Toronto, Toronto ON, Canada
-7. The Hospital for Sick Children, Toronto ON, Canada
-
-Please cite our publications when using this code:
- 
-- Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. 
-An Overview of R in Health Decision Sciences. Med Decis Making. 2017; 37(3): 735-746. 
-https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559
-
-- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P,
-Jalal H. Cohort State-Transition Models in R: A Tutorial. arXiv:200107824v2. 
-2020:1-48. http://arxiv.org/abs/2001.07824
-
-- Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. 
-Microsimulation modeling for health decision sciences using R: A tutorial. 
-Med Decis Making. 2018;38(3):400–22. 
-https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513
- 
-- Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. 
-A Multidimensional Array Representation of State-Transition Model Dynamics. 
-Med Decis Making. Online First https://doi.org/10.1177/0272989X19893973
-
-Copyright 2017, THE HOSPITAL FOR SICK CHILDREN AND THE COLLABORATING INSTITUTIONS. 
-All rights reserved in Canada, the United States and worldwide. Copyright, 
-trademarks, trade names and any and all associated intellectual property are 
-exclusively owned by THE HOSPITAL FOR Sick CHILDREN and the collaborating 
-institutions. These materials may be used, reproduced, modified, distributed 
-and adapted with proper attribution.
+This project has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 754923. The material presented and views expressed here are the responsibility of the author(s) only. The EU Commission takes no responsibility for any use made of the information set out.
 
 \newpage
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+# To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
 ```
 
-Change `eval` to `TRUE` if you want to knit this document.
 
 ```{r}
-rm(list = ls())  # clear memory (removes all the variables from the workspace)
+rm(list = ls())  
+# clear memory (removes all the variables from the work space)
 ```
 
 # 01 Load packages
 
 ```{r}
-if (!require('pacman')) install.packages('pacman'); library(pacman) # use this package to conveniently install other packages
+if (!require('pacman')) install.packages('pacman'); library(pacman) 
+# use this package to conveniently install other packages
 # load (install if required) packages from CRAN
 p_load("diagram", "dampack") 
 # install_github("DARTH-git/darthtools", force = TRUE) Uncomment if there is a newer version
@@ -91,27 +52,51 @@ p_load_gh("DARTH-git/darthtools")
 
 ```{r}
 ## General setup
-n_cycles        <- 60                            # number of cycles
-v_names_cycles  <- paste("cycle", 0:n_cycles)    # cycle names
-v_names_states  <- c("Healthy", "Sick", "Dead")  # state names
-n_states        <- length(v_names_states)        # number of health states 
+# Here we define all our model parameters, so that we can call on these parameters later during our model:
+
+n_cycles        <- 60                            
+# We set the number of cycles to 60 to reflect 5 years broken down into monthly cycles
+v_names_cycles  <- paste("cycle", 0:n_cycles)    
+# So here, we just name each cycle by the cycle its on, going from o up to the number of cycles there are, here 60.
+v_names_states  <- c("Healthy", "Sick", "Dead")  
+# These are the health states in our model, PFS, OS, Death.
+n_states        <- length(v_names_states)        
+# We're just taking the number of health states from the number of names we came up with, i.e. 3 names to reflect three health states 
 
 # Discounting factors
-d_c             <- 0.03                          # discount rate for costs 
-d_e             <- 0.03                          # discount rate for QALYs
+d_c             <- 0.03                          
+# discount rate for costs
+d_e             <- 0.03                          
+# discount rate for QALYs
 
 # Strategy names
-v_names_str     <- c("Standard of Care",         # store the strategy names
+v_names_str     <- c("Standard of Care",         
                      "Treatment A", 
                      "Treatment B")  
-n_str           <- length(v_names_str)           # number of strategies
+# store the strategy names
+n_str           <- length(v_names_str)           
+# number of strategies
+
 
 ## Transition probabilities
-p_HD      <- 0.01  # probability of dying when healthy
 p_HS_SoC  <- 0.05  # probability of becoming sick when healthy, conditional on surviving, under standard of care
 p_HS_trtA <- 0.04  # probability of becoming sick when healthy, conditional on surviving, under treatment A
 p_HS_trtB <- 0.02  # probability of becoming sick when healthy, conditional on surviving, under treatment B
 p_SD      <- 0.1   # probability of dying          
+p_HD      <- 0.01  # probability of dying when healthy
+
+
+
+# To add age specific mortality to our model, we would use this #03 input model parameters of:
+
+# "C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modeling for Public Health_DARTH\5_Nov_29\4_Cohort state-transition models (cSTM) - time-dependent models_material\Markov_3state_time"
+
+# with the 55 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
+
+# and this would allow us to create a vector of transition probabilities for p_HD above, i.e., from healthy to dead, that is a little bit larger at each cycle, starting at our chosen minimum value at the first cycle and increasing each cycle until it reaches our chosen maximum value at the last cycle.
+
+# Alternatively, C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\4_cSTM - time-dependent models_material shows you how to use a life-table, as does the material from the York course, but I really think there's no need to get that detailed in our own analysis.
+
 
 ## State rewards
 # Costs and utilities  
@@ -130,6 +115,14 @@ d_c       <- 0.03  # discount rate per cycle equal discount of costs and QAL
 v_dwc <- 1 / (1 + d_c) ^ (0:n_cycles) 
 v_dwe <- 1 / (1 + d_e) ^ (0:n_cycles) 
 ```
+
+Discount rate for costs and utilities I've set as 3% here, I need to return to this and set it as 4%.
+Also I set up 3 strategies, i.e. standard of care, treatment A and Treatment B, it would be very easy to change this to just 2 strategies above.
+I need to change the health state names from "healthy, sick and dead" to "PFS, OS, Dead"
+
+
+
+
 
 ## Draw the state-transition cohort model
 
@@ -335,5 +328,37 @@ df_cea
 ```{r}
 plot(df_cea, effect_units = "QALYs")
 ```
+
+
+
+
+
+
+
+
+## References:
+
+
+
+
+Useful Darth publications to cite when using this code:
+ 
+- Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. 
+An Overview of R in Health Decision Sciences. Med Decis Making. 2017; 37(3): 735-746. 
+https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559
+
+- Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P,
+Jalal H. Cohort State-Transition Models in R: A Tutorial. arXiv:200107824v2. 
+2020:1-48. http://arxiv.org/abs/2001.07824
+
+- Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. 
+Microsimulation modeling for health decision sciences using R: A tutorial. 
+Med Decis Making. 2018;38(3):400–22. 
+https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513
+ 
+- Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. 
+A Multidimensional Array Representation of State-Transition Model Dynamics. 
+Med Decis Making. Online First https://doi.org/10.1177/0272989X19893973
+
 
 
