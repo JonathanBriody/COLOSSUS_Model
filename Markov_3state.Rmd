@@ -69,8 +69,8 @@ n_states        <- length(v_names_states)
 
 # Strategy names
 v_names_str     <- c("Standard of Care",         
-                     "EPI Assay", 
-                     "HDX Assay")  
+                     "EPI Assay", ## AKA Treatment A
+                     "HDX Assay") ## AKA Treatment B 
 # store the strategy names
 n_str           <- length(v_names_str)           
 # number of strategies
@@ -84,6 +84,21 @@ p_SD      <- 0.1   # probability of dying
 p_HD      <- 0.01  # probability of dying when PFS
 
 
+# I'M NOT DELIGHTED ABOUT USING CONDITIONAL PROBABILITIES ACTUALLY, AND WILL UPDATE THE ABOVE WITH THE WAY I CALCULATED PROBABILITIES WHEN DOING THE YORK COURSE I THINK.
+
+# That will mean that when I'm on the section below:
+
+# Fill in the transition probability matrix:
+
+# I'll have to change how these probabilities are filled in.
+
+
+# H = HEALTHY (PFS) -> HS MEANS HEALTHY TO SICK, HD -> MEANS HEALTHY TO DEAD.
+# S = SICK (OS) -> SD MEANS SICK TO DEAD.
+# D = DEAD (DEAD) 
+
+# trtA -> Means the first intervention I am studying, i.e. treatment A or the first assay.
+# trtB -> Means the second intervention I am studying, i.e. treatment B or the second assay.
 
 # To add age specific mortality to our model, we would use this #03 input model parameters of:
 
@@ -138,7 +153,21 @@ v_dwe <- 1 / (1 + d_e) ^ (0:n_cycles)
 Discount rate for costs and utilities I've set as 3% here, I need to return to this and set it as 4%.
 I also need to return to it more generally with the notes I wrote from York on discounting.
 Also I set up 3 strategies, i.e. standard of care, EPI Assay and HDX Assay, to reflect the two assays under study, but it would be very easy to change this to just 2 strategies above.
-I need to change the health state names from "PFS, OS and dead" to "PFS, OS, Dead"
+
+There are some things that I would like to appear in the code chunks, but not in the knitted document.
+To do this I can go to:
+
+<https://stackoverflow.com/questions/47710427/how-to-show-code-but-hide-output-in-rmarkdown>
+
+and
+
+<https://stackoverflow.com/questions/48286722/rmarkdown-how-to-show-partial-output-from-chunk?rq=1>
+
+Although I can probably just use:
+
+knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+
+But set echo = false
 
 ## Draw the state-transition cohort model
 
@@ -158,7 +187,7 @@ plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.8,
 
 # 04 Define and initialize matrices and vectors
 
-We initalise our structure below.
+After setting up our parameters above, we initialise our structure below.
 
 This is where we will store all of the model output, and all the things that we need to track over time as we are simulating the progression of this cohort through this disease process.
 
@@ -166,24 +195,46 @@ This is where we will store all of the model output, and all the things that we 
 
 ```{r}
 ## Initial state vector
-# All starting PFS
+# We create an inital vector where people start, with everyone (1 = 100% of people) starting in PFS below:
 v_s_init <- c("PFS" = 1, "OS" = 0, "Dead" = 0)  
 v_s_init
 
-## Initialize cohort trace for cSTM for all strategies
+# There are cases where you can have an initial illness prevalence, so you would start some people in the sick state and some people in the healthy state, but above we're looking at people with mCRC, so we'll start everyone in PFS.
+
+
+
+## Initialize cohort trace for cSTM (cohort state transition model) for all strategies (the strategies are the treatment strategies SOC, treatment A and Treatment B).
+# So, basically we are creating a matrix to trace how the cohort is distributed across the health states, over time. 
+
+# A matrix is necessary because there are basically two dimensions to this, the number of time cycles, which will be our rows, and then the number of states - to know which proportion of our cohort is in each state at each time:
+
 m_M_SoC <- matrix(0, 
                   nrow = (n_cycles + 1), ncol = n_states, 
                   dimnames = list(v_names_cycles, v_names_states))
 # Store the initial state vector in the first row of the cohort trace
 m_M_SoC[1, ] <- v_s_init
 ## Initialize cohort traces
+## So, above I made the cohort trace for standard of care, because in my analysis all my patients start in the PFS state, I can duplicate that below to create the cohort trace for treatment A and treatment B.
 m_M_trtA <- m_M_trtB <- m_M_SoC # structure and initial states remain the same
+
+# This gives us three matrices, m_M_trtA, m_M_trtB and m_M_SoC, that we can fill in with out simulations of how patients transitions between health states under each treatment strategy.
+
 ```
 
 ## 04.2 Transition probability matrix
 
 ```{r}
-## Initialize transition probability matrix 
+
+## If there were time varying transition probabilities, i.e. the longer you are in the model there are changes in your transition probability into death as you get older, etc., you would build a transition probability array, rather than a transition probability matrix, per: 
+
+# 04.2 of:
+
+# "C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modeling for Public Health_DARTH\5_Nov_29\4_Cohort state-transition models (cSTM) - time-dependent models_material\Markov_3state_time"
+
+# with the 1hour: 02minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
+
+
+## Initialize transition probability matrix, [i.e. build the framework or empty scaffolding of the transition probability matrix]
 # all transitions to a non-death state are assumed to be conditional on survival 
 m_P_SoC  <- matrix(0,
                    nrow = n_states, ncol = n_states,
@@ -197,15 +248,36 @@ Fill in the transition probability matrix:
 ## Standard of Care
 # from PFS
 m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
+
+# It's 1- p_HD, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_HS_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_HS_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model).
+
 m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
+
+# This is because, when setting up the input parameters we didn't have a value for staying in progression free survival, so we have to calculate it, i.e. above we have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
+
+
 m_P_SoC["PFS", "Dead"]    <-      p_HD
+
+# Your probability of going from healthy to dead is not conditional on surviving, per the input parameters section.
+
 
 # from OS
 m_P_SoC["OS", "OS"] <- 1 - p_SD
 m_P_SoC["OS", "Dead"] <-     p_SD
 
+# Per the input parameters, your probability of going from sick to dead is also not conditional on surviving, so we dont need to multiply our probability conditional on surviving by the number of survivors as above.
+
+# That's why though, our PFS to OS probability calculated through multiplication above is so close to the 0.05 in the input parameters, i.e. it's 0.0495, because we multiply it by 1 - p_HD or 1-0.01, which is basically multiplying it by a number very close to 1, so the probability remains very close to where it started off. The probability is conditional on the numbers of people in the alive state, we calculate that to be nearly 100% of people, so the probability remains the same. 
+
+
+# m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
+# And the first one (commented out above) is the same, it's the probability of going from healthy to healthy which, because it's a conditional probability, is the number of individuals left in healthy multiplied by the probability of going from healthy to health conditional on surviving to be in healthy (so, to get a conditional probability we multiply the numbers who have survived by the probability -> here we don't have a probability for healthy to healthy, but we do have a probability for health to sick, so taking 1 - this gives us the probability of not going into sick, i.e. of staying in healthy instead). 
+
 # from Dead
 m_P_SoC["Dead", "Dead"] <- 1
+
+# Once you're in dead you stay in dead, you can't come back to life.
+
 
 ## EPI Assay
 m_P_trtA <- m_P_SoC
@@ -216,7 +288,15 @@ m_P_trtA["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtA
 m_P_trtB <- m_P_SoC
 m_P_trtB["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtB)
 m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
+
+
+
+# You can also 
+
+
+
 ```
+I probably want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
 
 Check if transition probability matrices are valid.
 
