@@ -154,6 +154,8 @@ Discount rate for costs and utilities I've set as 3% here, I need to return to t
 I also need to return to it more generally with the notes I wrote from York on discounting.
 Also I set up 3 strategies, i.e. standard of care, EPI Assay and HDX Assay, to reflect the two assays under study, but it would be very easy to change this to just 2 strategies above.
 
+I also want to add in the costing per the York model, as this broke costs down before adding them, although I can compare this to the York approach to costing in their published article, i.e. are costs in that article combined before they are added to the model or afterwards?
+
 There are some things that I would like to appear in the code chunks, but not in the knitted document.
 To do this I can go to:
 
@@ -279,6 +281,8 @@ m_P_SoC["Dead", "Dead"] <- 1
 # Once you're in dead you stay in dead, you can't come back to life.
 
 
+# For handiness, we just take the treatment matrix that already exists for standard of care above, copy it as treatment A and treatment B, and then copy over it with new values specific to treatment A and treatment B, assuming that the probability of going from PFS to dead and staying in OS and going from OS to dead are the same as for standard of care (dead to dead is definitely the same as no one leaves dead) that's likely a reasonable assumption for our model, as once people progress we can assume they all go on to the same next treatment, standard of care progression treatment with the same likelihood of staying in OS and of going to the dead state, regardless of the novel therapy they were on:
+
 ## EPI Assay
 m_P_trtA <- m_P_SoC
 m_P_trtA["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtA)
@@ -291,21 +295,33 @@ m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
 
 
 
-# You can also 
+# You can also think of it, per the 1hour: 05minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
 
 
+# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) [<- if you don't die] *      p_HS_SoC [then you have a risk of getting sick]
+
+# It wont always be necessary to do this, i.e., to include conditional probabilities, it will depend on the data used and how things were estimated.
+
+# This approach is taken for conditional probabilities, it's probably more relevant for modelling people to really, really old ages, where their mortality gets really high (so this is particularly relevant when you have age specific mortality), where you still have this high mortality of getting sick, you can end up in problems with the probabilities where the probability of leaving the state gets too high, because you haven't properly adjusted for these really high mortality rates, as people get really old.
+
+# So, what this is doing is saying, if you don't die, then it's the remaining people who experience the probability of getting sick, so you're not adding probabilities together, which can be problematic, because sometimes you can have probabilities come to greater than one (i.e., larger than 100%).
+
+# It's always worth considering, if you're extrapolating this risk of illness that's pretty high, on top of a cohort that also has a high risk of death, maybe that's not the right extrapolation, but this is another kind of fail safe to avoid that.
+
+# Depending on how the data is estimated, this a correct interpretation of the probability estimate of going from one state to another (p_HS_SoC, or healthy to sick, or PFS to OS). 
 
 ```
+
 I probably want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
 
 Check if transition probability matrices are valid.
 
 ```{r}
-# Check that transition probabilities are in [0, 1]
+# This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
 check_transition_probability(m_P_SoC,  verbose = TRUE)
 check_transition_probability(m_P_trtA, verbose = TRUE)
 check_transition_probability(m_P_trtB, verbose = TRUE)
-# Check that all rows sum to 1
+# Check that all rows sum in each matrix sum to 1 - which we know is a necessary condition for transition probability matrices.
 check_sum_of_transition_array(m_P_SoC,  n_states = n_states, verbose = TRUE)
 check_sum_of_transition_array(m_P_trtA, n_states = n_states, verbose = TRUE)
 check_sum_of_transition_array(m_P_trtB, n_states = n_states, verbose = TRUE)
@@ -314,12 +330,13 @@ check_sum_of_transition_array(m_P_trtB, n_states = n_states, verbose = TRUE)
 # 05 Run Markov model
 
 ```{r}
-for (t in 1:n_cycles){  # loop through the number of cycles
+for (t in 1:n_cycles){  # Use a for loop to loop through the number of cycles, basically we'll calculate the cohort distribution at the next cycle [t+1] based on the matrix of where they were at time t, matrix multiplied by the transition probability matrix for the current cycle (constant for us as we use a constant transition probability matrix, rather than a transition probability array).
+# We do this for each treatment, as they all have different transition probability matrices. 
   m_M_SoC [t + 1, ] <- m_M_SoC [t, ] %*% m_P_SoC   # estimate the state vector for the next cycle (t + 1)
   m_M_trtA[t + 1, ] <- m_M_trtA[t, ] %*% m_P_trtA  # estimate the state vector for the next cycle (t + 1)
   m_M_trtB[t + 1, ] <- m_M_trtB[t, ] %*% m_P_trtB  # estimate the state vector for the next cycle (t + 1)
 }
-head(m_M_SoC)  # print the first few lines of the matrix
+head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 ```
 
 # 06 Compute and Plot Epidemiological Outcomes
@@ -327,6 +344,9 @@ head(m_M_SoC)  # print the first few lines of the matrix
 ## 06.1 Cohort trace
 
 ```{r}
+
+# So, we'll plot the above Markov model for standard of care (m_M_SoC) to show our cohort distribution over time, i.e. the proportion of our cohort in the different health states over time.
+
 matplot(m_M_SoC, type = 'l', 
         ylab = "Probability of state occupancy",
         xlab = "Cycle",
@@ -337,6 +357,12 @@ legend("right", v_names_states, col = c("black", "red", "green"),
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
 abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")  
 ```
+
+
+
+
+
+
 
 ## 06.2 Overall Survival (OS)
 
