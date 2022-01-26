@@ -171,6 +171,8 @@ knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 
 But set echo = false
 
+Or even better, click the gear on each code chunk and decide if I would like that code chunk to show things or not.
+
 ## Draw the state-transition cohort model
 
 ```{r}
@@ -347,6 +349,8 @@ head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m
 
 # So, we'll plot the above Markov model for standard of care (m_M_SoC) to show our cohort distribution over time, i.e. the proportion of our cohort in the different health states over time.
 
+# If I wanted to do the same for Treatment A and Treatment B, I would just copy this code chunk and replace m_M_SoC with m_M_trtA and m_M_trtB
+
 matplot(m_M_SoC, type = 'l', 
         ylab = "Probability of state occupancy",
         xlab = "Cycle",
@@ -355,16 +359,18 @@ legend("right", v_names_states, col = c("black", "red", "green"),
        lty = 1:3, bty = "n")  # add a legend to the graph
 
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
-abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")  
+abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
+# The vertical line shows you when your sick (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion sick is the highest and putting a vertical line there).
+
+
+
+# So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
+
 ```
 
-
-
-
-
-
-
 ## 06.2 Overall Survival (OS)
+
+Although in the context of my analysis this would be PFS + OS because it is drawn from the DARTH model where healthy and sick make up OS, while dead means not OS (obviously).
 
 ```{r}
 v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
