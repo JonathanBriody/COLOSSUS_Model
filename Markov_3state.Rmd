@@ -374,7 +374,14 @@ Although in the context of my analysis this would be PFS + OS because it is draw
 
 ```{r}
 v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
-v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability   
+v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability
+
+# I could do my own version of this and chose just to look at pfs, rather than column to look at anyone not dead.
+
+# i.e. v_os <- (m_M_SoC[, 1])
+
+# best practice would be to rename v_os if I am looking at something that isnt os, i.e. v_pfs and to of course update the table legend, bearing in mind that yet again this is all for standard of care, and that if I wanted to know this for treatment a and/or treatment b I would need to replace the Markov model matrix above.
+
 
 plot(v_os, type = 'l', 
      ylim = c(0, 1),
