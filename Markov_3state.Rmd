@@ -501,16 +501,34 @@ tc_d_trtB <-  t(v_tc_trtB) %*% v_dwc
 # So, now we have the average cost per person for treatment with standard of care, treatment A and treatment B. 
 
 
-# Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe)
+# Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would be a better term here, as it's monthly health state quality of life, rather than yearly health state quality of life]
 tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
 tu_d_trtA <-  t(v_tu_trtA) %*% v_dwe
 tu_d_trtB <-  t(v_tu_trtB) %*% v_dwe
 
-# Store them into a vector
+# Store them into a vector -> So, we'll take the single values for cost for an average person under standard of care, treatment A and treatment B, and stored them in a vector v_tc_d
 v_tc_d <- c(tc_d_SoC, tc_d_trtA, tc_d_trtB)
 v_tu_d <- c(tu_d_SoC, tu_d_trtA, tu_d_trtB)
 
+v_tc_d
+v_tu_d
+
+# To make things a little easier to read we might name these values what they are costs for, so we can use the vector of strategy names [v_names_str] to name the values:
+
+names (v_tc_d) <- v_names_str
+v_tc_d
+
+names (v_tu_d) <- v_names_str
+v_tu_d
+
+
+# For utility, the utility values aren't different for the different states depending on the treatment strategy, i.e. SOC, Treatment A and Treatment B, but the time spent in the states with the associated utility is different due to the treatment you're on, so your utility value will be higher if the treatment keeps you well for longer so that you stay in a higher utility state for longer than a lower utility state, i.e., progression.
+
+
 # Dataframe with discounted costs and effectiveness
+
+# So then we aggregate them into a dataframe with our discounted costs and utilities, and then we use this to calculate ICERs in: ## 07.3 Compute ICERs of the Markov model
+
 df_ce <- data.frame(Strategy = v_names_str,
                     Cost     = v_tc_d, 
                     Effect   = v_tu_d)
@@ -525,12 +543,18 @@ df_cea <- calculate_icers(cost       = df_ce$Cost,
                           strategies = df_ce$Strategy
                           )
 df_cea
+
+# The above uses the DARTHtools package to calculate our ICERS, incremental cost and incremental effectiveness, and also describes dominance status:
+
 ```
 
 ## 07.4 Plot frontier of the Markov model
 
 ```{r}
 plot(df_cea, effect_units = "QALYs")
+
+# When we plot it we have 3 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
+
 ```
 
 ## References:
