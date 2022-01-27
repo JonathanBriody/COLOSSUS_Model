@@ -467,6 +467,8 @@ v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D)
 
 ```
 
+
+
 ```{r}
 
 # There's probably a more elegant way to do this, but if I wanted to add in the once off cost of the COSLOSSUS test, I could do something like the below:
@@ -484,10 +486,20 @@ v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D)
 ## 07.2 Discounted Mean Costs and QALYs
 
 ```{r}
+
+# Finally, we'll aggregate these costs and utilities into overall discounted mean (average) costs and utilities.
+
+# So, we take the vector of costs, transposing it [the t() bit] to make it a 1 row matrix and using matrix multiplication [%*%] to multiply it by that discount factor vector, which is what you multiply by the outcome in each cycle to get the discounted value of the outcome for that cycle, and then it will all be summed all together across all cycles [across all cells of the 1 row matrix]. Giving you tc_d_SoC which is a scalar, or a single value, which is the lifetime expected cost for an average person under standard of care in this cohort. 
+
+
 # Discount costs by multiplying the cost vector with discount weights (v_dwc) 
 tc_d_SoC  <-  t(v_tc_SoC)  %*% v_dwc
 tc_d_trtA <-  t(v_tc_trtA) %*% v_dwc
 tc_d_trtB <-  t(v_tc_trtB) %*% v_dwc
+
+
+# So, now we have the average cost per person for treatment with standard of care, treatment A and treatment B. 
+
 
 # Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe)
 tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
