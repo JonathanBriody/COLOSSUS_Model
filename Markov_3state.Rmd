@@ -376,7 +376,7 @@ Although in the context of my analysis this would be PFS + OS because it is draw
 v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
 v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability
 
-# I could do my own version of this and chose just to look at pfs, rather than column to look at anyone not dead.
+# I could do my own version of this and chose just to look at pfs, rather than column 1 and 2 to look at anyone not dead.
 
 # i.e. v_os <- (m_M_SoC[, 1])
 
@@ -398,11 +398,32 @@ grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd")
 
 ```{r}
 v_le <- sum(v_os)  # summing probability of OS over time  (i.e. life expectancy)
+
+# Basically we are summing all the alive states over time through over all the cycles, so 
+
+# v_os <- rowSums(m_M_SoC[, 1:2])
+
+# Is basically the PFS and OS added together.
+
+v_le
+
+
+# So, this gives a value of [1] 24.26038, that is [1] 24.26038 cycles, where in the context of our model, cycles are months, so the life expectancy for our population of patients is 24 months.
+
+
+
 ```
 
 ## 06.3 Disease prevalence
 
 ```{r}
+
+# Disease prevalence is the proportion who are sick divided by the proportion who are alive, so it's necessary to account for the fact that some of the cohort have died, so you only calculate prevalence among people who are alive,in the diagram you can see it plateauing over time, even though the number of people in the OS (or "progressed") state have gone up and come down over time and this is because this is prevalence as a proportion of those who are alive, and there are few people who are still alive by cycle 60.
+
+# Probably looks a bit funny dividing OS by v_os below, but it's necessary to remember that v_os is PFS + OS.
+
+# So, I guess in our context you can think of this as progression prevalence over time:
+
 v_prev <- m_M_SoC[, "OS"]/v_os
 plot(v_prev,
      ylim = c(0, 1),
@@ -413,20 +434,52 @@ plot(v_prev,
 
 # 07 Compute Cost-Effectiveness Outcomes
 
-## 07.1 Mean Costs and QALYs
+## 07.1 Mean Costs and QALYs for each strategy
 
 ```{r}
 # per cycle
-# calculate expected costs by multiplying cohort trace with the cost vector for the different health states   
+# calculate expected costs by multiplying cohort trace with the cost vector for the different health states
+
+# Basically, you take the cohort trace over time for each strategy [m_M_SoC] and multiply this by a vector of our costs for each state: [c(c_H, c_S, c_D)] -> So, basically the number of people in each state at each cycle multiplied by the cost of being in that state [cost of healthy, cost of sick and cost of dead] for each strategy that we look at (standard of care, treatment A and treatment B).
+
+# Bear in mind we are doing matrix multiplication [%*%], because what this does is for each cycle [row in the matrix], take the vector of costs, and multiply it be the distribution in that cycle [breakdown of proportions in the states in that row] and add it all together, to get the total costs for that cycle [row]. This gives us a vector of the costs accrued in this cohort of individuals ending up in these different states for each cycle on a per person basis, because it's a cohort distribution (it always sums to 1).
+
+# So, in cycle 1 everyone is in the OS state, so they only incur the OS cost, as more and more time passes and more and more people get sick, the costs increases due to more people being in the PFS state, but over time this falls again as more and more people go into the dead state, which has no costs as we don't treat corpses.
+
 v_tc_SoC  <- m_M_SoC  %*% c(c_H, c_S, c_D)  
 v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
 
-# calculate expected QALYs by multiplying cohort trace with the utilities for the different health states   
+# calculate expected QALYs by multiplying cohort trace with the utilities for the different health states 
+
+# The three vectors of utilities are basically built in the exact same way as the three vectors of costs above:
+
 v_tu_SoC  <- m_M_SoC  %*% c(u_H, u_S, u_D)  
 v_tu_trtA <- m_M_trtA %*% c(u_H, u_S, u_D) 
 v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D) 
+
+# These are quality adjusted cycles, these are quality adjusted life years where cycles are annual, so I need to consider what this means for utility where cycles are monthly... I suppose it's just quality adjusted monthly utility.
+
+# You can see above that there are no utility differences between the different treatments considered: c(u_H, u_S, u_D), it's just different utilities per the health states people are in.
+
+# If we did want to do different utilities for the health state you are in per the treatment you are on, we could define this in the input parameters and then add this in above when creating the vector of utilities for that treatment.
+
+
 ```
+
+```{r}
+
+# There's probably a more elegant way to do this, but if I wanted to add in the once off cost of the COSLOSSUS test, I could do something like the below:
+
+# v_tc_trtA <-  v_tc_trtA+10
+# v_tc_trtB <-  v_tc_trtB+100
+
+# I just need to think about this and does it make sense, because it's adding to the cost each cycle, so probably the best indicator would be whether the cost outputted in 07.2 is only higher by the cost of the test when we do this, or if it is higher by a number of other costs, so I can check that below when adding costs in.
+
+
+```
+
+
 
 ## 07.2 Discounted Mean Costs and QALYs
 
