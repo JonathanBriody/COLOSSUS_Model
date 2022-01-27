@@ -41,8 +41,9 @@ rm(list = ls())
 if (!require('pacman')) install.packages('pacman'); library(pacman) 
 # use this package to conveniently install other packages
 # load (install if required) packages from CRAN
-p_load("diagram", "dampack") 
-# install_github("DARTH-git/darthtools", force = TRUE) Uncomment if there is a newer version
+p_load("diagram", "dampack", "reshape2")
+# library(devtools)
+# install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version
 p_load_gh("DARTH-git/darthtools")
 ```
 
@@ -556,6 +557,68 @@ plot(df_cea, effect_units = "QALYs")
 # When we plot it we have 3 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## References:
 
