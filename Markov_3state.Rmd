@@ -53,6 +53,34 @@ p_load_gh("DARTH-git/darthtools")
 # all functions are in the darthtools package
 ```
 
+# To use dampack, review this before you start:
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html>
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/psa_generation.html>
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/voi.html>
+
+<https://cran.r-project.org/web/packages/dampack/dampack.pdf>
+
+also saved as pdf files here:
+
+C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model
+
+The dampack package was based on the following textbook:
+
+[file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine\_%20integrating%20evidence%20and%20values.pdf](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine_%20integrating%20evidence%20and%20values.pdf)
+
+If I find any parts of the package confusing I can email:
+
+Maintainer:	Greg Knowlton \<knowl193\@umn.edu\>
+
+The official website is here: <https://cran.r-project.org/web/packages/dampack/>
+
 # 03 Input model parameters
 
 ```{r}
@@ -176,8 +204,7 @@ Or even better, click the gear on each code chunk and decide if I would like tha
 
 If I was interested in how to add adverse events to the model, Eva describes how to create an additional state that is Sick+AdverseEvent here:
 
-C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
-
+C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
 
 ## Draw the state-transition cohort model
 
@@ -539,6 +566,8 @@ df_ce
 
 ## 07.3 Compute ICERs of the Markov model
 
+(If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
+
 ```{r}
 df_cea <- calculate_icers(cost       = df_ce$Cost,
                           effect     = df_ce$Effect,
@@ -548,31 +577,43 @@ df_cea
 
 # The above uses the DARTHtools package to calculate our ICERS, incremental cost and incremental effectiveness, and also describes dominance status:
 
+# This uses the "calculate_icers function", which does all the sorting, all the prioritization, and then computes the dominance, and not dominance, etc., and there's a publication on the methods behind this, based on a method from colleagues in Stanford.
+
+
 ```
 
 ## 07.4 Plot frontier of the Markov model
 
 ```{r}
-plot(df_cea, effect_units = "QALYs")
+plot(df_cea, effect_units = "QALYs", label = "all")
 
 # When we plot it we have 3 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
 
 ```
 
+The bottom axis of the above diagram shows you how effective the intervention is, the y axis shows you how costly the intervention is, here standard of care is cheaper but less effective than treatment B, which is more effective but more expensive, treatment A is not on the frontier, it has been dominated.
 
+(If I wanted to see an example where the frontier doesnt exist, I could go to the 38 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
+<https://www.google.ie/search?q=icer+fronter&hl=en&dcr=0&ei=nerzYYS_AciHhbIPlqyMuAk&ved=0ahUKEwjEgar1wdT1AhXIQ0EAHRYWA5cQ4dUDCA4&uact=5&oq=icer+fronter&gs_lcp=Cgdnd3Mtd2l6EAMyBwghEAoQoAE6BwgAEEcQsAM6BQgAEJECOgsIABCABBCxAxCDAToOCC4QgAQQsQMQxwEQowI6CwguELEDEMcBEK8BOg4ILhCABBCxAxDHARDRAzoICAAQsQMQgwE6BQguEJECOgQIABBDOgcIABCxAxBDOggIABCABBCxAzoOCC4QgAQQsQMQxwEQrwE6CAguEIAEELEDOgcIABDJAxBDOgUIABCSAzoFCAAQgAQ6CwguEIAEEMcBENEDOgUILhCABDoLCC4QgAQQxwEQrwE6BAgAEAo6CgguEMcBENEDEAo6BAguEAo6BwgAEMkDEAo6BggAEBYQHjoICAAQFhAKEB46BAgAEA06BQghEKABSgQIQRgASgQIRhgAUKIJWJYZYNEbaANwAngAgAGMAYgB6AiSAQM4LjSYAQCgAQHIAQjAAQE&sclient=gws-wiz>
+
+<https://yhec.co.uk/glossary/cost-effectiveness-frontier/>
+
+[<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
+
+<https://researchonline.lshtm.ac.uk/id/eprint/4648686/1/The%20efficiency-frontier%20approach%20for%20health_GREEN%20AAM.pdf> also saved here:C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model\The efficiency-frontier approach for health_GREEN AAM.pdf
+
+The efficiency frontier is described on page 277 [in the textbook] of: [file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine\_%20integrating%20evidence%20and%20values.pdf](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine_%20integrating%20evidence%20and%20values.pdf)
 
 # **Sensitivity Analysis Below:** 
 
 I've put detailed notes in:
 
-C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_27\3_SA_material\markov_sick-sicker_SA_solutions
+C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
-
 
 # 08 Deterministic Sensitivity Analysis
 
@@ -606,7 +647,6 @@ v_names_params <- names(l_params_all)
 ## 08.2 Load PFS-PFSer Markov model function
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
-
 
 ```{r}
 source("Functions_markov_3state.R")
@@ -757,17 +797,15 @@ df_e <- as.data.frame(matrix(0,
 colnames(df_e) <- v_names_str
 ```
 
-I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
-  
-  https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove
+I need to fix the "\# Histogram of parameters" section above, the below gives advice on doing this:
 
-https://www.mail-archive.com/rcpp-devel@lists.r-forge.r-project.org/msg10226.html
+<https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove>
 
-https://statisticsglobe.com/warning-cannot-remove-prior-installation-in-r
+[https://www.mail-archive.com/rcpp-devel\@lists.r-forge.r-project.org/msg10226.html](https://www.mail-archive.com/rcpp-devel@lists.r-forge.r-project.org/msg10226.html){.uri}
+
+<https://statisticsglobe.com/warning-cannot-remove-prior-installation-in-r>
 
 The above approach worked, I manually deleted the package, installed darthtools from github, chose option 4, i.e. replace rccp and then I was done.
-
-
 
 ## 09.1 Conduct probabilistic sensitivity analysis
 
@@ -871,23 +909,22 @@ plot(evpi, effect_units = "QALY")
 ## References:
 
 Useful Darth publications to cite when using this code:
-  
-  -   Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. An Overview of R in Health Decision Sciences.
-Med Decis Making.
-2017; 37(3): 735-746.
-<https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559>
-  
-  -   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P, Jalal H. Cohort State-Transition Models in R: A Tutorial.
-arXiv:200107824v2.
-2020:1-48.
-<http://arxiv.org/abs/2001.07824>
-  
-  -   Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. Microsimulation modeling for health decision sciences using R: A tutorial.
-Med Decis Making.
-2018;38(3):400--22.
-<https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513>
-  
-  -   Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. A Multidimensional Array Representation of State-Transition Model Dynamics.
-Med Decis Making.
-Online First <https://doi.org/10.1177/0272989X19893973>
-  
+
+-   Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. An Overview of R in Health Decision Sciences.
+    Med Decis Making.
+    2017; 37(3): 735-746.
+    <https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559>
+
+-   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P, Jalal H. Cohort State-Transition Models in R: A Tutorial.
+    arXiv:200107824v2.
+    2020:1-48.
+    <http://arxiv.org/abs/2001.07824>
+
+-   Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. Microsimulation modeling for health decision sciences using R: A tutorial.
+    Med Decis Making.
+    2018;38(3):400--22.
+    <https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513>
+
+-   Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. A Multidimensional Array Representation of State-Transition Model Dynamics.
+    Med Decis Making.
+    Online First <https://doi.org/10.1177/0272989X19893973>
