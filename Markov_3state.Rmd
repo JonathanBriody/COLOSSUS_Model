@@ -468,8 +468,6 @@ v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D)
 
 ```
 
-
-
 ```{r}
 
 # There's probably a more elegant way to do this, but if I wanted to add in the once off cost of the COSLOSSUS test, I could do something like the below:
@@ -481,8 +479,6 @@ v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D)
 
 
 ```
-
-
 
 ## 07.2 Discounted Mean Costs and QALYs
 
@@ -561,64 +557,290 @@ plot(df_cea, effect_units = "QALYs")
 
 
 
+# **Sensitivity Analysis Below:** 
 
 
 
 
 
+# 08 Deterministic Sensitivity Analysis
+
+## 08.1 List of input parameters
+
+Create list `l_params_all` with all input probabilities, cost and utilities.
+
+```{r}
+l_params_all <- as.list(data.frame(
+  p_HD      = 0.01,  # probability of dying when healthy
+  p_HS_SoC  = 0.05,  # probability of becoming sick when healthy, under standard of care
+  p_HS_trtA = 0.04,  # probability of becoming sick when healthy, under treatment A
+  p_HS_trtB = 0.02,  # probability of becoming sick when healthy, under treatment B
+  p_SD      = 0.1,   # probability of dying when sick
+  c_H       = 400,   # cost of one cycle in healthy state
+  c_S       = 1000,  # cost of one cycle in sick state
+  c_D       = 0,     # cost of one cycle in dead state
+  c_trtA    = 800,   # cost of treatment A (per cycle)
+  c_trtB    = 1500,  # cost of treatment B (per cycle)
+  u_H       = 1,     # utility when healthy 
+  u_S       = 0.5,   # utility when sick
+  u_D       = 0,     # utility when dead
+  d_e       = 0.03,  # discount factor for effectiveness
+  d_c       = 0.03   # discount factor for costs
+))
+
+# store the parameter names into a vector
+v_names_params <- names(l_params_all)
+```
+
+## 08.2 Load Sick-Sicker Markov model function
+
+```{r}
+source("Functions_markov_3state.R")
+# Test function
+calculate_ce_out(l_params_all)
+```
+
+## 08.3 One-way sensitivity analysis (OWSA)
+
+```{r}
+options(scipen = 999) # disabling scientific notation in R
+# dataframe containing all parameters, their base case values, and the min and 
+# max values of the parameters of interest 
+df_params_owsa <- data.frame(pars = c("c_trtA", "c_trtB", "c_S"),
+                             min  = c(300 , 500, 500),  # min parameter values
+                             max  = c(1200, 2000, 2000)  # max parameter values
+                             )
+
+owsa_nmb  <- run_owsa_det(params_range     = df_params_owsa,    # dataframe with parameters for OWSA
+                          params_basecase  = l_params_all,      # list with all parameters
+                          nsamp            = 100,               # number of parameter values
+                          FUN              = calculate_ce_out,  # function to compute outputs
+                          outcomes         = c("NMB"),          # output to do the OWSA on
+                          strategies       = v_names_str,       # names of the strategies
+                          n_wtp            = 5000)              # extra argument to pass to FUN
+```
+
+## 08.3.1 Plot OWSA
+
+```{r}
+plot(owsa_nmb, txtsize = 10, n_x_ticks = 4, 
+     facet_scales = "free") +
+     theme(legend.position = "bottom")
+```
+
+## 08.3.2 Optimal strategy with OWSA
+
+```{r}
+owsa_opt_strat(owsa = owsa_nmb, txtsize = 10)
+```
+
+## 08.3.3 Tornado plot
+
+```{r}
+owsa_tornado(owsa = owsa_nmb, txtsize = 11)
+```
+
+## 08.4 Two-way sensitivity analysis (TWSA)
+
+```{r}
+# dataframe containing all parameters, their basecase values, and the min and 
+# max values of the parameters of interest
+df_params_twsa <- data.frame(pars = c("c_trtA", "c_trtB"),
+                             min  = c(300, 500),  # min parameter values
+                             max  = c(1200, 2000) # max parameter values
+                             )
+
+twsa_nmb <- run_twsa_det(params_range    = df_params_twsa,    # dataframe with parameters for TWSA
+                         params_basecase = l_params_all,      # list with all parameters
+                         nsamp           = 40,                # number of parameter values
+                         FUN             = calculate_ce_out,  # function to compute outputs
+                         outcomes        = "NMB",             # output to do the TWSA on
+                         strategies      = v_names_str,       # names of the strategies
+                         n_wtp           = 5000)              # extra argument to pass to FUN
+```
+
+## 08.4.1 Plot TWSA
+
+```{r}
+plot(twsa_nmb)
+```
+
+# 09 Probabilistic Sensitivity Analysis (PSA)
+
+```{r}
+# Function to generate PSA input dataset
+gen_psa <- function(n_sim = 1000, seed = 071818){
+  set.seed(seed) # set a seed to be able to reproduce the same results
+  df_psa <- data.frame(
+    # Transition probabilities (per cycle), conditional on surviving
+    # probability to become sick when healthy
+     # probability of dying when healthy
+    p_HD       = rbeta(n_sim, shape1 = 4,  shape2 = 391),
+    p_HS_SoC   = rbeta(n_sim, shape1 = 24, shape2 = 450),  # under standard of care
+    p_HS_trtA  = rbeta(n_sim, shape1 = 15, shape2 = 368),  # under treatment A
+    p_HS_trtB  = rbeta(n_sim, shape1 = 16, shape2 = 767),  # under treatment B
+
+    # probability of dying when sick
+    p_SD       = rbeta(n_sim, shape1 = 22.4, shape2 = 201.6), 
+
+    # Cost vectors with length n_sim
+    # cost of remaining one cycle in state H
+    c_H        = rgamma(n_sim, shape = 16, scale = 25), 
+    # cost of remaining one cycle in state S1
+    c_S        = rgamma(n_sim, shape = 100, scale = 10), 
+    # cost of being in the death state
+    c_D        = 0, 
+    # cost of treatment (per cycle)
+    c_trtA    = rgamma(n_sim, shape = 64, scale = 12.5),
+    # cost of treatment (per cycle)
+    c_trtB    = rgamma(n_sim, shape = 225, scale = 6.67),
+    
+    # Utility vectors with length n_sim 
+    # utility when healthy
+    u_H        = rbeta(n_sim, shape1 =  1.5, shape2 = 0.0015), 
+    # utility when sick
+    u_S        = rbeta(n_sim, shape1 = 49.5, shape2 = 49.5), 
+    # utility when dead
+    u_D        = 0                                              
+  )
+  return(df_psa)
+}
 
 
+# Try it
+gen_psa(10) 
+
+# Number of simulations
+n_sim <- 1000
+
+# Generate PSA input dataset
+df_psa_input <- gen_psa(n_sim = n_sim)
+# First six observations
+head(df_psa_input)
+
+# Save the dataframe
+# save dataframe
+#save(df_psa_input, file = "df_psa_input.rda")
 
 
+# Histogram of parameters
+ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
+       facet_wrap(~Parameter, scales = "free") +
+       geom_histogram(aes(y = ..density..)) +
+       theme_bw(base_size = 16) + 
+       theme(axis.text = element_text(size=8))
 
+# Initialize dataframes with PSA output 
+# Dataframe of costs
+df_c <- as.data.frame(matrix(0, 
+                      nrow = n_sim,
+                      ncol = n_str))
+colnames(df_c) <- v_names_str
+# Dataframe of effectiveness
+df_e <- as.data.frame(matrix(0, 
+                      nrow = n_sim,
+                      ncol = n_str))
+colnames(df_e) <- v_names_str
+```
 
+## 09.1 Conduct probabilistic sensitivity analysis
 
+```{r}
+# Run Markov model on each parameter set of PSA input dataset
+for(i in 1:n_sim){
+  l_out_temp <- calculate_ce_out(df_psa_input[i, ])
+  df_c[i, ] <- l_out_temp$Cost
+  df_e[i, ] <- l_out_temp$Effect
+  # Display simulation progress
+  if(i/(n_sim/10) == round(i/(n_sim/10), 0)) { # display progress every 10%
+    cat('\r', paste(i/n_sim * 100, "% done", sep = " "))
+  }
+}
+```
 
+## 09.2 Create PSA object for dampack
 
+```{r}
+l_psa <- make_psa_obj(cost          = df_c, 
+                      effectiveness = df_e, 
+                      parameters    = df_psa_input, 
+                      strategies    = v_names_str)
+```
 
+## 09.2.1 Save PSA objects
 
+```{r}
+save(df_psa_input, df_c, df_e, v_names_str, n_str, l_psa,
+     file = "markov_3state_PSA_dataset.RData")
+```
 
+Vector with willingness-to-pay (WTP) thresholds.
 
+```{r}
+v_wtp <- seq(0, 30000, by = 1000)
+```
 
+## 09.3.1 Cost-Effectiveness Scatter plot
 
+```{r}
+plot(l_psa, xlim = c(9.5, 22.5))
+```
 
+## 09.4 Conduct CEA with probabilistic output
 
+```{r}
+# Compute expected costs and effects for each strategy from the PSA
+df_out_ce_psa <- summary(l_psa)
 
+# Calculate incremental cost-effectiveness ratios (ICERs)
+df_cea_psa <- calculate_icers(cost       = df_out_ce_psa$meanCost, 
+                              effect     = df_out_ce_psa$meanEffect,
+                              strategies = df_out_ce_psa$Strategy)
+df_cea_psa
 
+# Save CEA table with ICERs
+# As .RData
+save(df_cea_psa, 
+     file = "markov_3state_probabilistic_CEA_results.RData")
+# As .csv
+write.csv(df_cea_psa, 
+          file = "markov_3state_probabilistic_CEA_results.csv")
+```
 
+## 09.4.1 Plot cost-effectiveness frontier
 
+```{r}
+plot(df_cea_psa)
+```
 
+## 09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
 
+```{r}
+ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
+# Regions of highest probability of cost-effectiveness for each strategy
+summary(ceac_obj)
+# CEAC & CEAF plot
+plot(ceac_obj)
+```
 
+## 09.4.3 Expected Loss Curves (ELCs)
 
+The expected loss is the the quantification of the foregone benefits when choosing a suboptimal strategy given current evidence.
 
+```{r}
+elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
+elc_obj
+# ELC plot
+plot(elc_obj, log_y = FALSE)
+```
 
+## 09.4.4 Expected value of perfect information (EVPI)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
+# EVPI plot
+plot(evpi, effect_units = "QALY")
+```
 
 ## References:
 
