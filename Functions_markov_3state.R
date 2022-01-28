@@ -14,8 +14,8 @@ decision_model <- function(l_params_all, verbose = FALSE) {
     
     ####### INITIALIZATION ##########################################
     ## Initial state vector
-    # All starting healthy
-    v_s_init <- c("Healthy" = 1, "Sick" = 0, "Dead" = 0)  
+    # All starting PFS
+    v_s_init <- c("PFS" = 1, "OS" = 0, "Dead" = 0)  
     v_s_init
     
     ## Initialize cohort trace for cSTM for all strategies
@@ -34,27 +34,27 @@ decision_model <- function(l_params_all, verbose = FALSE) {
                        dimnames = list(v_names_states, v_names_states)) # define row and column names
     
     ## Standard of Care
-    # from Healthy
-    m_P_SoC["Healthy", "Healthy"] <- (1 - p_HD) * (1 - p_HS_SoC)
-    m_P_SoC["Healthy", "Sick"]    <- (1 - p_HD) *      p_HS_SoC
-    m_P_SoC["Healthy", "Dead"]    <-      p_HD
+    # from PFS
+    m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
+    m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
+    m_P_SoC["PFS", "Dead"]    <-      p_HD
     
-    # from Sick
-    m_P_SoC["Sick", "Sick"] <- 1 - p_SD
-    m_P_SoC["Sick", "Dead"] <-     p_SD
+    # from OS
+    m_P_SoC["OS", "OS"] <- 1 - p_SD
+    m_P_SoC["OS", "Dead"] <-     p_SD
     
     # from Dead
     m_P_SoC["Dead", "Dead"] <- 1
     
     ## Treatment A
     m_P_trtA <- m_P_SoC
-    m_P_trtA["Healthy", "Healthy"] <- (1 - p_HD) * (1 - p_HS_trtA)
-    m_P_trtA["Healthy", "Sick"]    <- (1 - p_HD) *      p_HS_trtA
+    m_P_trtA["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtA)
+    m_P_trtA["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtA
     
     ## Treatment B
     m_P_trtB <- m_P_SoC
-    m_P_trtB["Healthy", "Healthy"] <- (1 - p_HD) * (1 - p_HS_trtB)
-    m_P_trtB["Healthy", "Sick"]    <- (1 - p_HD) *      p_HS_trtB
+    m_P_trtB["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtB)
+    m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
     
     # Check that transition probabilities are in [0, 1]
     check_transition_probability(m_P_SoC,  verbose = TRUE)
