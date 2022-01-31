@@ -368,6 +368,13 @@ m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
 
 # Depending on how the data is estimated, this a correct interpretation of the probability estimate of going from one state to another (p_HS_SoC, or healthy to sick, or PFS to OS). 
 
+
+# Using conditional probabilities more generally is also discussed around the 1:04 hour mark of:
+
+# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+
+
+
 ```
 
 I probably want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
@@ -379,7 +386,7 @@ Check if transition probability matrices are valid.
 check_transition_probability(m_P_SoC,  verbose = TRUE)
 check_transition_probability(m_P_trtA, verbose = TRUE)
 check_transition_probability(m_P_trtB, verbose = TRUE)
-# Check that all rows sum in each matrix sum to 1 - which we know is a necessary condition for transition probability matrices.
+# Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
 check_sum_of_transition_array(m_P_SoC,  n_states = n_states, verbose = TRUE)
 check_sum_of_transition_array(m_P_trtA, n_states = n_states, verbose = TRUE)
 check_sum_of_transition_array(m_P_trtB, n_states = n_states, verbose = TRUE)
@@ -448,6 +455,19 @@ plot(v_os, type = 'l',
 # add grid 
 grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"), 
      equilogs = TRUE) 
+
+
+# Per 1:12 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+
+# Often you have a survival curve as input to your model [I guess from a published study], and having that survival curve you need to parameterise your model so that you match that survival curve, and that would be a process of, potentially of calibration, if you can't use the parameters directly in your model.
+
+# So, you could produce your survival curve and compare it to curves from trials, etc., to calibrate your model. So. we'll probably do this and have it in an appendix section.
+
+# For calibration purposes, you want to make sure that your model is outputting something that's comparable to the publications out there on actual data on the same type of patients.
+
+# Part of being comparable to the real world is that if there is a censoring process in actual patient data, then you could incorporate this process into the model to reflect that in your model and to ensure that your own model is comparable to the existing models which may be losing people due to censoring, etc., and which you'll then need to incorporate into your model to be comparable. 
+
+
 ```
 
 ## 06.2.1 Life Expectancy (LE)
@@ -487,6 +507,12 @@ plot(v_prev,
      xlab = "Cycle",
      main = "Disease prevalence")
 ```
+
+
+
+
+
+
 
 # 07 Compute Cost-Effectiveness Outcomes
 
