@@ -77,7 +77,7 @@ The dampack package was based on the following textbook:
 
 If I find any parts of the package confusing I can email:
 
-Maintainer:	Greg Knowlton \<knowl193\@umn.edu\>
+Maintainer: Greg Knowlton \<knowl193\@umn.edu\>
 
 The official website is here: <https://cran.r-project.org/web/packages/dampack/>
 
@@ -106,12 +106,24 @@ n_str           <- length(v_names_str)
 
 
 ## Transition probabilities
+
+
+# "Note: To calculate the probability of dying from S1 and S2, use the hazard ratios provided. To do so, first convert the probability of dying from healthy, p_HD , to a rate; then multiply this rate by the appropriate hazard ratio; finally, convert this rate back to a probability. Recall that you can convert between rates and probabilities using the following formulas: r = − log(1 − p) and p = 1 − e ( − rt ) . The package darthtools also has the functions prob_to_rate and rate_to_prob that might be of use to you." per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\3_cSTM - history dependence_material\Download exercise handout 
+
+# ?rate_to_prob will tell you more about this function.
+# ?prob_to_rate will tell you more about this function.
+
+# As will the 50 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+
+
+# The above also describes how to convert probabilities for different time scales, i.e., convert a probability for 5 years to 1 year, etc., and how to convert data that exists as a rate to a probability for use in a Markov model.
+
+
 p_HS_SoC  <- 0.05  # probability of becoming OS when PFS, conditional on surviving, under standard of care
 p_HS_trtA <- 0.04  # probability of becoming OS when PFS, conditional on surviving, under EPI Assay
 p_HS_trtB <- 0.02  # probability of becoming OS when PFS, conditional on surviving, under HDX Assay
 p_SD      <- 0.1   # probability of dying          
 p_HD      <- 0.01  # probability of dying when PFS
-
 
 # I'M NOT DELIGHTED ABOUT USING CONDITIONAL PROBABILITIES ACTUALLY, AND WILL UPDATE THE ABOVE WITH THE WAY I CALCULATED PROBABILITIES WHEN DOING THE YORK COURSE I THINK.
 
@@ -138,6 +150,8 @@ p_HD      <- 0.01  # probability of dying when PFS
 # and this would allow us to create a vector of transition probabilities for p_HD above, i.e., from PFS to dead, that is a little bit larger at each cycle, starting at our chosen minimum value at the first cycle and increasing each cycle until it reaches our chosen maximum value at the last cycle.
 
 # Alternatively, C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\4_cSTM - time-dependent models_material shows you how to use a life-table, as does the material from the York course, but I really think there's no need to get that detailed in our own analysis.
+
+
 
 
 ## Health State Values (AKA State rewards)
@@ -291,6 +305,15 @@ m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
 m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
 
 # This is because, when setting up the input parameters we didn't have a value for staying in progression free survival, so we have to calculate it, i.e. above we have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
+
+
+
+# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
+
+# p_HS_SoC is the probability of transitioning from healthy to sick, conditional on surviving, so it's defined as a conditional probability. So, what the Markov model wants is : m_P_SoC["PFS", "OS"] what's the overall probability of transitioning from PFS to OS, and so that is actually not a conditional probability, which is why we multiply the probability of surviving (1 - p_HD) *      p_HS_SoC by the probability of going to OS conditional on surviving, because the transition in the model should be the marginal not the conditional, i.e. you want to have the end probability.
+
+
+
 
 
 m_P_SoC["PFS", "Dead"]    <-      p_HD
@@ -579,6 +602,17 @@ df_cea
 
 # This uses the "calculate_icers function", which does all the sorting, all the prioritization, and then computes the dominance, and not dominance, etc., and there's a publication on the methods behind this, based on a method from colleagues in Stanford.
 
+# The default view is ordered by dominance status (ND = non-dominated, ED = extended/weak dominance, or D= strong dominance), and then ascending by cost per: https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html
+
+
+# The icer object can be easily formatted into a publication quality table using the kableExtra package.
+
+# library(kableExtra)
+# library(dplyr)
+# df_cea %>%
+#  kable() %>%
+#  kable_styling()
+
 
 ```
 
@@ -599,19 +633,19 @@ The bottom axis of the above diagram shows you how effective the intervention is
 
 <https://yhec.co.uk/glossary/cost-effectiveness-frontier/>
 
-[<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
+[\<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf\>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
 
 <https://researchonline.lshtm.ac.uk/id/eprint/4648686/1/The%20efficiency-frontier%20approach%20for%20health_GREEN%20AAM.pdf> also saved here:C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model\The efficiency-frontier approach for health_GREEN AAM.pdf
 
 The efficiency frontier is described on page 277 [in the textbook] of: [file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine\_%20integrating%20evidence%20and%20values.pdf](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine_%20integrating%20evidence%20and%20values.pdf)
 
-# **Sensitivity Analysis Below:** 
+# **Sensitivity Analysis Below:**
 
 I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
