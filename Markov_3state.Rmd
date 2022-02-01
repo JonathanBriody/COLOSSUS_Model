@@ -485,10 +485,19 @@ v_le <- sum(v_os)  # summing probability of OS over time  (i.e. life expectancy)
 
 # Is basically the PFS and OS added together.
 
+# Also bear in mind that this is life expectancy under standard of care, and not under either of the new treatments, per: # v_os <- rowSums(m_M_SoC[, 1:2]) above.
+
 v_le
 
 
 # So, this gives a value of [1] 24.26038, that is [1] 24.26038 cycles, where in the context of our model, cycles are months, so the life expectancy for our population of patients is 24 months.
+
+
+# Discounted life expectancy:
+
+# If you wanted discounted life expectancy, if you were using life years and you wanted them discounted for your health economic outcomes, you could apply the discount rates - the discount factors - to the vector for overall survival [v_os] and then take it's sum [add it up] as above to get life expectancy that is discounted.
+
+# As the 1:12 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
 
 
 
@@ -511,12 +520,6 @@ plot(v_prev,
      xlab = "Cycle",
      main = "Disease prevalence")
 ```
-
-
-
-
-
-
 
 # 07 Compute Cost-Effectiveness Outcomes
 
