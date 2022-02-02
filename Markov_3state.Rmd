@@ -472,6 +472,9 @@ grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd")
 # Part of being comparable to the real world is that if there is a censoring process in actual patient data, then you could incorporate this process into the model to reflect that in your model and to ensure that your own model is comparable to the existing models which may be losing people due to censoring, etc., and which you'll then need to incorporate into your model to be comparable. 
 
 
+# Another interesting thing you can do is, plot this to ask is that reasonable, does that make sense that this many people are alive after this amount of time? Is the OS what I would expect it to be?
+
+
 ```
 
 ## 06.2.1 Life Expectancy (LE)
