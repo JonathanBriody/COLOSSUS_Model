@@ -1,5 +1,5 @@
 ---
-title: 'Exploratory Cost-Effectiveness Analysis of HDX Assayased on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
+title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
 author: "Jonathan Briody (1) | Kathleen Bennett (1)"
 output:
   html_document: default
