@@ -75,6 +75,10 @@ also saved as pdf files here:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model
 
+And:
+
+"An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis" https://arxiv.org/pdf/2001.07824.pdf [also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\An Introductory Tutorial on Cohort StateTransition.pdf]
+
 The dampack package was based on the following textbook:
 
 [file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine\_%20integrating%20evidence%20and%20values.pdf](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine_%20integrating%20evidence%20and%20values.pdf)
@@ -685,6 +689,9 @@ Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College
 
 when doing the sensitivity analysis below:
 
+There is similarly relevant information at the 1:38 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+
+
 # 08 Deterministic Sensitivity Analysis
 
 ## 08.1 List of input parameters
@@ -969,6 +976,10 @@ plot(elc_obj, log_y = FALSE)
 ```
 
 ## 09.4.4 Expected value of perfect information (EVPI)
+
+Value of information is discussed in the York course and below:
+
+C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC_Exclusive_Decision Modeling for Public Health_DARTH
 
 ```{r}
 evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
