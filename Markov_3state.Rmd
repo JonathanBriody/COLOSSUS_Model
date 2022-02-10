@@ -12,6 +12,42 @@ bibliography: references.bib
 
 (1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
 
+# **Abstract:**
+
+**Background:** Colorectal cancer is the third most common cancer in Europe.
+Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC).
+**Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
+
+**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
+Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature.
+Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the countries participating.
+Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
+To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
+
+**Results:** Predictive biomarkers with targeted therapy provided X QALYS at a cost of €X,000 compared with standard of care (FOLFOX without testing).
+Compared to standard of care, the ICER of predictive biomarkers with targeted therapy provided was EUR X,000/QALY from a European health care perspective, which was above the threshold used to define cost-effectiveness in the countries studied, which provided X QALYS at a cost of €X,000.
+The incremental cost-effectiveness ratio (ICER) was €X,000 per QALY.
+The ICER was below the cost-effectiveness threshold (\<€X,000 per QALY) in all univariate and multivariate sensitivity analyses.
+One-way sensitivity analysis demonstrated that the initial results were generally robust.
+Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis show that the probability that predictive biomarkers with targeted therapy was cost-effective was 100% when the threshold was \<€X,000 per QALY.
+
+**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold.
+However, because of the exploratory nature of this analysis, the cost effectiveness profile of these biomarkers should be evaluated in further comparative studies.
+
+**Keywords:** Colorectal neoplasms, cost effectiveness analysis, Quality-adjusted life years, Markov model, mCRC, precision medicine, biomarkers, assays,
+
+JEL CLASSIFICATION CODES
+
+I19, I1, I, I11, I1, I,
+
+[*Possible Journal Homes:*]{.ul}
+
+Value in Health:
+
+Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
+
+Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
+
 **Correspondence:**
 
 Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
@@ -24,6 +60,73 @@ The material presented and views expressed here are the responsibility of the au
 The EU Commission takes no responsibility for any use made of the information set out.
 
 \newpage
+
+# Introduction
+
+With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
+Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
+
+As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021].
+Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab.
+However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
+
+Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
+Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
+Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,).
+The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+
+*DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
+This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
+The results of X demonstrate a median overall survival (OS) benefit of X months (Y months vs. Z months) and a median progression-free survival (PFS) benefit of X months for DRUG X when compared with placebo (X months vs. X months).
+
+> Fruquintinib is a VEGFR inhibitor that blocks new blood vessel growth associated with tumor proliferation5 .
+> In 2018, it was approved to treat Chinese patients with mCRC who had experienced failure of second-line treatment.
+> The results of the FRESCO trial demonstrated a median overall survival (OS) benefit of 2.7 months (9.3 months vs. 6.6 months) and a median progression-free survival (PFS) benefit of 1.9 months for fruquintinib when compared with placebo (3.7 months vs. 1.8 months)6.
+>
+> \- Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
+> (2021).
+> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
+> *Journal of Medical Economics*, *24*(1), 339-344.
+
+Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
+
+Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targetted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
+We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
+
+# Materials and Methods
+
+#### Model Structure
+
+We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy.
+As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death.
+We applied published estimates of costs associated with each health state in the countries studied [CITE].
+All cost estimates were in 2022 Euros [maybe discuss how you converted to this?
+HIQA has something on this I think].
+To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE].
+The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020].
+The Markov model simulated the health state transitions following a diagnosis of metastatic cancer.
+A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses.
+For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
+For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI).
+In both instances we made use of treatment-specific utility values.
+At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state.
+To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
+
+> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
+> All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
+> After treatment discontinuation due to progession, best supportive care (BSC) was modeled.
+> --\> So, here even doing that they still got a treatment that needs to be modelled in PFS].
+
+The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Germany, Ireland and Spain, from a healthcare payer perspective in these countries.
+Subsequently the analysis only included direct medical costs.
+Effectiveness is reflected in life-years (LYs) and quality adjusted life years (QALYS).
+Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [citation here].
+The primary outcome of the model was the total direct costs, LYs, QALYS, and the incremental cost-effectiveness ratio (ICER).
+
+#### Patients and Treatment Regimens
+
+In the absence of randomized controlled trials with a headto-head comparison between PK and BSA FOLFOX, we used results from one study to estimate survival for patients treated using a PK protocol and another to estimate survival for patients for whom dosing was determined based on BSA.
+The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
@@ -77,7 +180,7 @@ C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Cod
 
 And:
 
-"An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis" https://arxiv.org/pdf/2001.07824.pdf [also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\An Introductory Tutorial on Cohort StateTransition.pdf]
+"An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis" <https://arxiv.org/pdf/2001.07824.pdf> [also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model\An Introductory Tutorial on Cohort StateTransition.pdf]
 
 The dampack package was based on the following textbook:
 
@@ -88,6 +191,8 @@ If I find any parts of the package confusing I can email:
 Maintainer: Greg Knowlton \<knowl193\@umn.edu\>
 
 The official website is here: <https://cran.r-project.org/web/packages/dampack/>
+
+IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MARKOV BUBBLES WILL HAVE ON THE FUNCTIONS USED HERE, WHICH ASSUMEDLY WERE BUILT WITH A 3 STATE MODEL IN MIND, AND NOW WE HAVE ADDITIONAL TUNNEL STATES.
 
 # 03 Input model parameters
 
@@ -241,7 +346,7 @@ m_P_diag["Dead"   , "Dead" ]     = ""
 layout.fig <- c(2, 1)
 plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.8,  
         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.8, 
-        cex = 0.8, box.cex = 0.7, lwd = 1)
+        cex = 0.8, box.cex = 0.7, lwd = 1, main = "Figure 1")
 ```
 
 # 04 Define and initialize matrices and vectors
@@ -685,12 +790,11 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
-There is similarly relevant information at the 1:38 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
-
+There is similarly relevant information at the 1:38 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
 
 # 08 Deterministic Sensitivity Analysis
 
@@ -979,7 +1083,7 @@ plot(elc_obj, log_y = FALSE)
 
 Value of information is discussed in the York course and below:
 
-C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC_Exclusive_Decision Modeling for Public Health_DARTH
+C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC\_Exclusive_Decision Modeling for Public Health_DARTH
 
 ```{r}
 evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
