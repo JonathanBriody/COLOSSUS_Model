@@ -63,17 +63,12 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Introduction
 
-With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
-Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
+With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021]. Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
 
-As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021].
-Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab.
-However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
+As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021]. Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab. However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
 
 Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
-Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
-Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,).
-The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018]. Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,). The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
 
 *DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
 This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
@@ -115,7 +110,12 @@ To reflect that transitions between states may occur at any point within each cy
 > [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
 > All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
 > After treatment discontinuation due to progession, best supportive care (BSC) was modeled.
-> --\> So, here even doing that they still got a treatment that needs to be modelled in PFS].
+> \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
+>
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
+> (2021).
+> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
+> *Journal of Medical Economics*, *24*(1), 339-344.
 
 The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Germany, Ireland and Spain, from a healthcare payer perspective in these countries.
 Subsequently the analysis only included direct medical costs.
@@ -125,8 +125,67 @@ The primary outcome of the model was the total direct costs, LYs, QALYS, and the
 
 #### Patients and Treatment Regimens
 
-In the absence of randomized controlled trials with a headto-head comparison between PK and BSA FOLFOX, we used results from one study to estimate survival for patients treated using a PK protocol and another to estimate survival for patients for whom dosing was determined based on BSA.
-The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
+In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE].
+We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014]. The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
+The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
+
+> The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> *Clinical colorectal cancer*, *13*(4), 219-225.
+>
+> Given that there was no single RCT with all treatment arms, it was necessary to perform an indirect comparison using the data from the FRESCO trial and the CONCUR trial6, 11.
+> The baseline treatment for the indirect comparison was BSC taken from the FRESCO trial.
+> The clinical effectiveness in patients in the BSC arm was also available from the CONCUR trial.
+> This, however, was not considered appropriate for the baseline treatment because the survival curves reported by the CONCUR trial were distorted in the paper and were not suitable for recreating individual patient data.
+> However, the hazard ratios (HRs) calculated by original data would not be affected by the distorted figures.
+> The implicit assumption underlying the indirect comparison was that the baseline patient characteristics in the two studies were reasonably similar, which was shown to be true (Appendix Table 1).
+>
+> The FRESCO trial was used to model the probabilities of remaining in the PFS state or experiencing disease progression in the fruquintinib arm.
+> This research recreating individual patients data (IPD) from Kaplan--Meier (KM) survival curves in FRESCO by the method published by Guyot et al.12.
+> To predict the events of death and progression beyond the observation period, several parametric models were fit in different distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
+> After comparing the goodness-of-fit of different parametric models by the Akaike information criterion (AIC) and the Bayesian information criterion (BIC) (Appendix Table 2), assessing the conformities of parametric models to the original KM survival curves in the FRESCO trial and considering about proportional hazard model used for the indirect comparison, the Weibull distribution model was chosen for the base case analysis (Appendix Figure 1 and Appendix Figure 2).
+>
+> We used the PFS curves to estimate the transition probability from PFS state to PFS state and the transition probability from PFS state to another states (PD and death) and used the OS curve to estimate the overall mortality.
+> The model assumed the transition probability from PFS state to death was estimated by the background mortality obtained from Chinese government data, which based on actuarial estimates of mortality among the general population in China.
+> According to the background mortality and the transition probability from PFS state to another states (PD and death), we calculated the transition probability from PFS state and PD.
+> Moreover, the transition probability from PD state to PD state could calculated by overall mortality and background mortality.
+>
+> We also calculated the transition probabilities in the BSC arm by a Weibull-distribution hazard function using the survival data from the FRESCO trial.
+> The model assumed that the survival curves of BSC both in FRESCO and CONCUR would be identical if the patients in BSC arm was identical, and the HR of regorafenib versus BSC would not change even if the patients receiving BSC in CONCUR became exactly same as the patients receiving BSC in FRESCO.
+> Hence,we adjusted the transition probabilities of the regorafenib arm using the transition probabilities of the BSC arm modeled from the FRESCO trial and the HR of regorafenib versus BSC taken from the CONCUR trial.
+>
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
+> (2021).
+> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
+> *Journal of Medical Economics*, *24*(1), 339-344.
+
+#### Transition Probabilities
+
+> Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
+> Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models.
+> Statistical analyses demonstrated that Weibull and log-logistic models provided a good fit for all curves according to the Akaike information criterion, Schwarz Bayesian criterion,17 and visual inspection (Supplemental Table 1 in the online version).
+> Weibull models permit the hazard rate to increase over time and are thus more suitable for modeling events occurring early during follow-up periods.
+> We therefore selected the Weibull model for all survival curves in this analysis.
+> Next, we estimated the risk for each cycle based on the fitted survival models.
+> In particular, because OS is defined as the period between the start of treatment and death, we computed the cause-specific mortality rates, p1(t), at cycle t based on the fitted Weibull OS model, OS(t), using the formula:
+>
+> p1ðtÞ ¼ Pðt T t þ 1Þ PðT tÞ ¼ ðOSðtÞ  OSðt  1ÞÞ OSðtÞ : (1)
+>
+> PFS is the period between the start and progression of disease or death.
+> We computed the combined risks p2(t) based on the Weibull PFS model using Formula 1 and computed p2(t)  p1(t) as the estimate of the progression risks.
+> Estimates of mortality and progression risk beyond the follow-up time in the clinical trials were extrapolated based on the fitted survival models.
+> The overall mortality was defined according to the maximum value of cause-specific mortality and the background mortality.
+> We use the US life tables to estimate the background mortality for each age group separately.18 In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000.
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> *Clinical colorectal cancer*, *13*(4), 219-225.
+
+[So, I think my takeway is that I need to do parametric survival analysis on some existing data - per C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Parametric Survival Analysis and the rest of my York training material THEN I'll need to include Age specific all cause mortality per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH].
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
@@ -790,7 +849,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
