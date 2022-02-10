@@ -63,12 +63,17 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Introduction
 
-With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021]. Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
+With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
+Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
 
-As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021]. Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab. However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
+As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021].
+Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab.
+However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
 
 Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
-Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018]. Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,). The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
+Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,).
+The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
 
 *DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
 This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
@@ -126,7 +131,8 @@ The primary outcome of the model was the total direct costs, LYs, QALYS, and the
 #### Patients and Treatment Regimens
 
 In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE].
-We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014]. The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
+We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014].
+The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
 The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
 
 > The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
@@ -162,6 +168,25 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
 > *Journal of Medical Economics*, *24*(1), 339-344.
 
+> There is a discussion on indirect comparisons and how best to do these in this short piece: Martin-Broto, J.
+> (2015).
+> Indirect comparisons in cost-effectiveness analysis: are we being naïve?.
+> Clinical and Translational Oncology, 17(1), 85-86.
+> <https://sci-hub.se/10.1007/s12094-014-1256-9>
+>
+> This also talks about indirect comparisons Hollmann, S., Alloul, K., Attard, C., & Kavan, P. (2014).
+> An Indirect Treatment Comparison and Cost-Effectiveness Analysis Comparing Folfirinox with Nab-Paclitaxel Plus Gemcitabine for First-Line Treatment for Patients with Metastatic Pancreatic Cancer.
+> Annals of Oncology, 25, ii11.
+> <https://sci-hub.se/10.1093/annonc/mdu164.18>
+>
+> This applies an indirect comparison in more detail: Tamoschus, D., Draexler, K., Chang, J., Ngai, C., Madin-Warburton, M., & Pitcher, A.
+> (2017).
+> Cost-effectiveness analysis of regorafenib for gastrointestinal stromal tumour (GIST) in Germany.
+> Clinical Drug Investigation, 37(6), 525-533.
+> <https://sci-hub.se/10.1007/s40261-017-0514-3>
+>
+> I'm not even sure if I would classify what we are doing as an indirect comparison, as we don't have data for the novel therapy at all (that I know of), but I'll read the above articles and then make a call on that.
+
 #### Transition Probabilities
 
 > Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
@@ -185,7 +210,65 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
 > *Clinical colorectal cancer*, *13*(4), 219-225.
 
-[So, I think my takeway is that I need to do parametric survival analysis on some existing data - per C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Parametric Survival Analysis and the rest of my York training material THEN I'll need to include Age specific all cause mortality per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH].
+**[So, I think my takeway is that I need to do digitising and maybe parametric survival analysis on some existing published data - per C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Parametric Survival Analysis and the rest of my York training material THEN I'll need to include Age specific all cause mortality per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH because I don't have my own clinical data, these are both good sources to consider seeing as they also didnt have their own data, I'll also have to think about the age of the cohort if I include competing mortality, as below:].**
+
+> "Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L.
+> (2015).
+> Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective.
+> Journal of comparative effectiveness research, 4(5), 433-445.
+> C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf
+>
+> "Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)
+
+#### Utility Estimates
+
+We calculated QALYs by correcting survival time with quality of life using health state utilities in the Markov model.
+We assigned a health utility score of 0.85 to the first line health state, and 0.65 to the second line health state, based on the published literature [@ramsey2000] [AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
+We assumed in the model that utility was only related to health state, and not to therapy.
+
+> We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> *Clinical colorectal cancer*, *13*(4), 219-225.
+>
+> To do this, they basically went to the studies by:
+>
+> Capitain et al, 2012
+>
+> Hochster et al, 2008
+>
+> Bennouna et al, 2013
+>
+> And went to the tables on "Incidence of Grade X and Grade Y Adverse Events", and took the percentages reported in these studies to use in their own table under "Adverse Event Incidence"
+>
+> Then, according to: because we have explicitly something called an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
+>
+> Remember that Leukopenia = Febrile Neutropenia.
+
+The probability of Grade 3/4 adverse events (AEs) was informed by the literature [CITE].
+
+AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea.
+We assumed the duration of each AE was 5 days.
+For each AE, the average disutility was weighted by the incidence reported in the clinical study.
+
+Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13.
+The duration of AEs was estimated based on Expert Consultation.
+From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116.
+Hypertension would last for five days and the disutility was 0.
+Diarrhea would last for five days and the disutility was 0.1038 .
+The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
+
+#### Sensitivity Analysis
+
+I should do this in tangent with the two papers using 20%.
+
+These guys add adverse events as a State in the Markov model, so I could probably just do that:
+
+Goulart, B., & Ramsey, S.
+(2011).
+A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
+Value in Health, 14(6), 836-845.
+<https://sci-hub.se/10.1016/j.jval.2011.04.004>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
@@ -849,7 +932,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
