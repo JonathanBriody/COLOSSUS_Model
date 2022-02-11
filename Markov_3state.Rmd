@@ -223,7 +223,7 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 #### Utility Estimates
 
 We calculated QALYs by correcting survival time with quality of life using health state utilities in the Markov model.
-We assigned a health utility score of 0.85 to the first line health state, and 0.65 to the second line health state, based on the published literature [@ramsey2000] [AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
+We assigned a health utility score of 0.85 to the first line health state, and 0.65 to the second line health state, based on the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N. (2009). Are adverse effects incorporated in economic models? An initial review of current practice. *Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
 We assumed in the model that utility was only related to health state, and not to therapy.
 
 > We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
@@ -241,7 +241,7 @@ We assumed in the model that utility was only related to health state, and not t
 >
 > And went to the tables on "Incidence of Grade X and Grade Y Adverse Events", and took the percentages reported in these studies to use in their own table under "Adverse Event Incidence"
 >
-> Then, according to: because we have explicitly something called an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
+> Then, according to: [[https://en.wikipedia.org/wiki/Incidence\_(epidemiology](https://en.wikipedia.org/wiki/Incidence\_(epidemiology))](https://en.wikipedia.org/wiki/Incidence_(epidemiology)) because we have explicitly something called an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
 >
 > Remember that Leukopenia = Febrile Neutropenia.
 
@@ -258,6 +258,16 @@ Hypertension would last for five days and the disutility was 0.
 Diarrhea would last for five days and the disutility was 0.1038 .
 The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
 
+> Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)].
+> For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event.
+> In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.ul} events.
+> The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).
+>
+> Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
+> (2021).
+> Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China.
+> *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
+>
 #### Sensitivity Analysis
 
 I should do this in tangent with the two papers using 20%.
