@@ -15,12 +15,12 @@ bibliography: references.bib
 # **Abstract:**
 
 **Background:** Colorectal cancer is the third most common cancer in Europe.
-Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC).
+Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC)....
 **Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
 
 **Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
 Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature.
-Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the countries participating.
+Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries.
 Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
 To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
 
@@ -268,7 +268,7 @@ We assumed in the model that utility was only related to health state, and not t
 >
 > And went to the tables on "Incidence of Grade X and Grade Y Adverse Events", and took the percentages reported in these studies to use in their own table under "Adverse Event Incidence"
 >
-> Then, according to: [[https://en.wikipedia.org/wiki/Incidence\_(epidemiology](https://en.wikipedia.org/wiki/Incidence\_(epidemiology))](https://en.wikipedia.org/wiki/Incidence_(epidemiology)) because we have explicitly something called an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
+> Then, according to: [[https://en.wikipedia.org/wiki/Incidence\_(epidemiology](https://en.wikipedia.org/wiki/Incidence\_(epidemiology))](https://en.wikipedia.org/wiki/Incidence_(epidemiology)) because we have explicitly an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
 >
 > Remember that Leukopenia = Febrile Neutropenia.
 
