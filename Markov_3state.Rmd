@@ -103,7 +103,10 @@ We applied published estimates of costs associated with each health state in the
 All cost estimates were in 2022 Euros [maybe discuss how you converted to this?
 HIQA has something on this I think].
 To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE].
-The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020]. The Markov model simulated the health state transitions following a diagnosis of metastatic cancer. A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses. A 5-year time horizon was also chosen [CITE].
+The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020].
+The Markov model simulated the health state transitions following a diagnosis of metastatic cancer.
+A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses.
+A 5-year time horizon was also chosen [CITE].
 For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
 For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI).
 In both instances we made use of treatment-specific utility values.
@@ -191,7 +194,7 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > Clinical therapeutics, 30(2), 382-392.
 > - <https://sci-hub.se/10.1016/j.clinthera.2008.02.013>
 >
-> Or we could try:
+> ***Or we could try:***
 >
 > The transition probabilities were derived from the median time to radiologic progression and median OS obtained from previously published studies18,20 following recommended methods21.
 > - Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
@@ -235,8 +238,7 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 >
 > "Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)
 >
-> Patients had a starting age of 56 years
-> Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
+> Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
 > (2021).
 > Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China.
 > *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
@@ -324,12 +326,36 @@ Vaccines 2021, 9, 111.
 > seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
 > Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
 >
-> The transition probabilities were derived from the median time to radiologic progression and median OS obtained from previously published studies18,20 following recommended methods21.
-> - Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
+> "All model inputs were varied 20% below and above the base case for costs, and confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, and utilities (Table 1)."
+>
+> The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
+>
+> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
 > (2019).
 > Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
 > Journal of Medical Economics, 22(2), 163-168.
 > <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
+>
+> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
+> For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ...
+> & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> *Clinical colorectal cancer*, *13*(4), 219-225.
+>
+> ***I like that Goldstein et al., report the actual distribution they derived from their Value, Minimum and Maximum, I think I'll review the other papers by Goldstein and co-authors to see if they repeat that elsewhere, as it supports checking your methods against their own.***
+>
+> Transition probabilities used in the analysis
+>
+> The transition probabilities, had a min 20% below the base case value and a max 20% above this.
+>
+> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q.
+> (2020).
+> Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
+> Oncology Research and Treatment, 43(4), 153-159.
+> <https://www.karger.com/Article/Pdf/505932>
 
 ###### Adverse Events Occurring:
 
@@ -370,7 +396,7 @@ Goulart, B., & Ramsey, S.
 (2011).
 A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
 Value in Health, 14(6), 836-845.
-[<https://sci-hub.se/10.1016/j.jval.2011.04.004>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+[\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
 
 #### Sensitivity Analysis
 
@@ -1038,11 +1064,15 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
 There is similarly relevant information at the 1:38 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+
+And in this document:
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Briggs et al 2012 model parameter estimation and uncertainty.pdf
 
 # 08 Deterministic Sensitivity Analysis
 
