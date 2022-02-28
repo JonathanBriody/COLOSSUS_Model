@@ -18,7 +18,7 @@ bibliography: references.bib
 Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC)....
 **Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
 
-**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
+**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with MSS RAS mt mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
 Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature.
 Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries.
 Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
@@ -90,7 +90,7 @@ The results of X demonstrate a median overall survival (OS) benefit of X months 
 
 Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
 
-Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targetted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
+Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
 We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
 
 # Materials and Methods
@@ -219,7 +219,7 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > We computed the combined risks p2(t) based on the Weibull PFS model using Formula 1 and computed p2(t)  p1(t) as the estimate of the progression risks.
 > Estimates of mortality and progression risk beyond the follow-up time in the clinical trials were extrapolated based on the fitted survival models.
 > The overall mortality was defined according to the maximum value of cause-specific mortality and the background mortality.
-> We use the US life tables to estimate the background mortality for each age group separately.18 In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000.
+> We use the US life tables to estimate the background mortality for each age group separately.18 **In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000. [So, rather than picking a starting age, it looks like they randomly sampled an age for competing background mortality].**
 >
 > Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
 > (2014).
@@ -304,6 +304,8 @@ The duration-adjusted disutility was subtracted from the baseline utility to cal
 > Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer.
 > American journal of clinical oncology, 37(5), 480-485.
 > <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>
+>
+> This is an alternative approach that may be cleaner, assume patients can only have one adverse event per cycle, and that way you don't have to find out which is worse and apply that one.
 
 Lots of adverse events in studies to consider here:
 
