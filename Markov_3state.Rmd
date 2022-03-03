@@ -202,7 +202,14 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
 > Journal of Medical Economics, 22(2), 163-168.
 > <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
-
+>
+> I think the below also takes transition probabilities just from the literature, although I'd have to read it and see:
+>
+> Pierse, T., O'Neill, S., Dinneen, S. F., & O'Neill, C.
+> (2021).
+> A simulation study of the economic and health impact of a diabetes prevention programme in Ireland.
+> *Diabetic Medicine*, *38*(6), e14540.
+>
 #### Transition Probabilities
 
 > Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
@@ -341,8 +348,7 @@ Vaccines 2021, 9, 111.
 > The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
 > For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ...
-> & Flowers, C. R.
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
 > (2014).
 > Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
 > *Clinical colorectal cancer*, *13*(4), 219-225.
