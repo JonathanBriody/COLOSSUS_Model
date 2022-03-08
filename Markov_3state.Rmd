@@ -48,6 +48,8 @@ Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/136969
 
 Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
 
+Studies in Health Technology andInformatics
+
 **Correspondence:**
 
 Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
@@ -210,7 +212,7 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > A simulation study of the economic and health impact of a diabetes prevention programme in Ireland.
 > *Diabetic Medicine*, *38*(6), e14540.
 >
-#### Transition Probabilities
+> #### Transition Probabilities
 
 > Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
 > Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models.
@@ -405,6 +407,14 @@ Goulart, B., & Ramsey, S.
 A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
 Value in Health, 14(6), 836-845.
 [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+
+**Costing Data in Spain:**
+
+Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
+(2017).
+Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
+Journal of Medical Economics, 20(6), 574-584.
+<https://sci-hub.st/10.1080/13696998.2017.1285780>
 
 #### Sensitivity Analysis
 
