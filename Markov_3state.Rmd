@@ -12,10 +12,55 @@ bibliography: references.bib
 
 (1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
 
-# **Abstract:**
+# **Abstract:** 
+
+> I'll initially draft this as informed by:
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> Clinical colorectal cancer, 13(4), 219-225.
+> <https://www.sciencedirect.com/science/article/abs/pii/S1533002814000978>
+>
+> **[TICK HERE:]**
+>
+> and:
+>
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
+> (2021).
+> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
+> Journal of Medical Economics, 24(1), 339-344.
+> <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
+>
+> **[TICK HERE:]**
+>
+> and:
+>
+> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
+> (2019).
+> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
+> Journal of Medical Economics, 22(2), 163-168.
+> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
+>
+> **[TICK HERE:]**
+>
+> and here:
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
+> (2015).
+> Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
+> JAMA oncology, 1(9), 1293-1300.
+>
+> Paper saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/13%20Goldstein.pdf> and supplementary material saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/Neci%20supplemental%20material%20071815.pdf>
+>
+> **[TICK HERE:]**
+>
+> and not forgetting I have some relevant stuff in Grammarly **[TICK HERE:]**
+>
+> Then I'll have a look at the other open journal articles in my browser windows **[TICK HERE:]**
 
 **Background:** Colorectal cancer is the third most common cancer in Europe.
-Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC)....
+Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC) [some details about this specific cancer]....
 **Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
 
 **Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with MSS RAS mt mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
@@ -52,6 +97,8 @@ Studies in Health Technology andInformatics
 
 Search "New Journal: Oxford Open Economics" in my gmail, it's a new Journal and thus may be interested in this work.
 
+We can increase our publication numbers by publishing a short summary of our study in: PharmacoEconomics & Outcomes News - per the description "Stay up to date with the exciting world of health economics. Solve the problem of reading and monitoring the vast volumes of literature necessary to stay informed on the latest issues in pharmacoeconomics and outcomes research by reading our concise news summaries, compiled in an easy-to-read format." <https://www.springer.com/journal/40274>
+
 **Correspondence:**
 
 Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
@@ -67,17 +114,12 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Introduction
 
-With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
-Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
+With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021]. Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
 
-As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021].
-Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab.
-However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
+As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021]. Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab. However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
 
 Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
-Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
-Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,).
-The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018]. Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,). The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
 
 *DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
 This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
@@ -107,10 +149,7 @@ We applied published estimates of costs associated with each health state in the
 All cost estimates were in 2022 Euros [maybe discuss how you converted to this?
 HIQA has something on this I think].
 To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE].
-The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020].
-The Markov model simulated the health state transitions following a diagnosis of metastatic cancer.
-A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses.
-A 5-year time horizon was also chosen [CITE].
+The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020]. The Markov model simulated the health state transitions following a diagnosis of metastatic cancer. A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses. A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE].
 For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
 For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI).
 In both instances we made use of treatment-specific utility values.
@@ -136,8 +175,7 @@ The primary outcome of the model was the total direct costs, LYs, QALYS, and the
 #### Patients and Treatment Regimens
 
 In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE].
-We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014].
-The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
+We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014]. The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
 The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
 
 > The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
@@ -153,7 +191,9 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > This, however, was not considered appropriate for the baseline treatment because the survival curves reported by the CONCUR trial were distorted in the paper and were not suitable for recreating individual patient data.
 > However, the hazard ratios (HRs) calculated by original data would not be affected by the distorted figures.
 > The implicit assumption underlying the indirect comparison was that the baseline patient characteristics in the two studies were reasonably similar, which was shown to be true (Appendix Table 1).
->
+
+[I THINK WE CAN TAKE THEIR APPROACH IN OUR MODEL, DO DIGITISING AND PARAMETRIC SURVIVAL ANALYSIS FOR STANDARD OF CARE, THEN TAKE A HAZARD RATIO FROM ANNETTE AND THE COLOSSUS STUDY FOR THE NEW INTERVENTION, THERE'S A LITTLE MORE ON HR'S BELOW and the following R code applies hazard ratios after doing parametric survival analysis, similar to what I plan to do: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R\\ISPOR_webinar_R-master\\ISPOR_webinar_R-master\\oncologySemiMarkov_illustration.R].
+
 > The FRESCO trial was used to model the probabilities of remaining in the PFS state or experiencing disease progression in the fruquintinib arm.
 > This research recreating individual patients data (IPD) from Kaplan--Meier (KM) survival curves in FRESCO by the method published by Guyot et al.12.
 > To predict the events of death and progression beyond the observation period, several parametric models were fit in different distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
@@ -191,6 +231,11 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > <https://sci-hub.se/10.1007/s40261-017-0514-3>
 >
 > I'm not even sure if I would classify what we are doing as an indirect comparison, as we don't have data for the novel therapy at all (that I know of), but I'll read the above articles and then make a call on that.
+> Likely I'll make the call to follow the approach of: Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
+> (2021).
+> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
+> *Journal of Medical Economics*, *24*(1), 339-344.
+> and use a HR, but I'll see.
 >
 > The following also shows how to do the above: Purmonen, T., Martikainen, J. A., Soini, E. J., Kataja, V., Vuorinen, R. L., & Kellokumpu-Lehtinen, P. L.
 > (2008).
@@ -213,9 +258,54 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 > (2021).
 > A simulation study of the economic and health impact of a diabetes prevention programme in Ireland.
 > *Diabetic Medicine*, *38*(6), e14540.
->
-> #### Transition Probabilities
 
+#### Transition Probabilities
+
+> ##### Life Tables:
+>
+> Following significant review of the literature on CEA of mCRC it's pretty clear that it's extremely uncommon for published studies to make use of life tables, most likely because of the short life-span of mCRC patients.
+> However, if I did need to make use of Life Tables for this model, I would utilise the following:
+>
+> WRITING:
+>
+> Non mCRC death was captured as a competing risk in the model.
+> We use life tables in each country studied to estimate the background mortality, these data were derived from [CITE WHERE YOU GOT THE LIFE TABLES] for GIVE THE YEAR. The starting age of the cohort was X years, which is the median age of incident mCRC diagnosis, as reported by [SOME TRUST WORTHY CANCER REGISTRATION BODY].
+>
+> CODE:
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.3 Practical exercise R
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\\August_24\\4_cSTM - time-dependent models_material
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\\August_25\\3_cSTM - history dependence_material
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.3 Practical exercise R
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A3_Presenting Simulation Results\\A3.3 Practical exercise R
+
+# Parametric Survival Analysis:
+
+Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this.
+Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
+
+> Read the below in tangent with:
+>
+> Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
+>
+> and also this article: Peng, Z., Hou, X., Huang, Y., Xie, T., & Hua, X.
+> (2020).
+> Cost-effectiveness analysis of fruquintinib for metastatic colorectal cancer third-line treatment in China.
+> BMC cancer, 20(1), 1-8.
+> <https://link.springer.com/article/10.1186/s12885-020-07486-w>
+>
+> and:
+>
+> Ewara, E. M., Zaric, G. S., Welch, S., & Sarma, S.
+> (2014).
+> Cost-effectiveness of first-line treatments for patients with KRAS wild-type metastatic colorectal cancer.
+> Current Oncology, 21(4), 541-550.
+> <https://sci-hub.st/10.3747/co.21.1837>
+>
 > Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
 > Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models.
 > Statistical analyses demonstrated that Weibull and log-logistic models provided a good fit for all curves according to the Akaike information criterion, Schwarz Bayesian criterion,17 and visual inspection (Supplemental Table 1 in the online version).
@@ -241,27 +331,18 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 **[So, I think my takeway is that I need to do digitising and maybe parametric survival analysis on some existing published data - per C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Parametric Survival Analysis and the rest of my York training material THEN I'll need to include Age specific all cause mortality per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH because I don't have my own clinical data, these are both good sources to consider seeing as they also didnt have their own data, I'll also have to think about the age of the cohort if I include competing mortality, as below:].**
 
-> "Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L.
-> (2015).
-> Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective.
-> Journal of comparative effectiveness research, 4(5), 433-445.
-> C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf
+> **All done below:**
 >
-> "Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)
+> [*"Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445. C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf*]{.ul}
 >
-> Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
-> (2021).
-> Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China.
-> *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
+> [*"Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)*]{.ul}
+>
+> [*Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.*]{.ul}
 
 #### Utility Estimates
 
 To present health outcomes in terms of QALYS, we adjusted survival time by quality of life using a Health Related Quality of Life (HR-QOL) score on a 0-1 utility scale.
-The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N.
-(2009).
-Are adverse effects incorporated in economic models?
-An initial review of current practice.
-*Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
+The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N. (2009). Are adverse effects incorporated in economic models? An initial review of current practice. *Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
 We assumed in the model that utility was only related to health state, and not to therapy.
 
 > We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
@@ -329,48 +410,10 @@ Vaccines 2021, 9, 111.
 
 <https://sci-hub.se/10.3390/vaccines9020111>
 
-###### Range around things:
-
-> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers.
-> 2014.
-> "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25.
-> <https://doi.org/10.1016/j.clcc.2014.09.007.>
->
-> seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
-> Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
->
-> "All model inputs were varied 20% below and above the base case for costs, and confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, and utilities (Table 1)."
->
-> The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
->
-> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
->
-> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
-> For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
->
-> ***I like that Goldstein et al., report the actual distribution they derived from their Value, Minimum and Maximum, I think I'll review the other papers by Goldstein and co-authors to see if they repeat that elsewhere, as it supports checking your methods against their own.***
->
-> Transition probabilities used in the analysis
->
-> The transition probabilities, had a min 20% below the base case value and a max 20% above this.
->
-> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q.
-> (2020).
-> Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
-> Oncology Research and Treatment, 43(4), 153-159.
-> <https://www.karger.com/Article/Pdf/505932>
-
 ###### Adverse Events Occurring:
 
+> Have a look at my emails to Kathleen and Daniel re: Adverse events, utilities during adverse events, etc.,
+>
 > "The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."
 >
 > \- Per:
@@ -404,11 +447,64 @@ Vaccines 2021, 9, 111.
 
 These guys add adverse events as a State in the Markov model, so I could probably just do that:
 
+Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M.
+(2013).
+Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis.
+Molecular and Clinical Oncology, 1(1), 175-179.
+<https://sci-hub.st/10.3892/mco.2012.12>
+
 Goulart, B., & Ramsey, S.
 (2011).
 A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
 Value in Health, 14(6), 836-845.
 [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+
+> The duration-adjusted disutility was subtracted
+> from the baseline utility to calculate the overall utility of each health state.
+>
+> Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
+>
+> Progression Risk and Mortality Progression risks and cause-specific mortalitie
+
+###### Range around things:
+
+> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers.
+> 2014.
+> "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25.
+> [<https://doi.org/10.1016/j.clcc.2014.09.007.>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
+>
+> seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
+> Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
+>
+> "All model inputs were varied 20% below and above the base case for costs, and confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, and utilities (Table 1)."
+>
+> The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
+>
+> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
+> (2019).
+> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
+> Journal of Medical Economics, 22(2), 163-168.
+> [<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
+>
+> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
+> For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
+>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+> (2014).
+> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+> *Clinical colorectal cancer*, *13*(4), 219-225.
+>
+> ***I like that Goldstein et al., report the actual distribution they derived from their Value, Minimum and Maximum, I think I'll review the other papers by Goldstein and co-authors to see if they repeat that elsewhere, as it supports checking your methods against their own.***
+>
+> Transition probabilities used in the analysis
+>
+> The transition probabilities, had a min 20% below the base case value and a max 20% above this.
+>
+> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q.
+> (2020).
+> Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
+> Oncology Research and Treatment, 43(4), 153-159.
+> [<https://www.karger.com/Article/Pdf/505932>](https://www.karger.com/Article/Pdf/505932){.uri}
 
 **Costing Data in Spain:**
 
@@ -1055,6 +1151,16 @@ df_cea
 
 ```
 
+## Results Table
+
+> A good way to report your results can be seen in Table 4 of the following:
+>
+> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
+> (2017).
+> Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
+> Journal of Medical Economics, 20(6), 574-584.
+> <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
+
 ## 07.4 Plot frontier of the Markov model
 
 ```{r}
@@ -1084,7 +1190,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
@@ -1389,7 +1495,27 @@ evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
 plot(evpi, effect_units = "QALY")
 ```
 
+## 09.4.5 Scenario Analysis
+
+> The below study includes scenario analysis at the end:
+>
+> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
+> (2017).
+> Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
+> Journal of Medical Economics, 20(6), 574-584.
+> <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
+
+## 09.4.6 Calibration
+
+> The following has a calibration section: Lawrence, D., Maschio, M., Leahy, K. J., Yunger, S., Easaw, J. C., & Weinstein, M. C.
+> (2013).
+> Economic analysis of bevacizumab, cetuximab, and panitumumab with fluoropyrimidine-based chemotherapy in the first-line treatment of KRAS wild-type metastatic colorectal cancer (mCRC).
+> Journal of medical economics, 16(12), 1387-1398.
+> <https://www.tandfonline.com/doi/pdf/10.3111/13696998.2013.852097?needAccess=true>
+
 ## References:
+
+Generated automatically when the document is knitted.
 
 Useful Darth publications to cite when using this code:
 
