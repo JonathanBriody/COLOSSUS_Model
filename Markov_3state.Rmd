@@ -1,6 +1,7 @@
 ---
+life---
 title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
-author: "Jonathan Briody (1) | Kathleen Bennett (1)"
+author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
 output:
   html_document: default
   pdf_document: default
@@ -11,73 +12,51 @@ bibliography: references.bib
 ---
 
 (1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
+(2) National Centre for Pharmacoeconomics, St James Hospital, Dublin 8, Ireland
 
-# **Abstract:** 
+# **Abstract:**
 
 > I'll initially draft this as informed by:
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> Clinical colorectal cancer, 13(4), 219-225.
-> <https://www.sciencedirect.com/science/article/abs/pii/S1533002814000978>
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. Clinical colorectal cancer, 13(4), 219-225. <https://www.sciencedirect.com/science/article/abs/pii/S1533002814000978>
 >
 > **[TICK HERE:]**
 >
 > and:
 >
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> Journal of Medical Economics, 24(1), 339-344.
-> <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. Journal of Medical Economics, 24(1), 339-344. <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
 >
 > **[TICK HERE:]**
 >
 > and:
 >
-> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
+> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019). Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt. Journal of Medical Economics, 22(2), 163-168. <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
 >
 > **[TICK HERE:]**
 >
 > and here:
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
-> (2015).
-> Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
-> JAMA oncology, 1(9), 1293-1300.
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R. (2015). Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost. JAMA oncology, 1(9), 1293-1300.
 >
 > Paper saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/13%20Goldstein.pdf> and supplementary material saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/Neci%20supplemental%20material%20071815.pdf>
 >
 > **[TICK HERE:]**
 >
-> and not forgetting I have some relevant stuff in Grammarly **[TICK HERE:]**
+> and not forgetting I have some relevant stuff in Grammarly
 >
-> Then I'll have a look at the other open journal articles in my browser windows **[TICK HERE:]**
+> **[TICK HERE:]**
+>
+> Then I'll have a look at the other open journal articles in my browser windows
+>
+> **[TICK HERE:]**
 
-**Background:** Colorectal cancer is the third most common cancer in Europe.
-Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC) [some details about this specific cancer]....
-**Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
+**Background:** Colorectal cancer is the third most common cancer in Europe. Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC) [some details about this specific cancer].... **Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
 
-**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with MSS RAS mt mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
-Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature.
-Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries.
-Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
-To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
+**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with MSS RAS mt mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain). Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature. Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries. Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made]. To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
 
-**Results:** Predictive biomarkers with targeted therapy provided X QALYS at a cost of €X,000 compared with standard of care (FOLFOX without testing).
-Compared to standard of care, the ICER of predictive biomarkers with targeted therapy provided was EUR X,000/QALY from a European health care perspective, which was above the threshold used to define cost-effectiveness in the countries studied, which provided X QALYS at a cost of €X,000.
-The incremental cost-effectiveness ratio (ICER) was €X,000 per QALY.
-The ICER was below the cost-effectiveness threshold (\<€X,000 per QALY) in all univariate and multivariate sensitivity analyses.
-One-way sensitivity analysis demonstrated that the initial results were generally robust.
-Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis show that the probability that predictive biomarkers with targeted therapy was cost-effective was 100% when the threshold was \<€X,000 per QALY.
+**Results:** Predictive biomarkers with targeted therapy provided X QALYS at a cost of €X,000 compared with standard of care (FOLFOX without testing). Compared to standard of care, the ICER of predictive biomarkers with targeted therapy provided was EUR X,000/QALY from a European health care perspective, which was above the threshold used to define cost-effectiveness in the countries studied, which provided X QALYS at a cost of €X,000. The incremental cost-effectiveness ratio (ICER) was €X,000 per QALY. The ICER was below the cost-effectiveness threshold (\<€X,000 per QALY) in all univariate and multivariate sensitivity analyses. One-way sensitivity analysis demonstrated that the initial results were generally robust. Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis show that the probability that predictive biomarkers with targeted therapy was cost-effective was 100% when the threshold was \<€X,000 per QALY.
 
-**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold.
-However, because of the exploratory nature of this analysis, the cost effectiveness profile of these biomarkers should be evaluated in further comparative studies.
+**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold. However, because of the exploratory nature of this analysis, the cost effectiveness profile of these biomarkers should be evaluated in further comparative studies.
 
 **Keywords:** Colorectal neoplasms, cost effectiveness analysis, Quality-adjusted life years, Markov model, mCRC, precision medicine, biomarkers, assays,
 
@@ -101,14 +80,11 @@ We can increase our publication numbers by publishing a short summary of our stu
 
 **Correspondence:**
 
-Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
-Email: [jonathanbriody\@rcsi.ie](mailto:jonathanbriody@rcsi.ie){.email}
+Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland. Email: [jonathanbriody\@rcsi.ie](mailto:jonathanbriody@rcsi.ie){.email}
 
 **Funding Information:**
 
-This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 754923.
-The material presented and views expressed here are the responsibility of the author(s) only.
-The EU Commission takes no responsibility for any use made of the information set out.
+This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 754923. The material presented and views expressed here are the responsibility of the author(s) only. The EU Commission takes no responsibility for any use made of the information set out.
 
 \newpage
 
@@ -118,158 +94,77 @@ With almost 2 million new cases diagnosed annually, colorectal cancer is the thi
 
 As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021]. Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab. However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
 
-Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
-Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018]. Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,). The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration. Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018]. Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,). The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
 
-*DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
-This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
-The results of X demonstrate a median overall survival (OS) benefit of X months (Y months vs. Z months) and a median progression-free survival (PFS) benefit of X months for DRUG X when compared with placebo (X months vs. X months).
+*DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this]. This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this]. The results of X demonstrate a median overall survival (OS) benefit of X months (Y months vs. Z months) and a median progression-free survival (PFS) benefit of X months for DRUG X when compared with placebo (X months vs. X months).
 
-> Fruquintinib is a VEGFR inhibitor that blocks new blood vessel growth associated with tumor proliferation5 .
-> In 2018, it was approved to treat Chinese patients with mCRC who had experienced failure of second-line treatment.
-> The results of the FRESCO trial demonstrated a median overall survival (OS) benefit of 2.7 months (9.3 months vs. 6.6 months) and a median progression-free survival (PFS) benefit of 1.9 months for fruquintinib when compared with placebo (3.7 months vs. 1.8 months)6.
+> Fruquintinib is a VEGFR inhibitor that blocks new blood vessel growth associated with tumor proliferation5 . In 2018, it was approved to treat Chinese patients with mCRC who had experienced failure of second-line treatment. The results of the FRESCO trial demonstrated a median overall survival (OS) benefit of 2.7 months (9.3 months vs. 6.6 months) and a median progression-free survival (PFS) benefit of 1.9 months for fruquintinib when compared with placebo (3.7 months vs. 1.8 months)6.
 >
-> \- Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
+> \- Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. *Journal of Medical Economics*, *24*(1), 339-344.
 
 Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
 
-Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
-We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
+Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC. We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
 
 # Materials and Methods
 
 #### Model Structure
 
-We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy.
-As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death.
-We applied published estimates of costs associated with each health state in the countries studied [CITE].
-All cost estimates were in 2022 Euros [maybe discuss how you converted to this?
-HIQA has something on this I think].
-To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE].
-The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020]. The Markov model simulated the health state transitions following a diagnosis of metastatic cancer. A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses. A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE].
-For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
-For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI).
-In both instances we made use of treatment-specific utility values.
-At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state.
-To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
+We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy. As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death. We applied published estimates of costs associated with each health state in the countries studied [CITE]. All cost estimates were in 2022 Euros [maybe discuss how you converted to this? HIQA has something on this I think]. To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE]. The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020]. The Markov model simulated the health state transitions following a diagnosis of metastatic cancer. A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses. A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE]. For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI). For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI). In both instances we made use of treatment-specific utility values. At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state. To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
 
-> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
-> All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
-> After treatment discontinuation due to progession, best supportive care (BSC) was modeled.
-> \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
+> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death. All patients entered the model either receiving FOLFOX therapy or NOVEL therapy. After treatment discontinuation due to progession, best supportive care (BSC) was modeled. \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
 >
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. *Journal of Medical Economics*, *24*(1), 339-344.
 
-The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Germany, Ireland and Spain, from a healthcare payer perspective in these countries.
-Subsequently the analysis only included direct medical costs.
-Effectiveness is reflected in life-years (LYs) and quality adjusted life years (QALYS).
-Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [citation here].
-The primary outcome of the model was the total direct costs, LYs, QALYS, and the incremental cost-effectiveness ratio (ICER).
+The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Germany, Ireland and Spain, from a healthcare payer perspective in these countries. Subsequently the analysis only included direct medical costs. Effectiveness is reflected in life-years (LYs) and quality adjusted life years (QALYS). Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [citation here]. The primary outcome of the model was the total direct costs, LYs, QALYS, and the incremental cost-effectiveness ratio (ICER).
 
 #### Patients and Treatment Regimens
 
-In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE].
-We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014]. The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
-The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
+In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE]. We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014]. The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite]. The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
 
 > The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. *Clinical colorectal cancer*, *13*(4), 219-225.
 >
-> Given that there was no single RCT with all treatment arms, it was necessary to perform an indirect comparison using the data from the FRESCO trial and the CONCUR trial6, 11.
-> The baseline treatment for the indirect comparison was BSC taken from the FRESCO trial.
-> The clinical effectiveness in patients in the BSC arm was also available from the CONCUR trial.
-> This, however, was not considered appropriate for the baseline treatment because the survival curves reported by the CONCUR trial were distorted in the paper and were not suitable for recreating individual patient data.
-> However, the hazard ratios (HRs) calculated by original data would not be affected by the distorted figures.
-> The implicit assumption underlying the indirect comparison was that the baseline patient characteristics in the two studies were reasonably similar, which was shown to be true (Appendix Table 1).
+> Given that there was no single RCT with all treatment arms, it was necessary to perform an indirect comparison using the data from the FRESCO trial and the CONCUR trial6, 11. The baseline treatment for the indirect comparison was BSC taken from the FRESCO trial. The clinical effectiveness in patients in the BSC arm was also available from the CONCUR trial. This, however, was not considered appropriate for the baseline treatment because the survival curves reported by the CONCUR trial were distorted in the paper and were not suitable for recreating individual patient data. However, the hazard ratios (HRs) calculated by original data would not be affected by the distorted figures. The implicit assumption underlying the indirect comparison was that the baseline patient characteristics in the two studies were reasonably similar, which was shown to be true (Appendix Table 1).
 
 [I THINK WE CAN TAKE THEIR APPROACH IN OUR MODEL, DO DIGITISING AND PARAMETRIC SURVIVAL ANALYSIS FOR STANDARD OF CARE, THEN TAKE A HAZARD RATIO FROM ANNETTE AND THE COLOSSUS STUDY FOR THE NEW INTERVENTION, THERE'S A LITTLE MORE ON HR'S BELOW and the following R code applies hazard ratios after doing parametric survival analysis, similar to what I plan to do: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R\\ISPOR_webinar_R-master\\ISPOR_webinar_R-master\\oncologySemiMarkov_illustration.R].
 
-> The FRESCO trial was used to model the probabilities of remaining in the PFS state or experiencing disease progression in the fruquintinib arm.
-> This research recreating individual patients data (IPD) from Kaplan--Meier (KM) survival curves in FRESCO by the method published by Guyot et al.12.
-> To predict the events of death and progression beyond the observation period, several parametric models were fit in different distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
-> After comparing the goodness-of-fit of different parametric models by the Akaike information criterion (AIC) and the Bayesian information criterion (BIC) (Appendix Table 2), assessing the conformities of parametric models to the original KM survival curves in the FRESCO trial and considering about proportional hazard model used for the indirect comparison, the Weibull distribution model was chosen for the base case analysis (Appendix Figure 1 and Appendix Figure 2).
+> The FRESCO trial was used to model the probabilities of remaining in the PFS state or experiencing disease progression in the fruquintinib arm. This research recreating individual patients data (IPD) from Kaplan--Meier (KM) survival curves in FRESCO by the method published by Guyot et al.12. To predict the events of death and progression beyond the observation period, several parametric models were fit in different distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic. After comparing the goodness-of-fit of different parametric models by the Akaike information criterion (AIC) and the Bayesian information criterion (BIC) (Appendix Table 2), assessing the conformities of parametric models to the original KM survival curves in the FRESCO trial and considering about proportional hazard model used for the indirect comparison, the Weibull distribution model was chosen for the base case analysis (Appendix Figure 1 and Appendix Figure 2).
 >
-> We used the PFS curves to estimate the transition probability from PFS state to PFS state and the transition probability from PFS state to another states (PD and death) and used the OS curve to estimate the overall mortality.
-> The model assumed the transition probability from PFS state to death was estimated by the background mortality obtained from Chinese government data, which based on actuarial estimates of mortality among the general population in China.
-> According to the background mortality and the transition probability from PFS state to another states (PD and death), we calculated the transition probability from PFS state and PD.
-> Moreover, the transition probability from PD state to PD state could calculated by overall mortality and background mortality.
+> We used the PFS curves to estimate the transition probability from PFS state to PFS state and the transition probability from PFS state to another states (PD and death) and used the OS curve to estimate the overall mortality. The model assumed the transition probability from PFS state to death was estimated by the background mortality obtained from Chinese government data, which based on actuarial estimates of mortality among the general population in China. According to the background mortality and the transition probability from PFS state to another states (PD and death), we calculated the transition probability from PFS state and PD. Moreover, the transition probability from PD state to PD state could calculated by overall mortality and background mortality.
 >
-> We also calculated the transition probabilities in the BSC arm by a Weibull-distribution hazard function using the survival data from the FRESCO trial.
-> The model assumed that the survival curves of BSC both in FRESCO and CONCUR would be identical if the patients in BSC arm was identical, and the HR of regorafenib versus BSC would not change even if the patients receiving BSC in CONCUR became exactly same as the patients receiving BSC in FRESCO.
-> Hence,we adjusted the transition probabilities of the regorafenib arm using the transition probabilities of the BSC arm modeled from the FRESCO trial and the HR of regorafenib versus BSC taken from the CONCUR trial.
+> We also calculated the transition probabilities in the BSC arm by a Weibull-distribution hazard function using the survival data from the FRESCO trial. The model assumed that the survival curves of BSC both in FRESCO and CONCUR would be identical if the patients in BSC arm was identical, and the HR of regorafenib versus BSC would not change even if the patients receiving BSC in CONCUR became exactly same as the patients receiving BSC in FRESCO. Hence,we adjusted the transition probabilities of the regorafenib arm using the transition probabilities of the BSC arm modeled from the FRESCO trial and the HR of regorafenib versus BSC taken from the CONCUR trial.
 >
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
+> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. *Journal of Medical Economics*, *24*(1), 339-344.
 
-> There is a discussion on indirect comparisons and how best to do these in this short piece: Martin-Broto, J.
-> (2015).
-> Indirect comparisons in cost-effectiveness analysis: are we being naïve?.
-> Clinical and Translational Oncology, 17(1), 85-86.
-> <https://sci-hub.se/10.1007/s12094-014-1256-9>
+> There is a discussion on indirect comparisons and how best to do these in this short piece: Martin-Broto, J. (2015). Indirect comparisons in cost-effectiveness analysis: are we being naïve?. Clinical and Translational Oncology, 17(1), 85-86. <https://sci-hub.se/10.1007/s12094-014-1256-9>
 >
-> This also talks about indirect comparisons Hollmann, S., Alloul, K., Attard, C., & Kavan, P. (2014).
-> An Indirect Treatment Comparison and Cost-Effectiveness Analysis Comparing Folfirinox with Nab-Paclitaxel Plus Gemcitabine for First-Line Treatment for Patients with Metastatic Pancreatic Cancer.
-> Annals of Oncology, 25, ii11.
-> <https://sci-hub.se/10.1093/annonc/mdu164.18>
+> This also talks about indirect comparisons Hollmann, S., Alloul, K., Attard, C., & Kavan, P. (2014). An Indirect Treatment Comparison and Cost-Effectiveness Analysis Comparing Folfirinox with Nab-Paclitaxel Plus Gemcitabine for First-Line Treatment for Patients with Metastatic Pancreatic Cancer. Annals of Oncology, 25, ii11. <https://sci-hub.se/10.1093/annonc/mdu164.18>
 >
-> This applies an indirect comparison in more detail: Tamoschus, D., Draexler, K., Chang, J., Ngai, C., Madin-Warburton, M., & Pitcher, A.
-> (2017).
-> Cost-effectiveness analysis of regorafenib for gastrointestinal stromal tumour (GIST) in Germany.
-> Clinical Drug Investigation, 37(6), 525-533.
-> <https://sci-hub.se/10.1007/s40261-017-0514-3>
+> This applies an indirect comparison in more detail: Tamoschus, D., Draexler, K., Chang, J., Ngai, C., Madin-Warburton, M., & Pitcher, A. (2017). Cost-effectiveness analysis of regorafenib for gastrointestinal stromal tumour (GIST) in Germany. Clinical Drug Investigation, 37(6), 525-533. <https://sci-hub.se/10.1007/s40261-017-0514-3>
 >
-> I'm not even sure if I would classify what we are doing as an indirect comparison, as we don't have data for the novel therapy at all (that I know of), but I'll read the above articles and then make a call on that.
-> Likely I'll make the call to follow the approach of: Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
-> and use a HR, but I'll see.
+> I'm not even sure if I would classify what we are doing as an indirect comparison, as we don't have data for the novel therapy at all (that I know of), but I'll read the above articles and then make a call on that. Likely I'll make the call to follow the approach of: Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. *Journal of Medical Economics*, *24*(1), 339-344. and use a HR, but I'll see.
 >
-> The following also shows how to do the above: Purmonen, T., Martikainen, J. A., Soini, E. J., Kataja, V., Vuorinen, R. L., & Kellokumpu-Lehtinen, P. L.
-> (2008).
-> Economic evaluation of sunitinib malate in second-line treatment of metastatic renal cell carcinoma in Finland.
-> Clinical therapeutics, 30(2), 382-392.
-> - <https://sci-hub.se/10.1016/j.clinthera.2008.02.013>
+> The following also shows how to do the above: Purmonen, T., Martikainen, J. A., Soini, E. J., Kataja, V., Vuorinen, R. L., & Kellokumpu-Lehtinen, P. L. (2008). Economic evaluation of sunitinib malate in second-line treatment of metastatic renal cell carcinoma in Finland. Clinical therapeutics, 30(2), 382-392. - <https://sci-hub.se/10.1016/j.clinthera.2008.02.013>
 >
 > ***Or we could try:***
 >
-> The transition probabilities were derived from the median time to radiologic progression and median OS obtained from previously published studies18,20 following recommended methods21.
-> - Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
+> The transition probabilities were derived from the median time to radiologic progression and median OS obtained from previously published studies18,20 following recommended methods21. - Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019). Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt. Journal of Medical Economics, 22(2), 163-168. <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
 >
 > I think the below also takes transition probabilities just from the literature, although I'd have to read it and see:
 >
-> Pierse, T., O'Neill, S., Dinneen, S. F., & O'Neill, C.
-> (2021).
-> A simulation study of the economic and health impact of a diabetes prevention programme in Ireland.
-> *Diabetic Medicine*, *38*(6), e14540.
+> Pierse, T., O'Neill, S., Dinneen, S. F., & O'Neill, C. (2021). A simulation study of the economic and health impact of a diabetes prevention programme in Ireland. *Diabetic Medicine*, *38*(6), e14540.
 
 #### Transition Probabilities
 
 > ##### Life Tables:
 >
-> Following significant review of the literature on CEA of mCRC it's pretty clear that it's extremely uncommon for published studies to make use of life tables, most likely because of the short life-span of mCRC patients.
-> However, if I did need to make use of Life Tables for this model, I would utilise the following:
+> Following significant review of the literature on CEA of mCRC it's pretty clear that it's extremely uncommon for published studies to make use of life tables, most likely because of the short life-span of mCRC patients. However, if I did need to make use of Life Tables for this model, I would utilise the following:
 >
 > WRITING:
 >
-> Non mCRC death was captured as a competing risk in the model.
-> We use life tables in each country studied to estimate the background mortality, these data were derived from [CITE WHERE YOU GOT THE LIFE TABLES] for GIVE THE YEAR. The starting age of the cohort was X years, which is the median age of incident mCRC diagnosis, as reported by [SOME TRUST WORTHY CANCER REGISTRATION BODY].
+> Non mCRC death was captured as a competing risk in the model. We use life tables in each country studied to estimate the background mortality, these data were derived from [CITE WHERE YOU GOT THE LIFE TABLES] for GIVE THE YEAR. The starting age of the cohort was X years, which is the median age of incident mCRC diagnosis, as reported by [SOME TRUST WORTHY CANCER REGISTRATION BODY].
 >
 > CODE:
 >
@@ -285,47 +180,298 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 # Parametric Survival Analysis:
 
-Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this.
-Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
+Progression and mortality probabilities were derived from the PFS and OS curves of the X study [CITE]. Data points were extracted from survival plots using Engauge Digitizer software, version 12.2, and these data points were used to fit parametric survival models [@mitchell2022].
+
+To produce estimates of progression and mortality outside of the follow-up time in X study several parametric models were fit to a number of distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic. Statistical analyses demonstrated a good fit was provided for both curves by Weibull models, according to the Akaike information criterion (AIC), the Bayesian information criterion (BIC), Schwarz Bayesian criterion and visual inspection of the relative conformity of parametric models to the original Kaplan-Meier survival curves (Table A1 in the appendix, Figure A1 in the appendix). Weibull models have been demonstrated to be more suitable for modeling events occurring in mCRC [@goldstein2014a], and support the application of proportional hazard models [@guan2021] such that the Weibull distribution model was chosen for the base case analysis. Therefore, we estimated the transition probabilities for each cycle based on the fitted Weibull survival models.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+# To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
+```
+
+```{r}
+rm(list = ls())  
+# clear memory (removes all the variables from the work space)
+```
+
+# 01 Load parametric packages
+
+```{r}
+
+# Check whether the required packages are installed and, if not, install the missing packages
+# - the 'pacman' package is used to conveniently install other packages
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load("flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram")   
+p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
+```
+
+# 02 Individual Data for Parametric Code
+
+```{r}
+# Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves
+load(file = "df_TTP.RData")
+# Load the individual patient data for the time-to-death (TTD) that you recovered by digitising published survival curves
+load(file = "df_TTD.RData")
+# At the moment I don't have time-to-death (TTD) data, and creating a fake dataset by duplicating time-to-progression (TTP) won't work as R will recognise the duplication and refuse to load the data, but when I DO have time-to-death (TTD) data I'll load it in here.
+
+# At the moment this is just nonsense data and needs to be replaced when I have figured out the issues described at the end of this section.
+
+# When I do have data, the data needs to be set up to include a column for the time (in the example this is time in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0),
+
+# "What is Censoring? Censoring in a study is when there is incomplete information about a study participant, observation or value of a measurement. In clinical trials, it's when the event doesn't happen while the subject is being monitored or because they drop out of the trial." - https://www.statisticshowto.com/censoring/#:~:text=What%20is%20Censoring%3F,drop%20out%20of%20the%20trial.
+
+# https://en.wikipedia.org/wiki/Survival_analysis#:~:text=or%20q%20%3D%200.99.-,Censoring,is%20common%20in%20survival%20analysis.
+
+# At the bottom of the parametric survival code I think about how time from individual patient data may be changed to match the time of our cycles.
+
+# I think the digitiser will give me the time in the context of the survival curves I am digitising, i.e., time in weeks, or time in months or time in years.
+
+# Then I will have to set-up my time accordingly in the R code so that my cycle length is at the same level as the individual patient data.
+
+# That is, in Koen's example:
+
+# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R\ISPOR_webinar_R-master
+
+# the data includes a column for the time (in years)
+# t_cycle <- 1/4      # cycle length of 3 months (in years)                                # n_cycle <- 60       # number of cycles (total runtime 15 years)
+  
+
+# So I would have my colum for time, in the [TIME] the graph I was digitising used.
+# Then I would create my cycle length of X weeks (in [TIME] the graph I was digitising used)
+# Then I would have my number of cycles that would add up to give me a total runtime of how long I want to run the model for.
+# So, above Koen wanted to run the model for 15 years, but his cycles were in 3 months, or each cycle was a quarter of a year, so 60 quarters, or 60 3 month cycles, is 15 years.
+```
+
+# 03 Parametric Survival Analysis Model Plan
+
+```{r}
+
+# We will implement a semi-Markov model with time-dependent transition probabilities, via a parametric survival model fitted to some individual patient data for the time-to-progression (TTP) and time-to-death (TTD) for standard of care.
+
+# A hazard ratio for the new intervention therapy vs. the standard of care will then be applied to obtain transition probabilities for the new experimental strategy.
+
+
+
+
+
+```
+
+# Time-to-Progression (TTP):
+
+# 04 Parametric Survival Analysis itself:
+
+```{r}
+
+# We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
+
+# The data needs to be set up to include a column for the time (in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
+
+
+# It looks like Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
+
+head(df_TTP)
+
+l_TTP_SoC_exp      <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "exp")
+l_TTP_SoC_gamma    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "gamma")
+l_TTP_SoC_gompertz <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "gompertz")
+l_TTP_SoC_llogis   <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "llogis")
+l_TTP_SoC_lnorm    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "lnorm")
+l_TTP_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "weibull")
+
+
+```
+
+# 05 Inspecting the fits:
+
+```{r}
+
+# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
+
+# Inspect fit based on visual fit
+colors <- rainbow(6)
+plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in years", las = 1)
+lines(l_TTP_SoC_gamma,    col = colors[2], ci = FALSE)
+lines(l_TTP_SoC_gompertz, col = colors[3], ci = FALSE)
+lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
+lines(l_TTP_SoC_lnorm,    col = colors[5], ci = FALSE)
+lines(l_TTP_SoC_weibull,  col = colors[6], ci = FALSE)
+legend("right",
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       col    = colors,
+       lty    = 1,
+       bty    = "n")
+
+
+# Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
+
+# The time is in years which makes sense, the data you are drawing from is in years so that's what you want to make comparisons to.
+
+
+```
+
+```{r}
+
+# Compare the fit numerically based on the AIC
+(v_AIC <- c(
+  exp      = l_TTP_SoC_exp$AIC,
+  gamma    = l_TTP_SoC_gamma$AIC,
+  gompertz = l_TTP_SoC_gompertz$AIC,
+  llogis   = l_TTP_SoC_llogis$AIC,
+  lnorm    = l_TTP_SoC_lnorm$AIC,
+  weibull  = l_TTP_SoC_weibull$AIC
+))
+
+# Weibull has the best visual and numerical fit
+
+# I will have to learn what a good value of AIC is, and, because flexsurvreg provides AIC I will have to see what other numerical measures, such as BIC, it provides.
+
+```
+
+# 06 Saving the survival parameters for use in the model:
+
+```{r}
+
+# Saving the survival parameters ----
+
+# The 'flexsurv' package return the coefficients, which need to be transformed for use in the base R functions, but that will be done when the coefficients actually are used, for the time being we will just save the survival parameters from the distribution we decide to use. 
+
+# NB, if we are not going with Weibull then we may have to save something specific to the distribution that is not shape or scale - we can look into this if we don't use Weibull.
+
+l_TTP_SoC_weibull
+# Calling a flexsurvreg parameter like this allows you to see here that Weibull is the shape and the scale, so if we do go with another distribution we can see what it's version of shape and scale are and use these instead.
+
+l_TTP_SoC_weibull$coefficients
+
+coef_weibull_shape_SoC <- l_TTP_SoC_weibull$coefficients["shape"]
+coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
+
+```
+
+# Time-to-Dead (TTD):
+
+# 07 Parametric Survival Analysis itself:
+
+```{r}
+
+# We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
+
+# The data needs to be set up to include a column for the time (in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
+
+
+# It looks like Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
+
+# I duplicate the time to progression data frame as time to dead here, I'll REALLY need to make sure to delete this line when I have actual time to dead data or else I'll be running my analysis on the time to progression data twice and thinking I'm running it on time to dead:
+
+df_TTD <- df_TTP
+
+head(df_TTD)
+
+l_TTD_SoC_exp      <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "exp")
+l_TTD_SoC_gamma    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "gamma")
+l_TTD_SoC_gompertz <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "gompertz")
+l_TTD_SoC_llogis   <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "llogis")
+l_TTD_SoC_lnorm    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "lnorm")
+l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "weibull")
+
+```
+
+# 08 Inspecting the fits:
+
+```{r}
+
+# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
+
+# Inspect fit based on visual fit
+colors <- rainbow(6)
+plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in years", las = 1)
+lines(l_TTD_SoC_gamma,    col = colors[2], ci = FALSE)
+lines(l_TTD_SoC_gompertz, col = colors[3], ci = FALSE)
+lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
+lines(l_TTD_SoC_lnorm,    col = colors[5], ci = FALSE)
+lines(l_TTD_SoC_weibull,  col = colors[6], ci = FALSE)
+legend("right",
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       col    = colors,
+       lty    = 1,
+       bty    = "n")
+
+
+# Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
+
+# The time is in years which makes sense, the data you are drawing from is in years so that's what you want to make comparisons to.
+
+```
+
+```{r}
+
+# Compare the fit numerically based on the AIC
+(v_AIC <- c(
+  exp      = l_TTD_SoC_exp$AIC,
+  gamma    = l_TTD_SoC_gamma$AIC,
+  gompertz = l_TTD_SoC_gompertz$AIC,
+  llogis   = l_TTD_SoC_llogis$AIC,
+  lnorm    = l_TTD_SoC_lnorm$AIC,
+  weibull  = l_TTD_SoC_weibull$AIC
+))
+
+# Weibull has the best visual and numerical fit
+
+# I will have to learn what a good value of AIC is, and, because flexsurvreg provides AIC I will have to see what other numerical measures, such as BIC, it provides.
+
+```
+
+# 09 Saving the survival parameters for use in the model:
+
+```{r}
+
+# Saving the survival parameters ----
+
+# The 'flexsurv' package return the coefficients, which need to be transformed for use in the base R functions, but that will be done when the coefficients actually are used, for the time being we will just save the survival parameters from the distribution we decide to use. 
+
+# NB, if we are not going with Weibull then we may have to save something specific to the distribution that is not shape or scale - we can look into this if we don't use Weibull.
+
+l_TTD_SoC_weibull
+# Calling a flexsurvreg parameter like this allows you to see here that Weibull is the shape and the scale, so if we do go with another distribution we can see what it's version of shape and scale are and use these instead.
+
+l_TTD_SoC_weibull$coefficients
+
+coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
+coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
+```
+
+[**I need to figure out:**]{.ul}
+
+If I'm building the R code to be just standard of care versus experimental care I need to get rid of the treatment A - Treatment B stuff.
+
+m_M\_Exp
+
+[**How to extrapolate the parametric models beyond the KM curve**]{.ul}
+
+1 How to deal with time in parametric survival analysis, that is, when I digitise for a certain period of time, how do I convert it to the time period I want to look at in my own analysis? [there may be a clue to this by how they handle time here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\Parametric Survival Analysis\\flexsurv\\THE FLEXSURV EXAMPLE CODE EXPLAINED.txt OS_TimeYears\<-AVAL\*(1/12) it looks like they wanted overal survival time in years, and so converted AVAL by 1/12]
+
+2 How to extrapolate the parameteric models beyond the KM curve they came from.
+
+3 What does the flexsurvreg code mean?
+
+Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this. Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
 
 > Read the below in tangent with:
 >
 > Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
 >
-> and also this article: Peng, Z., Hou, X., Huang, Y., Xie, T., & Hua, X.
-> (2020).
-> Cost-effectiveness analysis of fruquintinib for metastatic colorectal cancer third-line treatment in China.
-> BMC cancer, 20(1), 1-8.
-> <https://link.springer.com/article/10.1186/s12885-020-07486-w>
+> and also this article: Peng, Z., Hou, X., Huang, Y., Xie, T., & Hua, X. (2020). Cost-effectiveness analysis of fruquintinib for metastatic colorectal cancer third-line treatment in China. BMC cancer, 20(1), 1-8. <https://link.springer.com/article/10.1186/s12885-020-07486-w>
 >
 > and:
 >
-> Ewara, E. M., Zaric, G. S., Welch, S., & Sarma, S.
-> (2014).
-> Cost-effectiveness of first-line treatments for patients with KRAS wild-type metastatic colorectal cancer.
-> Current Oncology, 21(4), 541-550.
-> <https://sci-hub.st/10.3747/co.21.1837>
+> Ewara, E. M., Zaric, G. S., Welch, S., & Sarma, S. (2014). Cost-effectiveness of first-line treatments for patients with KRAS wild-type metastatic colorectal cancer. Current Oncology, 21(4), 541-550. <https://sci-hub.st/10.3747/co.21.1837>
 >
-> Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
-> Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models.
-> Statistical analyses demonstrated that Weibull and log-logistic models provided a good fit for all curves according to the Akaike information criterion, Schwarz Bayesian criterion,17 and visual inspection (Supplemental Table 1 in the online version).
-> Weibull models permit the hazard rate to increase over time and are thus more suitable for modeling events occurring early during follow-up periods.
-> We therefore selected the Weibull model for all survival curves in this analysis.
-> Next, we estimated the risk for each cycle based on the fitted survival models.
-> In particular, because OS is defined as the period between the start of treatment and death, we computed the cause-specific mortality rates, p1(t), at cycle t based on the fitted Weibull OS model, OS(t), using the formula:
+> Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study. Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models. Statistical analyses demonstrated that Weibull and log-logistic models provided a good fit for all curves according to the Akaike information criterion, Schwarz Bayesian criterion,17 and visual inspection (Supplemental Table 1 in the online version). Weibull models permit the hazard rate to increase over time and are thus more suitable for modeling events occurring early during follow-up periods. We therefore selected the Weibull model for all survival curves in this analysis. Next, we estimated the risk for each cycle based on the fitted survival models. In particular, because OS is defined as the period between the start of treatment and death, we computed the cause-specific mortality rates, p1(t), at cycle t based on the fitted Weibull OS model, OS(t), using the formula:
 >
 > p1ðtÞ ¼ Pðt T t þ 1Þ PðT tÞ ¼ ðOSðtÞ  OSðt  1ÞÞ OSðtÞ : (1)
 >
-> PFS is the period between the start and progression of disease or death.
-> We computed the combined risks p2(t) based on the Weibull PFS model using Formula 1 and computed p2(t)  p1(t) as the estimate of the progression risks.
-> Estimates of mortality and progression risk beyond the follow-up time in the clinical trials were extrapolated based on the fitted survival models.
-> The overall mortality was defined according to the maximum value of cause-specific mortality and the background mortality.
-> We use the US life tables to estimate the background mortality for each age group separately.18 **In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000. [So, rather than picking a starting age, it looks like they randomly sampled an age for competing background mortality].**
+> PFS is the period between the start and progression of disease or death. We computed the combined risks p2(t) based on the Weibull PFS model using Formula 1 and computed p2(t)  p1(t) as the estimate of the progression risks. Estimates of mortality and progression risk beyond the follow-up time in the clinical trials were extrapolated based on the fitted survival models. The overall mortality was defined according to the maximum value of cause-specific mortality and the background mortality. We use the US life tables to estimate the background mortality for each age group separately.18 **In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000. [So, rather than picking a starting age, it looks like they randomly sampled an age for competing background mortality].**
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. *Clinical colorectal cancer*, *13*(4), 219-225.
 >
 > I discussed parametric survival analysis with Andy here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.3 Practical exercise R
 
@@ -341,14 +487,9 @@ Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis 
 
 #### Utility Estimates
 
-To present health outcomes in terms of QALYS, we adjusted survival time by quality of life using a Health Related Quality of Life (HR-QOL) score on a 0-1 utility scale.
-The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N. (2009). Are adverse effects incorporated in economic models? An initial review of current practice. *Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
-We assumed in the model that utility was only related to health state, and not to therapy.
+To present health outcomes in terms of QALYS, we adjusted survival time by quality of life using a Health Related Quality of Life (HR-QOL) score on a 0-1 utility scale. The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N. (2009). Are adverse effects incorporated in economic models? An initial review of current practice. *Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES]. We assumed in the model that utility was only related to health state, and not to therapy.
 
-> We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
+> We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. *Clinical colorectal cancer*, *13*(4), 219-225.
 >
 > To do this, they basically went to the studies by:
 >
@@ -366,36 +507,19 @@ We assumed in the model that utility was only related to health state, and not t
 
 The probability of Grade 3/4 adverse events (AEs) was informed by the literature [CITE].
 
-AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea.
-We assumed the duration of each AE was 5 days.
-For each AE, the average disutility was weighted by the incidence reported in the clinical study.
+AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea. We assumed the duration of each AE was 5 days. For each AE, the average disutility was weighted by the incidence reported in the clinical study.
 
-Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13.
-The duration of AEs was estimated based on Expert Consultation.
-From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116.
-Hypertension would last for five days and the disutility was 0.
-Diarrhea would last for five days and the disutility was 0.1038 .
-The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
+Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13. The duration of AEs was estimated based on Expert Consultation. From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116. Hypertension would last for five days and the disutility was 0. Diarrhea would last for five days and the disutility was 0.1038 . The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
 
-> Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)].
-> For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event.
-> In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.ul} events.
-> The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).
+> Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)]. For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event. In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.ul} events. The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).
 >
-> Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
-> (2021).
-> Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China.
-> *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
+> Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
 >
 > If a patient suffered multiple adverse events, I think they just applied the disutility that was the worst to their baseline utility, rather than trying to combine disutilities - which would probably be messy.
 >
 > We assumed that treatment-induced complications---grade 3 or 4---are mutually exclusive---a patient can have only 1 complication at a time
 >
-> Refaat, T., Choi, M., Gaber, G., Kiel, K., Mehta, M., Gradishar, W., & Small Jr, W.
-> (2014).
-> Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer.
-> American journal of clinical oncology, 37(5), 480-485.
-> <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>
+> Refaat, T., Choi, M., Gaber, G., Kiel, K., Mehta, M., Gradishar, W., & Small Jr, W. (2014). Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer. American journal of clinical oncology, 37(5), 480-485. <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>
 >
 > This is an alternative approach that may be cleaner, assume patients can only have one adverse event per cycle, and that way you don't have to find out which is worse and apply that one.
 
@@ -403,10 +527,7 @@ Lots of adverse events in studies to consider here:
 
 "The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."
 
-\- Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J.
-(2021).
-Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review.
-Vaccines 2021, 9, 111.
+\- Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.
 
 <https://sci-hub.se/10.3390/vaccines9020111>
 
@@ -418,10 +539,7 @@ Vaccines 2021, 9, 111.
 >
 > \- Per:
 >
-> Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J.
-> (2021).
-> Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review.
-> Vaccines 2021, 9, 111.
+> Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.
 >
 > <https://sci-hub.se/10.3390/vaccines9020111>
 >
@@ -447,20 +565,11 @@ Vaccines 2021, 9, 111.
 
 These guys add adverse events as a State in the Markov model, so I could probably just do that:
 
-Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M.
-(2013).
-Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis.
-Molecular and Clinical Oncology, 1(1), 175-179.
-<https://sci-hub.st/10.3892/mco.2012.12>
+Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M. (2013). Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis. Molecular and Clinical Oncology, 1(1), 175-179. <https://sci-hub.st/10.3892/mco.2012.12>
 
-Goulart, B., & Ramsey, S.
-(2011).
-A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
-Value in Health, 14(6), 836-845.
-[\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer. Value in Health, 14(6), 836-845. [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
 
-> The duration-adjusted disutility was subtracted
-> from the baseline utility to calculate the overall utility of each health state.
+> The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
 >
 > Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
 >
@@ -468,31 +577,19 @@ Value in Health, 14(6), 836-845.
 
 ###### Range around things:
 
-> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers.
-> 2014.
-> "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25.
-> [<https://doi.org/10.1016/j.clcc.2014.09.007.>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
+> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers. 2014. "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25. [\<https://doi.org/10.1016/j.clcc.2014.09.007.\>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
 >
-> seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
-> Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
+> seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time. Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
 >
 > "All model inputs were varied 20% below and above the base case for costs, and confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, and utilities (Table 1)."
 >
 > The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
 >
-> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> [<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
+> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019). Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt. Journal of Medical Economics, 22(2), 163-168. [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432\>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
 >
-> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
-> For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
+> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages). For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
 >
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
+> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. *Clinical colorectal cancer*, *13*(4), 219-225.
 >
 > ***I like that Goldstein et al., report the actual distribution they derived from their Value, Minimum and Maximum, I think I'll review the other papers by Goldstein and co-authors to see if they repeat that elsewhere, as it supports checking your methods against their own.***
 >
@@ -500,45 +597,26 @@ Value in Health, 14(6), 836-845.
 >
 > The transition probabilities, had a min 20% below the base case value and a max 20% above this.
 >
-> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q.
-> (2020).
-> Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
-> Oncology Research and Treatment, 43(4), 153-159.
-> [<https://www.karger.com/Article/Pdf/505932>](https://www.karger.com/Article/Pdf/505932){.uri}
+> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q. (2020). Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer. Oncology Research and Treatment, 43(4), 153-159. [\<https://www.karger.com/Article/Pdf/505932\>](https://www.karger.com/Article/Pdf/505932){.uri}
 
 **Costing Data in Spain:**
 
-Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
-(2017).
-Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
-Journal of Medical Economics, 20(6), 574-584.
-<https://sci-hub.st/10.1080/13696998.2017.1285780>
+Rivera, F., Valladares, M., Gea, S., & López-Martínez, N. (2017). Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer. Journal of Medical Economics, 20(6), 574-584. <https://sci-hub.st/10.1080/13696998.2017.1285780>
 
 #### Sensitivity Analysis
 
 I should do this in tangent with the two papers using 20%.
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
-# To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
-```
+`` {# {r setup, include=FALSE} # knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T) # # To knit this document every time it is run, you can change `eval` to `TRUE` in the above. ``
 
 ```{r}
-rm(list = ls())  
+# rm(list = ls())  
 # clear memory (removes all the variables from the work space)
 ```
 
 # 01 Load packages
 
-```{r}
-if (!require('pacman')) install.packages('pacman'); library(pacman) 
-# use this package to conveniently install other packages
-# load (install if required) packages from CRAN
-p_load("diagram", "dampack", "reshape2")
-# library(devtools) # devtools is necessary to install from github.
-# install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version
-p_load_gh("DARTH-git/darthtools")
-```
+`{# {r} # if (!require('pacman')) install.packages('pacman'); library(pacman)  # # use this package to conveniently install other packages # # load (install if required) packages from CRAN # p_load("diagram", "dampack", "reshape2") # # library(devtools) # devtools is necessary to install from github. # # install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version # p_load_gh("DARTH-git/darthtools")`
 
 # 02 Load functions
 
@@ -590,14 +668,15 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 ## General setup
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-n_cycles        <- 60                            
-# We set the number of cycles to 60 to reflect 5 years broken down into monthly cycles
-v_names_cycles  <- paste("cycle", 0:n_cycles)    
-# So here, we just name each cycle by the cycle its on, going from o up to the number of cycles there are, here 60.
-v_names_states  <- c("PFS", "OS", "Dead")  
-# These are the health states in our model, PFS, OS, Death.
+t_cycle <- 1/2      # cycle length of 2 weeks (in [[months]] - this is assuming the survival curves I am digitising will be in [[months]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 120                            
+# We set the number of cycles to 120 to reflect 5 years broken down into fortnightly cycles
+v_names_cycles  <- paste("cycle", 0:n_cycle)    
+# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 120.
+v_names_states  <- c("PFS", "OS", "Dead", "AE1", "AE2", "AE3")  
+# These are the health states in our model, PFS, OS, Death, Adverse Event 1, Adverse Event 2, Adverse Event 3.
 n_states        <- length(v_names_states)        
-# We're just taking the number of health states from the number of names we came up with, i.e. 3 names to reflect three health states 
+# We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
 
 # Strategy names
 v_names_str     <- c("Standard of Care",         
@@ -608,7 +687,230 @@ n_str           <- length(v_names_str)
 # number of strategies
 
 
-## Transition probabilities
+
+# TRANSITION PROBABILITIES: Time-To-Transition - TTP:
+
+
+# Time-dependent transition probabilities are obtained in four steps
+# 1) Defining the cycle times
+# 2) Obtaining the event-free (i.e. survival) probabilities for the cycle times for SoC
+# 3) Obtaining the event-free (i.e. survival) probabilities for the cycle times for Exp based on a hazard ratio
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+# 1) Defining the cycle times
+(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
+
+# I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in months, so we have 0 in cycle 0, 0.5 or half a month in cycle 1, and so on.
+
+# Having established that allows us to obtain the transition probabilities for the time we are interested in for our cycles from this longer period individual patient data, so where the individual patient data is in months and our cycles are in fortnight or half months, this allows us to obtain transition probabilities for these fortnights.
+
+# 2) Obtaining the event-free (i.e. survival) probabilities for the cycle times for SoC
+# S_FP_SoC - survival of progression free to progression, i.e. not going to progression, i.e. staying in progression free.
+# Note that the coefficients [that we took from flexsurvreg earlier] need to be transformed to obtain the parameters that the base R function uses
+
+
+S_FP_SoC <- pweibull(
+  q     = t, 
+  shape = exp(coef_weibull_shape_SoC), 
+  scale = exp(coef_weibull_scale_SoC), 
+  lower.tail = FALSE
+)
+
+head(cbind(t, S_FP_SoC))
+
+#        t  S_FP_SoC
+# [1,] 0.0 1.0000000
+# [2,] 0.5 0.9948214
+# [3,] 1.0 0.9770661
+# [4,] 1.5 0.9458256
+# [5,] 2.0 0.9015175
+# [6,] 2.5 0.8454597
+
+
+# Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
+
+
+# 3) Obtaining the event-free (i.e. survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
+# So here we basically have a hazard ratio for the novel therapy that says you do X much better under the novel therapy than under standard of care, and we want to apply it to standard of care from our individual patient data to see how much improved things would be under the novel therapy.
+# (NB - if we ultimately decide not to use a hazard ratio, I could probably just create my transition probabilities for the experimental therapy from individual patient data that I have digitised from patients under this novel therapy).
+# Here our hazard ratio is 0.6, I can change that for our hazard ratio.
+# - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
+# that is, the survival function is the expoential of the negative hazard function, per:
+# https://faculty.washington.edu/yenchic/18W_425/Lec5_survival.pdf
+# and: 
+# https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
+# Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
+# And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.
+HR_FP_Exp <- 0.6
+H_FP_SoC  <- -log(S_FP_SoC)
+H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
+S_FP_Exp  <- exp(-H_FP_Exp)
+
+head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+
+
+
+
+
+
+
+
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+# Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
+ 
+
+p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
+
+# First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
+
+
+for(i in 1:n_cycle) {
+  p_FP_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
+  p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
+}
+
+
+# Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
+
+
+# The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
+
+# > head(cbind(t, S_FP_SoC))
+#        t  S_FP_SoC
+# [1,] 0.0 1.0000000
+# [2,] 0.5 0.9948214
+# [3,] 1.0 0.9770661
+# [4,] 1.5 0.9458256
+# [5,] 2.0 0.9015175
+# [6,] 2.5 0.8454597
+# > 1-0.9948214/1.0000000
+# [1] 0.0051786
+# > 0.9770661/0.9948214
+# [1] 0.9821523
+# > 1-0.9821523
+# [1] 0.0178477
+
+p_FP_SoC
+
+#> p_FP_SoC
+#  [1] 0.005178566 0.017847796 0.031973721 0.046845943 0.062181645
+p_FP_Exp
+
+
+
+
+
+
+ # NOW I NEED TO REPEAT THE ABOVE, BUT THIS TIME FOR OS TO DEATH.
+
+
+
+# TRANSITION PROBABILITIES: Time-To-Dead TTD
+
+
+# Time-dependent transition probabilities are obtained in four steps
+# 1) Defining the cycle times [we already did this above]
+# 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio if we think we will be applying a hazard ratio in the OS -> Death setting. Probably not, probably what we'll be doing is saying that once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC. - I'll code in both options here and I can make a decision when applying this.
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
+
+# 1) Defining the cycle times
+(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
+
+# 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
+# S_PD_SoC - survival of progression to dead, i.e. not going to dead, i.e. staying in progression.
+# Note that the coefficients [that we took from flexsurvreg earlier] need to be transformed to obtain the parameters that the base R function uses
+
+
+S_PD_SoC <- pweibull(
+  q     = t, 
+  shape = exp(coef_TTD_weibull_shape_SoC), 
+  scale = exp(coef_TTD_weibull_scale_SoC), 
+  lower.tail = FALSE
+)
+
+head(cbind(t, S_PD_SoC))
+
+
+
+# Having the above header shows that this is probability for surviving in the P->D state, i.e., staying in this state, because you should see in time 0 0% of people are in this state, meaning 100% of people hadnt gone into the progressed state and were in PFS, which make sense in this model, the model starts with everyone in PFS, no-one starts the model in OS, and it takes a while for people to reach the OS state.
+
+
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
+# So here we basically have a hazard ratio for the novel therapy that says you do X much better under the novel therapy than under standard of care, and we want to apply it to standard of care from our individual patient data to see how much improved things would be under the novel therapy.
+
+# Here our hazard ratio is 0.6, I can change that for our hazard ratio.
+# - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
+# that is, the survival function is the expoential of the negative hazard function, per:
+# https://faculty.washington.edu/yenchic/18W_425/Lec5_survival.pdf
+# and: 
+# https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
+# Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
+# And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convery back to the survivor function, and then these survivor functions are used for the probabilities.
+HR_PD_Exp <- 0.6
+H_PD_SoC  <- -log(S_PD_SoC)
+H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
+S_PD_Exp  <- exp(-H_PD_Exp)
+
+head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
+
+
+# If I decide that, as I said,  once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC, then I can use the following coding - which is just repeating what I did for standard of care but this time giving it to the experimental stratgey:
+
+S_PD_Exp <- pweibull(
+  q     = t, 
+  shape = exp(coef_TTD_weibull_shape_SoC), 
+  scale = exp(coef_TTD_weibull_scale_SoC), 
+  lower.tail = FALSE
+)
+
+head(cbind(t, S_PD_Exp))
+
+# I've coded in both options here and I can make a decision when applying this.
+
+
+
+
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
+
+# Now we can take the probability of being in the OS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the OS state, i.e. in order to get the probability of moving into the deda state.
+
+
+p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
+
+# First we make the probability of going from progression (P) to dead (D) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
+
+
+for(i in 1:n_cycle) {
+  p_PD_SoC[i] <- 1 - S_PD_SoC[i+1] / S_PD_SoC[i]
+  p_PD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
+}
+
+
+# Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively. [If we decide not to apply a hazard ratio for the experimental strategy going from progression to dead then neither may have a hazard ratio applied to them].
+
+
+# The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
+
+p_PD_SoC
+
+p_PD_Exp
+
+
+# Time-constant transition probabilities [ADVERSE EVENTS]:
+
+
+# To create transition probabilities from longer time periods I can use the information in this email to Daniel:
+
+# Inquiry re: Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer
+# - https://outlook.office.com/mail/id/AAQkAGI5OWU0NTJkLTEzMjgtNGVhOS04ZGZiLWZkOGU1MDg3ZmE5MAAQAHQCBS2m%2B%2FVAjAc%2FWSCjQEQ%3D
+
+
+# There may also be some relevant information in the below:
+
+
+## Transition probabilities and hazard ratios
 
 
 # "Note: To calculate the probability of dying from S1 and S2, use the hazard ratios provided. To do so, first convert the probability of dying from healthy, p_HD , to a rate; then multiply this rate by the appropriate hazard ratio; finally, convert this rate back to a probability. Recall that you can convert between rates and probabilities using the following formulas: r = − log(1 − p) and p = 1 − e ( − rt ) . The package darthtools also has the functions prob_to_rate and rate_to_prob that might be of use to you." per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\3_cSTM - history dependence_material\Download exercise handout 
@@ -622,19 +924,13 @@ n_str           <- length(v_names_str)
 # The above also describes how to convert probabilities for different time scales, i.e., convert a probability for 5 years to 1 year, etc., and how to convert data that exists as a rate to a probability for use in a Markov model.
 
 
-p_HS_SoC  <- 0.05  # probability of becoming OS when PFS, conditional on surviving, under standard of care
-p_HS_trtA <- 0.04  # probability of becoming OS when PFS, conditional on surviving, under EPI Assay
-p_HS_trtB <- 0.02  # probability of becoming OS when PFS, conditional on surviving, under HDX Assay
-p_SD      <- 0.1   # probability of dying          
-p_HD      <- 0.01  # probability of dying when PFS
+# The intial probabilities before I decided to do parametric survival analysis:
 
-# I'M NOT DELIGHTED ABOUT USING CONDITIONAL PROBABILITIES ACTUALLY, AND WILL UPDATE THE ABOVE WITH THE WAY I CALCULATED PROBABILITIES WHEN DOING THE YORK COURSE I THINK.
-
-# That will mean that when I'm on the section below:
-
-# Fill in the transition probability matrix:
-
-# I'll have to change how these probabilities are filled in.
+# p_HS_SoC  <- 0.05  # probability of becoming OS when PFS, conditional on surviving, under standard of care
+# p_HS_trtA <- 0.04  # probability of becoming OS when PFS, conditional on surviving, under EPI Assay
+# p_HS_trtB <- 0.02  # probability of becoming OS when PFS, conditional on surviving, under HDX Assay
+# p_SD      <- 0.1   # probability of dying          
+# p_HD      <- 0.01  # probability of dying when PFS
 
 
 # H = HEALTHY (PFS) -> HS MEANS HEALTHY TO SICK, HD -> MEANS HEALTHY TO DEAD.
@@ -657,53 +953,227 @@ p_HD      <- 0.01  # probability of dying when PFS
 
 
 
+# Now that I am doing parametric survival analysis, the only probabilities I need to generate here are the adverse event probabilities, I generate them as conditional probabilities per chunk 20:
+
+
+# Probability of going to the adverse event state from the progression free state:
+
+
+p_FA1_STD     <- 0.02   # probability of adverse event 1 when progression-free under SOC
+p_A1_D_STD    <- 0.1    # probability of dying when in adverse event 1 under SOC
+
+p_FA2_STD     <- 0.02   # probability of adverse event 2 when progression-free under SOC
+p_A2_D_STD    <- 0.1    # probability of dying when in adverse event 2 under SOC
+
+p_FA3_STD     <- 0.02   # probability of adverse event 3 when progression-free under SOC
+p_A3_D_STD    <- 0.1    # probability of dying when in adverse event 3 under SOC
+
+
+p_FA1_EXPR     <- 0.02   # probability of adverse event 1 when progression-free under EXPR
+p_A1_D_EXPR    <- 0.1    # probability of dying when in adverse event 1 under EXPR
+
+p_FA2_EXPR     <- 0.02   # probability of adverse event 2 when progression-free under EXPR
+p_A2_D_EXPR    <- 0.1    # probability of dying when in adverse event 2 under EXPR
+
+p_FA3_EXPR     <- 0.02   # probability of adverse event 3 when progression-free under EXPR
+p_A3_D_EXPR    <- 0.1    # probability of dying when in adverse event 3 under EXPR
+
+p_PD_SoC
+p_PD_Exp
+
+p_FP_SoC
+p_FP_Exp
+
+p_FD_SoC   <- 0.02 # Probability of dying when progression-free:
+p_FD_Exp   <- 0.02 # Probability of dying when progression-free:
+
+# When digitising a progression-free survival curve everyone on that curve is on PFS, and if they leave that curve it is because their disease has progressed (so they've gone from progression free to progression, or from PFS to OS) or they've died:
+
+# "Progression-free survival (PFS) is defined as the time from random assignment in a clinical trial to disease progression or death from any cause." https://www.ncbi.nlm.nih.gov/books/NBK137763/
+
+# "Progression-free survival (PFS) is "the length of time during and after the treatment of a disease, such as cancer, that a patient lives with the disease but it does not get worse". https://en.wikipedia.org/wiki/Progression-free_survival#:~:text=Progression-free%20survival%20(PFS),it%20does%20not%20get%20worse".
+
+# Time to Progression: 
+
+# "The length of time from the date of diagnosis or the start of treatment for a disease until the disease starts to get worse or spread to other parts of the body. In a clinical trial, measuring the time to progression is one way to see how well a new treatment works. Also called TTP." https://www.cancer.gov/publications/dictionaries/cancer-terms/def/time-to-progression
+
+# Koen's data is time to progression data, so we can't figure out time to death from it. It may be possible to do this with the data I end up using, or as advised by the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder, but at the moment I'll just set PFS to Dead as a time-constant transition probability as he does.
+
+
+# PFS -> PFS:
+
+p_PFS_SoC  <-   (1 - p_FD_SoC) * (1 - p_FP_SoC)
+p_PFS_Exp  <-   (1 - p_FD_Exp) * (1 - p_FP_Exp)
+
+# First, I need to create progression free survival probabilities under standard of care.
+
+# It's 1- p_FD_SoC, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_FP_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_FP_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model).
+
+
+# PFS -> OS:
+
+p_PFS_OS_SoC    <- (1 - p_FD_SoC) *      p_FP_SoC
+p_PFS_OS_Exp    <- (1 - p_FD_Exp) *      p_FP_Exp
+
+# We have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
+
+
+# p_PFS_OS_SoC is the probability of transitioning from healthy to sick, conditional on surviving, so it's defined as a conditional probability. So, what the Markov model wants is : m_P_SoC["PFS", "OS"] what's the overall probability of transitioning from PFS to OS, and so that is actually not a conditional probability, which is why we multiply the probability of surviving (1 - p_HD) *      p_HS_SoC by the probability of going to OS conditional on surviving, because the transition in the model should be the marginal not the conditional, i.e. you want to have the end probability.
+
+
+#So, because you took a probability that was conditional from the literature, or digitised a PFS curve to get a transition probability - and those probabilities come from people who were necessarily still in the PFS state when you digitise a PFS curve, so those are transition probabilities conditional on being in the PFS (or healthy) state - you need to do the multiplication to give you a probability you can put in your transition matrix that reflects that the probability you are working with is conditional.
+
+# Adverse event transition probabilities have all been conditional, this is to reflect that probabilities on transitioning from adverse event to death will necessarily be conditional probabilities - as they come from individuals who were studied in the adverse event group - so they are necessarily probabilities conditional on experiencing the adverse event. Likewise, the probability of experiencing the adverse event when under treatment is conditional on being in PFS for the treatment in the first place, because it will come from reports of adverse events in studies of the treatments given that we look at. 
+
+
+# Which means conditional probabilities kind of don't matter too much, because the probability won't be applied to anyone who isnt in the state it doesnt necessarily need to be conditional after all. And I guess it would have never been applied to anyone who wasnt in the state, because probabilities are only applied to people who are in the state when the transition probability matrix is multiplied by the cohort trace of people in the state.
+
+
+
+p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+
+
+# Probability of AE1 when PFS, conditional on surviving, under standard of care
+
+
+
+p_A1D_SoC  <- 0.001 
+
+# Probability of going from AE1 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+
+
+
+p_A1F_SoC  <- 1-p_A1D_SoC
+
+# Probability of returning from AE1 to PFS is 100% minus the people who have gone into the dead state.
+
+
+
+
+# I repeat this for the other adverse events and for both standard of care and the experimental (novel) treatment:
+
+
+
+
+
+# Probability of A2 when PFS, conditional on surviving, under standard of care
+p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
+# Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+p_A2D_SoC  <- 0.001 
+# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+p_A2F_SoC  <- 1-p_A2D_SoC
+
+# Probability of A3 when PFS, conditional on surviving, under standard of care
+p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
+# Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+p_A3D_SoC  <- 0.001 
+# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+p_A3F_SoC  <- 1-p_A3D_SoC
+
+
+
+
+
+
+# Probability of A1 when PFS, conditional on surviving, under standard of care
+p_FA1_Exp  <- (p_PFS_Exp) * p_FA1_EXPR
+# Probability of going from A1 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+p_A1D_Exp  <- 0.001 
+# Probability of returning from A1 to PFS is 100% minus the people who have gone into the dead state.
+p_A1F_Exp  <- 1-p_A1D_Exp
+
+# Probability of A2 when PFS, conditional on surviving, under standard of care
+p_FA2_Exp  <- (p_PFS_Exp) * p_FA2_EXPR
+# Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+p_A2D_Exp  <- 0.001 
+# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+p_A2F_Exp  <- 1-p_A2D_Exp
+
+# Probability of A3 when PFS, conditional on surviving, under standard of care
+p_FA3_Exp  <- (p_PFS_Exp) * p_FA3_EXPR
+# Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+p_A3D_Exp  <- 0.001 
+# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+p_A3F_Exp  <- 1-p_A3D_Exp
+
+
+# These all have to be conditional on survival, i.e. conditional on being in PFS, this is to ensure that I am only applying adverse events to the people still in the PFS, after transitions etc., have happened. --> This is not how conditional probabilities work, I have the correct interpretation of them elsewhere in this code file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Health State Values (AKA State rewards)
 # Costs and utilities  
 # Basically the outcomes we are interested in coming out of this model, so we'll look at the cohorts costs over the time horizon and the quality adjusted life years in our cohort over this time horizon.
 
-c_H       <- 400   # cost of one cycle in PFS state
-c_S       <- 1000  # cost of one cycle in OS state
+# Costs
+
+c_F_SoC       <- 400   # cost of one cycle in PFS state under standard of care
+c_F_Ex_trtA       <- 1000  # cost of one cycle in PFS state under the experimental treatment A 
+c_F_Ex_trtB       <- 1000  # cost of one cycle in PFS state under the experimental treatment
+c_P       <- 1000  # cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
 c_D       <- 0     # cost of one cycle in dead state
 
 # Above is the cost for each state, PFS, OS and dead,
 
-c_trtA    <- 800   # cost of EPI Assay (per cycle) in PFS state
-c_trtB    <- 1500  # cost of HDX Assay (per cycle) in PFS state
+# c_trtA    <- 800   # cost of EPI Assay in PFS state (ONCE OFF COST)
+# c_trtB    <- 1500  # cost of HDX Assay in PFS state (ONCE OFF COST)
+# 
+# # We make the cost of the assays above so that when we have treatment strategies we can add this cost of treatment to anyone whose being treated when they receive the treatment.
 
-# We make the cost of EPI Assaybove so that when we have treatment strategies we can add this cost of treatment to anyone whose being treated when they receive the treatment.
-
-u_H       <- 1     # utility when PFS 
-u_S       <- 0.5   # utility when OS
-u_D       <- 0     # utility when dead
 
 # Then we define the utilities per health states.
 
 
-# Discounting factors
-d_c             <- 0.03                          
-# discount rate for costs
-d_e             <- 0.03                          
-# discount rate for QALYs
+u_F       <- 0.8     # utility when PFS 
+u_P       <- 0.5   # utility when OS
+u_D       <- 0     # utility when dead
 
-# discount rate per cycle equal discount of costs and QALYs by 3%
+
+
+# Discounting factors
+d_c             <- 0.04                          
+# discount rate for costs (per year)
+d_e             <- 0.04                          
+# discount rate for QALYs (per year)
+
+# discount rate per cycle equal discount of costs and QALYs by 4%
 
 # Discount weight (equal discounting is assumed for costs and effects)
-v_dwc <- 1 / (1 + d_c) ^ (0:n_cycles) 
-v_dwe <- 1 / (1 + d_e) ^ (0:n_cycles) 
+
+# Actually I've updated this and do this later on now
+
+# v_dwc <- 1 / (1 + d_c) ^ (0:n_cycle) 
+# v_dwe <- 1 / (1 + d_e) ^ (0:n_cycle) 
 
 # So, we create a discount weight vector above, to understand the way this works I'll have to return to my York notes on discounting
 
 
 ```
 
-Discount rate for costs and utilities I've set as 3% here, I need to return to this and set it as 4%.
-I also need to return to it more generally with the notes I wrote from York on discounting.
-Also I set up 3 strategies, i.e. standard of care, EPI Assay and HDX Assay, to reflect the two assays under study, but it would be very easy to change this to just 2 strategies above.
+Discount rate for costs and utilities I need to return to it more generally with the notes I wrote from York on discounting. Also I set up 3 strategies, i.e. standard of care, EPI Assay and HDX Assay, to reflect the two assays under study, but it would be very easy to change this to just 2 strategies above.
 
 I also want to add in the costing per the York model, as this broke costs down before adding them, although I can compare this to the York approach to costing in their published article, i.e. are costs in that article combined before they are added to the model or afterwards?
 
-There are some things that I would like to appear in the code chunks, but not in the knitted document.
-To do this I can go to:
+There are some things that I would like to appear in the code chunks, but not in the knitted document. To do this I can go to:
 
 <https://stackoverflow.com/questions/47710427/how-to-show-code-but-hide-output-in-rmarkdown>
 
@@ -726,17 +1196,30 @@ C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Train
 ## Draw the state-transition cohort model
 
 ```{r}
-m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(v_names_states, v_names_states))
+
+diag_names_states  <- c("PFS", "OS", "AE1", "AE2", "AE3", "Dead")  
+
+m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+
 m_P_diag["PFS", "OS" ]     = "" 
 m_P_diag["PFS", "Dead" ]     = ""
 m_P_diag["PFS", "PFS" ]  = ""
-m_P_diag["OS"   , "Dead" ]     = ""
-m_P_diag["OS"   , "OS" ]     = ""
-m_P_diag["Dead"   , "Dead" ]     = ""
-layout.fig <- c(2, 1)
-plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.8,  
-        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.8, 
-        cex = 0.8, box.cex = 0.7, lwd = 1, main = "Figure 1")
+m_P_diag["PFS", "AE1" ]     = ""
+m_P_diag["PFS", "AE2" ]     = ""
+m_P_diag["PFS", "AE3" ]     = ""
+m_P_diag["OS", "Dead" ]     = ""
+m_P_diag["OS", "OS" ]     = ""
+m_P_diag["AE1", "PFS" ]     = ""
+m_P_diag["AE2", "PFS" ]     = ""
+m_P_diag["AE3", "PFS" ]     = ""
+m_P_diag["AE1", "Dead" ]     = ""
+m_P_diag["AE2", "Dead" ]     = ""
+m_P_diag["AE3", "Dead" ]     = ""
+m_P_diag["Dead", "Dead" ]     = ""
+layout.fig <- c(1, 4, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,  
+        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9, 
+        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
 ```
 
 # 04 Define and initialize matrices and vectors
@@ -748,13 +1231,30 @@ This is where we will store all of the model output, and all the things that we 
 ## 04.1 Cohort trace
 
 ```{r}
+
+
+# WHEN COMING BACK TO COMPARE: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R\ISPOR_webinar_R-master\ISPOR_webinar_R-master\oncologySemiMarkov_illustration to this Rmarkdown document, a big difference is that this document creates a cycle 0 - whereas the comparison from the ISPOR_webinar_R uses -1 to get into cycle 0 where necessary. I have decided to follow the ISPOR way, because I am interested in duplicating their parametric analysis, so I need to bear this difference in mind as I go through this document.
+
+# Also, continue from Verbose in this and in Koens file
+
+# Markov cohort trace matrix ----
+
+# Initialize matrices to store the Markov cohort traces for each strategy
+
+# - note that the number of rows is n_cycle + 1, because R doesn't use index 0 (i.e. cycle 0)  --> What we mean here, is that when we do our calculations later they need to be for cycle-1 to reflect cycle 0.
+m_M_SoC <- m_M_Exp  <-  matrix(
+  data = NA, 
+  nrow = n_cycle,  
+  ncol = n_states, 
+  dimnames = list(paste('Cycle', 1:n_cycle), v_names_states)
+)
+
 ## Initial state vector
 # We create an inital vector where people start, with everyone (1 = 100% of people) starting in PFS below:
-v_s_init <- c("PFS" = 1, "OS" = 0, "Dead" = 0)  
-v_s_init
+# v_s_init <- c("PFS" = 1, "OS" = 0, "Dead" = 0)
+# v_s_init
 
 # There are cases where you can have an initial illness prevalence, so you would start some people in the sick state and some people in the healthy state, but above we're looking at people with mCRC, so we'll start everyone in PFS.
-
 
 
 ## Initialize cohort trace for cSTM (cohort state transition model) for all strategies (the strategies are the treatment strategies SOC, treatment A and Treatment B).
@@ -762,17 +1262,34 @@ v_s_init
 
 # A matrix is necessary because there are basically two dimensions to this, the number of time cycles, which will be our rows, and then the number of states - to know which proportion of our cohort is in each state at each time:
 
-m_M_SoC <- matrix(0, 
-                  nrow = (n_cycles + 1), ncol = n_states, 
-                  dimnames = list(v_names_cycles, v_names_states))
+# m_M_SoC <- matrix(0, 
+#                   nrow = (n_cycles + 1), ncol = n_states, 
+#                   dimnames = list(v_names_cycles, v_names_states))
+# Above instead of having to bother with -1 throughout the analysis they create a cycle 0.
+
 # Store the initial state vector in the first row of the cohort trace
-m_M_SoC[1, ] <- v_s_init
+# m_M_SoC[1, ] <- v_s_init
 ## Initialize cohort traces
 ## So, above I made the cohort trace for standard of care, because in my analysis all my patients start in the PFS state, I can duplicate that below to create the cohort trace for treatment A and treatment B.
-m_M_trtA <- m_M_trtB <- m_M_SoC # structure and initial states remain the same
+# m_M_trtA <- m_M_trtB <- m_M_SoC # structure and initial states remain the same
 
-# This gives us three matrices, m_M_trtA, m_M_trtB and m_M_SoC, that we can fill in with out simulations of how patients transitions between health states under each treatment strategy.
+# This gives us three matrices, m_M_trtA, m_M_trtB and m_M_SoC, that we can fill in with our simulations of how patients transitions between health states under each treatment strategy.
 
+# In the first row of the markov matrix [1, ] put the value at the far end, i.e. "<-1" and "<-0" under the colum "PFS" [ , "PFS"], repeating this for "OS", "AE1", "AE2" "AE3" and "Dead".
+
+
+# Specifying the initial state for the cohorts (all patients start in PFS)
+m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
+m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
+m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
+m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
+m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
+m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
+
+# Inspect whether properly defined
+head(m_M_SoC)
+head(m_M_Exp)
+#head(m_M_Exp_trtB)
 ```
 
 ## 04.2 Transition probability matrix
@@ -789,23 +1306,132 @@ m_M_trtA <- m_M_trtB <- m_M_SoC # structure and initial states remain the same
 
 
 ## Initialize transition probability matrix, [i.e. build the framework or empty scaffolding of the transition probability matrix]
-# all transitions to a non-death state are assumed to be conditional on survival 
-m_P_SoC  <- matrix(0,
-                   nrow = n_states, ncol = n_states,
-                   dimnames = list(v_names_states, v_names_states)) # define row and column names
-m_P_SoC
+# all transitions to a non-death state are assumed to be conditional on survival
+# - starting with standard of care
+# - note that these are now 3-dimensional matrices because we are including time.
+ 
+
+# m_P_SoC  <- matrix(0,
+#                    nrow = n_states, ncol = n_states,
+#                    dimnames = list(v_names_states, v_names_states)) # define row and column names
+# m_P_SoC
+
+
+# Initialize matrices for the transition probabilities
+# - note that these are now 3-dimensional matrices (so, above we originally included dim = nrow and ncol, but now we also include n_cycle - i.e. the number of cycles).
+# - starting with standard of care
+m_P_SoC <- array(
+  data = 0,
+  dim = c(n_states, n_states, n_cycle),
+  dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
+)
+
+head(m_P_SoC)
+
+
+m_P_Exp <- array(
+  data = 0,
+  dim = c(n_states, n_states, n_cycle),
+  dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
+)
+
+head(m_P_Exp)
+
+
+
+
+
 ```
 
 Fill in the transition probability matrix:
 
 ```{r}
+
+# It looks like I will need to decide if I have to go back to the start of putting everything in the model and put stuff in for not just the experimental strategy, but for experimental strategy 1 AND experimental strategy 2 individually.
+
+
+# Setting the transition probabilities from PFS based on the model parameters
+  # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
+m_P_SoC["PFS", "PFS", ] <- p_PFS_SoC
+m_P_SoC["PFS", "OS", ]     <- p_PFS_OS_SoC
+m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
+m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
+m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
+m_P_SoC["PFS", "Dead", ]            <- p_FD_SoC
+
+
+# Setting the transition probabilities from OS
+m_P_SoC["OS", "OS", ] <- 1 - p_PD_SoC
+m_P_SoC["OS", "Dead", ]        <- p_PD_SoC
+
+# Setting the transition probabilities from Dead
+m_P_SoC["Dead", "Dead", ] <- 1
+
+
+# Setting the transition probabilities from AE1
+m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
+m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
+
+# Setting the transition probabilities from AE2
+m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
+m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
+
+# Setting the transition probabilities from AE3
+m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
+m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
+
+
+m_P_SoC
+
+# Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
+
+
+m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
+m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
+m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
+m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
+m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
+m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+
+
+# Setting the transition probabilities from OS
+m_P_Exp["OS", "OS", ] <- 1 - p_PD_Exp
+m_P_Exp["OS", "Dead", ]        <- p_PD_Exp
+
+# Setting the transition probabilities from Dead
+m_P_Exp["Dead", "Dead", ] <- 1
+
+
+# Setting the transition probabilities from AE1
+m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
+m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
+
+# Setting the transition probabilities from AE2
+m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
+m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
+
+# Setting the transition probabilities from AE3
+m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
+m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
+
+m_P_Exp
+
+
+```
+
+```{r}
+
+# An explanation of conditional probabilities:
+
 ## Standard of Care
 # from PFS
-m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
+# m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
 
 # It's 1- p_HD, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_HS_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_HS_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model).
 
-m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
+# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
 
 # This is because, when setting up the input parameters we didn't have a value for staying in progression free survival, so we have to calculate it, i.e. above we have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
 
@@ -816,17 +1442,25 @@ m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
 # p_HS_SoC is the probability of transitioning from healthy to sick, conditional on surviving, so it's defined as a conditional probability. So, what the Markov model wants is : m_P_SoC["PFS", "OS"] what's the overall probability of transitioning from PFS to OS, and so that is actually not a conditional probability, which is why we multiply the probability of surviving (1 - p_HD) *      p_HS_SoC by the probability of going to OS conditional on surviving, because the transition in the model should be the marginal not the conditional, i.e. you want to have the end probability.
 
 
+#So, because you took a probability that was conditional from the literature, or digitised a PFS curve to get a transition probability - and those probabilities come from people who were necessarily still in the PFS state when you digitise a PFS curve, so those are transition probabilities conditional on being in the PFS (or healthy) state - you need to do the multiplication to give you a probability you can put in your transition matrix that reflects that the probability you are working with is conditional.
+
+
+# Adverse event transition probabilities have all been conditional, this is to reflect that probabilities on transitioning from adverse event to death will necessarily be conditional probabilities - as they come from individuals who were studied in the adverse event group - so they are necessarily probabilities conditional on experiencing the adverse event. Likewise, the probability of experiencing the adverse event when under treatment is conditional on being in PFS for the treatment in the first place, because it will come from reports of adverse events in studies of the treatments given that we look at. 
+
+
+# Which means conditional probabilities kind of don't matter too much, because the probability won't be applied to anyone who isnt in the state it doesnt necessarily need to be conditional after all. And I guess it would have never been applied to anyone who wasnt in the state, because probabilities are only applied to people who are in the state when the transition probability matrix is multiplied by the cohort trace of people in the state.
 
 
 
-m_P_SoC["PFS", "Dead"]    <-      p_HD
+
+# m_P_SoC["PFS", "Dead"]    <-      p_HD
 
 # Your probability of going from healthy to dead is not conditional on surviving, per the input parameters section.
 
 
 # from OS
-m_P_SoC["OS", "OS"] <- 1 - p_SD
-m_P_SoC["OS", "Dead"] <-     p_SD
+# m_P_SoC["OS", "OS"] <- 1 - p_SD
+# m_P_SoC["OS", "Dead"] <-     p_SD
 
 # Per the input parameters, your probability of going from sick to dead is also not conditional on surviving, so we dont need to multiply our probability conditional on surviving by the number of survivors as above.
 
@@ -837,22 +1471,22 @@ m_P_SoC["OS", "Dead"] <-     p_SD
 # And the first one (commented out above) is the same, it's the probability of going from healthy to healthy which, because it's a conditional probability, is the number of individuals left in healthy multiplied by the probability of going from healthy to health conditional on surviving to be in healthy (so, to get a conditional probability we multiply the numbers who have survived by the probability -> here we don't have a probability for healthy to healthy, but we do have a probability for health to sick, so taking 1 - this gives us the probability of not going into sick, i.e. of staying in healthy instead). 
 
 # from Dead
-m_P_SoC["Dead", "Dead"] <- 1
+# m_P_SoC["Dead", "Dead"] <- 1
 
 # Once you're in dead you stay in dead, you can't come back to life.
 
 
 # For handiness, we just take the treatment matrix that already exists for standard of care above, copy it as treatment A and treatment B, and then copy over it with new values specific to treatment A and treatment B, assuming that the probability of going from PFS to dead and staying in OS and going from OS to dead are the same as for standard of care (dead to dead is definitely the same as no one leaves dead) that's likely a reasonable assumption for our model, as once people progress we can assume they all go on to the same next treatment, standard of care progression treatment with the same likelihood of staying in OS and of going to the dead state, regardless of the novel therapy they were on:
 
-## EPI Assay
-m_P_trtA <- m_P_SoC
-m_P_trtA["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtA)
-m_P_trtA["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtA
-
-## HDX Assay
-m_P_trtB <- m_P_SoC
-m_P_trtB["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtB)
-m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
+# ## EPI Assay
+# m_P_trtA <- m_P_SoC
+# m_P_trtA["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtA)
+# m_P_trtA["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtA
+# 
+# ## HDX Assay
+# m_P_trtB <- m_P_SoC
+# m_P_trtB["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtB)
+# m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
 
 
 
@@ -880,31 +1514,89 @@ m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
 
 ```
 
-I probably want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
+I may want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
 
 Check if transition probability matrices are valid.
 
 ```{r}
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
 check_transition_probability(m_P_SoC,  verbose = TRUE)
-check_transition_probability(m_P_trtA, verbose = TRUE)
-check_transition_probability(m_P_trtB, verbose = TRUE)
+check_transition_probability(m_P_Exp,  verbose = TRUE)
+#check_transition_probability(m_P_trtA, verbose = TRUE)
+#check_transition_probability(m_P_trtB, verbose = TRUE)
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
-check_sum_of_transition_array(m_P_SoC,  n_states = n_states, verbose = TRUE)
-check_sum_of_transition_array(m_P_trtA, n_states = n_states, verbose = TRUE)
-check_sum_of_transition_array(m_P_trtB, n_states = n_states, verbose = TRUE)
+check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+#check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+#check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+
+# This error message:
+#   
+#   Error in check_sum_of_transition_array(m_P_SoC, n_states = n_states, n_cycles = n_cycle,  : 
+#   This is not a valid transition array 
+# 
+# Probably reflects that: 
+#   
+#   > m_P_SoC
+# , , Cycle1
+# 
+#           PFS          OS        Dead       AE1       AE2       AE3
+# PFS  0.974925 0.005074995 0.020000000 0.0194985 0.0194985 0.0194985
+# [1] 1.058495
+# 
+# That is, that I've put just any old probability value in at the moment and they are summing to be larger than one, when I've changed this to the actual probabilities I'm sure it'll be OK.
+# 
+# Same with:
+# 
+#   , , Cycle28
+# 
+#            PFS        OS     Dead        AE1        AE2        AE3
+# PFS  0.5804491 0.3995509 0.020000 0.01160898 0.01160898 0.01160898
+# OS   0.0000000 0.5922950 0.407705 0.00000000 0.00000000 0.00000000
+# Dead 0.0000000 0.0000000 1.000000 0.00000000 0.00000000 0.00000000
+# AE1  0.9990000 0.0000000 0.001000 0.00000000 0.00000000 0.00000000  
+#   
+#   > 0.5804491 + 0.3995509 + 0.020000 + 0.01160898 + 0.01160898 + 0.01160898
+# [1] 1.034827
+
+# Inspect whether properly defined
+# - note that we inspect for the first two cycles
+m_P_SoC[ , , 1:2]
+m_P_Exp[ , , 1:2]
+
+# Does it visually sum to 1?
+
 ```
 
 # 05 Run Markov model
 
 ```{r}
-for (t in 1:n_cycles){  # Use a for loop to loop through the number of cycles, basically we'll calculate the cohort distribution at the next cycle [t+1] based on the matrix of where they were at time t, matrix multiplied by the transition probability matrix for the current cycle (constant for us as we use a constant transition probability matrix, rather than a transition probability array).
+# for (t in 1:n_cycles){  # Use a for loop to loop through the number of cycles, basically we'll calculate the cohort distribution at the next cycle [t+1] based on the matrix of where they were at time t, matrix multiplied by the transition probability matrix for the current cycle (constant for us as we use a constant transition probability matrix, rather than a transition probability array).
 # We do this for each treatment, as they all have different transition probability matrices. 
-  m_M_SoC [t + 1, ] <- m_M_SoC [t, ] %*% m_P_SoC   # estimate the state vector for the next cycle (t + 1)
-  m_M_trtA[t + 1, ] <- m_M_trtA[t, ] %*% m_P_trtA  # estimate the state vector for the next cycle (t + 1)
-  m_M_trtB[t + 1, ] <- m_M_trtB[t, ] %*% m_P_trtB  # estimate the state vector for the next cycle (t + 1)
+#  m_M_SoC [t + 1, ] <- m_M_SoC [t, ] %*% m_P_SoC   # estimate the state vector for the next cycle (t + 1)
+#  m_M_trtA[t + 1, ] <- m_M_trtA[t, ] %*% m_P_trtA  # estimate the state vector for the next cycle (t + 1)
+#  m_M_trtB[t + 1, ] <- m_M_trtB[t, ] %*% m_P_trtB  # estimate the state vector for the next cycle (t + 1)
+# }
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+
+
+# Above I was originally using a transition probability matrix, because I was using a time constant transition probability. But now, because my transition probabilities come from the survival curves, and thus change over time, I am using a transition probability array. 
+
+# Thus, I adapt the above to reflect that my transition probability selected has to come from a certain cycle, i.e. from a certain time, and then be multiplied by the number of people in the matrix, the amount of the cohort in the matrix, at that cycle, i.e. at that time. Thats why below I pick the third dimension of the array, not row, not column, but time: R,C,T i.e.   ->  , ,i_cycle
+
+
+
+# So here I once again create the Markov cohort trace by looping over all cycles
+# - note that the trace can easily be obtained using matrix multiplications
+# - note that now the right probabilities for the cycle need to be selected, like I explained above.
+for(i_cycle in 1:(n_cycle-1)) {
+  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
 }
+
+
 head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 ```
 
 # 06 Compute and Plot Epidemiological Outcomes
@@ -917,20 +1609,55 @@ head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m
 
 # If I wanted to do the same for Treatment A and Treatment B, I would just copy this code chunk and replace m_M_SoC with m_M_trtA and m_M_trtB
 
-matplot(m_M_SoC, type = 'l', 
+# matplot(m_M_SoC, type = 'l', 
+        # ylab = "Probability of state occupancy",
+        # xlab = "Cycle",
+        # main = "Cohort Trace", lwd = 3)  # create a plot of the data
+# legend("right", v_names_states, col = c("black", "red", "green"), 
+       # lty = 1:3, bty = "n")  # add a legend to the graph
+
+# plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
+# abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
+# The vertical line shows you when your sick (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion sick is the highest and putting a vertical line there).
+
+# So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
+
+# Plotting the Markov cohort traces
+matplot(m_M_SoC, 
+        type = "l", 
         ylab = "Probability of state occupancy",
         xlab = "Cycle",
-        main = "Cohort Trace", lwd = 3)  # create a plot of the data
-legend("right", v_names_states, col = c("black", "red", "green"), 
-       lty = 1:3, bty = "n")  # add a legend to the graph
+        main = "Makrov Cohort Traces",
+        lwd  = 3,
+        lty  = 1) # create a plot of the data
+matplot(m_M_Exp, 
+        type = "l", 
+        lwd  = 3,
+        lty  = 3,
+        add  = TRUE) # add a plot of the experimental data ontop of the above plot
+legend("right", 
+       legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
+       col    = rep(c("black", "red", "green", "blue", "yellow", "orange"), 2), 
+       lty    = c(1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 12 times here because we have 6 lines under standard of care (6 full lines) and 6 lines under experimental treatment (6 dashed lines)
+       lwd    = 3,
+       bty    = "n")
 
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
 abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
+abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
 # The vertical line shows you when your sick (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion sick is the highest and putting a vertical line there).
 
-
+# (It's probably not necessary for my own analysis and I can comment these two lines out if I'm not going to use it).
 
 # So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
+
+
+# There is a lot going on with this plot, and that gives me two options for when I do it with the actual data:
+
+# 1. Do two separate plots for soc and exp, like in the plot I commented out at the start of this chunk.
+
+# 2. copy your soc and exp matrixes but get rid of the adverse event states in the copy in order to simplify things, i.e. reasssign all the people in the "adverse event" states to be in the PFS state, because we know that only people from PFS were allowed to be in an adverse event.
+
 
 ```
 
@@ -939,8 +1666,8 @@ abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
 Although in the context of my analysis this would be PFS + OS because it is drawn from the DARTH model where healthy and sick make up OS, while dead means not OS (obviously).
 
 ```{r}
-v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
-v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability
+# v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
+# v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability
 
 # I could do my own version of this and chose just to look at pfs, rather than column 1 and 2 to look at anyone not dead.
 
@@ -949,15 +1676,50 @@ v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probabi
 # best practice would be to rename v_os if I am looking at something that isnt os, i.e. v_pfs and to of course update the table legend, bearing in mind that yet again this is all for standard of care, and that if I wanted to know this for treatment a and/or treatment b I would need to replace the Markov model matrix above.
 
 
-plot(v_os, type = 'l', 
+# plot(v_os, type = 'l', 
+#     ylim = c(0, 1),
+#     ylab = "Survival probability",
+#     xlab = "Cycle",
+#     main = "Overall Survival")  # create a simple plot showing the OS
+
+# add grid 
+# grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"), 
+#     equilogs = TRUE) 
+
+# Calculating and plotting overal survival (OS)
+v_OS_SoC <- 1 - m_M_SoC[, "Dead"]
+v_OS_Exp <- 1 - m_M_Exp[, "Dead"]
+
+plot(v_OS_SoC, 
+     type = "l",
      ylim = c(0, 1),
      ylab = "Survival probability",
      xlab = "Cycle",
-     main = "Overall Survival")  # create a simple plot showing the OS
+     main = "Overall Survival",
+     lwd  = 3) # create a simple plot showing the OS
+lines(v_OS_Exp,
+      lty = 3,
+      lwd = 3)
+legend("right",
+       legend = c("SoC", "Exp"),
+       lty    = c(1, 3),
+       lwd    = 3,
+       bty    = "n")
 
-# add grid 
-grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"), 
+# add grid - completely optional, see if it looks nicer to leave this code in or out:
+grid(nx = n_cycle, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"), 
      equilogs = TRUE) 
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Per 1:12 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
@@ -979,7 +1741,7 @@ grid(nx = n_cycles, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd")
 ## 06.2.1 Life Expectancy (LE)
 
 ```{r}
-v_le <- sum(v_os)  # summing probability of OS over time  (i.e. life expectancy)
+v_le <- sum(v_OS_SoC)  # summing probability of OS over time  (i.e. life expectancy)
 
 # Basically we are summing all the alive states over time through over all the cycles, so 
 
@@ -992,7 +1754,7 @@ v_le <- sum(v_os)  # summing probability of OS over time  (i.e. life expectancy)
 v_le
 
 
-# So, this gives a value of [1] 24.26038, that is [1] 24.26038 cycles, where in the context of our model, cycles are months, so the life expectancy for our population of patients is 24 months.
+# So, if this gives a value of [1] 24.26038, that is [1] 24.26038 cycles, where in the context of our model, cycles are months, so the life expectancy for our population of patients is 24 months.
 
 
 # Discounted life expectancy:
@@ -1015,7 +1777,7 @@ v_le
 
 # So, I guess in our context you can think of this as progression prevalence over time:
 
-v_prev <- m_M_SoC[, "OS"]/v_os
+v_prev <- m_M_SoC[, "OS"]/v_OS_SoC
 plot(v_prev,
      ylim = c(0, 1),
      ylab = "Prevalence",
@@ -1028,6 +1790,11 @@ plot(v_prev,
 ## 07.1 Mean Costs and QALYs for each strategy
 
 ```{r}
+
+clown
+
+
+
 # per cycle
 # calculate expected costs by multiplying cohort trace with the cost vector for the different health states
 
@@ -1155,11 +1922,7 @@ df_cea
 
 > A good way to report your results can be seen in Table 4 of the following:
 >
-> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
-> (2017).
-> Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
-> Journal of Medical Economics, 20(6), 574-584.
-> <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
+> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N. (2017). Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer. Journal of Medical Economics, 20(6), 574-584. <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
 
 ## 07.4 Plot frontier of the Markov model
 
@@ -1190,7 +1953,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
@@ -1221,8 +1984,8 @@ l_params_all <- as.list(data.frame(
   u_H       = 1,     # utility when OS 
   u_S       = 0.5,   # utility when PFS
   u_D       = 0,     # utility when dead
-  d_e       = 0.03,  # discount factor for effectiveness
-  d_c       = 0.03   # discount factor for costs
+  d_e       = 0.04,  # discount factor for effectiveness
+  d_c       = 0.04   # discount factor for costs
 ))
 
 # store the parameter names into a vector
@@ -1499,19 +2262,11 @@ plot(evpi, effect_units = "QALY")
 
 > The below study includes scenario analysis at the end:
 >
-> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
-> (2017).
-> Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
-> Journal of Medical Economics, 20(6), 574-584.
-> <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
+> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N. (2017). Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer. Journal of Medical Economics, 20(6), 574-584. <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
 
 ## 09.4.6 Calibration
 
-> The following has a calibration section: Lawrence, D., Maschio, M., Leahy, K. J., Yunger, S., Easaw, J. C., & Weinstein, M. C.
-> (2013).
-> Economic analysis of bevacizumab, cetuximab, and panitumumab with fluoropyrimidine-based chemotherapy in the first-line treatment of KRAS wild-type metastatic colorectal cancer (mCRC).
-> Journal of medical economics, 16(12), 1387-1398.
-> <https://www.tandfonline.com/doi/pdf/10.3111/13696998.2013.852097?needAccess=true>
+> The following has a calibration section: Lawrence, D., Maschio, M., Leahy, K. J., Yunger, S., Easaw, J. C., & Weinstein, M. C. (2013). Economic analysis of bevacizumab, cetuximab, and panitumumab with fluoropyrimidine-based chemotherapy in the first-line treatment of KRAS wild-type metastatic colorectal cancer (mCRC). Journal of medical economics, 16(12), 1387-1398. <https://www.tandfonline.com/doi/pdf/10.3111/13696998.2013.852097?needAccess=true>
 
 ## References:
 
@@ -1519,21 +2274,10 @@ Generated automatically when the document is knitted.
 
 Useful Darth publications to cite when using this code:
 
--   Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. An Overview of R in Health Decision Sciences.
-    Med Decis Making.
-    2017; 37(3): 735-746.
-    <https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559>
+-   Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. An Overview of R in Health Decision Sciences. Med Decis Making. 2017; 37(3): 735-746. <https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559>
 
--   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P, Jalal H. Cohort State-Transition Models in R: A Tutorial.
-    arXiv:200107824v2.
-    2020:1-48.
-    <http://arxiv.org/abs/2001.07824>
+-   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P, Jalal H. Cohort State-Transition Models in R: A Tutorial. arXiv:200107824v2. 2020:1-48. <http://arxiv.org/abs/2001.07824>
 
--   Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. Microsimulation modeling for health decision sciences using R: A tutorial.
-    Med Decis Making.
-    2018;38(3):400--22.
-    <https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513>
+-   Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. Microsimulation modeling for health decision sciences using R: A tutorial. Med Decis Making. 2018;38(3):400--22. <https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513>
 
--   Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. A Multidimensional Array Representation of State-Transition Model Dynamics.
-    Med Decis Making.
-    Online First <https://doi.org/10.1177/0272989X19893973>
+-   Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. A Multidimensional Array Representation of State-Transition Model Dynamics. Med Decis Making. Online First <https://doi.org/10.1177/0272989X19893973>
