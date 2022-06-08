@@ -14,6 +14,12 @@ bibliography: references.bib
 (1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
 (2) National Centre for Pharmacoeconomics, St James Hospital, Dublin 8, Ireland
 
+IF THIS BECOMES THE BEVACIZUMAB STUDY WE CAN INCOPORATE SOME OF THE BELOW:
+
+https://www.angiopredict.com/go/about_us
+
+Smeets, D., Miller, I. S., O'Connor, D. P., Das, S., Moran, B., Boeckx, B., ... & Byrne, A. T. (2018). Copy number load predicts outcome of metastatic colorectal cancer patients receiving bevacizumab combination therapy. *Nature communications*, *9*(1), 1-16.
+
 # **Abstract:**
 
 > I'll initially draft this as informed by:
@@ -679,11 +685,12 @@ n_states        <- length(v_names_states)
 # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
 
 # Strategy names
-v_names_str     <- c("Standard of Care",         
-                     "EPI Assay", ## AKA Treatment A
-                     "HDX Assay") ## AKA Treatment B 
-# store the strategy names
-n_str           <- length(v_names_str)           
+v_names_strats     <- c("Standard of Care",         
+                     #"EPI Assay", ## AKA Treatment A
+                     #"HDX Assay") ## AKA Treatment B 
+                     "Experimental Treatment") ## AKA Treatment B 
+               # store the strategy names
+n_str           <- length(v_names_strats)           
 # number of strategies
 
 
@@ -1959,68 +1966,62 @@ v_tu_Exp
 
 # Obtain the discounted costs and QALYs by multiplying the vectors of total cost and total utility we created above by the discount rate for each cycle:
 
-# - note first the discount rate for each cycle needs to be defined accounting for the cycle length
+# - note first the discount rate for each cycle needs to be defined accounting for the cycle length, as below:
 
 v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle)) 
 v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
 
-
-
-# So, we take the vector of costs, transposing it [the t() bit] to make it a 1 row matrix and using matrix multiplication [%*%] to multiply it by that discount factor vector, which is what you multiply by the outcome in each cycle to get the discounted value of the outcome for that cycle, and then it will all be summed all together across all cycles [across all cells of the 1 row matrix]. Giving you tc_d_SoC which is a scalar, or a single value, which is the lifetime expected cost for an average person under standard of care in this cohort. 
-
+# So, below we take the vector of costs, transposing it [the t() bit] to make it a 1 row matrix and using matrix multiplication [%*%] to multiply it by that discount factor vector, which is what you multiply by the outcome in each cycle to get the discounted value of the outcome for that cycle, and then it will all be summed all together across all cycles [across all cells of the 1 row matrix]. Giving you tc_d_SoC which is a scalar, or a single value, which is the lifetime expected cost for an average person under standard of care in this cohort. 
 
 # Discount costs by multiplying the cost vector with discount weights (v_dwc) 
-tc_d_SoC  <-  t(v_tc_SoC)  %*% v_dwc
-tc_d_trtA <-  t(v_tc_trtA) %*% v_dwc
-tc_d_trtB <-  t(v_tc_trtB) %*% v_dwc
+# tc_d_SoC  <-  t(v_tc_SoC)  %*% v_dwc
+# tc_d_trtA <-  t(v_tc_trtA) %*% v_dwc
+# tc_d_trtB <-  t(v_tc_trtB) %*% v_dwc
+
+tc_d_SoC <-  t(v_tc_SoC) %*% v_dwc 
+tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
 
 
-# So, now we have the average cost per person for treatment with standard of care, treatment A and treatment B. 
-
-
-
-
-
-
-
-
-
-
-
+# So, now we have the average cost per person for treatment with standard of care, and the experimental treatment. 
 
 
 # Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would be a better term here, as it's monthly health state quality of life, rather than yearly health state quality of life]
-tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
-tu_d_trtA <-  t(v_tu_trtA) %*% v_dwe
-tu_d_trtB <-  t(v_tu_trtB) %*% v_dwe
+# tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
+# tu_d_trtA <-  t(v_tu_trtA) %*% v_dwe
+# tu_d_trtB <-  t(v_tu_trtB) %*% v_dwe
 
-# Store them into a vector -> So, we'll take the single values for cost for an average person under standard of care, treatment A and treatment B, and stored them in a vector v_tc_d
-v_tc_d <- c(tc_d_SoC, tc_d_trtA, tc_d_trtB)
-v_tu_d <- c(tu_d_SoC, tu_d_trtA, tu_d_trtB)
+
+tu_d_SoC <-  t(v_tu_SoC) %*% v_dwe
+tu_d_Exp <-  t(v_tu_Exp) %*% v_dwe
+
+
+# Store them into a vector -> So, we'll take the single values for cost for an average person under standard of care and the experimental treatment and store them in a vector v_tc_d:
+v_tc_d <- c(tc_d_SoC, tc_d_Exp)
+v_tu_d <- c(tu_d_SoC, tu_d_Exp)
 
 v_tc_d
 v_tu_d
 
 # To make things a little easier to read we might name these values what they are costs for, so we can use the vector of strategy names [v_names_str] to name the values:
 
-names (v_tc_d) <- v_names_str
+names (v_tc_d) <- v_names_strats
 v_tc_d
 
-names (v_tu_d) <- v_names_str
+names (v_tu_d) <- v_names_strats
 v_tu_d
 
 
-# For utility, the utility values aren't different for the different states depending on the treatment strategy, i.e. SOC, Treatment A and Treatment B, but the time spent in the states with the associated utility is different due to the treatment you're on, so your utility value will be higher if the treatment keeps you well for longer so that you stay in a higher utility state for longer than a lower utility state, i.e., progression.
+# For utility, the utility values aren't different for the different states depending on the treatment strategy, i.e. SOC, Experimental Treatment, but the time spent in the states with the associated utility is different due to the treatment you're on, so your utility value will be higher if the treatment keeps you well for longer so that you stay in a higher utility state for longer than a lower utility state, i.e., progression.
 
 
 # Dataframe with discounted costs and effectiveness
 
 # So then we aggregate them into a dataframe with our discounted costs and utilities, and then we use this to calculate ICERs in: ## 07.3 Compute ICERs of the Markov model
 
-df_ce <- data.frame(Strategy = v_names_str,
-                    Cost     = v_tc_d, 
-                    Effect   = v_tu_d)
-df_ce
+# df_ce <- data.frame(Strategy = v_names_strats,
+#                     Cost     = v_tc_d, 
+#                     Effect   = v_tu_d)
+# df_ce
 ```
 
 ## 07.3 Compute ICERs of the Markov model
@@ -2028,11 +2029,18 @@ df_ce
 (If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
 ```{r}
-df_cea <- calculate_icers(cost       = df_ce$Cost,
-                          effect     = df_ce$Effect,
-                          strategies = df_ce$Strategy
-                          )
+
+# The discounted costs and QALYs can be summarized and visualized using functions from the 'dampack' package
+(df_cea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+                           effect     = c(tu_d_SoC, tu_d_Exp),
+                           strategies = v_names_strats))
 df_cea
+
+# df_cea <- calculate_icers(cost       = df_ce$Cost,
+#                           effect     = df_ce$Effect,
+#                           strategies = df_ce$Strategy
+#                           )
+# df_cea
 
 # The above uses the DARTHtools package to calculate our ICERS, incremental cost and incremental effectiveness, and also describes dominance status:
 
@@ -2063,7 +2071,10 @@ df_cea
 ```{r}
 plot(df_cea, effect_units = "QALYs", label = "all")
 
-# When we plot it we have 3 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
+# plot(df_cea, effect_units = "QALYs")
+
+
+# When we plot it we have 2 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
 
 ```
 
@@ -2099,11 +2110,35 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 # 08 Deterministic Sensitivity Analysis
 
-## 08.1 List of input parameters
+## 08.1 Load PFS-PFSer Markov model function
+
+To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
+
+```{r}
+
+## 4.1 Initialization ----
+
+# Load the model as a function that is defined in the supporting script
+# source("Functions_markov_3state.R")
+# Test function
+# calculate_ce_out(l_params_all)
+
+source(file = "oncologySemiMarkov_function.R")
+
+
+```
+
+## 08.2 List of input parameters
 
 Create list `l_params_all` with all input probabilities, cost and utilities.
 
 ```{r}
+
+
+# Test function
+calculate_ce_out(l_params_all)
+
+
 l_params_all <- as.list(data.frame(
   p_HD      = 0.01,  # probability of dying when OS
   p_HS_SoC  = 0.05,  # probability of becoming PFS when OS, under standard of care
@@ -2124,16 +2159,6 @@ l_params_all <- as.list(data.frame(
 
 # store the parameter names into a vector
 v_names_params <- names(l_params_all)
-```
-
-## 08.2 Load PFS-PFSer Markov model function
-
-To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
-
-```{r}
-source("Functions_markov_3state.R")
-# Test function
-calculate_ce_out(l_params_all)
 ```
 
 ## 08.3 One-way sensitivity analysis (OWSA)
