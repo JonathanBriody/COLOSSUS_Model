@@ -2125,6 +2125,8 @@ To make the function work for my health states I rename "health" and "sick" in i
 
 source(file = "oncologySemiMarkov_function.R")
 
+# If I change any code in this main model code file, I will also need to update the function that I call.
+
 
 ```
 

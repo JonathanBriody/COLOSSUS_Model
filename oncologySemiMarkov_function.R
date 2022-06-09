@@ -2,11 +2,9 @@
 
 # This "function" is basically just repeating the code from the Markov_3state.R script again.
 
-DONT FORGET TO ADD ADVERSE EVENTS!!!!!
-
 oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
   
-  with(as.list(l_params_all), {
+  with(as.list(l_params_all), {{
     
     # TRANSITION PROBABILITIES: Time-To-Transition - TTP:
     
@@ -214,80 +212,142 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     }
 
     
+    v_names_strats     <- c("Standard of Care", "Experimental Treatment") # Store the strategy names
+    n_strats           <- length(v_names_strats)  # number of strategies
+    v_names_states  <- c("PFS", "OS", "Dead", "AE1", "AE2", "AE3") # These are the health states in our model, PFS, OS, Death, Adverse Event 1, Adverse Event 2, Adverse Event 3.
+    n_states        <- length(v_names_states) # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
     
+    # Markov cohort trace matrix ----
     
+    # Initialize matrices to store the Markov cohort traces for each strategy
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
-    v_names_strats <- c("Standard of Care", "Experimental")         # strategy names
-    v_names_states <- c("ProgressionFree", "Progression", "Dead")   # state names
-    n_strats       <- length(v_names_strats)                        # number of strategies
-    n_states       <- length(v_names_states)                        # number of states
-    
-    m_M_SoC <- m_M_Exp <- matrix(
+    # - note that the number of rows is n_cycle + 1, because R doesn't use index 0 (i.e. cycle 0)  --> What we mean here, is that when we do our calculations later they need to be for cycle-1 to reflect cycle 0.
+    m_M_SoC <- m_M_Exp  <-  matrix(
       data = NA, 
       nrow = n_cycle,  
       ncol = n_states, 
       dimnames = list(paste('Cycle', 1:n_cycle), v_names_states)
     )
     
-    m_M_SoC[1, "ProgressionFree"] <- m_M_Exp[1, "ProgressionFree"] <- 1
-    m_M_SoC[1, "Progression"]     <- m_M_Exp[1, "Progression"]     <- 0
-    m_M_SoC[1, "Dead"]            <- m_M_Exp[1, "Dead"]            <- 0
+    # Specifying the initial state for the cohorts (all patients start in PFS)
+    m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
+    m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
+    m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
+    m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
+    m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
+    m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
     
+    # Inspect whether properly defined
+    head(m_M_SoC)
+    head(m_M_Exp)
+    #head(m_M_Exp_trtB)
+    
+    
+        ## If there were time varying transition probabilities, i.e. the longer you are in the model there are changes in your transition probability into death as you get older, etc., you would build a transition probability array, rather than a transition probability matrix, per: 
+    
+    # 04.2 of:
+    
+    # "C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modeling for Public Health_DARTH\5_Nov_29\4_Cohort state-transition models (cSTM) - time-dependent models_material\Markov_3state_time"
+    
+    # with the 1hour: 02minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
+    
+    
+    ## Initialize transition probability matrix, [i.e. build the framework or empty scaffolding of the transition probability matrix]
+    # all transitions to a non-death state are assumed to be conditional on survival
+    # - starting with standard of care
+    # - note that these are now 3-dimensional matrices because we are including time.
+    
+    
+    # m_P_SoC  <- matrix(0,
+    #                    nrow = n_states, ncol = n_states,
+    #                    dimnames = list(v_names_states, v_names_states)) # define row and column names
+    # m_P_SoC
+    
+    
+    # Initialize matrices for the transition probabilities
+    # - note that these are now 3-dimensional matrices (so, above we originally included dim = nrow and ncol, but now we also include n_cycle - i.e. the number of cycles).
+    # - starting with standard of care
     m_P_SoC <- array(
       data = 0,
-      dim  = c(n_states, n_states, n_cycle),
+      dim = c(n_states, n_states, n_cycle),
       dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+      # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
     )
     
-    m_P_SoC["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_SoC)
-    m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
-    m_P_SoC["ProgressionFree", "Dead", ]            <- p_FD
+    head(m_P_SoC)
     
-    m_P_SoC["Progression", "Progression", ] <- 1 - p_PD
-    m_P_SoC["Progression", "Dead", ]        <- p_PD
+    m_P_Exp <- array(
+      data = 0,
+      dim = c(n_states, n_states, n_cycle),
+      dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+      # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
+    )
+    head(m_P_Exp)
     
+    
+    
+    # Setting the transition probabilities from PFS based on the model parameters
+    # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
+    m_P_SoC["PFS", "PFS", ] <- p_PFS_SoC
+    m_P_SoC["PFS", "OS", ]     <- p_PFS_OS_SoC
+    m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
+    m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
+    m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
+    m_P_SoC["PFS", "Dead", ]            <- p_FD_SoC
+    
+    # Setting the transition probabilities from OS
+    m_P_SoC["OS", "OS", ] <- 1 - p_PD_SoC
+    m_P_SoC["OS", "Dead", ]        <- p_PD_SoC
+    
+    # Setting the transition probabilities from Dead
     m_P_SoC["Dead", "Dead", ] <- 1
     
-    m_P_Exp <- m_P_SoC
-    m_P_Exp["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_Exp)
-    m_P_Exp["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_Exp
+    # Setting the transition probabilities from AE1
+    m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
+    m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
+    
+    # Setting the transition probabilities from AE2
+    m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
+    m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
+    
+    # Setting the transition probabilities from AE3
+    m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
+    m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
+    
+    m_P_SoC
+
+    # Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
+    
+    m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
+    m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
+    m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
+    m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
+    m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
+    m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+    
+    
+    # Setting the transition probabilities from OS
+    m_P_Exp["OS", "OS", ] <- 1 - p_PD_Exp
+    m_P_Exp["OS", "Dead", ]        <- p_PD_Exp
+    
+    # Setting the transition probabilities from Dead
+    m_P_Exp["Dead", "Dead", ] <- 1
+    
+    
+    # Setting the transition probabilities from AE1
+    m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
+    m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
+    
+    # Setting the transition probabilities from AE2
+    m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
+    m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
+    
+    # Setting the transition probabilities from AE3
+    m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
+    m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
+    
+    m_P_Exp
+    
     
     check_transition_probability(m_P_SoC, verbose = TRUE)
     check_transition_probability(m_P_Exp, verbose = TRUE)
@@ -295,30 +355,60 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     check_sum_of_transition_array(m_P_SoC, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
     check_sum_of_transition_array(m_P_Exp, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
     
+    # So here I once again create the Markov cohort trace by looping over all cycles
+    # - note that the trace can easily be obtained using matrix multiplications
+    # - note that now the right probabilities for the cycle need to be selected, like I explained in Markov_3state.Rmd.
     for(i_cycle in 1:(n_cycle-1)) {
       m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
       m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
     }
     
-    v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
-    v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
     
-    v_tu_SoC <- m_M_SoC %*% c(u_F, u_P, u_D) * t_cycle
-    v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D) * t_cycle
+    # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
     
+    
+    v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
+    v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
+
+    v_tc_SoC
+    v_tc_Exp
+    
+    v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+    v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+    
+    v_tu_SoC
+    v_tu_Exp
+    
+    # Finally, we'll aggregate these costs and utilities into overall discounted mean (average) costs and           utilities.
+    
+    # Obtain the discounted costs and QALYs by multiplying the vectors of total cost and total utility we           created above by the discount rate for each cycle:
+    
+    # - note first the discount rate for each cycle needs to be defined accounting for the cycle length, as         below:
+
     v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle)) 
     v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
-    
+
+    # Discount costs by multiplying the cost vector with discount weights (v_dwc) 
+
     tc_d_SoC <-  t(v_tc_SoC) %*% v_dwc 
     tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
     
+    # Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would be     a better term here, as it's monthly health state quality of life, rather than yearly health state quality of     life]
+    
     tu_d_SoC <-  t(v_tu_SoC) %*% v_dwe
     tu_d_Exp <-  t(v_tu_Exp) %*% v_dwe
+
+    # Store them into a vector -> So, we'll take the single values for cost for an average person under standard     of care and the experimental treatment and store them in a vector v_tc_d:
     
-    v_tc_d    <- c(tc_d_SoC, tc_d_Exp)
-    v_tu_d    <- c(tu_d_SoC, tu_d_Exp)
+    v_tc_d <- c(tc_d_SoC, tc_d_Exp)
+    v_tu_d <- c(tu_d_SoC, tu_d_Exp)
+    
+    v_tc_d
+    v_tu_d
     
     v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
+    
+    # Here we create the net monetary benefit as the utilities times the willingness to pay minus the costs.
     
     df_ce <- data.frame(Strategy = v_names_strats,
                         Cost     = v_tc_d,
