@@ -2114,6 +2114,10 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
 
+One thing that concerns me is that the first line of the function sets willingness to pay at 10,000 and this is then used to build the net monetary benefit, I wonder if this needs to be updated for different willingess to pay values directly in the function or if I can do it in this file?
+
+oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
+
 ```{r}
 
 ## 4.1 Initialization ----
@@ -2137,8 +2141,12 @@ Create list `l_params_all` with all input probabilities, cost and utilities.
 ```{r}
 
 
-# Test function
-calculate_ce_out(l_params_all)
+
+
+# Test whether the function works (and generates the same results)
+# - to do so, first a list of parameter values needs to be generated
+
+
 
 
 l_params_all <- as.list(data.frame(
@@ -2161,6 +2169,15 @@ l_params_all <- as.list(data.frame(
 
 # store the parameter names into a vector
 v_names_params <- names(l_params_all)
+
+
+
+# Test function
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
+
+
+
+
 ```
 
 ## 08.3 One-way sensitivity analysis (OWSA)
