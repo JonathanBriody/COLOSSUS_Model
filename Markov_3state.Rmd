@@ -16,7 +16,7 @@ bibliography: references.bib
 
 IF THIS BECOMES THE BEVACIZUMAB STUDY WE CAN INCOPORATE SOME OF THE BELOW:
 
-https://www.angiopredict.com/go/about_us
+<https://www.angiopredict.com/go/about_us>
 
 Smeets, D., Miller, I. S., O'Connor, D. P., Das, S., Moran, B., Boeckx, B., ... & Byrne, A. T. (2018). Copy number load predicts outcome of metastatic colorectal cancer patients receiving bevacizumab combination therapy. *Nature communications*, *9*(1), 1-16.
 
@@ -118,7 +118,7 @@ Limited data exist regarding these novel therapies, with no research comparing t
 
 We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy. As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death. We applied published estimates of costs associated with each health state in the countries studied [CITE]. All cost estimates were in 2022 Euros [maybe discuss how you converted to this? HIQA has something on this I think]. To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE]. The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020]. The Markov model simulated the health state transitions following a diagnosis of metastatic cancer. A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses. A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE]. For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI). For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI). In both instances we made use of treatment-specific utility values. At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state. To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
 
-> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death. All patients entered the model either receiving FOLFOX therapy or NOVEL therapy. After treatment discontinuation due to progession, best supportive care (BSC) was modeled. \*\*--> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
+> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death. All patients entered the model either receiving FOLFOX therapy or NOVEL therapy. After treatment discontinuation due to progession, best supportive care (BSC) was modeled. \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
 >
 > Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A. (2021). Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China. *Journal of Medical Economics*, *24*(1), 339-344.
 
@@ -459,7 +459,7 @@ m_M\_Exp
 
 3 What does the flexsurvreg code mean?
 
-Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this. Because this R code specificaly has: "# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
+Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this. Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
 
 > Read the below in tangent with:
 >
@@ -573,7 +573,7 @@ These guys add adverse events as a State in the Markov model, so I could probabl
 
 Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M. (2013). Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis. Molecular and Clinical Oncology, 1(1), 175-179. <https://sci-hub.st/10.3892/mco.2012.12>
 
-Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer. Value in Health, 14(6), 836-845. [\<https://sci-hub.se/10.1016/j.jval.2011.04.004>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer. Value in Health, 14(6), 836-845. [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
 
 > The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
 >
@@ -583,7 +583,7 @@ Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility o
 
 ###### Range around things:
 
-> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers. 2014. "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25. [\<https://doi.org/10.1016/j.clcc.2014.09.007.>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
+> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers. 2014. "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25. [\<https://doi.org/10.1016/j.clcc.2014.09.007.\>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
 >
 > seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time. Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
 >
@@ -591,7 +591,7 @@ Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility o
 >
 > The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
 >
-> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019). Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt. Journal of Medical Economics, 22(2), 163-168. [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
+> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019). Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt. Journal of Medical Economics, 22(2), 163-168. [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432\>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
 >
 > The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages). For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
 >
@@ -603,7 +603,7 @@ Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility o
 >
 > The transition probabilities, had a min 20% below the base case value and a max 20% above this.
 >
-> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q. (2020). Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer. Oncology Research and Treatment, 43(4), 153-159. [\<https://www.karger.com/Article/Pdf/505932>](https://www.karger.com/Article/Pdf/505932){.uri}
+> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q. (2020). Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer. Oncology Research and Treatment, 43(4), 153-159. [\<https://www.karger.com/Article/Pdf/505932\>](https://www.karger.com/Article/Pdf/505932){.uri}
 
 **Costing Data in Spain:**
 
@@ -662,7 +662,7 @@ The dampack package was based on the following textbook:
 
 If I find any parts of the package confusing I can email:
 
-Maintainer: Greg Knowlton \<knowl193\@umn.edu>
+Maintainer: Greg Knowlton \<knowl193\@umn.edu\>
 
 The official website is here: <https://cran.r-project.org/web/packages/dampack/>
 
@@ -2086,7 +2086,7 @@ The bottom axis of the above diagram shows you how effective the intervention is
 
 <https://yhec.co.uk/glossary/cost-effectiveness-frontier/>
 
-[\<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
+[\<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf\>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
 
 <https://researchonline.lshtm.ac.uk/id/eprint/4648686/1/The%20efficiency-frontier%20approach%20for%20health_GREEN%20AAM.pdf> also saved here:C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model\The efficiency-frontier approach for health_GREEN AAM.pdf
 
@@ -2114,7 +2114,7 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
 
-One thing that concerns me is that the first line of the function sets willingness to pay at 10,000 and this is then used to build the net monetary benefit, I wonder if this needs to be updated for different willingess to pay values directly in the function or if I can do it in this file?
+One thing that concerns me is that the first line of the function sets willingness to pay at 10,000 and this is then used to build the net monetary benefit, I wonder if this needs to be updated for different willingess to pay values directly in the function or if I can do it in this Markov_3state.Rmd file?
 
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
@@ -2145,6 +2145,30 @@ Create list `l_params_all` with all input probabilities, cost and utilities.
 
 # Test whether the function works (and generates the same results)
 # - to do so, first a list of parameter values needs to be generated
+
+# In Koen's code they manually set the value of things here, i.e.   HR_FP_Exp = 0.6, however, to support replicability I just set the variables equal to themselves for this list, and that way if I change something like HR_FP_Exp = 0.6, to HR_FP_Exp = 0.9 earlier in this R code it will automatically update here as well.
+
+
+
+l_params_all <- list(
+  coef_weibull_shape_SoC = 0.7700246,
+  coef_weibull_scale_SoC = 1.742534,
+  HR_FP_Exp = 0.6,
+  p_FD      = 0.02,      
+  p_PD      = 0.1,      
+  c_F_SoC   = 400,  
+  c_F_Exp   = 800,
+  c_P       = 1000,  
+  c_D       = 0,     
+  u_F       = 0.8,   
+  u_P       = 0.5,   
+  u_D       = 0,  
+  d_e       = 0.03,  
+  d_c       = 0.03,
+  n_cycle   = 60,
+  t_cycle   = 0.25
+)
+
 
 
 
@@ -2342,7 +2366,7 @@ df_e <- as.data.frame(matrix(0,
 colnames(df_e) <- v_names_str
 ```
 
-I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
+I need to fix the "\# Histogram of parameters" section above, the below gives advice on doing this:
 
 <https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove>
 
