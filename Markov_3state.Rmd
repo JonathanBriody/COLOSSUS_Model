@@ -1006,6 +1006,8 @@ p_FD_Exp   <- 0.02 # Probability of dying when progression-free:
 
 # Koen's data is time to progression data, so we can't figure out time to death from it. It may be possible to do this with the data I end up using, or as advised by the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder, but at the moment I'll just set PFS to Dead as a time-constant transition probability as he does.
 
+# I could probably apply parametric survival models to OS data, as all individuals from the OS curve were under standard of care, and get free to dead that way from the data.
+
 
 # PFS -> PFS:
 
@@ -2139,8 +2141,27 @@ source(file = "oncologySemiMarkov_function.R")
 Create list `l_params_all` with all input probabilities, cost and utilities.
 
 ```{r}
-
-
+# 
+# l_params_all <- as.list(data.frame(
+#   p_HD      = 0.01,  # probability of dying when OS
+#   p_HS_SoC  = 0.05,  # probability of becoming PFS when OS, under standard of care
+#   p_HS_trtA = 0.04,  # probability of becoming PFS when OS, under treatment A
+#   p_HS_trtB = 0.02,  # probability of becoming PFS when OS, under treatment B
+#   p_SD      = 0.1,   # probability of dying when PFS
+#   c_H       = 400,   # cost of one cycle in OS state
+#   c_S       = 1000,  # cost of one cycle in PFS state
+#   c_D       = 0,     # cost of one cycle in dead state
+#   c_trtA    = 800,   # cost of treatment A (per cycle)
+#   c_trtB    = 1500,  # cost of treatment B (per cycle)
+#   u_H       = 1,     # utility when OS 
+#   u_S       = 0.5,   # utility when PFS
+#   u_D       = 0,     # utility when dead
+#   d_e       = 0.04,  # discount factor for effectiveness
+#   d_c       = 0.04   # discount factor for costs
+# ))
+# 
+# # store the parameter names into a vector
+# v_names_params <- names(l_params_all)
 
 
 # Test whether the function works (and generates the same results)
@@ -2148,52 +2169,85 @@ Create list `l_params_all` with all input probabilities, cost and utilities.
 
 # In Koen's code they manually set the value of things here, i.e.   HR_FP_Exp = 0.6, however, to support replicability I just set the variables equal to themselves for this list, and that way if I change something like HR_FP_Exp = 0.6, to HR_FP_Exp = 0.9 earlier in this R code it will automatically update here as well.
 
+# I know that the values they used in this section were the same as their earlier values as they gave identical results when changed from manual values to setting the variable names equal to themselves, apart from .01 of a difference for NMB, but that's probably a rounding thing:
+
+# 
+# > l_params_all <- list(
+# +   coef_weibull_shape_SoC = 0.7700246,
+# +   coef_weibull_scale_SoC = 1.742534,
+# +   HR_FP_Exp = 0.6,
+# +   p_FD      = 0.02,      
+# +   p_PD      = 0.1,      
+# +   c_F_SoC   = 400,  
+# +   c_F_Exp   = 800,
+# +   c_P       = 1000,  
+# +   c_D       = 0,     
+# +   u_F       = 0.8,   
+# +   u_P       = 0.5,   
+# +   u_D       = 0,  
+# +   d_e       = 0.03,  
+# +   d_c       = 0.03,
+# +   n_cycle   = 60,
+# +   t_cycle   = 0.25
+# + )
+# > 
+# > oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
+#           Strategy     Cost   Effect      NMB
+# 1 Standard of Care 11493.14 3.725848 63023.81
+# 2     Experimental 18913.35 4.148299 64052.63
+# > l_params_all <- list(
+# +   coef_weibull_shape_SoC = coef_weibull_shape_SoC,
+# +   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+# +   HR_FP_Exp = HR_FP_Exp,
+# +   p_FD      = p_FD,      
+# +   p_PD      = p_PD,      
+# +   c_F_SoC   = c_F_SoC,  
+# +   c_F_Exp   = c_F_Exp,
+# +   c_P       = c_P,  
+# +   c_D       = c_D,     
+# +   u_F       = u_F,   
+# +   u_P       = u_P,   
+# +   u_D       = u_D,  
+# +   d_e       = d_e,  
+# +   d_c       = d_c,
+# +   n_cycle   = n_cycle,
+# +   t_cycle   = t_cycle
+# + )
+# > oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
+#           Strategy     Cost   Effect      NMB
+# 1 Standard of Care 11493.14 3.725848 63023.82
+# 2     Experimental 18913.35 4.148299 64052.64
+
+
+# Now I update this list with the variables I have:
 
 
 l_params_all <- list(
-  coef_weibull_shape_SoC = 0.7700246,
-  coef_weibull_scale_SoC = 1.742534,
-  HR_FP_Exp = 0.6,
-  p_FD      = 0.02,      
-  p_PD      = 0.1,      
-  c_F_SoC   = 400,  
-  c_F_Exp   = 800,
-  c_P       = 1000,  
-  c_D       = 0,     
-  u_F       = 0.8,   
-  u_P       = 0.5,   
-  u_D       = 0,  
-  d_e       = 0.03,  
-  d_c       = 0.03,
-  n_cycle   = 60,
-  t_cycle   = 0.25
+  coef_weibull_shape_SoC = coef_weibull_shape_SoC,
+  coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+  HR_FP_Exp = HR_FP_Exp,
+  p_FD_SoC  = p_FD_SoC,
+  p_FD_Exp  = p_FD_Exp,
+  p_PD_SoC = p_PD_SoC,
+  p_PD_Exp = p_PD_Exp,
+  c_F_SoC   = c_F_SoC,  
+  c_F_Exp   = c_F_Exp,
+  c_P       = c_P,  
+  c_D       = c_D,    
+  c_AE1 = c_AE1,
+  c_AE2 = c_AE2,
+  c_AE3 = c_AE3,
+  u_F = u_F,   
+  u_P = u_P,   
+  u_D = u_D,  
+  u_AE1 = u_AE1,
+  u_AE2 = u_AE2,
+  u_AE3 = u_AE3,
+  d_e       = d_e,  
+  d_c       = d_c,
+  n_cycle   = n_cycle,
+  t_cycle   = t_cycle
 )
-
-
-
-
-
-l_params_all <- as.list(data.frame(
-  p_HD      = 0.01,  # probability of dying when OS
-  p_HS_SoC  = 0.05,  # probability of becoming PFS when OS, under standard of care
-  p_HS_trtA = 0.04,  # probability of becoming PFS when OS, under treatment A
-  p_HS_trtB = 0.02,  # probability of becoming PFS when OS, under treatment B
-  p_SD      = 0.1,   # probability of dying when PFS
-  c_H       = 400,   # cost of one cycle in OS state
-  c_S       = 1000,  # cost of one cycle in PFS state
-  c_D       = 0,     # cost of one cycle in dead state
-  c_trtA    = 800,   # cost of treatment A (per cycle)
-  c_trtB    = 1500,  # cost of treatment B (per cycle)
-  u_H       = 1,     # utility when OS 
-  u_S       = 0.5,   # utility when PFS
-  u_D       = 0,     # utility when dead
-  d_e       = 0.04,  # discount factor for effectiveness
-  d_c       = 0.04   # discount factor for costs
-))
-
-# store the parameter names into a vector
-v_names_params <- names(l_params_all)
-
 
 
 # Test function
