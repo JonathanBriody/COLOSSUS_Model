@@ -2082,6 +2082,8 @@ plot(df_cea, effect_units = "QALYs", label = "all")
 
 The bottom axis of the above diagram shows you how effective the intervention is, the y axis shows you how costly the intervention is, here standard of care is cheaper but less effective than treatment B, which is more effective but more expensive, treatment A is not on the frontier, it has been dominated.
 
+The frontier is also discussed here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R_HTA_LMIC_Intro_to_RHTA_modeling
+
 (If I wanted to see an example where the frontier doesnt exist, I could go to the 38 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
 <https://www.google.ie/search?q=icer+fronter&hl=en&dcr=0&ei=nerzYYS_AciHhbIPlqyMuAk&ved=0ahUKEwjEgar1wdT1AhXIQ0EAHRYWA5cQ4dUDCA4&uact=5&oq=icer+fronter&gs_lcp=Cgdnd3Mtd2l6EAMyBwghEAoQoAE6BwgAEEcQsAM6BQgAEJECOgsIABCABBCxAxCDAToOCC4QgAQQsQMQxwEQowI6CwguELEDEMcBEK8BOg4ILhCABBCxAxDHARDRAzoICAAQsQMQgwE6BQguEJECOgQIABBDOgcIABCxAxBDOggIABCABBCxAzoOCC4QgAQQsQMQxwEQrwE6CAguEIAEELEDOgcIABDJAxBDOgUIABCSAzoFCAAQgAQ6CwguEIAEEMcBENEDOgUILhCABDoLCC4QgAQQxwEQrwE6BAgAEAo6CgguEMcBENEDEAo6BAguEAo6BwgAEMkDEAo6BggAEBYQHjoICAAQFhAKEB46BAgAEA06BQghEKABSgQIQRgASgQIRhgAUKIJWJYZYNEbaANwAngAgAGMAYgB6AiSAQM4LjSYAQCgAQHIAQjAAQE&sclient=gws-wiz>
@@ -2261,7 +2263,123 @@ oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 ## 08.3 One-way sensitivity analysis (OWSA)
 
 ```{r}
+
+## Defining and performing a one-way sensitivity analysis:
+
+# A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be incuded and their minimum and maximum values.
+
+# - here, the cost per cycle of the experimental treatment and utility for the progression-free state are included
+
+df_params_OWSA <- data.frame(
+  pars = c("c_F_Exp", "u_F"),   # names of the parameters to be changed
+  min  = c(400,  0.70),         # min parameter values
+  max  = c(1200, 0.90)          # max parameter values
+)
+
+
+
 options(scipen = 999) # disabling scientific notation in R
+
+
+
+# The OWSA is performed using the run_owsa_det function
+OWSA_NMB  <- run_owsa_det(
+# run_owsa_det
+
+# Arguments:
+  
+  params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
+
+# params_range	
+# data.frame with 3 columns of parameters for OWSA in the following order: "pars", "min", and "max".
+# The number of samples from this range is determined by nsamp. 
+# "pars" are the parameters of interest and must be a subset of the parameters from params_basecase.
+  
+  
+  params_basecase  = l_params_all,       # list with all parameters
+
+# params_basecase	
+# a named list of basecase values for input parameters needed by FUN, the user-defined function. So, I guess it takes the values that the parameters are equal to in l_params_all as the base case, so if cost is 1,000 it'll take that as the base case, and then take the min and the max around this from the data.frame we created above.
+
+
+
+
+  nsamp            = 100,                # number of parameter values
+
+# nsamp	
+# number of sets of parameter values to be generated. If NULL, 100 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
+
+  FUN              = oncologySemiMarkov, # function to compute outputs
+
+# FUN	
+# function that takes the basecase in params_basecase and runs the analysis in the function... to produce the outcome of interest. The FUN must return a dataframe where the first column are the strategy names and the rest of the columns must be outcomes.
+# 
+
+
+  outcomes         = c("NMB"),           # output to do the OWSA on
+  strategies       = c("SoC", "Exp"),    # names of the strategies
+  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# outcomes	
+# string vector with the outcomes of interest from FUN produced by nsamp
+# 
+# strategies	
+# vector of strategy names. The default NULL will use strategy names in FUN
+# 
+# progress	
+# TRUE or FALSE for whether or not function progress should be displayed in console.
+# 
+# ...	
+# Additional arguments to user-defined FUN
+# 
+# Value
+# A list containing dataframes with the results of the sensitivity analyses. The list will contain a dataframe for each outcome specified. List elements can be visualized with plot.owsa, owsa_opt_strat and owsa_tornado from dampack
+# 
+# Details
+# params_range
+# 
+# "pars" are the names of the input parameters of interest. These are the parameters that will be varied in the deterministic sensitivity analysis. variables in "pars" column must be a subset of variables in params_basecase
+# 
+# "min" and "max" are the mininum and maximum values of the parameters of interest.
+# 
+# 
+# DARTH-git/dampack documentation built on Aug. 8, 2021, 2:58 a.m.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# OLD CODE:
 # dataframe containing all parameters, their base case values, and the min and 
 # max values of the parameters of interest 
 df_params_owsa <- data.frame(pars = c("c_trtA", "c_trtB", "c_S"),
