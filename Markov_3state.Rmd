@@ -2491,6 +2491,8 @@ df_params_OWSA <- data.frame(
   max  = c(1200, 0.90)          # max parameter values
 )
 
+# We create a dataframe containing all parameters we want to do the sensitivity analysis on, and the min and max values of the parameters of interest 
+# "min" and "max" are the mininum and maximum values of the parameters of interest.
 
 
 options(scipen = 999) # disabling scientific notation in R
@@ -2509,7 +2511,14 @@ OWSA_NMB  <- run_owsa_det(
 # data.frame with 3 columns of parameters for OWSA in the following order: "pars", "min", and "max".
 # The number of samples from this range is determined by nsamp. 
 # "pars" are the parameters of interest and must be a subset of the parameters from params_basecase.
-  
+
+
+# Details
+# params_range
+ 
+# "pars" are the names of the input parameters of interest. These are the parameters that will be varied in the deterministic sensitivity analysis. variables in "pars" column must be a subset of variables in params_basecase
+ 
+
   
   params_basecase  = l_params_all,       # list with all parameters
 
@@ -2537,62 +2546,37 @@ OWSA_NMB  <- run_owsa_det(
 # string vector with the outcomes of interest from FUN produced by nsamp
 # This basically tells run_owsa_det what the name of the outcome of interest from the function we fed it is. Here our function had NMB, i.e., the net monetary benefit.
 
-  strategies       = c("SoC", "Exp"),    # names of the strategies
-
   strategies       = v_names_strats,       # names of the strategies
 
 # strategies	
-# vector of strategy names. The default NULL will use strategy names in FUN
+# Set it equal to a vector of strategy names. The default NULL will use strategy names in FUN (  strategies = NULL,)
 # Here that's "Standard of Care" and "Experimental Treatment".
 
+progress = TRUE,
 
+# progress	
+# TRUE or FALSE for whether or not function progress should be displayed in console, i.e., like 75% complete, 100%, etc.,
 
 
 
   n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
 )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# outcomes	
-# string vector with the outcomes of interest from FUN produced by nsamp
-# 
-# strategies	
-# vector of strategy names. The default NULL will use strategy names in FUN
-# 
-# progress	
-# TRUE or FALSE for whether or not function progress should be displayed in console.
-# 
-# ...	
-# Additional arguments to user-defined FUN
-# 
 # Value
 # A list containing dataframes with the results of the sensitivity analyses. The list will contain a dataframe for each outcome specified. List elements can be visualized with plot.owsa, owsa_opt_strat and owsa_tornado from dampack
-# 
-# Details
-# params_range
-# 
-# "pars" are the names of the input parameters of interest. These are the parameters that will be varied in the deterministic sensitivity analysis. variables in "pars" column must be a subset of variables in params_basecase
-# 
-# "min" and "max" are the mininum and maximum values of the parameters of interest.
-# 
-# 
-# DARTH-git/dampack documentation built on Aug. 8, 2021, 2:58 a.m.
+
+# Basically, run_owsa_det creates the above.
+
+
+
+
+
+
+ 
+# Resources on this available here:
+
+
+# https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html (also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\sensitivity analysis help files\rdrr-io-github-DARTH-git-dampack-man-run_owsa_det-html.pdf)
 
 
 
@@ -2608,23 +2592,6 @@ OWSA_NMB  <- run_owsa_det(
 
 
 
-
-
-# OLD CODE:
-# dataframe containing all parameters, their base case values, and the min and 
-# max values of the parameters of interest 
-df_params_owsa <- data.frame(pars = c("c_trtA", "c_trtB", "c_S"),
-                             min  = c(300 , 500, 500),  # min parameter values
-                             max  = c(1200, 2000, 2000)  # max parameter values
-)
-
-owsa_nmb  <- run_owsa_det(params_range     = df_params_owsa,    # dataframe with parameters for OWSA
-                          params_basecase  = l_params_all,      # list with all parameters
-                          nsamp            = 100,               # number of parameter values
-                          FUN              = calculate_ce_out,  # function to compute outputs
-                          outcomes         = c("NMB"),          # output to do the OWSA on
-                          strategies       = v_names_str,       # names of the strategies
-                          n_wtp            = 5000)              # extra argument to pass to FUN
 ```
 
 ## 08.3.1 Plot OWSA
