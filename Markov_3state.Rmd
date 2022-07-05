@@ -2329,6 +2329,57 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 # 08 Deterministic Sensitivity Analysis
 
+A number of sensitivity analyses were conducted to address uncertainty in parameter estimation and assess robustness of the model results.
+The mean, range and distributions applied in these analyses are described in Table X [big table that has the base-case, max, min, reference and distribution].
+
+For cost parameters, a template was completed....
+
+Costs, utilities and probabilities were varied within +/- 20% of baseline, per [@goldstein2014a; @goulart2011]....
+[these are just guys who have done the 20% varying, if I find better online I can use that].
+
+To define the ranges of the mortalities and progression risks for the sensitivity analysis, we first adjusted the PFS/OS curves \$S(t)\$ in the base case by a hazard ratio adjustment \$\\gamma\$, as \$[S(t)\^{\\gamma}]\$, and then reestimated the risks for every cycle based on the adjusted survival curves.
+The adjustment hazard ratio was chosen to be 1 +/- 0.2 (1 indicates that the base case value was used).
+
+To study the influence of a range of transition risks, the PFS and OS curves \$S(t)\$ in the model were altered for both treatment strategies via a hazard ratio adjustment \$\\gamma\$, as \$[S(t)\^{\\gamma}]\$.
+Subsequently, transition risks for each cycle were calculated from these adjusted survival curves [@goldstein2014a].
+The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case plus or minus 20%.
+
+[So, basically what I need to do here is get my survival curves from the parametric survival analysis for standard of care, and for the novel therapy post applying the hazard ratio on Bevacizumab (so, this may require converting back to a survival curve) and then have them as the mean, and the min as the mean multiplied by 0.20 and -0.20 and the max as the mean +0.20].
+
+```{r}
+
+HR_Max <- 0.20
+HR_Min <- 0.80
+
+Max_S_FP_SoC <- S_FP_SoC + S_FP_SoC*HR_Max   
+
+Min_S_FP_SoC <- S_FP_SoC - S_FP_SoC*HR_Min 
+
+Max_S_FP_Exp <- S_FP_Exp + S_FP_Exp*HR_Max  
+
+Min_S_FP_Exp <- S_FP_Exp - S_FP_Exp*HR_Min 
+
+
+
+
+
+```
+
+[- per: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
+(2014).
+Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
+Clinical colorectal cancer, 13(4), 219-225.]
+
+dampack has the functionality to interface with a user-defined decision model in R to conduct a deterministic sensitivity analysis (DSA) on parameters of interest.
+DSA is a method for assessing how the results of a decision analytic model change as a parameter of interest in varied over a specified range of values.
+This includes both how model outcomes change (e.g. the expected cost of each strategy) as well as how the decision changes (e.g. which strategy is the most cost-effective) with the parameter of interest.
+
+In a DSA, the model is run for each value of the parameter of interest over the specified range, while holding all other parameter values fixed.
+If one parameter is varied, this is called a one-way DSA.
+If two parameters are varied, it is called a two-way DSA.
+We typically do not vary more than two parameters at a time, as the output becomes difficult to visualize and interpret.
+A more comprehensive assessment of how model outptus depend on model parameters can be done through a probabilistic sensitivity analysis (PSA) (type vignette("psa_generation", package = "dampack") in the console after installing the dampack package to see a vignette describing how to use dampack for PSA).
+
 ## 08.1 Load PFS-PFSer Markov model function
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
@@ -2442,7 +2493,10 @@ Create list `l_params_all` with all input probabilities, cost and utilities.
 l_params_all <- list(
   coef_weibull_shape_SoC = coef_weibull_shape_SoC,
   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+  p_FP_SoC = p_FP_SoC,
+# p_FP_Exp = p_FP_Exp,
   HR_FP_Exp = HR_FP_Exp,
+  HR_FP_SoC = HR_FP_SoC,
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
   p_PD_SoC = p_PD_SoC,
@@ -2481,15 +2535,128 @@ oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
 ## Defining and performing a one-way sensitivity analysis:
 
+
+
+
+# code to generate max and min at 20% more and 20% less than the mean current value we assigned the parameter automatically. 
+
+Maximum_c_F_Exp <- c_F_Exp + 0.20*c_F_Exp
+Minimum_c_F_Exp <- c_F_Exp - 0.20*c_F_Exp
+
+Maximum_c_F_Exp
+Minimum_c_F_Exp
+
+
+Maximum_u_F <- u_F + 0.20*u_F
+Minimum_u_F <- u_F - 0.20*u_F
+
+Maximum_u_F
+Minimum_u_F
+
+
+Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+
+Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
+Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
+
+
+HR_FP_SoC
+    
+Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
+Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
+
+
+HR_FP_Exp
+    
+Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+
+
+
+
+
+
+
 # A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be incuded and their minimum and maximum values.
 
 # - here, the cost per cycle of the experimental treatment and utility for the progression-free state are included
 
 df_params_OWSA <- data.frame(
-  pars = c("c_F_Exp", "u_F"),   # names of the parameters to be changed
-  min  = c(400,  0.70),         # min parameter values
-  max  = c(1200, 0.90)          # max parameter values
+  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
+  min  = c(400,  0.70, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
+  max  = c(1200, 0.90, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
 )
+
+
+
+
+# To vary transition probabilities is slightly complex in a time dependent model.
+
+
+# FOR THE TRANSITION PROBABILITY FROM FREE TO PROGRESSION WE CAN MULTIPLY THAT PARAMETER BY 20% ONCE AND IT WILL CHANGE THE TRANSITION PROBABILITIES AT EACH CYCLE 
+ 
+# > Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+# > Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+# > p_FP_SoC
+#  ...0.249399924
+# > Minimum_p_FP_SoC
+#  ...0.1995199390
+# > Maximum_p_FP_SoC
+#  ...0.299279908
+
+# 0.0499 is 20% of 0.249399924
+# 0.249399924 - 0.0499 = 0.199499924
+# 0.249399924 + 0.0499 = 0.299299924 
+
+# So, this allows us to have the 20% variability on our time dependent transition probabilities
+
+
+# WE DONT NEED TO HAVE A MAX (MEAN+20%) AND MIN (MEAN-20%) FOR THE HAZARD RATIO TOO IF WE HAVE THESE FOR TRANSITION PROBABILITIES FOR THE EXPERIMENTAL TREATMENT.
+
+# There's a problem below, df_params_OWSA doesnt like the fact that a different probability for each cycle (from the time-dependent transition probabilities) gives 122 rows. 
+ 
+# > df_params_OWSA <- data.frame(
+# +   pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),   # names of the parameters to be changed
+# +   min  = c(400,  0.70, Minimum_p_FP_SoC, Minimum_p_FP_Exp),         # min parameter values
+# +   max  = c(1200, 0.90, Maximum_p_FP_SoC, Maximum_p_FP_Exp)          # max parameter values
+# + )
+# Error in data.frame(pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),  : 
+#   arguments imply differing number of rows: 4, 122
+# 
+
+# To address this, I can go back to the Goldstein approach and change the hazard ratio instead. For the experimental strategy this is simple to do as there already is a hazard ratio in generating experimental strategy transition probabilities. 
+
+# For the standard of care strategy I'll have to add a hazard ratio into oncologySemiMarkov_function that is equal to 1 and get's multiplied by the standard of care stuff first, then I can vary this by a min and a max as above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # We create a dataframe containing all parameters we want to do the sensitivity analysis on, and the min and max values of the parameters of interest 
 # "min" and "max" are the mininum and maximum values of the parameters of interest.
@@ -2500,6 +2667,11 @@ options(scipen = 999) # disabling scientific notation in R
 
 
 # The OWSA is performed using the run_owsa_det function
+
+
+# This function runs a deterministic one-way sensitivity analysis (OWSA) on a given function that produces outcomes. rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
+
+
 OWSA_NMB  <- run_owsa_det(
 # run_owsa_det: https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html
 
@@ -2611,12 +2783,16 @@ owsa_opt_strat(owsa = owsa_nmb, txtsize = 10)
 ## 08.3.3 Tornado plot
 
 ```{r}
-owsa_tornado(owsa = owsa_nmb, txtsize = 11)
+owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 ```
 
 ## 08.4 Two-way sensitivity analysis (TWSA)
 
 ```{r}
+
+#' Run deterministic two-way sensitivity analysis (TWSA) https://rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
+
+
 # dataframe containing all parameters, their basecase values, and the min and 
 # max values of the parameters of interest
 df_params_twsa <- data.frame(pars = c("c_trtA", "c_trtB"),
