@@ -965,6 +965,72 @@ S_FP_Exp  <- exp(-H_FP_Exp)
 head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
 
 
+head(cbind(t, S_FP_SoC, H_FP_SoC))
+
+
+
+    # I want to vary my probabilities for the one-way sensitivity analysis, particularly for the tornado       plot of the deterministic sensitivity analysis. 
+    
+    # The problem here is that df_params_OWSA doesnt like the fact that a different probability for each       cycle (from the time-dependent transition probabilities) gives 122 rows (because there are 60 cycles,      two treatment strategies and a probability for each cycle). It wants the same number of       rows as      there are probabilities, i.e., it would prefer a probability of say 0.50 and then a max and a      min     around that.
+    
+    # To address this, I think I can apply this mean, max and min to the hazard ratios instead, knowing        that when run_owsa_det is run in the sensitivity analysis it calls this function to run and in this        function the hazard ratios generate the survivor function, and then these survivor functions are used      to generate the probabilities (which will be cycle dependent).
+    
+    # This is fine for the hazard ratio for the experimental strategy, I can just take:
+    
+    # HR_FP_Exp as my mean, and:
+    
+    # Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+    # Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+    
+    # For min and max.
+    
+    # For standard of care there was no hazard ratio, because we took these values from the survival curves     directly, and didnt vary them by a hazard ratio, like we do above.
+    
+    # To address this, I create a hazard ratio that is exactly one.
+    
+    # hazard ratio
+
+    # A measure of how often a particular event happens in one group compared to how often it happens in       another group, over time. In cancer research, hazard ratios are often used in clinical trials to           measure survival at any point in time in a group of patients who have been given a specific treatment      compared to a control group given another treatment or a placebo. A hazard ratio of one means that         there is no difference in survival between the two groups. A hazard ratio of greater than one or less      than one means that survival was better in one of the groups. https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hazard-ratio
+
+    # Thus, I can have a hazard ratio where the baseline value of it gives you the survival curves, and        thus the probabilities, from the actual survival curves we are drawing from, and where the min and max     will be 1 +/- 0.20, which will give us probabilities that are 20% higher or lower than the probabilities from the actual survival curves that we are drawing from in the parametric survival analysis to get transitions under standard of care.
+    
+    # To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
+        
+
+    # So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
+      
+    # Here our hazard ratio is 1, things are unchanged.
+
+# So, first we create our hazard ratio == 1
+HR_FP_SoC <- 1
+
+# (I'm creating the below as new parameters, i.e. putting "nu" infront of them, in case keeping the name the same causes a problem for when I want to use them in the deterministic sensivity analysis, i.e., if I generate a parameter from itself - say var_name = var_name exactly, then there may be some way in which R handles code that won't let this work, or will take one parameter before the other, or something and stop the model from executing correctly).
+
+# Then, we create our hazard function for SoC:
+NU_S_FP_SoC <- S_FP_SoC
+NU_H_FP_SoC  <- -log(NU_S_FP_SoC)
+# Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
+NUnu_H_FP_SoC  <- NU_H_FP_SoC * HR_FP_SoC
+# Again, I was worried that with overlap when creating parameters I would have a problem with the deterministic sensivity analysis so I call it NU again to make it a "new" parameter again.
+NU_S_FP_SoC  <- exp(-NUnu_H_FP_SoC)
+
+head(cbind(t, NU_S_FP_SoC, NUnu_H_FP_SoC))
+
+
+
+# NU_H_FP_SoC  <- -log(NU_S_FP_SoC)
+# # Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
+# NU_H_FP_SoC  <- NU_H_FP_SoC * HR_FP_SoC
+# # 
+# NU_S_FP_SoC  <- exp(-NU_H_FP_SoC)
+# 
+# head(cbind(t, NU_S_FP_SoC, NU_H_FP_SoC))
+
+
+
+
+
+
 
 
 
@@ -982,9 +1048,11 @@ p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
 
 
 for(i in 1:n_cycle) {
-  p_FP_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
+  p_FP_SoC[i] <- 1 - NU_S_FP_SoC[i+1] / NU_S_FP_SoC[i]
   p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
 }
+
+
 
 
 # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
@@ -1020,7 +1088,7 @@ p_FP_Exp
 
  # NOW I NEED TO REPEAT THE ABOVE, BUT THIS TIME FOR OS TO DEATH.
 
-
+# AT THE MOMENT I'M JUST LEAVING THIS CHUNK OF CODE ALONE, AS I DON'T THINK I'LL BE USING IT...
 
 # TRANSITION PROBABILITIES: Time-To-Dead TTD
 
@@ -1758,13 +1826,13 @@ Check if transition probability matrices are valid.
 
 ```{r}
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
-check_transition_probability(m_P_SoC,  verbose = TRUE)
-check_transition_probability(m_P_Exp,  verbose = TRUE)
+# UNCOMMENT THIS! check_transition_probability(m_P_SoC,  verbose = TRUE)
+# UNCOMMENT THIS! check_transition_probability(m_P_Exp,  verbose = TRUE)
 #check_transition_probability(m_P_trtA, verbose = TRUE)
 #check_transition_probability(m_P_trtB, verbose = TRUE)
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
-check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# UNCOMMENT THIS! check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# UNCOMMENT THIS! check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
@@ -2493,8 +2561,6 @@ Create list `l_params_all` with all input probabilities, cost and utilities.
 l_params_all <- list(
   coef_weibull_shape_SoC = coef_weibull_shape_SoC,
   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
-  p_FP_SoC = p_FP_SoC,
-# p_FP_Exp = p_FP_Exp,
   HR_FP_Exp = HR_FP_Exp,
   HR_FP_SoC = HR_FP_SoC,
   p_FD_SoC  = p_FD_SoC,
@@ -2562,16 +2628,19 @@ Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
 Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
 
 
+HR_FP_Exp
+    
+Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+
+
+
 HR_FP_SoC
     
 Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
 Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
 
 
-HR_FP_Exp
-    
-Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
-Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
 
 
 
@@ -2754,6 +2823,7 @@ progress = TRUE,
 
 
 
+owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 
 
 

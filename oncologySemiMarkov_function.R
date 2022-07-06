@@ -37,7 +37,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     ###### IN THE FUNCTION WE ARE USING WEIBULL, IF IN THE CODE IN MARKOV_3STATE.RMD WE USE SOMETHING OTHER THAN WEIBULL THEN WE WILL HAVE TO UPDATE THIS ACCORDINGLY.
     
     
-    head(cbind(t, S_FP_SoC))
+    # head(cbind(t, S_FP_SoC))
     
     #        t  S_FP_SoC
     # [1,] 0.0 1.0000000
@@ -66,7 +66,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
     S_FP_Exp  <- exp(-H_FP_Exp)
     
-    head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+    # head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
     
     
     
@@ -97,7 +97,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     # To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
         
-
+    #    * ======================================================================================
+    
     # So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
       
     # Here our hazard ratio is 1, things are unchanged.
@@ -113,40 +114,29 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     head(cbind(t, S_FP_SoC, H_FP_SoC))
         
     # So, first we create our hazard ratio == 1
-    # HR_FP_SoC <- 1 if I put the hazard ratio in here then run_owsa_det can't replace it with the maximum     and the minimum.
+    # HR_FP_SoC <- 1 is commented out, because if I put the hazard ratio in here then run_owsa_det can't replace it with the maximum     and the minimum values we assign.
     # Then, we create our hazard function for SoC:
-    H_FP_SoC  <- -log(S_FP_SoC)
+    XNU_S_FP_SoC <- S_FP_SoC
+    XNU_H_FP_SoC  <- -log(XNU_S_FP_SoC)
     # Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
-    H_FP_SoC  <- H_FP_SoC * HR_FP_SoC
+    XNUnu_H_FP_SoC  <- XNU_H_FP_SoC * HR_FP_SoC
     # 
-    S_FP_SoC  <- exp(-H_FP_SoC)
+    XNU_S_FP_SoC  <- exp(-XNUnu_H_FP_SoC)
     
-    head(cbind(t, S_FP_SoC, H_FP_SoC))
-      
+        
+    head(cbind(t, XNU_S_FP_SoC, XNUnu_H_FP_SoC))    
+
+    
+    
     # I compare the header now, to the header earlier. They should be identical, because all this code does     is add the space for a hazard ratio, it doesnt actually do anything other than convert from a survivor     function to a hazard function, multiply by a hazard ratio equal to one, and then convert back to a         survivor function, just so we can include a hazard ratio for standard of care in our sensitivity           analysis. 
 
     
     # Then, the above survival function is used to generate transition probabilities below, which is the       genius of applying the hazard ratio to the sensitivity analysis, it can have a singular mean with a        static min and max, but applying it how we apply it above allows it to still produce cycle-specific        transition probabilities.
     
     
-      
-      
-      
-
+#    * ======================================================================================
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+      # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
     
     # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
     
@@ -157,12 +147,26 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     for(i in 1:n_cycle) {
-      p_FP_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
+      p_FP_SoC[i] <- 1 - XNU_S_FP_SoC[i+1] / XNU_S_FP_SoC[i]
       p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     }
     
     
-    # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
     # The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
