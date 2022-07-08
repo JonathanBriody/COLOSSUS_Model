@@ -2587,6 +2587,13 @@ l_params_all <- list(
 )
 
 
+#    p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+
+    
+    # I think that, to ensure the probability is a conditional probability for p_FA1_SoC, I need to define it as above, because I know that p_PFS_SoC changes due to the hazard ratio changes, BUT, if I want to alter the probability of the adverse event in my model, I should let: p_FA1_STD reflect my adverse event and include this in the OWSA code, rather than p_FA1_SoC - because p_FA1_STD can be changed by 20% and then this code above will create p_FA1_SoC conditional on the new probability for p_PFS_SoC as this changes with the changing hazard ratios in the senstivity analysis. So, p_FA1_SoC will be conditional on the updated p_PFS_SoC rather than the original p_PFS_SoC pre-hazard ratio changes to p_PFS_SoC.
+
+
+
 # Test function
 oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
@@ -2855,6 +2862,14 @@ owsa_opt_strat(owsa = owsa_nmb, txtsize = 10)
 ```{r}
 owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 ```
+
+## 08.3.4 Table Describing Parameters
+
+To build a Table describing parameters, you click on the Table button at the top, and design it in there.
+Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</> from above to put it in a code block.
+You do the same for gamma, etc., put this in code blocks also.
+
+Per: [Putting the value of a variable into a table in R Markdown, rather than it's name - Stack Overflow](https://stackoverflow.com/questions/72902548/putting-the-value-of-a-variable-into-a-table-in-r-markdown-rather-than-its-nam)
 
 ## 08.4 Two-way sensitivity analysis (TWSA)
 

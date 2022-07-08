@@ -90,17 +90,17 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # To address this, I create a hazard ratio that is exactly one.
     
     # hazard ratio
-
+    
     # A measure of how often a particular event happens in one group compared to how often it happens in       another group, over time. In cancer research, hazard ratios are often used in clinical trials to           measure survival at any point in time in a group of patients who have been given a specific treatment      compared to a control group given another treatment or a placebo. A hazard ratio of one means that         there is no difference in survival between the two groups. A hazard ratio of greater than one or less      than one means that survival was better in one of the groups. https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hazard-ratio
-
+    
     # Thus, I can have a hazard ratio where the baseline value of it gives you the survival curves, and        thus the probabilities, from the actual survival curves we are drawing from, and where the min and max     will be 1 +/- 0.20, which will give us probabilities that are 20% higher or lower than the probabilities from the actual survival curves that we are drawing from in the parametric survival analysis to get transitions under standard of care.
     
     # To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
-        
+    
     #    * ======================================================================================
     
     # So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
-      
+    
     # Here our hazard ratio is 1, things are unchanged.
     
     # - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
@@ -110,9 +110,9 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
     # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
     # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard      function, multiply by the hazard ratio, and then convert back to the survivor function, and then these     survivor functions are used for the probabilities.
-
+    
     head(cbind(t, S_FP_SoC, H_FP_SoC))
-        
+    
     # So, first we create our hazard ratio == 1
     # HR_FP_SoC <- 1 is commented out, because if I put the hazard ratio in here then run_owsa_det can't replace it with the maximum     and the minimum values we assign.
     # Then, we create our hazard function for SoC:
@@ -123,20 +123,20 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # 
     XNU_S_FP_SoC  <- exp(-XNUnu_H_FP_SoC)
     
-        
+    
     head(cbind(t, XNU_S_FP_SoC, XNUnu_H_FP_SoC))    
-
+    
     
     
     # I compare the header now, to the header earlier. They should be identical, because all this code does     is add the space for a hazard ratio, it doesnt actually do anything other than convert from a survivor     function to a hazard function, multiply by a hazard ratio equal to one, and then convert back to a         survivor function, just so we can include a hazard ratio for standard of care in our sensitivity           analysis. 
-
+    
     
     # Then, the above survival function is used to generate transition probabilities below, which is the       genius of applying the hazard ratio to the sensitivity analysis, it can have a singular mean with a        static min and max, but applying it how we apply it above allows it to still produce cycle-specific        transition probabilities.
     
     
-#    * ======================================================================================
+    #    * ======================================================================================
     
-      # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+    # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
     
     # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
     
@@ -166,7 +166,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     
-        # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
+    # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
     # The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
@@ -290,8 +290,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     p_PD_SoC
     
     p_PD_Exp
-    }
-
+  }
+    
     
     v_names_strats     <- c("Standard of Care", "Experimental Treatment") # Store the strategy names
     n_strats           <- length(v_names_strats)  # number of strategies
@@ -324,7 +324,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     #head(m_M_Exp_trtB)
     
     
-        ## If there were time varying transition probabilities, i.e. the longer you are in the model there are changes in your transition probability into death as you get older, etc., you would build a transition probability array, rather than a transition probability matrix, per: 
+    ## If there were time varying transition probabilities, i.e. the longer you are in the model there are changes in your transition probability into death as you get older, etc., you would build a transition probability array, rather than a transition probability matrix, per: 
     
     # 04.2 of:
     
@@ -369,6 +369,56 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     # Setting the transition probabilities from PFS based on the model parameters
     # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
+    
+    
+    # This is where the variety in hazard ratio influences our model results, as these transition probabilities are built by multiplying the probability built from the hazard ratio above (and which can be given a variety of values) by something else, so it can change by +/- 20% and thus the transition probability that is built from it can change by +/- 20%.
+    
+    # If in the main model (i.e., in the Markov_3state.Rmd) I decide to build the p_FD_SoC and p_FD_Exp from other transition probabilities, then I should change them below to reflect how they are built in case the hazard ratio's I build above can influence them too.
+    
+    
+    # The easiest way to do this is just to generate every probability that feeds into the matrixes below again using the code from Markov_3state.Rmd, because these probabilities are built from p_FP_SoC, p_FP_Exp, p_PD_SoC and p_PD_Exp in this main model, putting this code in again here should apply these updated hazard ratio informed probabilities from the above in the probabilities for the matrixes below.
+    
+    
+    # ######## Creating probabilities for transition probabilities using R markdown code ###############
+    
+    p_PFS_SoC  <-   (1 - p_FD_SoC) * (1 - p_FP_SoC)
+    
+    # Because p_FD_SoC is created just as a number in the main file, (i.e., p_FD_SoC   <- 0.02 # Probability of dying when progression-free) if I decide to alter the probability of death in my OWSA code by including p_FD_SoC it means p_PFS_SoC will automatically incorporate this changed code.
+    # The problem herein is that, because p_PFS_SoC is conditional on p_FD_SoC, if p_FD_SoC is also changing by 20%, am I capturing the effect of p_FP_SoC (and it's hazard ratio changes) in my sensivity analysis, or am I capturing the effect of p_FD_SoC?
+    
+    # I mean, the other thing I could do, is because I generate all the transition probabilities here, for p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD for example, where I'm interested in the influence of +/-20% probability of an adverse event on outcomes, take it as p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD with the variety in p_FA1_STD but substitute in the actual probability number for p_PFS_SoC, i.e. replace p_PFS_SoC with 0.20 or whatever it is, and fill the transition matrix manually like this. Which would allow me only to alter the thing that I am interested in influencing the results. I just need to think will the transition matrix sum to 100 if I decide to do this, or not... 
+
+    p_PFS_OS_SoC    <- (1 - p_FD_SoC) *      p_FP_SoC
+    p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+    p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
+    p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
+    
+    # I think that, to ensure the probability is a conditional probability for p_FA1_SoC, I need to define it as above, because I know that p_PFS_SoC changes due to the hazard ratio changes, BUT, if I want to alter the probability of the adverse event in my model, I should let: p_FA1_STD reflect my adverse event and include this in the OWSA code, rather than p_FA1_SoC - because p_FA1_STD can be changed by 20% and then this code above will create p_FA1_SoC conditional on the new probability for p_PFS_SoC as this changes with the changing hazard ratios in the senstivity analysis. So, p_FA1_SoC will be conditional on the updated p_PFS_SoC rather than the original p_PFS_SoC pre-hazard ratio changes to p_PFS_SoC.
+    
+    # These points also apply to EXP, not just SOC.
+    
+    p_PFS_Exp  <-   (1 - p_FD_Exp) * (1 - p_FP_Exp)
+    p_PFS_OS_Exp    <- (1 - p_FD_Exp) *      p_FP_Exp
+    
+    
+    p_FA1_Exp  <- (p_PFS_Exp) * p_FA1_EXPR
+    p_FA2_Exp  <- (p_PFS_Exp) * p_FA2_EXPR
+    p_FA3_Exp  <- (p_PFS_Exp) * p_FA3_EXPR
+    
+    
+    # p_FA1_EXPR IS GENERATED IN THE MAIN RMD FILE, SO I CAN APPLY PERCENTAGES TO IT DIRECTLY IF THAT WON'T MESS THINGS UP (SEE ABOVE).
+    
+    p_A1F_Exp  <- 1-p_A1D_Exp
+    p_A2F_Exp  <- 1-p_A2D_Exp
+    p_A3F_Exp  <- 1-p_A3D_Exp
+    
+    
+    
+    
+
+    # ######## Creating probabilities for transition probabilities using R markdown code ###############
+    
+    
     m_P_SoC["PFS", "PFS", ] <- p_PFS_SoC
     m_P_SoC["PFS", "OS", ]     <- p_PFS_OS_SoC
     m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
@@ -396,19 +446,19 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
     
     m_P_SoC
-
+    
     # Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
     
     m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
     m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
-    m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
-    m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
-    m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
-    m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+    m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp 
+    m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp 
+    m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp 
+    m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp 
     
     
     # Setting the transition probabilities from OS
-    m_P_Exp["OS", "OS", ] <- 1 - p_PD_Exp
+    m_P_Exp["OS", "OS", ] <- 1 - p_PD_Exp 
     m_P_Exp["OS", "Dead", ]        <- p_PD_Exp
     
     # Setting the transition probabilities from Dead
@@ -416,11 +466,11 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     # Setting the transition probabilities from AE1
-    m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
-    m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
+    m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp 
+    m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp 
     
     # Setting the transition probabilities from AE2
-    m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
+    m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp 
     m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
     
     # Setting the transition probabilities from AE3
@@ -433,11 +483,11 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # I need to remove the comments when I've fixed the issue where probabilities don't sum to 1.
     
     
-#    check_transition_probability(m_P_SoC, verbose = TRUE)
-#    check_transition_probability(m_P_Exp, verbose = TRUE)
+    #    check_transition_probability(m_P_SoC, verbose = TRUE)
+    #    check_transition_probability(m_P_Exp, verbose = TRUE)
     
-#    check_sum_of_transition_array(m_P_SoC, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-#    check_sum_of_transition_array(m_P_Exp, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+    #    check_sum_of_transition_array(m_P_SoC, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+    #    check_sum_of_transition_array(m_P_Exp, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
     
     # So here I once again create the Markov cohort trace by looping over all cycles
     # - note that the trace can easily be obtained using matrix multiplications
@@ -453,7 +503,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
     v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
-
+    
     v_tc_SoC
     v_tc_Exp
     
@@ -468,12 +518,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # Obtain the discounted costs and QALYs by multiplying the vectors of total cost and total utility we           created above by the discount rate for each cycle:
     
     # - note first the discount rate for each cycle needs to be defined accounting for the cycle length, as         below:
-
+    
     v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle)) 
     v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
-
+    
     # Discount costs by multiplying the cost vector with discount weights (v_dwc) 
-
+    
     tc_d_SoC <-  t(v_tc_SoC) %*% v_dwc 
     tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
     
@@ -481,7 +531,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     tu_d_SoC <-  t(v_tu_SoC) %*% v_dwe
     tu_d_Exp <-  t(v_tu_Exp) %*% v_dwe
-
+    
     # Store them into a vector -> So, we'll take the single values for cost for an average person under standard     of care and the experimental treatment and store them in a vector v_tc_d:
     
     v_tc_d <- c(tc_d_SoC, tc_d_Exp)
