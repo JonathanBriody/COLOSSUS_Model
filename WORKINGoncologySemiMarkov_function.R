@@ -103,16 +103,16 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     # Setting the transition probabilities from AE1
-    m_P_SoC["AE1", "ProgressionFree", ] <- 0.01
-    m_P_SoC["AE1", "Dead", ] <- 0.01
+    m_P_SoC["AE1", "ProgressionFree", ] <- 0.02
+    m_P_SoC["AE1", "Dead", ] <- 0.02
     
     # Setting the transition probabilities from AE2
-    m_P_SoC["AE2", "ProgressionFree", ] <- 0.01
-    m_P_SoC["AE2", "Dead", ] <- 0.01
+    m_P_SoC["AE2", "ProgressionFree", ] <- 0.02
+    m_P_SoC["AE2", "Dead", ] <- 0.02
     
     # Setting the transition probabilities from AE3
-    m_P_SoC["AE3", "ProgressionFree", ] <- 0.01
-    m_P_SoC["AE3", "Dead", ] <- 0.01
+    m_P_SoC["AE3", "ProgressionFree", ] <- 0.02
+    m_P_SoC["AE3", "Dead", ] <- 0.02
     
     m_P_Exp <- m_P_SoC
     m_P_Exp["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_Exp)

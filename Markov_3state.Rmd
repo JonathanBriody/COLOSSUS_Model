@@ -2416,18 +2416,78 @@ The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case plus or minus 20%
 
 ```{r}
 
-HR_Max <- 0.20
-HR_Min <- 0.80
+# Load the model as a function that is defined in the supporting script
+source(file = "oncologySemiMarkov_function.R")
 
-Max_S_FP_SoC <- S_FP_SoC + S_FP_SoC*HR_Max   
+# Test whether the function works (and generates the same results)
+# - to do so, first a list of parameter values needs to be generated
+l_params_all <- list(
+  coef_weibull_shape_SoC = 0.7700246,
+  coef_weibull_scale_SoC = 1.742534,
+  HR_FP_Exp = HR_FP_Exp,
+  HR_FP_SoC = HR_FP_SoC,
+  p_FD      = 0.02,      
+  p_PD      = 0.1,      
+  c_F_SoC   = 400,  
+  c_F_Exp   = 800,
+  c_P       = 1000,  
+  c_D       = 0,     
+  u_F       = 0.8,   
+  u_P       = 0.5,   
+  u_D       = 0,  
+  d_e       = 0.03,  
+  d_c       = 0.03,
+  n_cycle   = 60,
+  t_cycle   = 0.25
+)
 
-Min_S_FP_SoC <- S_FP_SoC - S_FP_SoC*HR_Min 
-
-Max_S_FP_Exp <- S_FP_Exp + S_FP_Exp*HR_Max  
-
-Min_S_FP_Exp <- S_FP_Exp - S_FP_Exp*HR_Min 
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
 
+## 4.2 Defining and performing a one-way sensitivity analysis ----
+
+# A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be
+# incuded and their minimum and maximum values
+# - here, the cost per cycle of the experimental treatment and utility for the progression-free state are included
+
+
+HR_FP_Exp
+
+Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+
+
+HR_FP_SoC
+
+Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
+Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
+
+
+df_params_OWSA <- data.frame(
+  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
+  min  = c(400,  0.70, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
+  max  = c(1200, 0.90, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
+)
+
+
+
+
+
+
+# The OWSA is performed using the run_owsa_det function
+OWSA_NMB  <- run_owsa_det(
+  params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
+  params_basecase  = l_params_all,       # list with all parameters
+  nsamp            = 100,                # number of parameter values
+  FUN              = oncologySemiMarkov, # function to compute outputs
+  outcomes         = c("NMB"),           # output to do the OWSA on
+  strategies       = c("SoC", "Exp"),    # names of the strategies
+  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
+)
+
+# Plotting the outcomes of the OWSA in a tornado plot
+# - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
+owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 
 
 
@@ -2563,6 +2623,8 @@ l_params_all <- list(
   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
   HR_FP_Exp = HR_FP_Exp,
   HR_FP_SoC = HR_FP_SoC,
+  p_FD      = 0.02,      
+  p_PD      = 0.1,  
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
   p_PD_SoC = p_PD_SoC,
@@ -2588,7 +2650,8 @@ l_params_all <- list(
 
 
 #    p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
-
+#    p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
+#    p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
     
     # I think that, to ensure the probability is a conditional probability for p_FA1_SoC, I need to define it as above, because I know that p_PFS_SoC changes due to the hazard ratio changes, BUT, if I want to alter the probability of the adverse event in my model, I should let: p_FA1_STD reflect my adverse event and include this in the OWSA code, rather than p_FA1_SoC - because p_FA1_STD can be changed by 20% and then this code above will create p_FA1_SoC conditional on the new probability for p_PFS_SoC as this changes with the changing hazard ratios in the senstivity analysis. So, p_FA1_SoC will be conditional on the updated p_PFS_SoC rather than the original p_PFS_SoC pre-hazard ratio changes to p_PFS_SoC.
 
@@ -2738,7 +2801,7 @@ df_params_OWSA <- data.frame(
 # "min" and "max" are the mininum and maximum values of the parameters of interest.
 
 
-options(scipen = 999) # disabling scientific notation in R
+# options(scipen = 999) # disabling scientific notation in R
 
 
 
