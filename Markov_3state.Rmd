@@ -2518,6 +2518,135 @@ oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
 ```{r}
 
+source(file = "oncologySemiMarkov_function.R")
+
+
+l_params_all <- list(
+  coef_weibull_shape_SoC = coef_weibull_shape_SoC,
+  coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+  HR_FP_Exp = HR_FP_Exp,
+  HR_FP_SoC = HR_FP_SoC,
+  p_FD      = 0.02,      
+  p_PD      = 0.05,
+  p_FD_SoC  = p_FD_SoC,
+  p_FD_Exp  = p_FD_Exp,
+  p_PD_SoC = p_PD_SoC,
+  p_PD_Exp = p_PD_Exp,
+  c_F_SoC   = c_F_SoC,  
+  c_F_Exp   = c_F_Exp,
+  c_P       = c_P,  
+  c_D       = c_D,    
+  c_AE1 = c_AE1,
+  c_AE2 = c_AE2,
+  c_AE3 = c_AE3,
+  u_F = u_F,   
+  u_P = u_P,   
+  u_D = u_D,  
+  u_AE1 = u_AE1,
+  u_AE2 = u_AE2,
+  u_AE3 = u_AE3,
+  d_e       = d_e,  
+  d_c       = d_c,
+  n_cycle   = n_cycle,
+  t_cycle   = t_cycle
+)
+
+# Test function
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
+
+
+
+Maximum_c_F_Exp <- c_F_Exp + 0.20*c_F_Exp
+Minimum_c_F_Exp <- c_F_Exp - 0.20*c_F_Exp
+
+Maximum_c_F_Exp
+Minimum_c_F_Exp
+
+
+Maximum_u_F <- u_F + 0.20*u_F
+Minimum_u_F <- u_F - 0.20*u_F
+
+Maximum_u_F
+Minimum_u_F
+
+
+Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+
+Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
+Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
+
+
+HR_FP_Exp
+    
+Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+
+
+
+HR_FP_SoC
+    
+Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
+Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
+
+
+df_params_OWSA <- data.frame(
+  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
+  min  = c(400,  0.70, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
+  max  = c(1200, 0.90, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
+)
+
+
+OWSA_NMB  <- run_owsa_det(
+
+# Arguments:
+  
+  params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
+
+  params_basecase  = l_params_all,       # list with all parameters
+
+# params_basecase	
+
+  nsamp            = 100,                # number of parameter values
+
+# nsamp	
+
+  FUN              = oncologySemiMarkov, # function to compute outputs
+
+# FUN	
+ 
+
+
+  outcomes         = c("NMB"),           # output to do the OWSA on
+
+# outcomes	
+
+  strategies       = v_names_strats,       # names of the strategies
+
+
+progress = TRUE,
+
+  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
+)
+
+owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+
 ## 4.1 Initialization ----
 
 # Load the model as a function that is defined in the supporting script

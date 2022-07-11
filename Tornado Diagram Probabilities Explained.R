@@ -1,25 +1,18 @@
 # Tornado Diagram Probabilities Explained:
+
+# Whether or not boxes appear seems to definitely depend on the values of transition probabilities,
+
+
 # The size of
 
-p_FD      = 0.90, 
+# p_FD      = 0.90, 
 
 # in L_params_all will influence the size of:
 
-m_P_SoC["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_SoC)
-m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
+# m_P_SoC["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_SoC)
+# m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
 
-# Because it's multiplied by this, as illustrated below, which will in turn influence how much of a difference +/- 20% is on the tornado diagram
-
-# I think the below is simply because, any change in probability will ultimately change the cost-effectiveness or net monetary benefit, which will have a knock on effect for the tornado diagram.
-
-# For example,   p_PD      = 0.50, has a range of 106, 000 to 128,000 while   p_PD      = 0.50, has a range of 70-90,000 on the bottom of this diagram, which influences the size of the boxes on it.
-
-
-# Setting the transition probabilities from AE into progression matters for the tornado diagram because the more people who can go into progression free, the more important variety in progression free will be for results.
-# m_P_SoC["AE1", "ProgressionFree", ] <- 0.01
-# m_P_SoC["AE1", "Dead", ] <- 0.01
-
-
+# Because it's multiplied by this, as illustrated below, which will in turn influence how much of a difference +/- 20% p_FP_SoC is on the tornado diagram, a smaller probability will obviously have less of an influence on things.
 
 
 > (1-0.90)*(1-p_FP_SoC)
@@ -43,6 +36,7 @@ m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
 # [103] 0.008990809 0.008748860 0.008513064 0.008283276 0.008059356 0.007841167
 # [109] 0.007628574 0.007421443 0.007219646 0.007023057 0.006831549 0.006645003
 # [115] 0.006463298 0.006286319 0.006113950 0.005946081 0.005782602 0.005623406
+
 > (1-0.10)*(1-p_FP_SoC)
 # [1] 0.89533929 0.88393698 0.87122365 0.85783865 0.84403652 0.82996397 0.81571847
 # [8] 0.80137018 0.78697219 0.77256616 0.75818555 0.74385780 0.72960564 0.71544818
@@ -62,3 +56,44 @@ m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
 # [106] 0.07454948 0.07253421 0.07057050 0.06865716 0.06679299 0.06497682 0.06320751
 # [113] 0.06148394 0.05980503 0.05816968 0.05657687 0.05502555 0.05351473 0.05204342
 # [120] 0.05061065
+
+# Look at the difference of 0.005623406 vs 0.05061065 for position 120.
+
+
+
+
+
+# I think also any change in probability will ultimately change the cost-effectiveness or net monetary benefit, which will have a knock on effect for the tornado diagram.
+
+# For example, p_PD = 0.05, has a range of 106,000 to 128,000 on the bottom of this tornado diagram, while p_PD = 0.50, has a range of 70-90,000 on the bottom of this tornado diagram, which influences the size of the boxes on it.
+
+# In the function:
+
+# m_P_SoC["Progression", "Progression", ] <- 1 - p_PD
+# m_P_SoC["Progression", "Dead", ]        <- p_PD
+
+# So you can see that with p_PD = 0.05 95% of people will be left in the progression state at each cycle, which will mean people live for longer and the model runs for longer with more things happening, whereas when p_PD = 0.50, half of people will be left in the progression free state at each cycle, which obviously means half your cohort is dead after one cycle and people live for a much shorter time. And all this will have an influence on the NMB and thus the influence that a change in another value - be it cost, utility or probability - can have on things. i.e. even if you change the cost of the "Progression" state by +/-20% it won't have time to influence things if half your cohort leaves that state to go to the "Dead" state after one cycle.
+
+
+
+# And I think the same holds for the below:
+
+
+# Setting the transition probabilities from AE into progression matters for the tornado diagram because the more people who can go into the progression free state, the more important variety in progression free probability will be for results.
+# m_P_SoC["AE1", "ProgressionFree", ] <- 0.01
+# m_P_SoC["AE1", "Dead", ] <- 0.01
+
+WHEN I COME BACK TO THIS, ILL GET THE WORKING FUNCTION AND 3 STATE AND THEN ALMAGAMATE IT WITH MY OWN CODE THAT I WAS ORIGINALLY USING.
+
+
+
+
+
+
+
+
+
+
+
+
+
