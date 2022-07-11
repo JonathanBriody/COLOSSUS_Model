@@ -15,7 +15,7 @@
 # Because it's multiplied by this, as illustrated below, which will in turn influence how much of a difference +/- 20% p_FP_SoC is on the tornado diagram, a smaller probability will obviously have less of an influence on things.
 
 
-> (1-0.90)*(1-p_FP_SoC)
+# > (1-0.90)*(1-p_FP_SoC)
 # [1] 0.099482143 0.098215220 0.096802628 0.095315406 0.093781835 0.092218219
 # [7] 0.090635386 0.089041131 0.087441354 0.085840684 0.084242839 0.082650866
 # [13] 0.081067294 0.079494242 0.077933504 0.076386601 0.074854833 0.073339308
@@ -37,7 +37,7 @@
 # [109] 0.007628574 0.007421443 0.007219646 0.007023057 0.006831549 0.006645003
 # [115] 0.006463298 0.006286319 0.006113950 0.005946081 0.005782602 0.005623406
 
-> (1-0.10)*(1-p_FP_SoC)
+# > (1-0.10)*(1-p_FP_SoC)
 # [1] 0.89533929 0.88393698 0.87122365 0.85783865 0.84403652 0.82996397 0.81571847
 # [8] 0.80137018 0.78697219 0.77256616 0.75818555 0.74385780 0.72960564 0.71544818
 # [15] 0.70140153 0.68747941 0.67369350 0.66005377 0.64656877 0.63324577 0.62009098
@@ -72,16 +72,19 @@
 # m_P_SoC["Progression", "Progression", ] <- 1 - p_PD
 # m_P_SoC["Progression", "Dead", ]        <- p_PD
 
-# So you can see that with p_PD = 0.05 95% of people will be left in the progression state at each cycle, which will mean people live for longer and the model runs for longer with more things happening, whereas when p_PD = 0.50, half of people will be left in the progression free state at each cycle, which obviously means half your cohort is dead after one cycle and people live for a much shorter time. And all this will have an influence on the NMB and thus the influence that a change in another value - be it cost, utility or probability - can have on things. i.e. even if you change the cost of the "Progression" state by +/-20% it won't have time to influence things if half your cohort leaves that state to go to the "Dead" state after one cycle.
+# So you can see that with p_PD = 0.05 95% of people will be left in the progression state at each cycle, which will mean people live for longer and the model runs for longer with more things happening, whereas when p_PD = 0.50, half of people will be left in the progression free state at each cycle, which obviously means half your cohort is dead after one cycle and people live for a much shorter time. And all this will have an influence on the NMB and cost-effectiveness. 
 
+# The influence that a change in another value - be it cost, utility or probability - can have on things will differ too. i.e. even if you change the cost of the "Progression" state by +/-20% it won't have much time to influence things if half your cohort leaves that state to go to the "Dead" state after one cycle and don't have that "Progression" state cost applied to them over a number of cycles in the "Progression" state.
 
 
 # And I think the same holds for the below:
 
 
-# Setting the transition probabilities from AE into progression matters for the tornado diagram because the more people who can go into the progression free state, the more important variety in progression free probability will be for results.
+# Setting the transition probabilities from AE into progression matters for the tornado diagram because the more people who can go into the progression free state, the more important variety in progression free probability, utility and cost will be for results.
 # m_P_SoC["AE1", "ProgressionFree", ] <- 0.01
 # m_P_SoC["AE1", "Dead", ] <- 0.01
+
+# So, to make sure the code I've written works I'll create the tornado diagram with all the variables I want to vary included, and see if they all get boxes on the diagram, if not I'll mess with the probability and other values, making them as extreme as necessary until I get boxes for everything. Then when I have the true values I can put them in knowing that if something doesnt turn up on the tornado diagram it's because it wasnt relevant.
 
 WHEN I COME BACK TO THIS, ILL GET THE WORKING FUNCTION AND 3 STATE AND THEN ALMAGAMATE IT WITH MY OWN CODE THAT I WAS ORIGINALLY USING.
 
