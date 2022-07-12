@@ -304,8 +304,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
         
-    v_names_strats <- c("Standard of Care", "Experimental")         # Store the strategy names
-    v_names_states <- c("ProgressionFree", "Progression", "AE1", "AE2", "AE3", "Dead")   # state names # These are the health states in our model, PFS, OS, Death, Adverse Event 1, Adverse Event 2, Adverse Event 3.
+    v_names_strats <- c("Standard of Care", "Experimental Treatment")         # Store the strategy names
+    v_names_states <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   # state names # These are the health states in our model, PFS, OS, Death, Adverse Event 1, Adverse Event 2, Adverse Event 3.
     n_strats       <- length(v_names_strats)                        # number of strategies
     n_states       <- length(v_names_states)                        # number of states # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
     
@@ -326,8 +326,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     # Specifying the initial state for the cohorts (all patients start in PFS)
     
-    m_M_SoC[1, "ProgressionFree"] <- m_M_Exp[1, "ProgressionFree"] <- 1
-    m_M_SoC[1, "Progression"]     <- m_M_Exp[1, "Progression"]     <- 0
+    m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
+    m_M_SoC[1, "OS"]     <- m_M_Exp[1, "OS"]     <- 0
     m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
     m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
     m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
@@ -378,32 +378,32 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
   
 # Setting the transition probabilities from PFS based on the model parameters
 # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?  
-    m_P_SoC["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_SoC)
-    m_P_SoC["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_SoC
-    m_P_SoC["ProgressionFree", "AE1", ]     <- p_FA1_SoC
-    m_P_SoC["ProgressionFree", "AE2", ]     <- p_FA2_SoC
-    m_P_SoC["ProgressionFree", "AE3", ]     <- p_FA3_SoC
-    m_P_SoC["ProgressionFree", "Dead", ]            <- p_FD
+    m_P_SoC["PFS", "PFS", ] <- (1 - p_FD) * (1 - p_FP_SoC)
+    m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
+    m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
+    m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
+    m_P_SoC["PFS", "OS", ]     <- (1 - p_FD) * p_FP_SoC
+    m_P_SoC["PFS", "Dead", ]            <- p_FD
     
     # Setting the transition probabilities from OS
     
-    m_P_SoC["Progression", "Progression", ] <- 1 - p_PD
-    m_P_SoC["Progression", "Dead", ]        <- p_PD
+    m_P_SoC["OS", "OS", ] <- 1 - p_PD
+    m_P_SoC["OS", "Dead", ]        <- p_PD
     
     # Setting the transition probabilities from Dead
     m_P_SoC["Dead", "Dead", ] <- 1
     
     
     # Setting the transition probabilities from AE1
-    m_P_SoC["AE1", "ProgressionFree", ] <- p_A1F_SoC
+    m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
     m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
     
     # Setting the transition probabilities from AE2
-    m_P_SoC["AE2", "ProgressionFree", ] <- p_A2F_SoC
+    m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
     m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
     
     # Setting the transition probabilities from AE3
-    m_P_SoC["AE3", "ProgressionFree", ] <- p_A3F_SoC
+    m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
     m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
     
     m_P_SoC
@@ -413,8 +413,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # So, you'll see below we copy the matrix of transition probabilities for standard of care over the empty matrix of transition probilities for the experimental treatment, then copy the transition probabilities that are different for the experimental strategy over this:
     
     m_P_Exp <- m_P_SoC
-    m_P_Exp["ProgressionFree", "ProgressionFree", ] <- (1 - p_FD) * (1 - p_FP_Exp)
-    m_P_Exp["ProgressionFree", "Progression", ]     <- (1 - p_FD) * p_FP_Exp
+    m_P_Exp["PFS", "PFS", ] <- (1 - p_FD) * (1 - p_FP_Exp)
+    m_P_Exp["PFS", "OS", ]     <- (1 - p_FD) * p_FP_Exp
     
     # If I decided the following was different under the experimental strategy I would have to code these in also:
     # 
