@@ -305,7 +305,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
         
     v_names_strats <- c("Standard of Care", "Experimental Treatment")         # Store the strategy names
-    v_names_states <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   # state names # These are the health states in our model, PFS, OS, Death, Adverse Event 1, Adverse Event 2, Adverse Event 3.
+    v_names_states <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   # state names # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
     n_strats       <- length(v_names_strats)                        # number of strategies
     n_states       <- length(v_names_states)                        # number of states # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
     
@@ -327,10 +327,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # Specifying the initial state for the cohorts (all patients start in PFS)
     
     m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
-    m_M_SoC[1, "OS"]     <- m_M_Exp[1, "OS"]     <- 0
     m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
     m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
     m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
+    m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
     m_M_SoC[1, "Dead"] <- m_M_Exp[1, "Dead"]            <- 0
     
     
