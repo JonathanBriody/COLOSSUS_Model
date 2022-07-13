@@ -881,6 +881,52 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 
 ```{r}
 ## General setup
+
+
+# Why ordering, V_names_states v_tc_SoC, v_tc_Exp,  v_tu_SoC and v_tu_Exp matters:
+
+# The ordering of V_names_states has an influence on the tornado diagram and the reported cost-effectiveness results.
+
+# So, I need to ensure I correctly order V_names_states all the way through from the start.
+
+# m_P_Exp and m_P_SoC both use v_names_states to set up the names of the rows and columns of their matrices. 
+
+# As does m_M_SoC and m_M_Exp.
+
+# Then m_M_SoC and  m_M_Exp use the row column names to fill in the 100% of the cohort (or 1) in PFS and the 0% of the cohort in AE1, AE2, AE3, OS and DEAD in wave 1. m_P_Exp and m_P_SoC also both use the row and column names to fill in the transition probabilities between PFS and OS, etc.,
+
+# Then m_M_SoC and m_M_Exp are matrix multiplied by m_P_Exp and m_P_SoC:
+
+# for(i_cycle in 1:(n_cycle-1)) {
+#  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
+
+# The way this matrix multiplication works is that the value in box 1 for m_M_SoC is multiplied by the value in box 1 for m_P_SoC and so on. If box 1 for m_M_SoC and m_P_SoC is the 1 (i.e. 100% of people in the PFS state when this all starts), multiplied by the PFS state probabilities, i.e., the probability of going from the PFS state into other states like so:
+
+#          PFS       AE1       AE2       AE3          OS        Dead
+# PFS  0.974925 0.0194985 0.0194985 0.0194985 0.005074995 0.020000000
+
+# Then things will multiply correctly and we're multiplying PFS transition probabilities by the 100% of the cohort in the PFS state. 
+
+# Even, if ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   is not in the order as above, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") , then the m_M_SoC will have 0, 0, 0, 0, 1, 0, because everyone still starts in the PFS state, and m_P_SoC will have  "OS", "AE1", "AE2", "AE3", "PFS", "Dead", with the right probabilities put in the right spots, so when you matrix multiply it things will multiply out fine.
+
+# However, this is not the case for ordering costs and utilities:  
+
+
+# v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
+# v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
+
+
+# v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+# v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+
+# As you can see, in both cases the ordering is set manually by how we enter things in the concatenated brackets, so in the case above where ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead") is ordered differently, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") when we matrix multiply costs and utilities by m_M_SoC  and m_M_Exp above we will be multiplying the utility of being in the progression free state u_F by the matrix of individuals in the OS state, which will clearly be a smaller number of individuals in the first few waves, and multiplying the utility of the OS state (u_P) by the larger number of individuals actually in the PFS state <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead"). We'll be doing the same thing with costs. What this will mean is more people getting the OS costs and OS utility and fewer people getting the PFS costs and the PFS utility, which will in turn have consequences for the cost-effectiveness analysis results with more OS costs and more OS utility being considered in the equation that compares costs and utilities.
+
+# I've confirmed all of the things I say about by changing the ordering first of v_names_states, and then of the cost and utility concatenations. Changing the ordering of v_names_states did nothing to the CEA results or Tornado diagram provided I changed the ordering of utilities and costs to match this, changing the ordering of utilities and costs changed both unless I changed them to be in an order that matched the changed ordering of v_names_states.
+
+
+
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
 t_cycle <- 1/2      # cycle length of 2 weeks (in [[months]] - this is assuming the survival curves I am digitising will be in [[months]] if they are in another period I will have to represent my cycle length in that period instead).                                  
@@ -1826,6 +1872,25 @@ Check if transition probability matrices are valid.
 
 ```{r}
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
+# This works as follows, according to line 205 of: https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/analysis/cSTM_time_indep.R
+# 
+# ## Check if transition probability matrices are valid ----
+# #* Functions included in "R/Functions.R". The latest version can be found in `darthtools` package
+# ### Check that transition probabilities are [0, 1] ----
+# check_transition_probability(m_P,      verbose = TRUE)  # m_P >= 0 && m_P <= 1
+# check_transition_probability(m_P_strA, verbose = TRUE)  # m_P_strA >= 0 && m_P_strA <= 1
+# check_transition_probability(m_P_strB, verbose = TRUE)  # m_P_strB >= 0 && m_P_strB <= 1
+# check_transition_probability(m_P_strAB, verbose = TRUE) # m_P_strAB >= 0 && m_P_strAB <= 1
+# ### Check that all rows sum to 1 ----
+# check_sum_of_transition_array(m_P,      n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P) == 1
+# check_sum_of_transition_array(m_P_strA, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strA) == 1
+# check_sum_of_transition_array(m_P_strB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE)  # rowSums(m_P_strB) == 1
+# check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
+# 
+
+
+
+
 # UNCOMMENT THIS! check_transition_probability(m_P_SoC,  verbose = TRUE)
 # UNCOMMENT THIS! check_transition_probability(m_P_Exp,  verbose = TRUE)
 #check_transition_probability(m_P_trtA, verbose = TRUE)
@@ -2392,7 +2457,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
