@@ -2457,7 +2457,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
@@ -2472,19 +2472,16 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 A number of sensitivity analyses were conducted to address uncertainty in parameter estimation and assess robustness of the model results.
 The mean, range and distributions applied in these analyses are described in Table X [big table that has the base-case, max, min, reference and distribution].
 
+Goldstein says "Utilities were varied over their 95% confidence intervals." so I can think about that.
+
 For cost parameters, a template was completed....
 
-Costs, utilities and probabilities were varied within +/- 20% of baseline, per [@goldstein2014a; @goulart2011]....
+Costs, utilities and probabilities were varied within +/- 20% of baseline values, per [@goldstein2014a; @goulart2011]....
 [these are just guys who have done the 20% varying, if I find better online I can use that].
-
-To define the ranges of the mortalities and progression risks for the sensitivity analysis, we first adjusted the PFS/OS curves \$S(t)\$ in the base case by a hazard ratio adjustment \$\\gamma\$, as \$[S(t)\^{\\gamma}]\$, and then reestimated the risks for every cycle based on the adjusted survival curves.
-The adjustment hazard ratio was chosen to be 1 +/- 0.2 (1 indicates that the base case value was used).
 
 To study the influence of a range of transition risks, the PFS and OS curves \$S(t)\$ in the model were altered for both treatment strategies via a hazard ratio adjustment \$\\gamma\$, as \$[S(t)\^{\\gamma}]\$.
 Subsequently, transition risks for each cycle were calculated from these adjusted survival curves [@goldstein2014a].
-The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case plus or minus 20%.
-
-[So, basically what I need to do here is get my survival curves from the parametric survival analysis for standard of care, and for the novel therapy post applying the hazard ratio on Bevacizumab (so, this may require converting back to a survival curve) and then have them as the mean, and the min as the mean multiplied by 0.20 and -0.20 and the max as the mean +0.20].
+The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case varied within plus or minus 20%.
 
 ```{r}
 
@@ -3194,6 +3191,8 @@ plot(twsa_nmb)
 ```
 
 # 09 Probabilistic Sensitivity Analysis (PSA)
+
+Go back to the resources and papers you reviewed for the deterministic sensitivity analysis.
 
 ```{r}
 

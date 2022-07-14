@@ -86,7 +86,6 @@
 
 # So, to make sure the code I've written works I'll create the tornado diagram with all the variables I want to vary included, and see if they all get boxes on the diagram, if not I'll mess with the probability and other values, making them as extreme as necessary until I get boxes for everything. Then when I have the true values I can put them in knowing that if something doesnt turn up on the tornado diagram it's because it wasnt relevant.
 
-WHEN I COME BACK TO THIS, ILL GET THE WORKING FUNCTION AND 3 STATE AND THEN ALMAGAMATE IT WITH MY OWN CODE THAT I WAS ORIGINALLY USING.
 
 
 
