@@ -2308,6 +2308,8 @@ v_tu_Exp
 
 # I just need to think about this and does it make sense, because it's adding to the cost each cycle, so probably the best indicator would be whether the cost outputted in 07.2 is only higher by the cost of the test when we do this, or if it is higher by a number of other costs, so I can check that below when adding costs in.
 
+# Page 17 of An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example https://arxiv.org/pdf/2001.07824.pdf suggests that these are total costs expected per individual, and with testing being a one off cost, maybe you could just add it onto the costs you have at the end? Table 4: Total expected discounted QALYs and costs per average individual in the cohort of the Sick-Sicker model by strategy accounting for within-cycle correction. Costs QALYs Standard of care $151,580 20.711 Strategy A $284,805 21.499 Strategy B $259,100 22.184 Strategy AB $378,875 23.137 The total expected discounted QALYs and costs for the Sick-Sicker model under the four strategies accounting for within-cycle correction are shown in Table 4.
+
 
 ```
 
@@ -2378,6 +2380,16 @@ v_tu_d
 ```
 
 ## 07.3 Compute ICERs of the Markov model
+
+I think somewhere in all my example files there must be some example code on generating life years, etc., and reporting them as part of your results table.
+I basically want to be able to report the following per page 5 of Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>:
+
+Results In the base case analysis, effectiveness and costs were compared between the PK and BSA group.
+PK FOLFOX provided 2.03 QALYs at a cost of \$50,177 compared with BSA FOLFOX with 1.46 QALYs at a cost of \$37,173.
+The ICER for PK FOLFOX was \$22,695 per QALY.
+In terms of LYs, PK FOLFOX provided 2.60 LYs compared with BSA FOLFOX with 1.99 LYs.
+The ICER of PK 5-FU was \$21,423 per LY.
+All numerical results are summarized in Table 5.
 
 (If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
@@ -2467,12 +2479,26 @@ And in this document:
 
 C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Briggs et al 2012 model parameter estimation and uncertainty.pdf
 
+**Negative ICER's:**
+
+In presenting 1-way uncertainty analysis, reporting negative incremental cost-effectiveness ratios (ICERs) should be avoided as they are meaningless.26,27 Instead, the ICER range should be limited to results corresponding to positive incremental health consequences and costs---quadrant I in the cost-effectiveness plane.
+Results for which incremental costs are positive and health consequences negative should be indicated qualitatively as ''dominated'' and those with negative incremental costs and positive health consequences as ''dominant.'' ICERs corresponding to negative incremental costs and health consequences---quadrant III---should be distinguished from ICERs in quadrant I.
+C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
+
 # 08 Deterministic Sensitivity Analysis
+
+When i'm thinking about the range around the point estimate, i.e., the max and min, I'll have to return to my uncertainty notepad file and see how daniel did it to make his table in the goldstein paper because I know he used the same range there for the DSA and PSA based on how he described the results of the tornado diagram, i.e.:
 
 A number of sensitivity analyses were conducted to address uncertainty in parameter estimation and assess robustness of the model results.
 The mean, range and distributions applied in these analyses are described in Table X [big table that has the base-case, max, min, reference and distribution].
 
 Goldstein says "Utilities were varied over their 95% confidence intervals." so I can think about that.
+
+The below supports my thoughts on the above, that I use the same range for DSA and PSA in the descriptive Table like Goldstein did.
+
+"The general principle remains that assumptions for specifying the distribution and/or defining the interval for uncertainty analysis should follow standard statistical methods (e.g., beta distributions are a natural match for binomial data; gamma or log normal for right skew parameters; log normal for relative risks or hazard ratios; logistic for odds ratios15). These distributions can be used directly in PSA or to define the interval (plausible range) for a DSA." <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+"This is true whatever the uncertainty analysis's technical specification. For a 1-way DSA, it is necessary to specify the parameter's point estimate and a defensible range; these may be taken directly from the estimation process, with the latter based, for example, on a 95% confidence interval. Representation of uncertainty depends on the uncertainty analysis planned. For DSA, an interval estimate representing beliefs about the parameter's plausible range is required. For PSA, a distribution is specified via its parameters." <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 For cost parameters, a template was completed....
 
@@ -2483,99 +2509,45 @@ To study the influence of a range of transition risks, the PFS and OS curves \$S
 Subsequently, transition risks for each cycle were calculated from these adjusted survival curves [@goldstein2014a].
 The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case varied within plus or minus 20%.
 
-```{r}
+We individually consider the influence of each parameter on the ICER in a one way deterministic sensitivity analysis.
 
-# Load the model as a function that is defined in the supporting script
-source(file = "oncologySemiMarkov_function.R")
+**Describing Tornado diagram results:**
 
-# Test whether the function works (and generates the same results)
-# - to do so, first a list of parameter values needs to be generated
-l_params_all <- list(
-  coef_weibull_shape_SoC = 0.7700246,
-  coef_weibull_scale_SoC = 1.742534,
-  HR_FP_Exp = HR_FP_Exp,
-  HR_FP_SoC = HR_FP_SoC,
-  p_FD      = 0.02,      
-  p_PD      = 0.1,      
-  c_F_SoC   = 400,  
-  c_F_Exp   = 800,
-  c_P       = 1000,  
-  c_D       = 0,     
-  u_F       = 0.8,   
-  u_P       = 0.5,   
-  u_D       = 0,  
-  d_e       = 0.03,  
-  d_c       = 0.03,
-  n_cycle   = 60,
-  t_cycle   = 0.25
-)
-
-oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
-
-
-## 4.2 Defining and performing a one-way sensitivity analysis ----
-
-# A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be
-# incuded and their minimum and maximum values
-# - here, the cost per cycle of the experimental treatment and utility for the progression-free state are included
-
-
-HR_FP_Exp
-
-Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
-Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
-
-
-HR_FP_SoC
-
-Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
-Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
-
-
-df_params_OWSA <- data.frame(
-  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
-  min  = c(400,  0.70, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
-  max  = c(1200, 0.90, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
-)
-
-
-
-
-
-
-# The OWSA is performed using the run_owsa_det function
-OWSA_NMB  <- run_owsa_det(
-  params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
-  params_basecase  = l_params_all,       # list with all parameters
-  nsamp            = 100,                # number of parameter values
-  FUN              = oncologySemiMarkov, # function to compute outputs
-  outcomes         = c("NMB"),           # output to do the OWSA on
-  strategies       = c("SoC", "Exp"),    # names of the strategies
-  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
-)
-
-# Plotting the outcomes of the OWSA in a tornado plot
-# - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
-owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
-
-
-
-```
+In Figure X, the parameters with the largest effect on the ICER differed between treatment arms.
+Results remained robust to adjustments to X, with an ICER range between \$X,000 to X,000 per QALY.
+There was a limited influence of variation in other parameters on the ICER of THE NOVEL THERAPY (\< \$X,000 per QALY) .
+A parameter of interest was X, which - when varied between \$X00 and \$X00 - placed the ICER range between \$X,000 and X,000 per QALY .
 
 [- per: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
 (2014).
 Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
 Clinical colorectal cancer, 13(4), 219-225.]
 
-dampack has the functionality to interface with a user-defined decision model in R to conduct a deterministic sensitivity analysis (DSA) on parameters of interest.
-DSA is a method for assessing how the results of a decision analytic model change as a parameter of interest in varied over a specified range of values.
-This includes both how model outcomes change (e.g. the expected cost of each strategy) as well as how the decision changes (e.g. which strategy is the most cost-effective) with the parameter of interest.
+"One-way DSA may be reported using a tornado diagram (Figure 1). The horizontal axis is the outcome; along the vertical axis, parameters are arrayed and horizontal bars represent the outcome range associated with the specified parameter's range. The outcome point estimate corresponding to base-case values is indicated by a vertical line cutting through all horizontal bars. Commonly, the longest bar (reflecting the parameter generating the widest uncertainty) is placed at the top, and the other bars are arrayed in descending order of length. A tornado diagram should be accompanied by a legend or table indicating the upper and lower bounds of values for each parameter, with their justification in terms of the evidence base. A table may be used instead of a tornado diagram or the results ranges provide in the text of the report (e.g., the text might state that ''the outcome ranged from X to Y when parameter Z was varied from A to B''). It is important that the range A to B represents a defensible range for parameter Z, not an arbitrary one."
 
-In a DSA, the model is run for each value of the parameter of interest over the specified range, while holding all other parameter values fixed.
-If one parameter is varied, this is called a one-way DSA.
-If two parameters are varied, it is called a two-way DSA.
-We typically do not vary more than two parameters at a time, as the output becomes difficult to visualize and interpret.
-A more comprehensive assessment of how model outptus depend on model parameters can be done through a probabilistic sensitivity analysis (PSA) (type vignette("psa_generation", package = "dampack") in the console after installing the dampack package to see a vignette describing how to use dampack for PSA).
+Results of 1-way threshold analyses are easily reported in text (e.g., ''The ICER remains less than Y as long as the value of X is greater than A,'' or ''Alternative 1 dominates 2 if the value of Z is less than B'').
+
+<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+The results of the one-way sensitivity analyses are presented in the Tornado diagram (Figure 2).
+The parameters with the greatest influence on the ICER were utility in the PD state, cost of regorafenib, utility in the PFS state, the proportion of patients receiving 4th-line treatment and drug exposure to regorafenib.
+Across broad variation in the ranges for each parameter, the ICER was above CNY 212,676 per QALY (USD 32,224 per QALY), which meant the results were generally robust.
+
+The tornado plot in Figure X describes which parameters are driving the majority of the variation in the outcome.
+In the figure, "Parameter Level High/Low" corresponds to parameter values that are above or below the median point estimate.
+Subsequently, it is possible to highlight where high or low expected outcome values result from variation in parameter values.
+
+*For example, the tornado plot below tells us that the parameter `"muDieCancer"` has the most leverage in affecting the effectiveness model outcome, and that values below the median value of `"muDieCancer"` in the one-way sensitivity analysis are associated with higher expected effectiveness outcomes. - <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>*
+
+It is important to note that some important information is obscured by tornado plots and caution should be exercised when interpreting it.
+As the parameter of interest varies across its range in the one-way sensitivity, the strategy that maximizes the outcome of interest can also change across this range.
+The plot is not showing how the expected outcome changes for a single strategy, but how the expected outcome of the optimal strategy changes.
+The designation of which strategy is optimal is liable to alternate over the range of the parameter of interest, and this is hidden in a tornado plot.
+
+For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters.
+Using the `min_rel_diff` argument, you can instruct `owsa_tornado` to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
+
+\
 
 ## 08.1 Load PFS-PFSer Markov model function
 
@@ -2586,6 +2558,10 @@ One thing that concerns me is that the first line of the function sets willingne
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
 ```{r}
+
+
+# A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
+
 
 u_F <- 0.5
 
@@ -2641,6 +2617,36 @@ l_params_all <- list(
      
     #######################################################################
   
+# Things to vary:
+
+
+# Probability:
+
+HR for adjustment for SoC for OS
+HR for adjustment for Novel therapy for OS
+
+HR for adjustment for SoC for PFS
+HR for adjustment for Novel Therapy for PFS
+
+Probability of AE
+
+
+# Cost:
+First Line Treatment Cost
+Second Line Treatment Cost
+Test Costs
+Cost of AE
+
+# Utility:
+
+OS Utility
+PFS
+
+# Discount factor
+Cost Discount Factor
+Utility Discount Factor
+
+
 
 
 # Test function
@@ -2881,6 +2887,7 @@ l_params_all <- list(
 
 
 # Test function
+# Test whether the function works (and generates the same results)
 oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
 
@@ -3147,6 +3154,9 @@ owsa_opt_strat(owsa = owsa_nmb, txtsize = 10)
 
 ```{r}
 owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
+
+# Plotting the outcomes of the OWSA in a tornado plot
+# - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
 ```
 
 ## 08.3.4 Table Describing Parameters
@@ -3161,7 +3171,24 @@ Line 320 of this: <https://github.com/DARTH-git/cohort-modeling-tutorial-intro/b
 
 This also includes within-cycle correction (WCC) using Simpson's 1/3 rule, which I probably don't want to bother applying, but at least I know it's an option.
 
+Some helpful tips on using math notation in R Markdown.
+
+<https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
+
+This paper says in technical terms which distributions fit and why:
+
+Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
 ## 08.4 Two-way sensitivity analysis (TWSA)
+
+A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
+Representation of uncertaint <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+**Describing two-way sensitivity analysis:**
+
+"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
+
+<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 ```{r}
 
@@ -3193,6 +3220,14 @@ plot(twsa_nmb)
 # 09 Probabilistic Sensitivity Analysis (PSA)
 
 Go back to the resources and papers you reviewed for the deterministic sensitivity analysis.
+
+In probabilistic sensitivity analysis, parameters were varied simultaneously according to their sampling distributions.
+We used g distribution for cost parameters, b distribution for parameters bounded on the 0 to 1 interval (eg, AE incidence estimates and utilities), and the uniform distribution for the discount factor.
+The range for the discount factor was 0.00 to 0.05.
+In multivariate analysis, we ran 10,000 replications in the probabilistic sensitivity analysis.
+The baseline values, ranges, and distributions for model parameters are presented in Table 4.
+Per: Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colo .
+<file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>
 
 ```{r}
 
@@ -3300,6 +3335,9 @@ I need to fix the "# Histogram of parameters" section above, the below gives adv
 The above approach worked, I manually deleted the package, installed darthtools from github, chose option 4, i.e. replace rccp and then I was done.
 
 ## 09.1 Conduct probabilistic sensitivity analysis
+
+We apply deterministic methods (point estimates with an appropriate range) and probabilistic methods (parameterized distributions) to conduct a sensitivity analysis of our results.
+C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
 
 ```{r}
 # Run Markov model on each parameter set of PSA input dataset
@@ -3411,6 +3449,8 @@ plot(evpi, effect_units = "QALY")
 > Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
 > Journal of Medical Economics, 20(6), 574-584.
 > <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
+
+Scenario Analysis: "Often, uncertainty in a parameter may be represented by several discrete values, instead of a continuous range, sometimes called scenario analyses (e.g., evidence from clinical studies, utility surveys, or cost data sets may lead to different values). It is acceptable to report alternative outcomes under each of these discrete assumptions to complement other uncertainty analysis." - Per: Model Parameter Estimation and Uncertainty Analysis C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
 
 ## 09.4.6 Calibration
 
