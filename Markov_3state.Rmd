@@ -2513,6 +2513,8 @@ We individually consider the influence of each parameter on the ICER in a one wa
 
 **Describing Tornado diagram results:**
 
+We create a tornado plot of the one-way sensitivity analysis
+.
 In Figure X, the parameters with the largest effect on the ICER differed between treatment arms.
 Results remained robust to adjustments to X, with an ICER range between \$X,000 to X,000 per QALY.
 There was a limited influence of variation in other parameters on the ICER of THE NOVEL THERAPY (\< \$X,000 per QALY) .
@@ -2537,17 +2539,35 @@ The tornado plot in Figure X describes which parameters are driving the majority
 In the figure, "Parameter Level High/Low" corresponds to parameter values that are above or below the median point estimate.
 Subsequently, it is possible to highlight where high or low expected outcome values result from variation in parameter values.
 
-*For example, the tornado plot below tells us that the parameter `"muDieCancer"` has the most leverage in affecting the effectiveness model outcome, and that values below the median value of `"muDieCancer"` in the one-way sensitivity analysis are associated with higher expected effectiveness outcomes. - <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>*
+*For example, the tornado plot below tells us that the parameter `"muDieCancer"` has the most leverage in affecting the effectiveness model outcome, and that values below the median value of `"muDieCancer"` in the one-way sensitivity analysis are associated with higher expected effectiveness outcomes.* [Helpful in interpreting my own tornado diagram].
 
-It is important to note that some important information is obscured by tornado plots and caution should be exercised when interpreting it.
-As the parameter of interest varies across its range in the one-way sensitivity, the strategy that maximizes the outcome of interest can also change across this range.
-The plot is not showing how the expected outcome changes for a single strategy, but how the expected outcome of the optimal strategy changes.
-The designation of which strategy is optimal is liable to alternate over the range of the parameter of interest, and this is hidden in a tornado plot.
+*It is important to note that some important information is obscured by tornado plots and caution should be exercised when interpreting it. As the parameter of interest varies across its range in the one-way sensitivity, the strategy that maximizes the outcome of interest can also change across this range. The plot is not showing how the expected outcome changes for a single strategy, but how the expected outcome of the optimal strategy changes. The designation of which strategy is optimal is liable to alternate over the range of the parameter of interest, and this is hidden in a tornado plot.* [Important just generally to note].
 
-For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters.
-Using the `min_rel_diff` argument, you can instruct `owsa_tornado` to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
+*For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters. Using the `min_rel_diff` argument, you can instruct `owsa_tornado` to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.*
 
-\
+*owsa_tornado(o,*
+
+*min_rel_diff = 0.05)*\
+*- <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>*
+
+Page 26 of <https://cran.r-project.org/web/packages/dampack/dampack.pdf> has information on making changing to the visual parts of Tornado plots, putting things in black and white, etc.,.
+
+Very simple tornado diagram explanation: <https://mbounthavong.com/blog/2018/5/26/communicating-data-effectively-with-data-visualizations-tornado-diagram>
+
+At the moment, my tornado plot describes a NMB.
+If I wanted to change this to describe an ICER, it looks like according to the below I could do this just by adding the code from above to generate an ICER to the oncologySemiMarkov_function.R, storing it in df_cea, make sure it equals the ICER generated above and change:
+
+outcomes = c("NMB"), \# output to do the OWSA on
+
+to
+
+outcomes = c("ICER"), \# output to do the OWSA on
+
+But, at the moment I have code above where doing a tornado diagram on effectiveness as an outcome is described, so I can take their approach and apply my code to NMB if I like.
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Deterministic Sensitivity Analysis\_ Generation.pdf
+
+If a reviewer wants me to do a more unusual deterministic sensitivity analysis, which includes regression, I can find information on doing that here: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
 ## 08.1 Load PFS-PFSer Markov model function
 
