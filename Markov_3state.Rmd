@@ -2584,7 +2584,8 @@ oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
 
 u_F <- 0.5
-
+p_FD_SoC  <- 0.02
+p_FD_Exp  <- 0.02
 
 source(file = "oncologySemiMarkov_function.R")
 
@@ -2637,65 +2638,23 @@ l_params_all <- list(
      
     #######################################################################
   
-# Things to vary:
-
-
-# Probability:
-
-HR for adjustment for SoC for OS
-HR for adjustment for Novel therapy for OS
-
-HR for adjustment for SoC for PFS
-HR for adjustment for Novel Therapy for PFS
-
-Probability of AE
-
-
-# Cost:
-First Line Treatment Cost
-Second Line Treatment Cost
-Test Costs
-Cost of AE
-
-# Utility:
-
-OS Utility
-PFS
-
-# Discount factor
-Cost Discount Factor
-Utility Discount Factor
-
-
-
 
 # Test function
 oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
 
 
-Maximum_c_F_Exp <- c_F_Exp + 0.20*c_F_Exp
-Minimum_c_F_Exp <- c_F_Exp - 0.20*c_F_Exp
+# I can't use these probabilities because they are from Free to Progressed, but now those probabilities are time-sensitive, so if I try to change these here and include them in the tornado diagram I'll be including too many things, as I explain in my description on hazard ratios.
 
-Maximum_c_F_Exp
-Minimum_c_F_Exp
-
-
-u_F
-
-Maximum_u_F <- u_F + 0.20*u_F
-Minimum_u_F <- u_F - 0.20*u_F
-
-Maximum_u_F
-Minimum_u_F
+# Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+# Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+# 
+# 
+# Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
+# Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
 
 
-Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
-Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
-
-
-Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
-Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
+# Hazard Ratios:
 
 
 HR_FP_Exp
@@ -2710,12 +2669,180 @@ HR_FP_SoC
 Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
 Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
 
+# Probability of progressive disease to death:
+
+p_PD
+
+Minimum_p_PD <- p_PD - 0.20*p_PD
+Maximum_p_PD <- p_PD + 0.20*p_PD
+
+# Under the assumption that everyone will get the same second line therapy, I give them all the same probability of going from progessed (i.e., OS) to dead, and thus only need to include p_PD here once - because it is applied in oncologySemiMarkov_function.R for both SoC and Exp.
+
+
+# Probability of going from PFS to Death states under the standard of care treatment and the experimental treatment:
+
+p_FD_SoC
+
+Minimum_p_FD_SoC <- p_FD_SoC - 0.20*p_FD_SoC
+Maximum_p_FD_SoC <- p_FD_SoC + 0.20*p_FD_SoC
+
+p_FD_Exp
+
+Minimum_p_FD_Exp<- p_FD_Exp - 0.20*p_FD_Exp
+Maximum_p_FD_Exp <- p_FD_Exp + 0.20*p_FD_Exp
+
+
+
+# Probability of Adverse Events, from PFS to AE, from AE to PFS and from AE to Death:
+
+# Although these probabilities say _SoC, I make the assumption that everyone has the same probability of AE1, 2 or 3 regardless of what treatment they are under (i.e., SoC or the Experimental). If I decide to get more complicated with treatment specific AE probabilities in the future I can update this to be _SoC and _Exp.
+
+
+p_FA1_SoC
+Minimum_p_FA1_SoC <- p_FA1_SoC - 0.20*p_FA1_SoC
+Maximum_p_FA1_SoC <- p_FA1_SoC + 0.20*p_FA1_SoC
+
+p_A1F_SoC
+Minimum_p_A1F_SoC <- p_A1F_SoC - 0.20*p_A1F_SoC
+Maximum_p_A1F_SoC <- p_A1F_SoC + 0.20*p_A1F_SoC
+
+p_A1D_SoC
+Minimum_p_A1D_SoC <- p_A1D_SoC - 0.20*p_A1D_SoC
+Maximum_p_A1D_SoC <- p_A1D_SoC + 0.20*p_A1D_SoC
+
+p_FA2_SoC
+Minimum_p_FA2_SoC <- p_FA2_SoC - 0.20*p_FA2_SoC
+Maximum_p_FA2_SoC <- p_FA2_SoC + 0.20*p_FA2_SoC
+
+p_A2F_SoC
+Minimum_p_A2F_SoC <- p_A2F_SoC - 0.20*p_A2F_SoC
+Maximum_p_A2F_SoC <- p_A2F_SoC + 0.20*p_A2F_SoC
+
+p_A2D_SoC
+Minimum_p_A2D_SoC <- p_A2D_SoC - 0.20*p_A2D_SoC
+Maximum_p_A2D_SoC <- p_A2D_SoC + 0.20*p_A2D_SoC
+
+p_FA3_SoC
+Minimum_p_FA3_SoC <- p_FA3_SoC - 0.20*p_FA3_SoC
+Maximum_p_FA3_SoC <- p_FA3_SoC + 0.20*p_FA3_SoC
+
+p_A3F_SoC
+Minimum_p_A3F_SoC <- p_A3F_SoC - 0.20*p_A3F_SoC
+Maximum_p_A3F_SoC <- p_A3F_SoC + 0.20*p_A3F_SoC
+
+p_A3D_SoC
+Minimum_p_A3D_SoC <- p_A3D_SoC - 0.20*p_A3D_SoC
+Maximum_p_A3D_SoC <- p_A3D_SoC + 0.20*p_A3D_SoC
+
+
+
+# Cost:
+
+# If I decide to include the cost of the test for patients I will also need to include this in the sensitivity analysis here:
+
+c_F_SoC
+
+Minimum_c_F_SoC <- c_F_SoC - 0.20*c_F_SoC
+Maximum_c_F_SoC <- c_F_SoC + 0.20*c_F_SoC
+
+c_F_Exp
+
+Minimum_c_F_Exp  <- c_F_Exp - 0.20*c_F_Exp
+Maximum_c_F_Exp  <- c_F_Exp + 0.20*c_F_Exp
+
+c_P 
+
+Minimum_c_P  <- c_P - 0.20*c_P
+Maximum_c_P  <- c_P + 0.20*c_P
+
+c_D  
+
+Minimum_c_D  <- c_D - 0.20*c_D
+Maximum_c_D  <- c_D + 0.20*c_D
+
+c_AE1
+
+Minimum_c_AE1  <- c_AE1 - 0.20*c_AE1
+Maximum_c_AE1  <- c_AE1 + 0.20*c_AE1
+
+c_AE2
+
+Minimum_c_AE2  <- c_AE2 - 0.20*c_AE2
+Maximum_c_AE2  <- c_AE2 + 0.20*c_AE2
+
+c_AE3
+
+Minimum_c_AE3  <- c_AE3 - 0.20*c_AE3
+Maximum_c_AE3  <- c_AE3 + 0.20*c_AE3
+
+
+# Utilities:
+
+
+u_F
+
+Minimum_u_F <- u_F - 0.20*u_F
+Maximum_u_F <- u_F + 0.20*u_F 
+
+
+u_P
+
+Minimum_u_P <- u_P - 0.20*u_P
+Maximum_u_P <- u_P + 0.20*u_P 
+
+
+u_D
+
+Minimum_u_D <- u_D - 0.20*u_D
+Maximum_u_D <- u_D + 0.20*u_D 
+
+
+u_AE1
+
+Minimum_u_AE1 <- u_AE1 - 0.20*u_AE1
+Maximum_u_AE1 <- u_AE1 + 0.20*u_AE1 
+
+
+u_AE2
+
+Minimum_u_AE2 <- u_AE2 - 0.20*u_AE2
+Maximum_u_AE2 <- u_AE2 + 0.20*u_AE2 
+
+
+u_AE3
+
+Minimum_u_AE3 <- u_AE3 - 0.20*u_AE3
+Maximum_u_AE3 <- u_AE3 + 0.20*u_AE3 
+ 
+ 
+# Discount factor
+# Cost Discount Factor
+# Utility Discount Factor
+
+
+d_e
+
+Minimum_d_e <- d_e - 0.20*d_e
+Maximum_d_e <- d_e + 0.20*d_e
+
+
+
+d_c
+
+Minimum_d_c <- d_c - 0.20*d_c
+Maximum_d_c <- d_c + 0.20*d_c
+
+
 
 df_params_OWSA <- data.frame(
-  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
-  min  = c(400,  Minimum_u_F, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
-  max  = c(1200, Maximum_u_F, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P", "c_D", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_D", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_D, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_D, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_A1D_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_A2D_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A3D_SoC, Maximum_c_F_SoC, Maximum_c_F_Exp, Maximum_c_P, Maximum_c_D, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_u_D, Maximum_u_AE1, Maximum_u_AE2, Maximum_u_AE3)          # max parameter values
 )
+
+
+# I made sure the names of the parameters to be varied and their mins and maxs are in the same order in all the brackets above in order to make sure that the min and max being applied are the min and the max of the parameter I want to consider a min and a max for.
+
 
 
 OWSA_NMB  <- run_owsa_det(

@@ -378,12 +378,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
   
 # Setting the transition probabilities from PFS based on the model parameters
 # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?  
-    m_P_SoC["PFS", "PFS", ] <- (1 - p_FD) * (1 - p_FP_SoC)
+    m_P_SoC["PFS", "PFS", ] <- (1 - p_FD_SoC) * (1 - p_FP_SoC)
     m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
     m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
     m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
-    m_P_SoC["PFS", "OS", ]     <- (1 - p_FD) * p_FP_SoC
-    m_P_SoC["PFS", "Dead", ]            <- p_FD
+    m_P_SoC["PFS", "OS", ]     <- (1 - p_FD_SoC) * p_FP_SoC
+    m_P_SoC["PFS", "Dead", ]            <- p_FD_SoC
     
     # Setting the transition probabilities from OS
     
@@ -413,8 +413,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # So, you'll see below we copy the matrix of transition probabilities for standard of care over the empty matrix of transition probilities for the experimental treatment, then copy the transition probabilities that are different for the experimental strategy over this:
     
     m_P_Exp <- m_P_SoC
-    m_P_Exp["PFS", "PFS", ] <- (1 - p_FD) * (1 - p_FP_Exp)
-    m_P_Exp["PFS", "OS", ]     <- (1 - p_FD) * p_FP_Exp
+    m_P_Exp["PFS", "PFS", ] <- (1 - p_FD_Exp) * (1 - p_FP_Exp)
+    m_P_Exp["PFS", "OS", ]     <- (1 - p_FD_Exp) * p_FP_Exp
+    m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+    
     
     # If I decided the following was different under the experimental strategy I would have to code these in also:
     # 
