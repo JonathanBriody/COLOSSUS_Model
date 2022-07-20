@@ -2600,10 +2600,12 @@ p_FA3_SoC  <- p_FA3_STD
 # p_A1F_SoC = 0.01
 
 
-p_A1D_SoC <- 0.00100000000000000000
+# p_A1D_SoC <- 0.00100000000000000000
 
 
+# I was having some trouble with the A1D probabilities - with the basecase not actually being between the min and the max. My assumptions was that because the numbers were so small they were being rounded and thus moved to a value that wasnt bigger or smaller than the base case value. Although I don't think this should fix things, as this is just the format in which things are printed to the screen, rather than the value that is saved in the parameter, I still set R to display as many digits as possible (22 is the max) per: https://stackoverflow.com/questions/6669681/preventing-r-from-rounding, as suspected things are unchanged whether options(digits=2) of options(digits=22)
 
+options(digits=22)
 
 
 source(file = "oncologySemiMarkov_function.R")
@@ -2617,11 +2619,11 @@ l_params_all <- list(
   p_FD      = 0.02,      
   p_PD      = 0.05,
   p_A1F_SoC = 0.999,
-  p_A1D_SoC = 0.00100000000000000000,
+  p_A1D_SoC = p_A1D_SoC,
   p_A2F_SoC = 0.999,
-  p_A2D_SoC = 0.01,
+  p_A2D_SoC = p_A2D_SoC,
   p_A3F_SoC = 0.999,
-  p_A3D_SoC = 0.00100000000000000000,
+  p_A3D_SoC = p_A3D_SoC,
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
   p_PD_SoC = p_PD_SoC,
@@ -2873,9 +2875,9 @@ Maximum_d_c <- d_c + 0.20*d_c
 
 
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A1D_SoC"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A1D_SoC),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A1D_SoC", "p_A2D_SoC", "p_A3D_SoC"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A1D_SoC, Minimum_p_A2D_SoC, Minimum_p_A3D_SoC),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC, Maximum_p_A2D_SoC, Maximum_p_A3D_SoC)          # max parameter values
 )
 
 
