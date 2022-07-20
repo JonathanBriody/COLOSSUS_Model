@@ -2577,7 +2577,7 @@ One thing that concerns me is that the first line of the function sets willingne
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
 ```{r}
-
+#Session buddy has all the tabs on tornado diagrams that I need to read saved.
 
 # A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
 
@@ -2597,6 +2597,14 @@ p_FA3_SoC  <- p_FA3_STD
 #  arguments imply differing number of rows: 29, 386
 
 
+# p_A1F_SoC = 0.01
+
+
+p_A1D_SoC <- 0.00100000000000000000
+
+
+
+
 
 source(file = "oncologySemiMarkov_function.R")
 
@@ -2608,12 +2616,12 @@ l_params_all <- list(
   HR_FP_SoC = HR_FP_SoC,
   p_FD      = 0.02,      
   p_PD      = 0.05,
-  p_A1F_SoC = 0.01,
-  p_A1D_SoC = 0.01,
-  p_A2F_SoC = 0.01,
+  p_A1F_SoC = 0.999,
+  p_A1D_SoC = 0.00100000000000000000,
+  p_A2F_SoC = 0.999,
   p_A2D_SoC = 0.01,
-  p_A3F_SoC = 0.01,
-  p_A3D_SoC = 0.01,
+  p_A3F_SoC = 0.999,
+  p_A3D_SoC = 0.00100000000000000000,
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
   p_PD_SoC = p_PD_SoC,
@@ -2720,6 +2728,7 @@ p_A1F_SoC
 Minimum_p_A1F_SoC <- p_A1F_SoC - 0.20*p_A1F_SoC
 Maximum_p_A1F_SoC <- p_A1F_SoC + 0.20*p_A1F_SoC
 
+
 p_A1D_SoC
 Minimum_p_A1D_SoC <- p_A1D_SoC - 0.20*p_A1D_SoC
 Maximum_p_A1D_SoC <- p_A1D_SoC + 0.20*p_A1D_SoC
@@ -2747,6 +2756,22 @@ Maximum_p_A3F_SoC <- p_A3F_SoC + 0.20*p_A3F_SoC
 p_A3D_SoC
 Minimum_p_A3D_SoC <- p_A3D_SoC - 0.20*p_A3D_SoC
 Maximum_p_A3D_SoC <- p_A3D_SoC + 0.20*p_A3D_SoC
+
+
+#install.packages("Rmpfr")
+#library(Rmpfr)
+
+# 
+# Minimum_p_A1D_SoC <- mpfr(Minimum_p_A1D_SoC,200) # set arbitrary precision that's greater than R default
+# Maximum_p_A1D_SoC <- mpfr(Maximum_p_A1D_SoC,200) # set arbitrary precision that's greater than R default
+# 
+# 
+# Minimum_p_A2D_SoC <- mpfr(Minimum_p_A2D_SoC,200) # set arbitrary precision that's greater than R default
+# Maximum_p_A2D_SoC <- mpfr(Maximum_p_A2D_SoC,200) # set arbitrary precision that's greater than R default
+# 
+# Minimum_p_A3D_SoC <- mpfr(Minimum_p_A3D_SoC,200) # set arbitrary precision that's greater than R default
+# Maximum_p_A3D_SoC <- mpfr(Maximum_p_A3D_SoC,200) # set arbitrary precision that's greater than R default
+
 
 
 
@@ -2848,9 +2873,9 @@ Maximum_d_c <- d_c + 0.20*d_c
 
 
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_A1D_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_A2D_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A3D_SoC, Maximum_c_F_SoC, Maximum_c_F_Exp, Maximum_c_P, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_u_AE1, Maximum_u_AE2, Maximum_u_AE3)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A1D_SoC"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A1D_SoC),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC)          # max parameter values
 )
 
 
