@@ -2582,6 +2582,7 @@ oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 # A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
 
 p_PD  <- 0.05
+p_FD  <- 0.02,      
 u_F <- 0.5
 p_FD_SoC  <- 0.05
 p_FD_Exp  <- 0.05
@@ -2605,6 +2606,8 @@ p_FA3_SoC  <- p_FA3_STD
 
 # I was having some trouble with the A1D probabilities - with the basecase not actually being between the min and the max. My assumptions was that because the numbers were so small they were being rounded and thus moved to a value that wasnt bigger or smaller than the base case value. Although I don't think this should fix things, as this is just the format in which things are printed to the screen, rather than the value that is saved in the parameter, I still set R to display as many digits as possible (22 is the max) per: https://stackoverflow.com/questions/6669681/preventing-r-from-rounding, as suspected things are unchanged whether options(digits=2) of options(digits=22)
 
+# I realised that the issue was that when the parameter was set equal to a value in the list below, this only changed the parameter value in the list, not outside the list, so when I create my min and max using that parameter, it is using it's initial value, not the value assigned in the list, the problem with this is that if the parameter value in the list and the value in the min and max calculation don't align, then the basecase value of the parameter from the list is unlikely to lie between the min and max created from this parameter value outside the list. I have a github commit where I get into this in greater detail here: https://github.com/JonathanBriody/COLOSSUS_Model/commit/3b0cac700598e8d111c96ab39e13ce656ae80210 if the link doesnt work it's a commit called "the problem was this" around 5.15pm on the 20/07/22
+
 options(digits=22)
 
 
@@ -2616,13 +2619,13 @@ l_params_all <- list(
   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
   HR_FP_Exp = HR_FP_Exp,
   HR_FP_SoC = HR_FP_SoC,
-  p_FD      = 0.02,      
-  p_PD      = 0.05,
-  p_A1F_SoC = 0.999,
+  p_FD      = p_FD,      
+  p_PD      = p_PD,
+  p_A1F_SoC = p_A1F_SoC,
   p_A1D_SoC = p_A1D_SoC,
-  p_A2F_SoC = 0.999,
+  p_A2F_SoC = p_A2F_SoC,
   p_A2D_SoC = p_A2D_SoC,
-  p_A3F_SoC = 0.999,
+  p_A3F_SoC = p_A3F_SoC,
   p_A3D_SoC = p_A3D_SoC,
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
@@ -2873,12 +2876,19 @@ d_c
 Minimum_d_c <- d_c - 0.20*d_c
 Maximum_d_c <- d_c + 0.20*d_c
 
+# 
+# df_params_OWSA <- data.frame(
+#   pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A1D_SoC", "p_A2D_SoC", "p_A3D_SoC"),   # names of the parameters to be changed
+#   min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A1D_SoC, Minimum_p_A2D_SoC, Minimum_p_A3D_SoC),         # min parameter values
+#   max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC, Maximum_p_A2D_SoC, Maximum_p_A3D_SoC)          # max parameter values
+# )
 
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A1D_SoC", "p_A2D_SoC", "p_A3D_SoC"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A1D_SoC, Minimum_p_A2D_SoC, Minimum_p_A3D_SoC),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC, Maximum_p_A2D_SoC, Maximum_p_A3D_SoC)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_A1D_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_A2D_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A3D_SoC, Maximum_c_F_SoC, Maximum_c_F_Exp, Maximum_c_P, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_u_AE1, Maximum_u_AE2, Maximum_u_AE3)          # max parameter values
 )
+
 
 
 # I made sure the names of the parameters to be varied and their mins and maxs are in the same order in all the brackets above in order to make sure that the min and max being applied are the min and the max of the parameter I want to consider a min and a max for.
