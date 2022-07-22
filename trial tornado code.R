@@ -376,9 +376,9 @@ names(l.tor.out) <- paramNames
 # l.tor.out$HR_FP_SoC    <- cbind(HR_FP_SoC   = HR_FP_SoC_range,     input[-2])
 l.tor.out
 
-l.tor.out[["HR_FP_Exp"]]
-l.tor.out[["HR_FP_SoC"]]
-
+l.tor.out[["HR_FP_Exp"]]<- c(BaseCase = 7639.83194526294,    low = 5712.92771714879,  high = 11170.766462452)
+l.tor.out[["HR_FP_SoC"]]<- c(BaseCase = 7639.83194526294,    low = 12612.101545163,  high = 5960.03424418494)
+l.tor.out
 
 
 
