@@ -65,8 +65,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     H_FP_SoC  <- -log(S_FP_SoC)
     H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
     S_FP_Exp  <- exp(-H_FP_Exp)
-  
-
+    
+    
     # head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
     
     
@@ -102,7 +102,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     
-          
+    
     #    * ======================================================================================
     
     
@@ -136,22 +136,22 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # Then, the above survival function is used to generate transition probabilities below, which is the       genius of applying the hazard ratio to the sensitivity analysis, it can have a singular mean with a        static min and max, but applying it how we apply it above allows it to still produce cycle-specific        transition probabilities.
     
     #    * ======================================================================================
-
+    
     # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
     
     # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
     
     
     
-        
+    
     p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
     # First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
     for(i in 1:n_cycle) {
       p_FP_SoC[i] <- 1 - XNU_S_FP_SoC[i+1] / XNU_S_FP_SoC[i]
       p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     }
-
-
+    
+    
     
     
     # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
@@ -204,21 +204,21 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
     
     # 1) Defining the cycle times
-#    t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
+    #    t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
     
     # 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
     # S_PD_SoC - survival of progression to dead, i.e. not going to dead, i.e. staying in progression.
     # Note that the coefficients [that we took from flexsurvreg earlier] need to be transformed to obtain the parameters that the base R function uses
     
     
-#    S_PD_SoC <- pweibull(
-#      q     = t, 
-#      shape = exp(coef_TTD_weibull_shape_SoC), 
-#      scale = exp(coef_TTD_weibull_scale_SoC), 
-#      lower.tail = FALSE
-#    )
+    #    S_PD_SoC <- pweibull(
+    #      q     = t, 
+    #      shape = exp(coef_TTD_weibull_shape_SoC), 
+    #      scale = exp(coef_TTD_weibull_scale_SoC), 
+    #      lower.tail = FALSE
+    #    )
     
-#    head(cbind(t, S_PD_SoC))
+    #    head(cbind(t, S_PD_SoC))
     
     
     
@@ -264,7 +264,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # Now we can take the probability of being in the OS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the OS state, i.e. in order to get the probability of moving into the deda state.
     
     
-#    p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
+    #    p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
     
     # First we make the probability of going from progression (P) to dead (D) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
     
@@ -280,12 +280,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     # The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
     
-  #   p_PD_SoC
-  #   
-  #   p_PD_Exp
-  # }
-  # 
-  # 
+    #   p_PD_SoC
+    #   
+    #   p_PD_Exp
+    # }
+    # 
+    # 
     
     
     
@@ -300,10 +300,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     
-        
     
     
-        
+    
+    
     v_names_strats <- c("Standard of Care", "Experimental Treatment")         # Store the strategy names
     v_names_states <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   # state names # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
     n_strats       <- length(v_names_strats)                        # number of strategies
@@ -362,7 +362,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     # Initialize matrices for the transition probabilities
     # - note that these are now 3-dimensional matrices (so, above we originally included dim = nrow and ncol, but now we also include n_cycle - i.e. the number of cycles).
-
+    
     # - starting with standard of care
     m_P_SoC <- array(
       data = 0,
@@ -371,13 +371,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     )
     
     # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
-
-  
-  head(m_P_SoC)
     
-  
-# Setting the transition probabilities from PFS based on the model parameters
-# So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?  
+    
+    head(m_P_SoC)
+    
+    
+    # Setting the transition probabilities from PFS based on the model parameters
+    # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?  
     m_P_SoC["PFS", "PFS", ] <- (1 - p_FD_SoC) * (1 - p_FP_SoC)
     m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
     m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
@@ -442,8 +442,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # If I decided to use parametric survival analysis to generate probabilistic transition probabilities from progressed to death after all then I would have to do the following:
     
     # Setting the transition probabilities from OS
-#    m_P_Exp["OS", "OS", ] <-  
-#    m_P_Exp["OS", "Dead", ]        <- 
+    #    m_P_Exp["OS", "OS", ] <-  
+    #    m_P_Exp["OS", "Dead", ]        <- 
     
     m_P_Exp
     
@@ -473,8 +473,8 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     v_tc_SoC
     v_tc_Exp
     
-     v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
-     v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+    v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+    v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
     
     
     v_tu_SoC
@@ -488,7 +488,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle)) 
     v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
-
+    
     # Discount costs by multiplying the cost vector with discount weights (v_dwc) 
     
     tc_d_SoC <-  t(v_tc_SoC) %*% v_dwc 
@@ -509,15 +509,25 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
     
-    # Here we create the net monetary benefit as the utilities times the willingness to pay minus the costs.
+    (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+                                  effect     = c(tu_d_SoC, tu_d_Exp),
+                                  strategies = v_names_strats))
+    df_DSAcea
     
+    DSA_ICER    <- c(df_DSAcea[2,6])
     
-    df_ce <- data.frame(Strategy = v_names_strats,
-                        Cost     = v_tc_d,
-                        Effect   = v_tu_d,
-                        NMB      = v_nmb_d)
+    # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
     
-    return(df_ce)
+    # 
+    # df_ce <- data.frame(Strategy = v_names_strats,
+    #                     Cost     = v_tc_d,
+    #                     Effect   = v_tu_d,
+    #                     DSAICER  = DSA_ICER)
+    # 
+    # return(df_ce)
+    
+    # Generate the ouput
+    return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER))
     
   })
   

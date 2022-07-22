@@ -308,6 +308,8 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 # Parametric Survival Analysis:
 
+A GREAT EXPLANATION OF PARAMETRIC SURVIVAL ANALYSIS, MATHEMATICAL NOTATION AND CODE CAN BE FOUND HERE: <https://rpubs.com/mbounthavong/survival_analysis_in_r> ALSO SAVED HERE: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\rpubs-com-mbounthavong-survival_analysis_in_r
+
 Progression and mortality probabilities were derived from the PFS and OS curves of the X study [CITE].
 Data points were extracted from survival plots using Engauge Digitizer software, version 12.2, and these data points were used to fit parametric survival models [@mitchell2022].
 
@@ -856,6 +858,8 @@ I should do this in tangent with the two papers using 20%.
 <https://cran.r-project.org/web/packages/dampack/vignettes/voi.html>
 
 <https://cran.r-project.org/web/packages/dampack/dampack.pdf>
+
+<https://syzoekao.github.io/CEAutil/#43_one-way_sensitivity_analysis>
 
 also saved as pdf files here:
 
@@ -2577,12 +2581,34 @@ One thing that concerns me is that the first line of the function sets willingne
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
 ```{r}
-#Session buddy has all the tabs on tornado diagrams that I need to read saved.
+
+# If I can't figure out how to get a tornado diagram to work with ICER's rather than NMB, I could follow the approach here of doing a probabilistic analysis and then creating a tornado diagram on the probabilistic analysis. These examples explain the technicalities of how this is done in R but also from a theoretical viewpoint how this works:
+
+# https://github.com/DARTH-git/dampack/blob/master/R/owsa.R
+
+# Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\doingtornadoprobabilsticallyexample.R
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\cran-r-project-org-web-packages-dampack-vignettes-psa_analysis-html.pdf
+
+# Alternatively, I could take the following approach described here: 
+
+# https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html also saved here: https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html
+
+# or here:
+
+# https://rpubs.com/mbounthavong/decision_tree_model_tutorial also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\rpubs-com-mbounthavong-decision_tree_model_tutorial.pdf with the code that it calls saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\tornado_diagram_code.R
+
+
+# Worst case scenario, I create the tornado diagram and two-way sensitivity analysis as NMB and report NMB's in the league table of results so it doesnt look too out of place.
+
+
+
+#Normal chrome Session buddy has all the tabs on describing tornado diagrams that I need to read saved. Canary session buddy has all the tabs saved on doing a tornado diagram outside of the darth framework.
 
 # A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
 
 p_PD  <- 0.05
-p_FD  <- 0.02,      
+p_FD  <- 0.02      
 u_F <- 0.5
 p_FD_SoC  <- 0.05
 p_FD_Exp  <- 0.05
@@ -2914,15 +2940,16 @@ OWSA_NMB  <- run_owsa_det(
 # FUN	
  
 
+  # outcomes         = c("NMB"),           # output to do the OWSA on
 
-  outcomes         = c("NMB"),           # output to do the OWSA on
+  outcomes         = c("DSAICER"),           # output to do the OWSA on
 
 # outcomes	
 
   strategies       = v_names_strats,       # names of the strategies
 
+  progress = TRUE,
 
-progress = TRUE,
 
   n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
 )
@@ -2930,12 +2957,9 @@ progress = TRUE,
 owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 
 
-
-
-
-
-
-
+# owsa_tornado(DSAICER,
+# 
+# min_rel_diff = 0.05)
 
 
 
@@ -3336,7 +3360,7 @@ owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 ## 08.3.1 Plot OWSA
 
 ```{r}
-plot(owsa_nmb, txtsize = 10, n_x_ticks = 4, 
+plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4, 
      facet_scales = "free") +
   theme(legend.position = "bottom")
 ```
@@ -3344,7 +3368,7 @@ plot(owsa_nmb, txtsize = 10, n_x_ticks = 4,
 ## 08.3.2 Optimal strategy with OWSA
 
 ```{r}
-owsa_opt_strat(owsa = owsa_nmb, txtsize = 10)
+owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10)
 ```
 
 ## 08.3.3 Tornado plot
