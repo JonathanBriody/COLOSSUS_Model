@@ -1,3 +1,9 @@
+# Below I use a different source for my code to create a tornado diagram that includes ICERs to apply in cases where just generating an ICER in the oncologySemiMarkov_function and putting that in  outcomes = c("DSAICER"), doesnt work. 
+
+# I source this code from: https://rpubs.com/mbounthavong/decision_tree_model_tutorial and https://raw.githubusercontent.com/mbounthavong/Decision_Analysis/master/tornado_diagram_code.R also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\rpubs-com-mbounthavong-decision_tree_model_tutorial.pdf and here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\tornado_diagram_code.pdf
+
+# First I generate the basecase values for some of the parameters that either don't exist in the data currently or that I want to assign different probabilities too.
+
 p_PD  <- 0.05
 p_FD  <- 0.02      
 u_F <- 0.5
@@ -8,7 +14,7 @@ p_FA1_SoC  <- p_FA1_STD
 p_FA2_SoC  <- p_FA2_STD
 p_FA3_SoC  <- p_FA3_STD
 
-
+# Then I generate a minimum and a maximum for these basecase values as below:
 
 # Hazard Ratios:
 
@@ -90,23 +96,6 @@ Maximum_p_A3F_SoC <- p_A3F_SoC + 0.20*p_A3F_SoC
 p_A3D_SoC
 Minimum_p_A3D_SoC <- p_A3D_SoC - 0.20*p_A3D_SoC
 Maximum_p_A3D_SoC <- p_A3D_SoC + 0.20*p_A3D_SoC
-
-
-#install.packages("Rmpfr")
-#library(Rmpfr)
-
-# 
-# Minimum_p_A1D_SoC <- mpfr(Minimum_p_A1D_SoC,200) # set arbitrary precision that's greater than R default
-# Maximum_p_A1D_SoC <- mpfr(Maximum_p_A1D_SoC,200) # set arbitrary precision that's greater than R default
-# 
-# 
-# Minimum_p_A2D_SoC <- mpfr(Minimum_p_A2D_SoC,200) # set arbitrary precision that's greater than R default
-# Maximum_p_A2D_SoC <- mpfr(Maximum_p_A2D_SoC,200) # set arbitrary precision that's greater than R default
-# 
-# Minimum_p_A3D_SoC <- mpfr(Minimum_p_A3D_SoC,200) # set arbitrary precision that's greater than R default
-# Maximum_p_A3D_SoC <- mpfr(Maximum_p_A3D_SoC,200) # set arbitrary precision that's greater than R default
-
-
 
 
 # Cost:
@@ -205,12 +194,14 @@ d_c
 Minimum_d_c <- d_c - 0.20*d_c
 Maximum_d_c <- d_c + 0.20*d_c
 
+
+# Then I source the function I describe at the above for creating a tornado diagram. If it won't source properly I can always go in and run this R file manually and then go from the input section onwards.
+
 source(file = "function_trial_tornado_code.R")
 
+# I make an input data.frame which is the basecase values of the parameters I want to vary in my tornado diagram as below:
 
 input <- data.frame(
-  # coef_weibull_shape_SoC = coef_weibull_shape_SoC,
-  # coef_weibull_scale_SoC = coef_weibull_scale_SoC,
   HR_FP_Exp = HR_FP_Exp,
   HR_FP_SoC = HR_FP_SoC
   # p_FD      = p_FD,      
@@ -245,19 +236,11 @@ input <- data.frame(
   # d_c       = d_c
 )
 
-
-
-
-
-
-
-
+# Below I just repeat the above for some reason (I may actually be able to delete this part as it's already done, rather than running it again).
 
 ################################
 #### Data inputs (parameters)
 ################################
-coef_weibull_shape_SoC = coef_weibull_shape_SoC
-coef_weibull_scale_SoC = coef_weibull_scale_SoC
 HR_FP_Exp = HR_FP_Exp
 HR_FP_SoC = HR_FP_SoC
 # p_FD      = p_FD      
@@ -292,6 +275,8 @@ HR_FP_SoC = HR_FP_SoC
 # d_c       = d_c
 
 
+# Here I define the ranges of the parameters, filling in their basecase, minimum and maximum:
+
 ########################
 #### Tornado Plot #2
 ########################
@@ -325,17 +310,25 @@ HR_FP_SoC_range     <- c(BaseCase = HR_FP_SoC,    low = Minimum_HR_FP_SoC,  high
 # u_AE3_range     <- c(BaseCase = u_AE3,    low = Minimum_u_AE3,  high = Maximum_u_AE3 )
 
 
+# Here I create "paramNames", with the names of all the parameters included:
 
 ## Parameter names
 paramNames <-   c( "HR_FP_Exp", 
                    "HR_FP_SoC"
 )
 
-
+# I've commented out the names of the other parameters I might like to include, but left them below for simplicity's sake:
 
 # , "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"
 
-# List of inputs
+# I create a vector with a list of the inputs I've included. I want to make sure that:
+
+# A. The number at the end of: l.tor.in <- vector("list", 2) matches the number of inputs that I am including. So here I am including 2, if I decide to include more, i.e., up to the 27, I'll need to update this, i.e. up to 27.
+
+# B. Secondly, I need to include the inputs below in the same order as the inputs in the "input" data.frame I create above. i.e., ,     input[-1]) is the first input in this dataframe, ,     input[-2]) is the second input in this dataframe, and so on, so I need to make sure that I am matching things to where they appear in the dataframe, just like in the example code. 
+
+
+# List of tornado inputs
 l.tor.in <- vector("list", 2)
 names(l.tor.in) <- paramNames
 l.tor.in$HR_FP_Exp    <- cbind(HR_FP_Exp   = HR_FP_Exp_range,     input[-1])
@@ -369,44 +362,62 @@ l.tor.in$HR_FP_SoC    <- cbind(HR_FP_SoC   = HR_FP_SoC_range,     input[-2])
 #                          
 
 
-## List of outputs
+# This is where things get tricky. You'll see that l.tor.in produces what it describes as "A data.frame with 3 rows and 2 columns". Where the types are lists and doubles:
+# Which matches what is produced in the example code, which I saved here and can be run easily to confirm: https://rstudio.cloud/spaces/264142/content/4288190 if rstudio.cloud doesnt run for some reason, this can easily be run by taking the content from the online tutorial into R studio.
+
+l.tor.in
+
+# But, you'll see below that although l.tor.out matches the example code until the apply code, once we use the apply code l.tor.out creates Type as "character" and quotation marks around the input values. Whereas in the example code, this is type "double" and has values not within quotation marks.
+
+
+## List of tornado outputs
+
+# Again, the number at the end of: l.tor.in <- vector("list", 2) matches the number of inputs that I am including. So here I am including 2, if I decide to include more, i.e., up to the 27, I'll need to update this, i.e. up to 27.
+
+
 l.tor.out <- vector("list", 2)
 names(l.tor.out) <- paramNames
-#l.tor.out$HR_FP_Exp    <- cbind(HR_FP_Exp   = HR_FP_Exp_range,     input[-1])
-# l.tor.out$HR_FP_SoC    <- cbind(HR_FP_SoC   = HR_FP_SoC_range,     input[-2])
 l.tor.out
 
-l.tor.out[["HR_FP_Exp"]]<- c(BaseCase = 7639.83194526294,    low = 5712.92771714879,  high = 11170.766462452)
-l.tor.out[["HR_FP_SoC"]]<- c(BaseCase = 7639.83194526294,    low = 12612.101545163,  high = 5960.03424418494)
-l.tor.out
+# To combat this, I can manually enter the values that I need for BaseCase, low and high. 
+
+# To get these values in the first place to enter manually I need to generate them as quotation values below:
 
 
 
+# Again, the number at the end of: l.tor.in <- vector("list", 2) matches the number of inputs that I am including. So here I am including 2, if I decide to include more, i.e., up to the 27, I'll need to update this, i.e. up to 27.
 
 nul.tor.out <- vector("list", 2)
 names(nul.tor.out) <- paramNames
 nul.tor.out
+
 ## Run model on different parameters 
-# NOTE: we select [ , 7] because that is the location of the ICER output.
+# NOTE: we select [ , 7] because that is the location of the ICER output in the oncologySemiMarkov function, i.e., it's the seventh value in return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER)).
+
+# When I'm applying this to however many parameters I'm including I'll need to update for(i in 1:2){ from :2 (which is how many I look at here) to :however many I go to, so update this to for(i in 1:27){ if I end up including the 27 parameters I have commented out above.
 for(i in 1:2){
-  nul.tor.out[[i]] <- t(apply(l.tor.in[[i]], 1, oncologySemiMarkov))[, 7] 
+nul.tor.out[[i]] <- t(apply(l.tor.in[[i]], 1, oncologySemiMarkov))[, 7] 
 }
 
 nul.tor.out
 
-nuHR_FP_Exp_range     <- c(BaseCase = 7639.83194526294,    low = 5712.92771714879,  high = 11170.766462452)
-nuHR_FP_SoC_range     <- c(BaseCase = 7639.83194526294,    low = 12612.101545163,  high = 5960.03424418494)
+# They should be reported from the nul.tor.out and then I can take the values from these and plug them in manually below (I can probably use something like the following to select the BaseCase, low and high automatically and have less reading of results and manual entering, etc., to do: l.tor.out$HR_FP_Exp    <- cbind(HR_FP_Exp   = nuHR_FP_Exp_range,     input[-1])):
 
+l.tor.out[["HR_FP_Exp"]]<- c(BaseCase = 7639.83194526294,    low = 5712.92771714879,  high = 11170.766462452)
+l.tor.out[["HR_FP_SoC"]]<- c(BaseCase = 7639.83194526294,    low = 12612.101545163,  high = 5960.03424418494)
 
-l.tor.out$HR_FP_Exp    <- cbind(HR_FP_Exp   = nuHR_FP_Exp_range,     input[-1])
-l.tor.out$HR_FP_SoC    <- cbind(HR_FP_SoC   = nuHR_FP_SoC_range,     input[-2])
+# Which, as you'll see, gives us the same type and value layout as in the example code.
+
 l.tor.out
 
-
+# Then I need to create the matrix for the tornado diagram, with the mean (basecase), min (low) and max (high). 
 
 ## Data structure: ymean, ymin, ymax
+# Here, I need to make sure that nrow reflects the number of parameters I'm including, like in nul.tor.out above, if I'm going with 2 parameters I'll need 2 rows. But, if I'm going with 27 parameters then I'll need 27 rows. Because the columns just reflect basecase, low and high, the column number of 3 is perfect regardless of the number of rows. 
 m.tor <- matrix(unlist(l.tor.out), nrow = 2, ncol = 3, byrow = TRUE, 
                 dimnames = list(paramNames, c("basecase", "low", "high")))
+
+# If I decide to go this route, the last thing I need to do is figure out which coloured box is low and which coloured box is high in the outputted diagram, and to go through function_trial_tornado_code.r possibly renaming it so that the function is at the end and R will recognise it as a function and definitely seeing if I need to re-write any bits to make the code more my own and to see if there are sections that might explain what the function is doing and what coloured boxes are for what outcome.
 
 
 TornadoPlot(main_title = "Tornado Plot", Parms = paramNames, Outcomes = m.tor, 

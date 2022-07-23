@@ -2580,7 +2580,36 @@ One thing that concerns me is that the first line of the function sets willingne
 
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
+It may just be creating an wtp for the NMB calculation in the function, but probably a good idea to ensure this is the case (i.e., change the n_wtp to see how it changes the nmb) and also ensure that I am happy with the NMB value currently under use (10,000 above).
+
 ```{r}
+
+# Typically, it's very easy to get the tornado plot to work with ICERS rather than with NMB, you just change   outcomes         = c("NMB"), to   outcomes         = c("DSAICER"), and then change the function to include the following code: 
+
+
+    # v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
+    # 
+    # (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+    #                               effect     = c(tu_d_SoC, tu_d_Exp),
+    #                               strategies = v_names_strats))
+    # df_DSAcea
+    # 
+    # DSA_ICER    <- c(df_DSAcea[2,6])
+    # 
+    # 
+    # df_ce <- data.frame(Strategy = v_names_strats,
+    #                     Cost     = v_tc_d,
+    #                     Effect   = v_tu_d,
+    #                     NMB      = v_nmb_d,
+    #                     DSAICER  = DSA_ICER)
+    # 
+    # return(df_ce)
+
+
+# Basically straight after you calculate the net monetary benefit for the notrnado diagram, 
+
+
+# I was having some trouble getting my tornado plot to generate. I think I've tracked the issue down to ggplot, which the dampack tornado plot code uses. I suspect that this was because some of my values were very small, because the exact issue I was getting was and per the following webpage.
 
 # If I can't figure out how to get a tornado diagram to work with ICER's rather than NMB, I could follow the approach here of doing a probabilistic analysis and then creating a tornado diagram on the probabilistic analysis. These examples explain the technicalities of how this is done in R but also from a theoretical viewpoint how this works:
 

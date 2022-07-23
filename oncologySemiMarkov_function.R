@@ -522,6 +522,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # df_ce <- data.frame(Strategy = v_names_strats,
     #                     Cost     = v_tc_d,
     #                     Effect   = v_tu_d,
+    #                     NMB      = v_nmb_d,
     #                     DSAICER  = DSA_ICER)
     # 
     # return(df_ce)
