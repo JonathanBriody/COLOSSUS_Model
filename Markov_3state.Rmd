@@ -3004,9 +3004,9 @@ OWSA_NMB  <- run_owsa_det(
 # FUN	
  
 
-  # outcomes         = c("NMB"),           # output to do the OWSA on
+ outcomes         = c("NMB"),           # output to do the OWSA on
 
-  outcomes         = c("DSAICER"),           # output to do the OWSA on
+#  outcomes         = c("DSAICER"),           # output to do the OWSA on
 
 # outcomes	
 
