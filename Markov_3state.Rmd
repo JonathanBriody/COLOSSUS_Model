@@ -2580,11 +2580,18 @@ One thing that concerns me is that the first line of the function sets willingne
 
 oncologySemiMarkov \<- function(l_params_all, n_wtp = 10000) {
 
-It may just be creating an wtp for the NMB calculation in the function, but probably a good idea to ensure this is the case (i.e., change the n_wtp to see how it changes the nmb) and also ensure that I am happy with the NMB value currently under use (10,000 above).
+It may just be creating an wtp for the NMB calculation in the function, because there is none for use in this function and one is needed to calculate:
+
+v_nmb_d \<- v_tu_d \* n_wtp - v_tc_d
+
+but probably a good idea to ensure this is the case (i.e., change the n_wtp to see how it changes the nmb) and also ensure that I am happy with the NMB value currently under use (10,000 above), i.e. do a little reading and see if another n_wtp may be more appropriate and maybe reach out to darth and see if there is a reason their wtp's don't match.
 
 ```{r}
 
-# Typically, it's very easy to get the tornado plot to work with ICERS rather than with NMB, you just change   outcomes         = c("NMB"), to   outcomes         = c("DSAICER"), and then change the function to include the following code: 
+
+# Using ICERs in the tornado diagram:
+
+# Typically, it's very easy to get the tornado plot to work with ICERS rather than with NMB, you just change   outcomes         = c("NMB"), to   outcomes         = c("DSAICER"), and then change the function to include the following code, basically creating ICERs the same way you do in this Rmd file and then an insertion of DSAICER  = DSA_ICER into the df_ce so that you have an ICER to include under outcomes         = c("") as above: 
 
 
     # v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
@@ -2606,12 +2613,17 @@ It may just be creating an wtp for the NMB calculation in the function, but prob
     # return(df_ce)
 
 
-# Basically straight after you calculate the net monetary benefit for the notrnado diagram, 
+# However, I was having some trouble getting my tornado plot to generate. I think I've tracked the issue down to ggplot, which the dampack tornado plot code uses. I suspect that this was because some of my values were very small, because the exact issue I was getting was:
+
+#Error in if (zero_range(as.numeric(limits))) { :
+#missing value where TRUE/FALSE needed 
+
+# and per the following webpage https://stackoverflow.com/questions/12462479/r-ggplot2-simple-plot-cannot-specify-log-axis-limits other people have had the same issue and talked about ggplot and how this error might mean it won't accept certain issues. Also here: https://stackoverflow.com/questions/28474630/missing-value-where-true-false-needed-error-in-if-statement-in-r and here:https://stackoverflow.com/questions/55867994/ggplot-has-error-missing-value-where-true-false-needed and here: https://stackoverflow.com/questions/67810309/pot-histograms-and-had-error-missing-value-where-true-false-needed and here: https://stackoverflow.com/questions/53052874/define-new-scales-axis-tranform-for-ggplot  
+
+# I should check if they build tornado diagrams without ggplot in the York code, and if they do at least I can see the ggplot in action and remedy the issue using one of the solutions suggested at the above links.
 
 
-# I was having some trouble getting my tornado plot to generate. I think I've tracked the issue down to ggplot, which the dampack tornado plot code uses. I suspect that this was because some of my values were very small, because the exact issue I was getting was and per the following webpage.
-
-# If I can't figure out how to get a tornado diagram to work with ICER's rather than NMB, I could follow the approach here of doing a probabilistic analysis and then creating a tornado diagram on the probabilistic analysis. These examples explain the technicalities of how this is done in R but also from a theoretical viewpoint how this works:
+# If I can't figure out how to get a tornado diagram to work with ICER's rather than NMB, I could follow the approach here of doing a probabilistic analysis and then creating another tornado diagram with ICERS on the probabilistic analysis. These examples explain the technicalities of how this is done in R but also from a theoretical viewpoint how this works:
 
 # https://github.com/DARTH-git/dampack/blob/master/R/owsa.R
 
@@ -2621,12 +2633,35 @@ It may just be creating an wtp for the NMB calculation in the function, but prob
 
 # Alternatively, I could take the following approach described here: 
 
-# https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html also saved here: https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html
-
-# or here:
-
 # https://rpubs.com/mbounthavong/decision_tree_model_tutorial also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\rpubs-com-mbounthavong-decision_tree_model_tutorial.pdf with the code that it calls saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\tornado_diagram_code.R
 
+# I've actually coded up the above solution in quite a bit of detail. To get it working though I'll have to change oncologySemiMarkov_function.R to be:
+
+#    
+#     v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
+#     
+#     (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+#                                   effect     = c(tu_d_SoC, tu_d_Exp),
+#                                   strategies = v_names_strats))
+#     df_DSAcea
+#     
+#     DSA_ICER    <- c(df_DSAcea[2,6])
+#     
+#     # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
+#     
+#     # Generate the ouput
+#     return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER))
+#   })
+#   
+# }
+# 
+    
+    
+# Or I could try the below:
+
+# https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html also saved here: https://cran.r-project.org/web/packages/tornado/vignettes/tornadoVignette.html
+
+# But if these don't work, because of using ggplot also, I could see if I can find a package or manual creation code that doesnt use ggplot, or seeing as the ggplot part of the code in the mbounthavong code happens somewhere I can see it and change it, I might be able to see if one of the fixes mentioned in the stack overflow links about can be applied and let the tornado plot be built.
 
 # Worst case scenario, I create the tornado diagram and two-way sensitivity analysis as NMB and report NMB's in the league table of results so it doesnt look too out of place.
 

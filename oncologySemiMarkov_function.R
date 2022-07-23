@@ -509,12 +509,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     v_nmb_d   <- v_tu_d * n_wtp - v_tc_d
     
-    (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
-                                  effect     = c(tu_d_SoC, tu_d_Exp),
-                                  strategies = v_names_strats))
-    df_DSAcea
-    
-    DSA_ICER    <- c(df_DSAcea[2,6])
+    # (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+    #                               effect     = c(tu_d_SoC, tu_d_Exp),
+    #                               strategies = v_names_strats))
+    # df_DSAcea
+    # 
+    # DSA_ICER    <- c(df_DSAcea[2,6])
     
     # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
     
