@@ -1,3 +1,8 @@
+# Source here: https://github.com/DARTH-git/dampack/blob/master/R/owsa.R
+
+# Explained better here: https://rdrr.io/github/DARTH-git/dampack/man/owsa.html
+
+
 #' One-way sensitivity analysis
 #'
 #' When used on a PSA object, this function uses a polynomial regression metamodel to predict the
