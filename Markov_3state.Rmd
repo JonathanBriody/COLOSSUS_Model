@@ -2414,6 +2414,10 @@ In terms of LYs, PK FOLFOX provided 2.60 LYs compared with BSA FOLFOX with 1.99 
 The ICER of PK 5-FU was \$21,423 per LY.
 All numerical results are summarized in Table 5.
 
+The code to do this is here to add costs, QALYS, NMBs and Life Years to your leauge table:
+
+cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
 (If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
 ```{r}
@@ -2487,6 +2491,9 @@ The frontier is also discussed here: C:\\Users\\Jonathan\\OneDrive - Royal Colle
 The efficiency frontier is described on page 277 [in the textbook] of: [file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine\_%20integrating%20evidence%20and%20values.pdf](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/R%20Code/GitHub/COLOSSUS_Model/(Cambridge%20medicine)%20Hunink,%20M.%20G.%20Myriam_Weinstein,%20Milton%20C%20-%20Decision%20making%20in%20health%20and%20medicine_%20integrating%20evidence%20and%20values.pdf)
 
 # **Sensitivity Analysis Below:**
+
+All plots produced by dampack are ggplot objects and can be readily customized.
+<https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
 I've put detailed notes in:
 
@@ -2572,34 +2579,7 @@ Clinical colorectal cancer, 13(4), 219-225.]
 
 Across a range of parameter values, the ICER was above X per QALY, supporting the robustness of results.
 
-[
-
-Results suggest that SoC is dominated by the novel therapy, which is more cost-effective in almost all situations.
-(Review Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J. (2019).
-Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-Journal of Medical Economics, 22(2), 163-168.
-<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432> to make sure you are reporting this right)
-
-I think I could just manually look at the ICERs when they are calculated in R to see what is and isnt dominated.
-
-More description in this vein:
-
-Sensitivity analysis Figure 3 shows the one-way sensitivity analysis represented by tornado diagrams for incremental QALYs, total costs, and the ICUR, respectively.
-Incremental QALYs were most sensitive, in a decreasing order, to the survival in the stable disease on treatment state (maximum range 0.07-- 0.20 incremental QALYs favoring bevacizumab), the utility of the stable disease on treatment state, and the survival in the progressive disease state.
-Incremental costs were most sensitive, in a decreasing order, to the number of bevacizumab cycles (maximum range US\$25,000 --\$95,000 for the bevacizumab group), the acquisition costs of bevacizumab (range \$58,000 --\$86,000), and the discount rate.
-The ICUR was most sensitive to the survival in the stable disease on treatment state for the bevacizumab group (max range \$363,000 -- \$1,012,000/QALY), the number of bevacizumab cycles (range \$194,000 --\$743,000/QALY), and utility of the stable disease on treatment state (range \$393,000 --\$910,000/QALY).
-We calculated a weighted average of the health utility states in the CPB group using the mean time spent in each health state as the weights.
-The weighted average health utility in the CPB group was 0.534.
-This allowed us to calculate the mean overall survival benefit that bevacizumab would have to generate in order to result in an ICUR of \$100,000/QALY.
-The addition of bevacizumab to chemotherapy would have to increase the mean overall survival by 1.3 years in order to result in an ICUR of US\$100,000/QALY, while holding other parameters constant.
-The acquisition cost of bevacizumab would have to be approximately \$885 for the addition of bevacizumab to result in an ICUR of US\$100,000/QALY, other parameters held constant.
-Goulart, B., & Ramsey, S.
-(2011).
-A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
-Value in Health, 14(6), 836-845.
-<https://sci-hub.ru/10.1016/j.jval.2011.04.004>
-
-]
+[]
 
 "One-way DSA may be reported using a tornado diagram (Figure 1). The horizontal axis is the outcome; along the vertical axis, parameters are arrayed and horizontal bars represent the outcome range associated with the specified parameter's range. The outcome point estimate corresponding to base-case values is indicated by a vertical line cutting through all horizontal bars. Commonly, the longest bar (reflecting the parameter generating the widest uncertainty) is placed at the top, and the other bars are arrayed in descending order of length. A tornado diagram should be accompanied by a legend or table indicating the upper and lower bounds of values for each parameter, with their justification in terms of the evidence base. A table may be used instead of a tornado diagram or the results ranges provide in the text of the report (e.g., the text might state that ''the outcome ranged from X to Y when parameter Z was varied from A to B''). It is important that the range A to B represents a defensible range for parameter Z, not an arbitrary one."
 
@@ -2646,7 +2626,12 @@ But, at the moment I have code above where doing a tornado diagram on effectiven
 
 C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Deterministic Sensitivity Analysis\_ Generation.pdf
 
-If a reviewer wants me to do a more unusual deterministic sensitivity analysis, which includes regression, I can find information on doing that here: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
+If a reviewer wants me to do a more unusual deterministic sensitivity analysis, which is probabilistic or includes regression, I can find information on doing that here: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
+
+**Describing plotted outcome values over a range of values of the parameters of interest and treatment strategies:** OR, MORE SIMPLY PUT -> **Describing Plotting One Way Sensitivity Analysis (OWSA) Plot:**
+
+In Figure X we conduct a one-way deterministic sensitivity analysis separately on each of the different parameters, per treatment strategy.
+This figure illustrates how the expected outcome value from the decision model varies (on the x axis) as the parameters vary across the range of minimum to maximum values described in Table X (on the y axis).
 
 ## 08.1 Load PFS-PFSer Markov model function
 
@@ -2779,7 +2764,7 @@ p_FA3_SoC  <- p_FA3_STD
 
 # I realised that the issue was that when the parameter was set equal to a value in the list below, this only changed the parameter value in the list, not outside the list, so when I create my min and max using that parameter, it is using it's initial value, not the value assigned in the list, the problem with this is that if the parameter value in the list and the value in the min and max calculation don't align, then the basecase value of the parameter from the list is unlikely to lie between the min and max created from this parameter value outside the list. I have a github commit where I get into this in greater detail here: https://github.com/JonathanBriody/COLOSSUS_Model/commit/3b0cac700598e8d111c96ab39e13ce656ae80210 if the link doesnt work it's a commit called "the problem was this" around 5.15pm on the 20/07/22
 
-options(digits=22)
+options(digits=4)
 
 ## 4.1 Initialization ----
 
@@ -3232,11 +3217,17 @@ OWSA_NMB  <- run_owsa_det(
 
 # a named list of basecase values for input parameters needed by FUN, the user-defined function. So, I guess it takes the values that the parameters are equal to in l_params_all as the base case, so if cost is generated equal to 1,000 it'll take that as the base case, and then take the min and the max around this from the data.frame we created above.
 
+# To conduct the one-way DSA, we then call the function run_owsa_det with my_owsa_params_range, specifying the parameters to be varied and over which ranges, and my_params_basecase as the fixed parameter values to be used in the model when a parameter is not being explicitly varied in the one-way sensitivity analysis. https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
   nsamp            = 100,                # number of parameter values
 
 # nsamp	
 
 # number of sets of parameter values to be generated. If NULL, 100 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
+
+# Additional inputs are the number of equally-spaced samples (nsamp) to be used between the specified minimum and maximum of each range, the user-defined function (FUN) to be called to generate model outcomes for each strategy, the vector of outcomes to be stored (must be outcomes generated by the data frame output of the function passed in FUN), and the vector of strategy names to be evaluated.
+
+# cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
   FUN              = oncologySemiMarkov, # function to compute outputs
 
@@ -3264,6 +3255,9 @@ OWSA_NMB  <- run_owsa_det(
 # progress	
 # TRUE or FALSE for whether or not function progress should be displayed in console, i.e., like 75% complete, 100%, etc.,
 
+# The input progress = TRUE allows the user to see a progress bar as the DSA is conducted. When many parameters are being varied, nsamp is large, and/or the user-defined function is computationally burdensome, the DSA may take a noticeable amount of time to compute and the progress display is recommended.
+# cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
 
   n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
 )
@@ -3273,11 +3267,27 @@ OWSA_NMB  <- run_owsa_det(
 
 # Basically, run_owsa_det creates the above.
 
+# Also, each owsa object returned by run_owsa_det is a data frame with four columns: parameter, strategy, param_val, and outcome_val. For each row, param_val is the value used for the parameter listed in parameter and outcome_val is the value of the specified outcome for the strategy listed in strategy. 
+
+# So, OWSA_NMB shows a row is created for each sampling of the parameter value from min to max, so 100 rows per parameter (because nsamp = 100,), and the outcome value associated with a parameter value of this size is displayed under outcome_val.
+
+# You can see how this works by putting the below into the console.
+
+# OWSA_NMB
+
+
 
 # Resources on this available here:
 
 
 # https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html (also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\sensitivity analysis help files\rdrr-io-github-DARTH-git-dampack-man-run_owsa_det-html.pdf)
+
+
+# This link is pretty good for showing that the OWSA can be run across a variety of outcomes outcomes = c("Cost", "QALY", "LY", "NMB"), and then you can pick which of the OWSA outcomes you'd like to focus on and build tornado diagrams, etc., from that:
+
+# "Because we have defined multiple parameters in my_owsa_params_range, we have instructed run_owsa_det to execute a series of separate one-way sensitivity analyses and compile the results into a single owsa object for each requested outcome. When only one outcome is specified run_owsa_det returns a owsa data frame. When more than one outcome is specified, run_owsa_det returns a list containing one owsa data frame for each outcome. To access the owsa object corresponding to a given outcome, one can select the list item with the name “owsa_”. For example, the owsa object associated with the NMB outcome can be accessed as l_owsa_det$owsa_NMB."
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
 owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 
@@ -3298,7 +3308,31 @@ owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 ```{r}
 plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4, 
      facet_scales = "free") +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") 
+
+# I can add the following to the above: 
+
+# + ggtitle("Expected Value of Perfect Information")
+
+# To include a title on this plot, per: https://mran.microsoft.com/snapshot/2021-03-21/web/packages/dampack/dampack.pdf
+
+#txtsize - base text size
+
+# n_y_ticks - number of axis ticks
+# n_x_ticks	- number of axis ticks
+
+# Function for determining number of ticks on axis of ggplot2 plots. https://www.quantargo.com/help/r/latest/packages/dampack/1.0.1/number_ticks
+
+
+# [SO, IN THE DIAGRAM THE PARAMETER WE ARE CONSIDERING IS AT THE TOP OF THE DIAGRAM, THE NET MONETARY BENEFIT IS ON THE LEFT OF THE DIAGRAM AND YOU'LL SEE THAT THE LEFT EDGE OF THE LINE IS THE MINIMUM VALUE FOR THE PARAMETER WE ARE INTERESTED IN, THE RIGHT EDGE OF THE LINE IS THE MAXIMUM VALUE FOR THE PARAMETER WE ARE INTERESTED IN, AND SOMEWHERE IN THE MIDDLE IS THE BASECASE WE ASSIGNED THIS PARAMETER. A GOOD EXAMPLE OF THIS IS c_P, COST OF PROGRESSION, WHERE THE BASECASE WAS 1,000 EURO, WHICH WE SEE IN THE MIDDLE, THE MINIMUM IS 800 EURO WHICH WE SEE ON THE FAR LEFT OF THE LINE, AND THE MAXIMUM IS 1,200 WHICH WE SEE ON THE FAR RIGHT OF THE LINE, AND WE SEE THAT AS WE MOVE FROM THE MINUMUM, THE 800 EURO ON THE FAR LEFT OF THE LINE, TO THE MAXIMUM, THE 1200 EURO ON THE FAR RIGHT OF THE LINE (I.E., AS THE COST OF BEING IN THE PROGRESSED STATE INCREASES) THE NET MONETARY BENEFIT OF BOTH TREATMENT OPTIONS FALL, WITH THE NMB OF THE EXPERIMENTAL TREATMENT OPTION FALLING FROM 235,000 TO 230,000].
+
+
+
+# Explained here: https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
+
+# and here: https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html
+
 ```
 
 ## 08.3.2 Optimal strategy with OWSA
@@ -3378,6 +3412,8 @@ In multivariate analysis, we ran 10,000 replications in the probabilistic sensit
 The baseline values, ranges, and distributions for model parameters are presented in Table 4.
 Per: Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colo .
 <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>
+
+If we want to repeat all our one-way sensivity analysis probabilistically, rather than deterministically, you can see how to do this here, it might make for a good appendix because the description is technically complex, so would read well in the paper, but the application in R is actually very straightforward: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
 ```{r}
 
