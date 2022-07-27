@@ -2662,6 +2662,8 @@ v_nmb_d \<- v_tu_d \* n_wtp - v_tc_d
 
 but probably a good idea to ensure this is the case (i.e., change the n_wtp to see how it changes the nmb) and also ensure that I am happy with the NMB value currently under use (10,000 above), i.e. do a little reading and see if another n_wtp may be more appropriate and maybe reach out to darth and see if there is a reason their wtp's don't match.
 
+## 08.3 One-way sensitivity analysis (OWSA)
+
 ```{r}
 
 
@@ -2932,6 +2934,48 @@ oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
 
 # Hazard Ratios:
 
+# To vary transition probabilities is slightly complex in a time dependent model.
+
+
+# FOR THE TRANSITION PROBABILITY FROM FREE TO PROGRESSION WE CAN MULTIPLY THAT PARAMETER BY 20% ONCE AND IT WILL CHANGE THE TRANSITION PROBABILITIES AT EACH CYCLE 
+ 
+# > Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+# > Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+# > p_FP_SoC
+#  ...0.249399924
+# > Minimum_p_FP_SoC
+#  ...0.1995199390
+# > Maximum_p_FP_SoC
+#  ...0.299279908
+
+# 0.0499 is 20% of 0.249399924
+# 0.249399924 - 0.0499 = 0.199499924
+# 0.249399924 + 0.0499 = 0.299299924 
+
+# So, this allows us to have the 20% variability on our time dependent transition probabilities
+
+
+# WE DONT NEED TO HAVE A MAX (MEAN+20%) AND MIN (MEAN-20%) FOR THE HAZARD RATIO TOO IF WE HAVE THESE FOR TRANSITION PROBABILITIES FOR THE EXPERIMENTAL TREATMENT.
+
+# There's a problem below, df_params_OWSA doesnt like the fact that a different probability for each cycle (from the time-dependent transition probabilities) gives 122 rows. 
+ 
+# > df_params_OWSA <- data.frame(
+# +   pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),   # names of the parameters to be changed
+# +   min  = c(400,  0.70, Minimum_p_FP_SoC, Minimum_p_FP_Exp),         # min parameter values
+# +   max  = c(1200, 0.90, Maximum_p_FP_SoC, Maximum_p_FP_Exp)          # max parameter values
+# + )
+# Error in data.frame(pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),  : 
+#   arguments imply differing number of rows: 4, 122
+# 
+
+# To address this, I can go back to the Goldstein approach and change the hazard ratio instead. For the experimental strategy this is simple to do as there already is a hazard ratio in generating experimental strategy transition probabilities. 
+
+# For the standard of care strategy I'll have to add a hazard ratio into oncologySemiMarkov_function that is equal to 1 and get's multiplied by the standard of care stuff first, then I can vary this by a min and a max as above.
+
+
+
+
 
 HR_FP_Exp
     
@@ -3132,6 +3176,17 @@ Maximum_d_c <- d_c + 0.20*d_c
 #   max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A1D_SoC, Maximum_p_A2D_SoC, Maximum_p_A3D_SoC)          # max parameter values
 # )
 
+# A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be incuded and their minimum and maximum values.
+
+
+# We create a dataframe containing all parameters we want to do the sensitivity analysis on, and the min and max values of the parameters of interest 
+# "min" and "max" are the mininum and maximum values of the parameters of interest.
+
+
+# options(scipen = 999) # disabling scientific notation in R
+
+
+
 df_params_OWSA <- data.frame(
   pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
   min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
@@ -3144,198 +3199,16 @@ df_params_OWSA <- data.frame(
 
 
 
-OWSA_NMB  <- run_owsa_det(
-
-# Arguments:
-  
-  params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
-
-  params_basecase  = l_params_all,       # list with all parameters
-
-# params_basecase	
-
-  nsamp            = 100,                # number of parameter values
-
-# nsamp	
-
-  FUN              = oncologySemiMarkov, # function to compute outputs
-
-# FUN	
- 
-
- outcomes         = c("NMB"),           # output to do the OWSA on
-
-#  outcomes         = c("DSAICER"),           # output to do the OWSA on
-
-# outcomes	
-
-  strategies       = v_names_strats,       # names of the strategies
-
-  progress = TRUE,
-
-
-  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
-)
-
-owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
-
-
-# owsa_tornado(DSAICER,
-# 
-# min_rel_diff = 0.05)
-
-# For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters. Using the min_rel_diff argument, you can instruct owsa_tornado to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
-```
-
-## 08.3 One-way sensitivity analysis (OWSA)
-
-```{r}
-
-## Defining and performing a one-way sensitivity analysis:
-
-
-
-
-# code to generate max and min at 20% more and 20% less than the mean current value we assigned the parameter automatically. 
-
-Maximum_c_F_Exp <- c_F_Exp + 0.20*c_F_Exp
-Minimum_c_F_Exp <- c_F_Exp - 0.20*c_F_Exp
-
-Maximum_c_F_Exp
-Minimum_c_F_Exp
-
-
-Maximum_u_F <- u_F + 0.20*u_F
-Minimum_u_F <- u_F - 0.20*u_F
-
-Maximum_u_F
-Minimum_u_F
-
-
-Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
-Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
-
-
-Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
-Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
-
-
-HR_FP_Exp
-    
-Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
-Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
-
-
-
-HR_FP_SoC
-    
-Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
-Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
-
-
-
-
-
-
-
-
-
-# A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be incuded and their minimum and maximum values.
-
-# - here, the cost per cycle of the experimental treatment and utility for the progression-free state are included
-
-df_params_OWSA <- data.frame(
-  pars = c("c_F_Exp", "u_F", "HR_FP_Exp", "HR_FP_SoC"),   # names of the parameters to be changed
-  min  = c(400,  0.70, Minimum_HR_FP_Exp, Minimum_HR_FP_SoC),         # min parameter values
-  max  = c(1200, 0.90, Maximum_HR_FP_Exp, Maximum_HR_FP_SoC)          # max parameter values
-)
-
-
-
-
-# To vary transition probabilities is slightly complex in a time dependent model.
-
-
-# FOR THE TRANSITION PROBABILITY FROM FREE TO PROGRESSION WE CAN MULTIPLY THAT PARAMETER BY 20% ONCE AND IT WILL CHANGE THE TRANSITION PROBABILITIES AT EACH CYCLE 
- 
-# > Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
-# > Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
-
-# > p_FP_SoC
-#  ...0.249399924
-# > Minimum_p_FP_SoC
-#  ...0.1995199390
-# > Maximum_p_FP_SoC
-#  ...0.299279908
-
-# 0.0499 is 20% of 0.249399924
-# 0.249399924 - 0.0499 = 0.199499924
-# 0.249399924 + 0.0499 = 0.299299924 
-
-# So, this allows us to have the 20% variability on our time dependent transition probabilities
-
-
-# WE DONT NEED TO HAVE A MAX (MEAN+20%) AND MIN (MEAN-20%) FOR THE HAZARD RATIO TOO IF WE HAVE THESE FOR TRANSITION PROBABILITIES FOR THE EXPERIMENTAL TREATMENT.
-
-# There's a problem below, df_params_OWSA doesnt like the fact that a different probability for each cycle (from the time-dependent transition probabilities) gives 122 rows. 
- 
-# > df_params_OWSA <- data.frame(
-# +   pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),   # names of the parameters to be changed
-# +   min  = c(400,  0.70, Minimum_p_FP_SoC, Minimum_p_FP_Exp),         # min parameter values
-# +   max  = c(1200, 0.90, Maximum_p_FP_SoC, Maximum_p_FP_Exp)          # max parameter values
-# + )
-# Error in data.frame(pars = c("c_F_Exp", "u_F", "p_FP_SoC", "p_FP_Exp"),  : 
-#   arguments imply differing number of rows: 4, 122
-# 
-
-# To address this, I can go back to the Goldstein approach and change the hazard ratio instead. For the experimental strategy this is simple to do as there already is a hazard ratio in generating experimental strategy transition probabilities. 
-
-# For the standard of care strategy I'll have to add a hazard ratio into oncologySemiMarkov_function that is equal to 1 and get's multiplied by the standard of care stuff first, then I can vary this by a min and a max as above.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# We create a dataframe containing all parameters we want to do the sensitivity analysis on, and the min and max values of the parameters of interest 
-# "min" and "max" are the mininum and maximum values of the parameters of interest.
-
-
-# options(scipen = 999) # disabling scientific notation in R
-
-
-
 # The OWSA is performed using the run_owsa_det function
 
 
 # This function runs a deterministic one-way sensitivity analysis (OWSA) on a given function that produces outcomes. rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
 
-
 OWSA_NMB  <- run_owsa_det(
-# run_owsa_det: https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html
 
+# run_owsa_det: https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html
+  
+  
 # Arguments:
   
   params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
@@ -3356,40 +3229,40 @@ OWSA_NMB  <- run_owsa_det(
   params_basecase  = l_params_all,       # list with all parameters
 
 # params_basecase	
+
 # a named list of basecase values for input parameters needed by FUN, the user-defined function. So, I guess it takes the values that the parameters are equal to in l_params_all as the base case, so if cost is generated equal to 1,000 it'll take that as the base case, and then take the min and the max around this from the data.frame we created above.
-
-
-
 
   nsamp            = 100,                # number of parameter values
 
 # nsamp	
+
 # number of sets of parameter values to be generated. If NULL, 100 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
 
   FUN              = oncologySemiMarkov, # function to compute outputs
 
 # FUN	
 # function that takes the basecase in params_basecase and runs the analysis in the function... to produce the outcome of interest. The FUN must return a dataframe where the first column are the strategy names and the rest of the columns must be outcomes.
-# 
+#  
 
+ outcomes         = c("NMB"),           # output to do the OWSA on
 
-  outcomes         = c("NMB"),           # output to do the OWSA on
-
-# outcomes	
 # string vector with the outcomes of interest from FUN produced by nsamp
 # This basically tells run_owsa_det what the name of the outcome of interest from the function we fed it is. Here our function had NMB, i.e., the net monetary benefit.
 
+#  outcomes         = c("DSAICER"),           # output to do the OWSA on
+
+# outcomes	
+
   strategies       = v_names_strats,       # names of the strategies
 
-# strategies	
+# strategies
 # Set it equal to a vector of strategy names. The default NULL will use strategy names in FUN (  strategies = NULL,)
 # Here that's "Standard of Care" and "Experimental Treatment".
 
-progress = TRUE,
+  progress = TRUE,
 
 # progress	
 # TRUE or FALSE for whether or not function progress should be displayed in console, i.e., like 75% complete, 100%, etc.,
-
 
 
   n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
@@ -3401,31 +3274,23 @@ progress = TRUE,
 # Basically, run_owsa_det creates the above.
 
 
-
-
-
-
- 
 # Resources on this available here:
 
 
 # https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html (also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\sensitivity analysis help files\rdrr-io-github-DARTH-git-dampack-man-run_owsa_det-html.pdf)
 
-
-
-
-
 owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
 
+# Plotting the outcomes of the OWSA in a tornado plot
+# - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
 
 
 
+# owsa_tornado(DSAICER,
+# 
+# min_rel_diff = 0.05)
 
-
-
-
-
-
+# For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters. Using the min_rel_diff argument, you can instruct owsa_tornado to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
 ```
 
 ## 08.3.1 Plot OWSA
@@ -3443,13 +3308,6 @@ owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10)
 ```
 
 ## 08.3.3 Tornado plot
-
-```{r}
-owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
-
-# Plotting the outcomes of the OWSA in a tornado plot
-# - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
-```
 
 ## 08.3.4 Table Describing Parameters
 
