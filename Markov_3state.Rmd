@@ -2648,6 +2648,29 @@ Thus, we can illustrate when the treatment strategy (SoC or experimental treatme
 
 In plotting the optimal strategy as the parameter values change, in Figure X we demonstrate that the optimal strategy varies from SoC to Exp as X PARAMETER changes from Y to Z.
 
+Per the following links, you can plot these on any model outcome - such as cost and effect, not just NMB.
+This is supported by when I went into the ispor webinar and applied these plots with ICERS as the outcomes rather than NMB, and it worked.
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
+
+syzoekao.github.io/CEAutil/
+
+Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 Andrew H. Briggs, DPhil, Milton C. Weinstein, PhD, Elisabeth A. L. Fenwick, PhD, Jonathan Karnon, PhD, Mark J. Sculpher, PhD, A. David Paltiel, PhD, on Behalf of the ISPOR-SMDM Modeling Good Research Practices Task Force
+
+Figure 1 here: <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer Daniel A. Goldstein,1 Qiushi Chen,2 Turgay Ayer,2 David H. Howard,1,3 Joseph Lipscomb,1,3 R. Donald Harvey,1 Bassel F. El-Rayes,1 Christopher R. Flowers
+
+<file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>
+
+Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China Xin Guan, Hongchao Li, Xiaomo Xiong, Cike Peng, Ning Wang, Xiao Ma & Aixia Ma
+
+<https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
+
+Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt Gihan Hamdy Elsisi, Yousery Nada, Noha Rashad & João Carapinha <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Paper%20Materials%20and%20Methods/Hamdy%20Elsisi%20et%20al_2019_Cost-effectiveness%20of%20sorafenib%20versus%20best%20supportive%20care%20in%20advanced.pdf>
+
+A Trial-Based Assessment of the Cost-Utility of Bevacizumab and Chemotherapy versus Chemotherapy Alone for Advanced Non-Small Cell Lung Cancer Bernardo Goulart, MD, MS1,2,\*, Scott Ramsey, MD, PhD1, <https://sci-hub.ru/10.1016/j.jval.2011.04.004>
+
 ## 08.1 Load PFS-PFSer Markov model function
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
