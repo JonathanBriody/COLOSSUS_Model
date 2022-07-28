@@ -2651,6 +2651,7 @@ but probably a good idea to ensure this is the case (i.e., change the n_wtp to s
 
 ```{r}
 
+# A simple one-way DSA starts with choosing a model parameter to be investigated. Next, the modeler specifies a range for this parameter and the number of evenly spaced points along this range at which to evaluate model outcomes. The model is then run for each element of the vector of parameter values by setting the parameter of interest to the value, holding all other model parameters at their default base case values. https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
 # I've written up an explanation of tornado diagram probabilities and creating boxes in Tornado diagrams, etc., here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\Tornado Diagram Probabilities Explained.R
 
@@ -3338,7 +3339,55 @@ plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4,
 ## 08.3.2 Optimal strategy with OWSA
 
 ```{r}
-owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10)
+
+# There are too many parameters to make things legible, so instead you should create a tornado plot that highlights only the most influential parameters. Using the min_rel_diff argument, you can instruct owsa_tornado to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
+
+# owsa_tornado(OWSA_NMB,
+# 
+# min_rel_diff = 0.05)
+
+# Following this, create a vector of the parameters that appear in this tornado plot below and then create the optimal strategy with OWSA per these parameters.
+
+# v_owsa_opt_strat <- c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3")
+
+# Then include params = v_owsa_opt_strat, in the below and get rid of plot_const = FALSE
+
+owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
+
+
+# plot_const = FALSE
+# plot_const	
+# whether to plot parameters that don't lead to changes in optimal strategy as they vary.
+
+# params	
+# params = v_owsa_opt_strat,
+# vector of parameters to plot
+
+# return	
+# either return a ggplot object plot or a data frame with ranges of parameters for which each strategy is optimal. return = c("plot", "data"),
+
+# Basically, the data frame will show you the ranges for each parameter that each strategy is optimal.You can see below that for p_FD_Exp the experimental treatment is the optimal strategy from 0.04 (the minimum) through to 0.055 (0.05575757575757575), while standard of care is the optimal strategy from 0.059 (0.05595959595959596) through to 0.06 (the maximum). 
+
+# p_FD_Exp	Experimental.Treatment	4.0000000000000001e-02	5.5757575757575756e-02	
+# p_FD_Exp	Standard.of.Care	5.5959595959595959e-02   6.0000000000000005e-02	
+
+# Whereas for p_FA3_SoC the experimental treatment strategy is optimal from it's min 0.016 all the way through every value in the range to it's max: 0.024 
+
+# p_FA3_SoC	Experimental.Treatment	1.6000000000000000e-02	2.4000000000000000e-02	
+
+# The data frame is a bit of a pain though because it returns things in scientific notation, but according to the below:
+
+ 
+# Scientific Notation
+# E+01 means moving the decimal point one digit to the right, E+00 means leaving the decimal point where it is, and E–01 means moving the decimal point one digit to the left. Example: 1.00E+01 is 10, 1.33E+00 stays at 1.33, and 1.33E–01 becomes 0.133.
+# https://neo.ne.gov/programs/stats/inf/79.htm#:~:text=Scientific%20Notation,-The%20scientific%20notation&text=E%2B01%20means%20moving%20the,1.33E%E2%80%9301%20becomes%200.133.
+
+# There's also a good calculator to do this for you here: https://www.free-online-calculator-use.com/scientific-notation-converter.html#
+
+# https://rdrr.io/github/DARTH-git/dampack/man/owsa_opt_strat.html
+
+
+
 ```
 
 ## 08.3.3 Tornado plot
