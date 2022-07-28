@@ -2633,6 +2633,21 @@ If a reviewer wants me to do a more unusual deterministic sensitivity analysis, 
 In Figure X we conduct a one-way deterministic sensitivity analysis separately on each of the different parameters, per treatment strategy.
 This figure illustrates how the expected outcome value from the decision model varies (on the x axis) as the parameters vary across the range of minimum to maximum values described in Table X (on the y axis).
 
+**Describing Optimal Strategy:**
+
+While a tornado plot provides a useful visual aid to identify which parameters are driving the majority of the variation in the outcome of interest, such plots also obscure the fact that as a parameter changes from it's minimum to it's maximum value, the treatment strategy that maximises the specified model outcome may also vary across this range.
+Tornado plots depict changes in the expected outcome of the optimal strategy, rather than for a single strategy.
+However, this "optimal strategy" can vary when the parameter of interest alternates from low to high values, something which is generally obsfucated in tornado plots.
+Consequently, we also conduct a visualization of the optimal strategy, i.e., the strategy that maximises the expected outcome, over each parameter range in Figure X. We derive this optimal strategy plot from the results of the one-way sensitvity analysis.
+We only plot parameters that make changes in the optimal strategy as they vary.
+Thus, we can illustrate when the treatment strategy (SoC or experimental treatment) maximising the expectation of the outcome of interest (here NMB, but we can change this to ICERS) alternates as a function of each parameter of interest.
+
+[Per: [https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html]](https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html])
+
+[If I do this and my optimal strategy says that the designation of which strategy is optimal doesnt alternate, I can report this as a result and show all my non-altered optimal strategy boxes in the diagram by removing plot_const = FALSE, rather than thinking it invalidates the reason for doing an optimal strategy plot].
+
+In plotting the optimal strategy as the parameter values change, in Figure X we demonstrate that the optimal strategy varies from SoC to Exp as X PARAMETER changes from Y to Z.
+
 ## 08.1 Load PFS-PFSer Markov model function
 
 To make the function work for my health states I rename "health" and "sick" in it to "PFS" and "OS" respectively.
@@ -2651,9 +2666,25 @@ but probably a good idea to ensure this is the case (i.e., change the n_wtp to s
 
 ```{r}
 
-# A simple one-way DSA starts with choosing a model parameter to be investigated. Next, the modeler specifies a range for this parameter and the number of evenly spaced points along this range at which to evaluate model outcomes. The model is then run for each element of the vector of parameter values by setting the parameter of interest to the value, holding all other model parameters at their default base case values. https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+# A brief note on how parameters are varied one at a time:
 
-# I've written up an explanation of tornado diagram probabilities and creating boxes in Tornado diagrams, etc., here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\Tornado Diagram Probabilities Explained.R
+# A simple one-way DSA starts with choosing a model parameter to be investigated. Next, the modeler specifies a range for this parameter and the number of evenly spaced points along this range at which to evaluate model outcomes. The model is then run for each element of the vector of parameter values by setting the parameter of interest to the value, holding all other model parameters at their default base case values.
+
+# To conduct the one-way DSA, we then call the function run_owsa_det with my_owsa_params_range, specifying the parameters to be varied and over which ranges, and my_params_basecase as the fixed parameter values to be used in the model when a parameter is not being explicitly varied in the one-way sensitivity analysis.
+
+# [In case I struggle to describe varying the hazard ratio, I describe this below]:
+
+# In the example below, we will conduct four one-way DSAs separately on four different parameters: the utility benefit of Treatment_A; the cost of Treatment_A; the reduction, as a hazard ratio, on the rate of progressing from Sick to Sicker with Treatment_B; and the rate of dying from the Healthy state.
+
+# my_owsa_params_range <- data.frame(pars = c("u_trtA", "c_trtA", "hr_S1S2_trtB", "r_HD"),
+#                              min = c(0.9, 9000, 0.3, 0.001),
+#                              max = c(1,   24000, 0.9, 0.003))]
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
+
+
+# I've written up an explanation of tornado diagram probabilities and the rules behind the creating of boxes in Tornado diagrams, etc., here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\Tornado Diagram Probabilities Explained.R
 
 
 # Using ICERs in the tornado diagram:
@@ -3387,6 +3418,41 @@ owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
 # https://rdrr.io/github/DARTH-git/dampack/man/owsa_opt_strat.html
 
 
+# Like owsa_tornado(), the return argument in owsa_opt_strat() allows the user to access a tidy data.frame that contains the exact values used to produce the plot.
+
+# owsa_opt_strat(o, 
+#                return = "data")
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html
+
+
+
+# If return == "plot", a ggplot2 optimal strategy plot derived from the owsa object, or if return == "data", a data.frame containing all data contained in the plot. The plot allows us to see how the strategy that maximizes the expectation of the outcome of interest changes as a function of each parameter of interest.
+
+# Visualize optimal strategy (max NMB) over each parameter range
+# owsa_opt_strat(my_owsa_NMB)
+
+# facet_ncol	
+# Number of columns in plot facet.
+
+# facet_nrow	
+# number of rows in plot facet.
+
+# txtsize
+# base text size
+
+# facet_lab_txtsize	
+# text size for plot facet labels (I think this allows me change the size of the text on the plots and the size of the numbers, ledgend, etc., independently).
+
+# Explained here: 
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
+# https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html
+
+# https://rdrr.io/github/DARTH-git/dampack/man/owsa_opt_strat.html
+
+# https://www.quantargo.com/help/r/latest/packages/dampack/1.0.1/owsa_opt_strat
 
 ```
 
