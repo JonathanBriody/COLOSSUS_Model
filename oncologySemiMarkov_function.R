@@ -62,12 +62,73 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.    
     
     
-    H_FP_SoC  <- -log(S_FP_SoC)
+    # I create this second in my function, and with XNU_S_FP_SoC in the place of S_FP_SoC, because XNU_S_FP_SoC is S_FP_SoC post multiplication by the hazard ratio, and in the OWSA, everything but the one thing being varied is held at it's basecase values, so if I am considering changes in HR_FP_Exp the hazard ratio for SoC won't be changing by 20% because it will be kept at it's base values, but for the hazard ratio adjustment for SoC and Exp to have a logical covariance in the TWSA, one needs to be made from the other so that I can say they are related because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, and that's not the case if I use S_FP_SoC rather than XNU_S_FP_SoC because they won't be changing together as S_FP_SoC isnt multiplied by the hazard ratio, XNU_S_FP_SoC is, so the rate of events under S_FP_SoC aren't changing. 
+    
+    # it's OK that they are varied at the same time and made from eachother, because if we were changing a rate and a hazard ratio as below, they would be changing at the same time also the hazard ratio would be made from the rate too:
+    
+    # [[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment). file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf]]
+    
+    # The fact that he says the logical relationship between the two parameters makes me think I should include XNU_S_FP_SoC because S_FP_SoC won't change with the experimental strategy and thus there won't be a relationship between the two. In a two way sensitivity analysis, I'm supposed to be changing both parameters at the same time, but, if I have this block first, and don't include XNU_S_FP_SoC then the underlying rate isnt changing at the same time as the experimental hazard ratio (because the SoC hazard ratio which I alter in the TWSA only exists to alter this underlying rate and subsequently probabilities under SoC). So, we wouldnt be changing the event rate in the control that the hazard ratio is applied to, so there wouldnt be a covarying movement between the two parameters.
+    
+    H_FP_SoC  <- -log(XNU_S_FP_SoC)
     H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
     S_FP_Exp  <- exp(-H_FP_Exp)
     
     
     # head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+
+# The question is, for the probabilistic model where things other than the parameter we are interested in varying arent being held constant and we'll be varying all the parameters all at once, does it make sense to have two things that vary when they are combined to make another parameter? Or is that doubling up in the varying and does it mess things up?
+    
+# Well, in oncologySemiMarkov_illustration in the ISPOR demonstration (C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R), both m_coef_weibull_SoC and HR_FP_Exp have values taken randomly from their distributions as below:
+    
+    # m_coef_weibull_SoC <- mvrnorm(
+    #   n     = n_runs, 
+    #   mu    = l_TTP_SoC_weibull$coefficients, 
+    #   Sigma = l_TTP_SoC_weibull$cov
+    # )
+    # 
+    # head(m_coef_weibull_SoC)
+    # 
+    # df_PA_input <- data.frame(
+    #   coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
+    #   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
+    #   HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
+    #   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
+    #   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+    #   c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
+    #   c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
+    #   c_P       = rgamma(n_runs, shape = 100, scale = 10), 
+    #   c_D       = 0, 
+    #   u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+    #   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
+    #   u_D       = 0,
+    #   d_c       = 0.03,
+    #   d_e       = 0.03,
+    #   n_cycle   = 60,
+    #   t_cycle   = 0.25
+    # )
+    
+# And then the S_FP_SoC is created from m_coef_weibull_SoC and H_FP_Exp is created from this S_FP_SoC multiplied by the similarly varied HR_FP_Exp and this H_FP_Exp is used to create p_FP_Exp. So, two things that were varied were used to create p_FP_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
+    
+    #   t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
+    #   S_FP_SoC <- pweibull(
+    #     q     = t, 
+    #     shape = exp(coef_weibull_shape_SoC), 
+    #     scale = exp(coef_weibull_scale_SoC), 
+    #     lower.tail = FALSE
+    #   )
+    #   H_FP_SoC  <- -log(S_FP_SoC)
+    #   H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
+    #   S_FP_Exp  <- exp(-H_FP_Exp)
+    #   p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
+    #   for(i in 1:n_cycle) {
+    #     p_FP_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
+    #     p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
+    #   }    
+    # 
+        
+
+    # This is also supported by: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Health Economic Modeling in R A Hands-on Introduction\Health-Eco\Markov models\markov_smoking_probabilistic where two probabilistically generated vectors of parameters drawn from distributions are multiplied by each other.    
     
     
     

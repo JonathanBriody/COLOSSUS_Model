@@ -2562,6 +2562,36 @@ To study the influence of a range of transition risks, the PFS and OS curves \$S
 Subsequently, transition risks for each cycle were calculated from these adjusted survival curves [@goldstein2014a].
 The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case varied within plus or minus 20%.
 
+**Describing Two-Way Sensitivity Analysis:**
+
+Finally, we *conduct a two-way uncertainty analysis to* investigate changes *in the outcome* when varying two parameters simultaneously.
+As informed by [@briggs2012] we conduct a two-way sensitivity *uncertainty* analysis for parameters expected to have a logical covariance.
+We examine how the expected outcome (here NMB) changes as both the hazard ratio adjustment applied to the PFS curve under standard of care - and accordingly the event rate in the control intervention - and the hazard ratio with the novel therapy change.
+
+[[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
+[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
+
+\# The Briggs 2012 paper said to include 2 parameters in the TWSA that have a logical relationship,(e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment), which are expected to have a relationship because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, that's how hazard ratios for experimental interventions work, they are just a multiplier for the number of events under SoC in order to give number of events under Exp care, so more events under SoC means more events under the experimental strategy when it's hazard ratio is applied to the number of events under SoC.
+In the model, the function is called in the sensitivity analysis and applies a hazard ratio
+
+\# I can't use Free to Progressed probabilities, because now those probabilities are time-sensitive, so if I try to change these here and include them in the TWSA I'll be including too many things, just like in the tornado diagram, as I explain in my description on hazard ratios.
+
+\# Minimum_p\_FP_SoC \<- p_FP_SoC - 0.20\*p_FP_SoC
+
+\# Maximum_p\_FP_SoC \<- p_FP_SoC + 0.20\*p_FP_SoC
+
+\# Minimum_p\_FP_Exp \<- p_FP_Exp - 0.20\*p_FP_Exp
+
+\# Maximum_p\_FP_Exp \<- p_FP_Exp + 0.20\*p_FP_Exp
+
+\# To address this, I can apply this mean, max and min to the hazard ratios instead, knowing that when run_owsa_det is run in the sensitivity analysis it calls the oncology_semi_markov_function to run and in this function the hazard ratios generate the survivor function, and then these survivor functions are used to generate the probabilities (which will be cycle dependent), so I am varying the transition probabilities by 20% using a static value.
+
+**Describing two-way sensitivity analysis:**
+
+"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
+
+[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+
 We individually consider the influence of each parameter on the ICER in a one way deterministic sensitivity analysis.
 
 **Describing Tornado diagram results:**
@@ -2642,7 +2672,7 @@ Consequently, we also conduct a visualization of the optimal strategy, i.e., the
 We only plot parameters that make changes in the optimal strategy as they vary.
 Thus, we can illustrate when the treatment strategy (SoC or experimental treatment) maximising the expectation of the outcome of interest (here NMB, but we can change this to ICERS) alternates as a function of each parameter of interest.
 
-[Per: [https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html]](https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html])
+[Per: [https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html]](https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html%5D)
 
 [If I do this and my optimal strategy says that the designation of which strategy is optimal doesnt alternate, I can report this as a result and show all my non-altered optimal strategy boxes in the diagram by removing plot_const = FALSE, rather than thinking it invalidates the reason for doing an optimal strategy plot].
 
@@ -2651,18 +2681,18 @@ In plotting the optimal strategy as the parameter values change, in Figure X we 
 **Describing Two-Way Sensitivity Analysis:**
 
 Finally, we conduct a two-way uncertainty analysis to investigate the changes in the outcome when varying two parameters simultaneously.
-As as informed by [@briggs2012] we conduct a two-way sensitivity analysis for parameters expected to have a logical covariance.
+As informed by [@briggs2012] we conduct a two-way sensitivity analysis for parameters expected to have a logical covariance.
 For these parameters of interest - the event rate in the control intervention and the hazard ratio with the new treatment - we examine how the expected outcome (here NMB) changes as both parameters change.
 [These are expected to have a relationship because the hazard ratio for the experimental is multiplied by the rate under soc]
 
 [[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
-[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
+[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
 
 **Describing two-way sensitivity analysis:**
 
 "Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
 
-[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
 
 Per the following links, you can plot these on any model outcome - such as cost and effect, not just NMB.
 This is supported by when I went into the ispor webinar and applied these plots with ICERS as the outcomes rather than NMB, and it worked.
@@ -3613,7 +3643,7 @@ If we want to repeat all our one-way sensivity analysis probabilistically, rathe
 
 ```{r}
 
- 
+ DOES MVNORM MEAN I DONT NEED TO INCLUDE HR_FP_SoC ANY LONGER? 
 # According to:
 #
 # C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Health Economic Modeling in R A Hands-on Introduction\Health-Eco\Markov models\markov_smoking_probabilistic.R
