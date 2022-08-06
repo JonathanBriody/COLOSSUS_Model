@@ -49,6 +49,37 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
     
     
+    
+    
+    
+    # I want to vary my probabilities for the one-way sensitivity analysis, particularly for the tornado       plot of the deterministic sensitivity analysis. 
+    
+    # The problem here is that df_params_OWSA doesnt like the fact that a different probability for each       cycle (from the time-dependent transition probabilities) gives 122 rows (because there are 60 cycles,      two treatment strategies and a probability for each cycle). It wants the same number of       rows as      there are probabilities, i.e., it would prefer a probability of say 0.50 and then a max and a      min     around that.
+    
+    # To address this, I think I can apply this mean, max and min to the hazard ratios instead, knowing        that when run_owsa_det is run in the sensitivity analysis it calls this function to run and in this        function the hazard ratios generate the survivor function, and then these survivor functions are used      to generate the probabilities (which will be cycle dependent).
+    
+    # This is fine for the hazard ratio for the experimental strategy, I can just take:
+    
+    # HR_FP_Exp as my mean, and:
+    
+    # Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
+    # Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
+    
+    # For min and max.
+    
+    # For standard of care there was no hazard ratio, because we took these values from the survival curves     directly, and didnt vary them by a hazard ratio, like we do above.
+    
+    # To address this, I create a hazard ratio that is exactly one.
+    
+    # hazard ratio
+    
+    # A measure of how often a particular event happens in one group compared to how often it happens in       another group, over time. In cancer research, hazard ratios are often used in clinical trials to           measure survival at any point in time in a group of patients who have been given a specific treatment      compared to a control group given another treatment or a placebo. A hazard ratio of one means that         there is no difference in survival between the two groups. A hazard ratio of greater than one or less      than one means that survival was better in one of the groups. https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hazard-ratio
+    
+    # Thus, I can have a hazard ratio where the baseline value of it gives you the survival curves, and        thus the probabilities, from the actual survival curves we are drawing from, and where the min and max     will be 1 +/- 0.20, which will give us probabilities that are 20% higher or lower than the probabilities from the actual survival curves that we are drawing from in the parametric survival analysis to get transitions under standard of care.
+    
+    # To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
+    
+    
     # 3) Obtaining the event-free (i.e. survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
     # So here we basically have a hazard ratio for the novel therapy that says you do X much better under the novel therapy than under standard of care, and we want to apply it to standard of care from our individual patient data to see how much improved things would be under the novel therapy.
     # (NB - if we ultimately decide not to use a hazard ratio, I could probably just create my transition probabilities for the experimental therapy from individual patient data that I have digitised from patients under this novel therapy).
@@ -59,7 +90,64 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # and: 
     # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
     # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
-    # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.    
+    # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.     
+    
+    
+    
+    #    * ======================================================================================
+    
+    
+    # So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
+    
+    # Here our hazard ratio is 1, things are unchanged.
+    
+    # - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
+    # that is, the survival function is the expoential of the negative hazard function, per:
+    # https://faculty.washington.edu/yenchic/18W_425/Lec5_survival.pdf
+    # and: 
+    # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
+    # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
+    # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard      function, multiply by the hazard ratio, and then convert back to the survivor function, and then these     survivor functions are used for the probabilities.
+    
+    head(cbind(t, S_FP_SoC, H_FP_SoC))
+    # Then, we create our hazard function for SoC:
+    XNU_S_FP_SoC <- S_FP_SoC
+    XNU_H_FP_SoC  <- -log(XNU_S_FP_SoC)
+    # Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
+    XNUnu_H_FP_SoC  <- XNU_H_FP_SoC * HR_FP_SoC
+    # 
+    XNU_S_FP_SoC  <- exp(-XNUnu_H_FP_SoC)
+    
+    head(cbind(t, XNU_S_FP_SoC, XNUnu_H_FP_SoC))
+    
+    
+    # I compare the header now, to the header earlier. They should be identical, because all this code does     is add the space for a hazard ratio, it doesnt actually do anything other than convert from a survivor     function to a hazard function, multiply by a hazard ratio equal to one, and then convert back to a         survivor function, just so we can include a hazard ratio for standard of care in our sensitivity           analysis. 
+    
+    
+    # Then, the above survival function is used to generate transition probabilities below, which is the       genius of applying the hazard ratio to the sensitivity analysis, it can have a singular mean with a        static min and max, but applying it how we apply it above allows it to still produce cycle-specific        transition probabilities.
+    
+    #    * ======================================================================================
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+   
     
     
     # I create this second in my function, and with XNU_S_FP_SoC in the place of S_FP_SoC, because XNU_S_FP_SoC is S_FP_SoC post multiplication by the hazard ratio, and in the OWSA, everything but the one thing being varied is held at it's basecase values, so if I am considering changes in HR_FP_Exp the hazard ratio for SoC won't be changing by 20% because it will be kept at it's base values, but for the hazard ratio adjustment for SoC and Exp to have a logical covariance in the TWSA, one needs to be made from the other so that I can say they are related because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, and that's not the case if I use S_FP_SoC rather than XNU_S_FP_SoC because they won't be changing together as S_FP_SoC isnt multiplied by the hazard ratio, XNU_S_FP_SoC is, so the rate of events under S_FP_SoC aren't changing. 
@@ -132,72 +220,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     
     
     
-    # I want to vary my probabilities for the one-way sensitivity analysis, particularly for the tornado       plot of the deterministic sensitivity analysis. 
-    
-    # The problem here is that df_params_OWSA doesnt like the fact that a different probability for each       cycle (from the time-dependent transition probabilities) gives 122 rows (because there are 60 cycles,      two treatment strategies and a probability for each cycle). It wants the same number of       rows as      there are probabilities, i.e., it would prefer a probability of say 0.50 and then a max and a      min     around that.
-    
-    # To address this, I think I can apply this mean, max and min to the hazard ratios instead, knowing        that when run_owsa_det is run in the sensitivity analysis it calls this function to run and in this        function the hazard ratios generate the survivor function, and then these survivor functions are used      to generate the probabilities (which will be cycle dependent).
-    
-    # This is fine for the hazard ratio for the experimental strategy, I can just take:
-    
-    # HR_FP_Exp as my mean, and:
-    
-    # Minimum_HR_FP_Exp <- HR_FP_Exp - 0.20*HR_FP_Exp
-    # Maximum_HR_FP_Exp <- HR_FP_Exp + 0.20*HR_FP_Exp
-    
-    # For min and max.
-    
-    # For standard of care there was no hazard ratio, because we took these values from the survival curves     directly, and didnt vary them by a hazard ratio, like we do above.
-    
-    # To address this, I create a hazard ratio that is exactly one.
-    
-    # hazard ratio
-    
-    # A measure of how often a particular event happens in one group compared to how often it happens in       another group, over time. In cancer research, hazard ratios are often used in clinical trials to           measure survival at any point in time in a group of patients who have been given a specific treatment      compared to a control group given another treatment or a placebo. A hazard ratio of one means that         there is no difference in survival between the two groups. A hazard ratio of greater than one or less      than one means that survival was better in one of the groups. https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hazard-ratio
-    
-    # Thus, I can have a hazard ratio where the baseline value of it gives you the survival curves, and        thus the probabilities, from the actual survival curves we are drawing from, and where the min and max     will be 1 +/- 0.20, which will give us probabilities that are 20% higher or lower than the probabilities from the actual survival curves that we are drawing from in the parametric survival analysis to get transitions under standard of care.
-    
-    # To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
-    
-    
-    
-    
-    
-    
-    #    * ======================================================================================
-    
-    
-    # So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
-    
-    # Here our hazard ratio is 1, things are unchanged.
-    
-    # - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
-    # that is, the survival function is the expoential of the negative hazard function, per:
-    # https://faculty.washington.edu/yenchic/18W_425/Lec5_survival.pdf
-    # and: 
-    # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
-    # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
-    # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard      function, multiply by the hazard ratio, and then convert back to the survivor function, and then these     survivor functions are used for the probabilities.
-    
-    head(cbind(t, S_FP_SoC, H_FP_SoC))
-    # Then, we create our hazard function for SoC:
-    XNU_S_FP_SoC <- S_FP_SoC
-    XNU_H_FP_SoC  <- -log(XNU_S_FP_SoC)
-    # Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
-    XNUnu_H_FP_SoC  <- XNU_H_FP_SoC * HR_FP_SoC
-    # 
-    XNU_S_FP_SoC  <- exp(-XNUnu_H_FP_SoC)
-    
-    head(cbind(t, XNU_S_FP_SoC, XNUnu_H_FP_SoC))
-    
-    
-    # I compare the header now, to the header earlier. They should be identical, because all this code does     is add the space for a hazard ratio, it doesnt actually do anything other than convert from a survivor     function to a hazard function, multiply by a hazard ratio equal to one, and then convert back to a         survivor function, just so we can include a hazard ratio for standard of care in our sensitivity           analysis. 
-    
-    
-    # Then, the above survival function is used to generate transition probabilities below, which is the       genius of applying the hazard ratio to the sensitivity analysis, it can have a singular mean with a        static min and max, but applying it how we apply it above allows it to still produce cycle-specific        transition probabilities.
-    
-    #    * ======================================================================================
-    
+
     # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
     
     # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.

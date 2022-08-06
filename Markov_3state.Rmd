@@ -3562,12 +3562,9 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 # dataframe containing all parameters, their basecase values, and the min and 
 # max values of the parameters of interest
 
-Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
-Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
-
-df_params_TWSA <- data.frame(pars = c("p_FP_SoC", "HR_FP_Exp"),
-                             min  = c(Minimum_p_FP_SoC, Minimum_HR_FP_Exp),  # min parameter values
-                             max  = c(Maximum_p_FP_SoC, Maximum_HR_FP_Exp) # max parameter values
+df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
+                             min  = c(Minimum_HR_FP_SoC, Minimum_HR_FP_Exp),  # min parameter values
+                             max  = c(Maximum_HR_FP_SoC, Maximum_HR_FP_Exp) # max parameter values
 )
 
 # We could have chosen any of the below from our OWSA data.frame to use as our parameters:
