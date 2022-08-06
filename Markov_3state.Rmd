@@ -2648,6 +2648,22 @@ Thus, we can illustrate when the treatment strategy (SoC or experimental treatme
 
 In plotting the optimal strategy as the parameter values change, in Figure X we demonstrate that the optimal strategy varies from SoC to Exp as X PARAMETER changes from Y to Z.
 
+**Describing Two-Way Sensitivity Analysis:**
+
+Finally, we conduct a two-way uncertainty analysis to investigate the changes in the outcome when varying two parameters simultaneously.
+As as informed by [@briggs2012] we conduct a two-way sensitivity analysis for parameters expected to have a logical covariance.
+For these parameters of interest - the event rate in the control intervention and the hazard ratio with the new treatment - we examine how the expected outcome (here NMB) changes as both parameters change.
+[These are expected to have a relationship because the hazard ratio for the experimental is multiplied by the rate under soc]
+
+[[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
+[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
+
+**Describing two-way sensitivity analysis:**
+
+"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
+
+[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+
 Per the following links, you can plot these on any model outcome - such as cost and effect, not just NMB.
 This is supported by when I went into the ispor webinar and applied these plots with ICERS as the outcomes rather than NMB, and it worked.
 
@@ -3479,9 +3495,7 @@ owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
 
 ```
 
-## 08.3.3 Tornado plot
-
-## 08.3.4 Table Describing Parameters
+## 08.3.3 Table Describing Parameters
 
 To build a Table describing parameters, you click on the Table button at the top, and design it in there.
 Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</> from above to put it in a code block.
@@ -3503,43 +3517,87 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 
 ## 08.4 Two-way sensitivity analysis (TWSA)
 
-A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
-Representation of uncertaint <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
-
-**Describing two-way sensitivity analysis:**
-
-"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
-
-<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
-
 ```{r}
 
-#' Run deterministic two-way sensitivity analysis (TWSA) https://rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
+## 4.2 Defining and performing a two-way sensitivity analysis ----
 
+# I can also preform a TWSA on a a probabilistic sensitivity analysis (make_psa_obj) or a deterministic sensitivity analysis object (run_owsa_det) per: https://rdrr.io/github/DARTH-git/dampack/man/twsa.html
+
+# A lot of this code should be reflective of the earlier code of the one-way sensitivity analysis, so if I'm confused as to what one thing is doing or another I can look at the piece of code that is confusing me here, and scroll back up to my explanation of that code in OWSA.
+
+# Run deterministic two-way sensitivity analysis (TWSA) https://rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
+
+# To perform a two-way sensitivity analysis (TWSA), a similar data.frame with model parameters is required
 
 # dataframe containing all parameters, their basecase values, and the min and 
 # max values of the parameters of interest
-df_params_twsa <- data.frame(pars = c("c_trtA", "c_trtB"),
-                             min  = c(300, 500),  # min parameter values
-                             max  = c(1200, 2000) # max parameter values
+
+Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+df_params_TWSA <- data.frame(pars = c("p_FP_SoC", "HR_FP_Exp"),
+                             min  = c(Minimum_p_FP_SoC, Minimum_HR_FP_Exp),  # min parameter values
+                             max  = c(Maximum_p_FP_SoC, Maximum_HR_FP_Exp) # max parameter values
 )
 
-twsa_nmb <- run_twsa_det(params_range    = df_params_twsa,    # dataframe with parameters for TWSA
-                         params_basecase = l_params_all,      # list with all parameters
-                         nsamp           = 40,                # number of parameter values
-                         FUN             = calculate_ce_out,  # function to compute outputs
-                         outcomes        = "NMB",             # output to do the TWSA on
-                         strategies      = v_names_str,       # names of the strategies
-                         n_wtp           = 5000)              # extra argument to pass to FUN
-```
+# We could have chosen any of the below from our OWSA data.frame to use as our parameters:
+# df_params_OWSA <- data.frame(
+#   pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
+#   min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
+#   max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_A1D_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_A2D_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A3D_SoC, Maximum_c_F_SoC, Maximum_c_F_Exp, Maximum_c_P, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_u_AE1, Maximum_u_AE2, Maximum_u_AE3)          # max parameter values
+# )
+# 
 
-## 08.4.1 Plot TWSA
+# It's a pain, but we have to only enter 2 parameters of interest at a time into our model per the error built into the source code for run_twsa_det:
 
-```{r}
-plot(twsa_nmb)
+# "two-way sensitivity analysis only allows for and requires 2 different paramters of interest at a time" https://rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
+
+
+# The TWSA is performed using the run_twsa_det function
+
+
+TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with parameters for TWSA
+                         params_basecase = l_params_all,      # list with all parameters, the "pars" chosen in the data.frame to be analysed here must be a subset of these.
+                         
+                         nsamp           = 40,                # number of parameter values. If NULL, 40 parameter values are used
+
+ # number of parameter values
+
+# nsamp	
+
+# number of sets of parameter values to be generated. If NULL, 100 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
+
+# Additional inputs are the number of equally-spaced samples (nsamp) to be used between the specified minimum and maximum of each range, the user-defined function (FUN) to be called to generate model outcomes for each strategy, the vector of outcomes to be stored (must be outcomes generated by the data frame output of the function passed in FUN), and the vector of strategy names to be evaluated.
+
+# cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+                         
+                         
+                         FUN             = oncologySemiMarkov,  # function to compute outputs
+
+# Function that takes the basecase in params_all and produces the outcome of interest. The FUN must return a dataframe where the first column is the strategy names and the rest of the columns must be outcomes. Which df_ce in the function does.
+
+# Described here:
+
+# https://rdrr.io/cran/dampack/man/run_twsa_det.html
+
+                         outcomes        = c("NMB"),             # output to do the TWSA on
+                         strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
+                         progress        = TRUE, #Progress bar like before
+
+                         n_wtp           = 20000               # extra argument to pass to FUN to specify the willingness to pay
+)
+# Plot TWSA
+
+plot(TWSA_NMB)
+
+
+
+
 ```
 
 # 09 Probabilistic Sensitivity Analysis (PSA)
+
+This made provide some useful guides on the PSA <https://rdrr.io/github/DARTH-git/dampack/api/>
 
 Go back to the resources and papers you reviewed for the deterministic sensitivity analysis.
 
