@@ -2574,6 +2574,8 @@ We examine how the expected outcome (here NMB) changes as both the hazard ratio 
 \# The Briggs 2012 paper said to include 2 parameters in the TWSA that have a logical relationship,(e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment), which are expected to have a relationship because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, that's how hazard ratios for experimental interventions work, they are just a multiplier for the number of events under SoC in order to give number of events under Exp care, so more events under SoC means more events under the experimental strategy when it's hazard ratio is applied to the number of events under SoC.
 In the model, the function is called in the sensitivity analysis and applies a hazard ratio
 
+\# I also describe applying the HR to the post changes SoC in my function where this is done.
+
 \# I can't use Free to Progressed probabilities, because now those probabilities are time-sensitive, so if I try to change these here and include them in the TWSA I'll be including too many things, just like in the tornado diagram, as I explain in my description on hazard ratios.
 
 \# Minimum_p\_FP_SoC \<- p_FP_SoC - 0.20\*p_FP_SoC
