@@ -2,8 +2,8 @@
 title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
 author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 editor_options: 
   markdown: 
     wrap: sentence
@@ -2464,6 +2464,14 @@ df_cea
 
 ## 07.4 Plot frontier of the Markov model
 
+Understand this plot here:
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
+
+Also saved here:
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\sensitivity analysis help files\\Basic Cost Effectiveness Analysis.pdf
+
 ```{r}
 plot(df_cea, effect_units = "QALYs", label = "all")
 
@@ -2567,32 +2575,13 @@ The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case varied within plu
 Finally, we *conduct a two-way uncertainty analysis to* investigate changes *in the outcome* when varying two parameters simultaneously.
 As informed by [@briggs2012] we conduct a two-way sensitivity *uncertainty* analysis for parameters expected to have a logical covariance.
 We examine how the expected outcome (here NMB) changes as both the hazard ratio adjustment applied to the PFS curve under standard of care - and accordingly the event rate in the control intervention - and the hazard ratio with the novel therapy change.
+The results of this uncertainty analysis are reported in Figure X. The axes represent the range of possible values of the parameters of interest.
+The quadrant is partitioned into regions according to which treatment strategy maximizes the expected outcome as a function of the two parameters being varied.
+With ICERS, all the possible ICERS following the TWSA are plotted in the quadrant and the boundary line indicates the specified ICER threshold [i.e., the WTP], where on on each side one treatment is preferred over the other, i.e., above the line treatment strategy A may be preferred to treatment strategy B, and vice-versa below, so, it dominates the other because it's ICER value is sufficient to make this treatment cost-effective instead of the other.
 
-[[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
-[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
+ICERs explained on page 8 of:
 
-\# The Briggs 2012 paper said to include 2 parameters in the TWSA that have a logical relationship,(e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment), which are expected to have a relationship because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, that's how hazard ratios for experimental interventions work, they are just a multiplier for the number of events under SoC in order to give number of events under Exp care, so more events under SoC means more events under the experimental strategy when it's hazard ratio is applied to the number of events under SoC.
-In the model, the function is called in the sensitivity analysis and applies a hazard ratio
-
-\# I also describe applying the HR to the post changes SoC in my function where this is done.
-
-\# I can't use Free to Progressed probabilities, because now those probabilities are time-sensitive, so if I try to change these here and include them in the TWSA I'll be including too many things, just like in the tornado diagram, as I explain in my description on hazard ratios.
-
-\# Minimum_p\_FP_SoC \<- p_FP_SoC - 0.20\*p_FP_SoC
-
-\# Maximum_p\_FP_SoC \<- p_FP_SoC + 0.20\*p_FP_SoC
-
-\# Minimum_p\_FP_Exp \<- p_FP_Exp - 0.20\*p_FP_Exp
-
-\# Maximum_p\_FP_Exp \<- p_FP_Exp + 0.20\*p_FP_Exp
-
-\# To address this, I can apply this mean, max and min to the hazard ratios instead, knowing that when run_owsa_det is run in the sensitivity analysis it calls the oncology_semi_markov_function to run and in this function the hazard ratios generate the survivor function, and then these survivor functions are used to generate the probabilities (which will be cycle dependent), so I am varying the transition probabilities by 20% using a static value.
-
-**Describing two-way sensitivity analysis:**
-
-"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
-
-[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
 
 We individually consider the influence of each parameter on the ICER in a one way deterministic sensitivity analysis.
 
@@ -3551,6 +3540,10 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 
 ```{r}
 
+
+# To conduct the two-way DSA, we call the function run_twsa_det with my_twsa_params_range. The general format of the function arguments for run_twsa_det are the same as those for run_owsa_det. In run_twsa_det, equally spaced sequences of length nsamp are created for the two parameters based on the inputs provided in the params_range argument. These two sequences of parameter values define an nsamp by nsamp grid over which FUN is applied to produce outcomes for every combination of the two parameters. https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
+
+
 ## 4.2 Defining and performing a two-way sensitivity analysis ----
 
 # I can also preform a TWSA on a a probabilistic sensitivity analysis (make_psa_obj) or a deterministic sensitivity analysis object (run_owsa_det) per: https://rdrr.io/github/DARTH-git/dampack/man/twsa.html
@@ -3581,6 +3574,10 @@ df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
 
 # "two-way sensitivity analysis only allows for and requires 2 different paramters of interest at a time" https://rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
 
+# And:
+
+# The structure of the function is very similar to run_owsa_det(). The primary difference is the function can only take two parameters at a time in the params_range. https://syzoekao.github.io/CEAutil/
+
 
 # The TWSA is performed using the run_twsa_det function
 
@@ -3594,7 +3591,7 @@ TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with p
 
 # nsamp	
 
-# number of sets of parameter values to be generated. If NULL, 100 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
+# number of sets of parameter values to be generated. If NULL, 40 parameter values are used -> I think Eva Enns said these are automatically evenly spaced out values of the parameters.
 
 # Additional inputs are the number of equally-spaced samples (nsamp) to be used between the specified minimum and maximum of each range, the user-defined function (FUN) to be called to generate model outcomes for each strategy, the vector of outcomes to be stored (must be outcomes generated by the data frame output of the function passed in FUN), and the vector of strategy names to be evaluated.
 
@@ -3620,7 +3617,43 @@ TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with p
 plot(TWSA_NMB)
 
 
+# Sometimes you see "maximise" written in people's TWSA code, why is that:
 
+# maximize	
+# If TRUE, plot of strategy with maximum expected outcome (default); if FALSE, plot of strategy with minimum expected outcome
+
+# per: https://www.quantargo.com/help/r/latest/packages/dampack/1.0.1/plot.twsa
+
+
+
+# [[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment). <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>]]
+
+# The Briggs 2012 paper said to include 2 parameters in the TWSA that have a logical relationship,(e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment), which are expected to have a relationship because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, that's how hazard ratios for experimental interventions work, they are just a multiplier for the number of events under SoC in order to give number of events under Exp care, so more events under SoC means more events under the experimental strategy when it's hazard ratio is applied to the number of events under SoC. In the model, the function is called in the sensitivity analysis and applies a hazard ratio
+
+# I also describe applying the Exp HR to the post changes SoC in my function where this is done.
+
+# I can't use Free to Progressed probabilities, because now those probabilities are time-sensitive, so if I try to change these here and include them in the TWSA I'll be including too many things, just like in the tornado diagram, as I explain in my description on hazard ratios.
+
+# Minimum_p_FP_SoC <- p_FP_SoC - 0.20*p_FP_SoC
+
+# Maximum_p_FP_SoC <- p_FP_SoC + 0.20*p_FP_SoC
+
+# Minimum_p_FP_Exp <- p_FP_Exp - 0.20*p_FP_Exp
+
+# Maximum_p_FP_Exp <- p_FP_Exp + 0.20*p_FP_Exp
+
+# To address this, I can apply this mean, max and min to the hazard ratios instead, knowing that when run_owsa_det is run in the sensitivity analysis it calls the oncology_semi_markov_function to run and in this function the hazard ratios generate the survivor function, and then these survivor functions are used to generate the probabilities (which will be cycle dependent), so I am varying the transition probabilities by 20% using a static value.
+
+
+# Alterantive modelling approach I could try here if so inclined:
+
+
+# "When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B''). Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
+
+# <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+
+# If for some reason I wanted a three-way sensitivity analysis per Andrew Brigg's discussion on page 8 above, there may be some code to describe doing this here: https://rdrr.io/github/syzoekao/CEAutil/src/inst/rmd/Rcode.R (github here: https://github.com/syzoekao/CEAutil/) and here: https://syzoekao.github.io/CEAutil/#44_two-way_sensitivity_analysis also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\introduction to R for cost-effectiveness analysis.pdf
 
 ```
 
@@ -3637,6 +3670,12 @@ In multivariate analysis, we ran 10,000 replications in the probabilistic sensit
 The baseline values, ranges, and distributions for model parameters are presented in Table 4.
 Per: Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colo .
 <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>
+
+This has some information on distributions:
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/psa_generation.html>
+
+Also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\sensitivity analysis help files\\Probabilistic Sensitivity Analysis\_ Generation.pdf
 
 If we want to repeat all our one-way sensivity analysis probabilistically, rather than deterministically, you can see how to do this here, it might make for a good appendix because the description is technically complex, so would read well in the paper, but the application in R is actually very straightforward: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
@@ -3820,6 +3859,14 @@ plot(df_cea_psa)
 
 ## 09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
 
+Understand this plot here:
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
+
+Also saved here:
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\sensitivity analysis help files\\Basic Cost Effectiveness Analysis.pdf
+
 ```{r}
 ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
 # Regions of highest probability of cost-effectiveness for each strategy
@@ -3844,6 +3891,8 @@ plot(elc_obj, log_y = FALSE)
 Value of information is discussed in the York course and below:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC\_Exclusive_Decision Modeling for Public Health_DARTH
+
+<https://cran.r-project.org/web/packages/dampack/vignettes/voi.html>
 
 ```{r}
 evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
@@ -3870,6 +3919,8 @@ Scenario Analysis: "Often, uncertainty in a parameter may be represented by seve
 > Economic analysis of bevacizumab, cetuximab, and panitumumab with fluoropyrimidine-based chemotherapy in the first-line treatment of KRAS wild-type metastatic colorectal cancer (mCRC).
 > Journal of medical economics, 16(12), 1387-1398.
 > <https://www.tandfonline.com/doi/pdf/10.3111/13696998.2013.852097?needAccess=true>
+>
+> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Model Calibration in R
 
 ## References:
 
