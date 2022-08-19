@@ -329,6 +329,8 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 A GREAT EXPLANATION OF PARAMETRIC SURVIVAL ANALYSIS, MATHEMATICAL NOTATION AND CODE CAN BE FOUND HERE: <https://rpubs.com/mbounthavong/survival_analysis_in_r> ALSO SAVED HERE: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\rpubs-com-mbounthavong-survival_analysis_in_r
 
+Survival Curves in R: <https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html> <https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_survival/BS704_Survival_print.html>
+
 Progression and mortality probabilities were derived from the PFS and OS curves of the X study [CITE].
 Data points were extracted from survival plots using Engauge Digitizer software, version 12.2, and these data points were used to fit parametric survival models [@mitchell2022].
 
@@ -2570,19 +2572,6 @@ To study the influence of a range of transition risks, the PFS and OS curves \$S
 Subsequently, transition risks for each cycle were calculated from these adjusted survival curves [@goldstein2014a].
 The adjustment hazard ratio was 1 +/- 0.2, i.e., the base case varied within plus or minus 20%.
 
-**Describing Two-Way Sensitivity Analysis:**
-
-Finally, we *conduct a two-way uncertainty analysis to* investigate changes *in the outcome* when varying two parameters simultaneously.
-As informed by [@briggs2012] we conduct a two-way sensitivity *uncertainty* analysis for parameters expected to have a logical covariance.
-We examine how the expected outcome (here NMB) changes as both the hazard ratio adjustment applied to the PFS curve under standard of care - and accordingly the event rate in the control intervention - and the hazard ratio with the novel therapy change.
-The results of this uncertainty analysis are reported in Figure X. The axes represent the range of possible values of the parameters of interest.
-The quadrant is partitioned into regions according to which treatment strategy maximizes the expected outcome as a function of the two parameters being varied.
-With ICERS, all the possible ICERS following the TWSA are plotted in the quadrant and the boundary line indicates the specified ICER threshold [i.e., the WTP], where on on each side one treatment is preferred over the other, i.e., above the line treatment strategy A may be preferred to treatment strategy B, and vice-versa below, so, it dominates the other because it's ICER value is sufficient to make this treatment cost-effective instead of the other.
-
-ICERs explained on page 8 of:
-
-[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
-
 We individually consider the influence of each parameter on the ICER in a one way deterministic sensitivity analysis.
 
 **Describing Tornado diagram results:**
@@ -2671,19 +2660,16 @@ In plotting the optimal strategy as the parameter values change, in Figure X we 
 
 **Describing Two-Way Sensitivity Analysis:**
 
-Finally, we conduct a two-way uncertainty analysis to investigate the changes in the outcome when varying two parameters simultaneously.
-As informed by [@briggs2012] we conduct a two-way sensitivity analysis for parameters expected to have a logical covariance.
-For these parameters of interest - the event rate in the control intervention and the hazard ratio with the new treatment - we examine how the expected outcome (here NMB) changes as both parameters change.
-[These are expected to have a relationship because the hazard ratio for the experimental is multiplied by the rate under soc]
+Finally, we *conduct a two-way uncertainty analysis to* investigate changes *in the outcome* when varying two parameters simultaneously.
+As informed by [@briggs2012] we conduct a two-way sensitivity *uncertainty* analysis for parameters expected to have a logical covariance.
+We examine how the expected outcome (here NMB) changes as both the hazard ratio adjustment applied to the PFS curve under standard of care - and accordingly the event rate in the control intervention - and the hazard ratio with the novel therapy change.
+The results of this uncertainty analysis are reported in Figure X. The axes represent the range of possible values of the parameters of interest.
+The quadrant is partitioned into regions according to which treatment strategy maximizes the expected outcome as a function of the two parameters being varied.
+With ICERS, all the possible ICERS following the TWSA are plotted in the quadrant and the boundary line indicates the specified ICER threshold [i.e., the WTP], where on on each side one treatment is preferred over the other, i.e., above the line treatment strategy A may be preferred to treatment strategy B, and vice-versa below, so, it dominates the other because it's ICER value is sufficient to make this treatment cost-effective instead of the other.
 
-[[A 2-way uncertainty analysis will be more useful if informed by the covariance between the 2 parameters of interest or on the logical relationship between them (e.g., a 2-way uncertainty analysis might be represented by the control intervention event rate and the hazard ratio with the new treatment).
-[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}]]
+ICERs explained on page 8 of:
 
-**Describing two-way sensitivity analysis:**
-
-"Results of 2- and multiway uncertainty analysis require graphical or tabular displays (Figure 2). The axes represent possible values, and the quadrant is partitioned into regions corresponding to various ICERs, the boundaries representing specified ICER thresholds, or thresholds of dominance. As in 1- way analyses, it is important to specify which alternative dominates and which comparator is more effective and costly when an ICER threshold is indicated. Three-way threshold analyses may be superimposed on 2-way graphs by overlaying threshold curves (Figure 3), but this often leads to visual overload and confusion and will work only if the third parameter can be represented as taking on discrete values. Threshold analyses are especially useful, perhaps necessary, when reporting DSA involving 3 or more comparators. In those situations, the relevant question may be,''Which alternative is cost-effective at a threshold of X?'' To portray the answer for 2 parameters, partition the quadrant to show which alternative is cost-effective at various ICER thresholds and for different combinations of parameters (Figures 4A and 4B). Results for different decision criteria (e.g., ICER thresholds or dominance) are best presented in separate panels of a graphical display. *When the base-case result of an analysis strongly favors one alternative, a threshold analysis may be presented as a worst-case or ''even if'' analysis (e.g., ''Even if the risk reduction is as low as X, the ICER remains below Y,'' or ''Even if the relative risk reduction with alternative A is as low as X and the cost of treatment is as high as Y, alternative A dominates B'').* Threshold values can easily be combined with the tornado presentation by marking them on the horizontal bars."
-
-[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+[<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
 
 Per the following links, you can plot these on any model outcome - such as cost and effect, not just NMB.
 This is supported by when I went into the ispor webinar and applied these plots with ICERS as the outcomes rather than NMB, and it worked.
@@ -3659,7 +3645,7 @@ plot(TWSA_NMB)
 
 # 09 Probabilistic Sensitivity Analysis (PSA)
 
-This made provide some useful guides on the PSA <https://rdrr.io/github/DARTH-git/dampack/api/>
+This may provide some useful guides on the PSA <https://rdrr.io/github/DARTH-git/dampack/api/>
 
 Go back to the resources and papers you reviewed for the deterministic sensitivity analysis.
 
@@ -3681,8 +3667,63 @@ If we want to repeat all our one-way sensivity analysis probabilistically, rathe
 
 ```{r}
 
- DOES MVNORM MEAN I DONT NEED TO INCLUDE HR_FP_SoC ANY LONGER? 
-# According to:
+
+### PROBABILISTIC ANALYSIS ----
+
+# We conduct a probabilistic analysis (PSA) of the model to estimate the uncertainty in the model outcomes.
+
+# To do this, we generate samples for each model parameter from parametric distributions and evaluate the model for each set of parameter samples.
+
+
+## Sampling the parameter values ----
+
+# In order for the results reported in the PSA to be reproducible we need to set the random number seed. We also defining the number of runs, i.e., how many times we will re-sample for the parameter distributions, typically the number chosen is 10,000 in published studies, so we do that too:
+n_runs <- 10000
+set.seed(123)
+
+# In the PSA, first we sample the parameter values from their distributions and store them in a data.frame.
+# If a model parameter has no uncertainty and, hence, is fixed, we can set it equal to itself.
+
+
+# To take random draws for the Weibull parametric survival distribution that we fitted at the start of the document using the 'flexsurv' package, we use the following piece of code.
+
+# This applies mvrnorm (i.e., takes samples from the specified multivariate normal distribution) to the mean (mu) of 
+
+# l_TTP_SoC_weibull$coefficients
+#     shape     scale 
+# 0.7700246 1.7425343 
+
+# i.e., to the mean of the shape and the scale variables from the Weibull parametric survival distribution that we fitted.
+
+# And gives a sigma (a positive-definite symmetric matrix specifying the covariance matrix of the variables) that is equal to the covariance between the shape and the scale variables:
+
+# > l_TTP_SoC_weibull$cov
+#             shape       scale
+# shape 0.001983267 0.000291494
+# scale 0.000291494 0.000782051
+
+# You'll see that it's covariance between the two variables because you can match shape with scale twice, and each time it's the same value, so the same covariance between the two variables.
+
+# n is just the number of samples.
+
+# Described here:
+# rdocumentation.org/packages/MASS/versions/7.3-58.1/topics/mvrnorm
+
+# So, correlated sets (a "set" here is like one random draw from the distribution, because the draw is for shape and scale at the same time) of coefficients for the survival distribution (i.e., correlated sets of shape and scale values for the survival distribution, which are the coefficients as above) are generated using the variance-covariance matrix that was obtained from fitting the weibull distribution (the cov in l_TTP_SoC_weibull is equal to the covariance between the shape and the scale variables and is printed as a 2 by 2 matrix above) and a multivariate normal distribution (this is just saying we are applying mvrnorm to take samples from the multivariate normal distribution for the mean (mu) values of shape and scale).
+
+
+m_coef_weibull_SoC <- mvrnorm(
+  n     = n_runs, 
+  mu    = l_TTP_SoC_weibull$coefficients, 
+  Sigma = l_TTP_SoC_weibull$cov
+)
+
+head(m_coef_weibull_SoC)
+
+
+# Now that we have applied mvrnorm to get a random shape and a random scale we don't need to include HR_FP_SoC in our data.frame to create random probability draws for SoC, because we can just select the shape and scale from m_coef_weibull_SoC so that in our function the updated coef_weibull_shape_SoC and coef_weibull_scale_SoC are used to generate S_FP_SoC with a random value, which will in turn generate transition probabilities under standard of care with a random value. 
+
+ # According to:
 #
 # C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Health Economic Modeling in R A Hands-on Introduction\Health-Eco\Markov models\markov_smoking_probabilistic.R
 # 
