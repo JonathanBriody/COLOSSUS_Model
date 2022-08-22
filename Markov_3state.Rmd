@@ -3721,7 +3721,10 @@ m_coef_weibull_SoC <- mvrnorm(
 head(m_coef_weibull_SoC)
 
 
-# Now that we have applied mvrnorm to get a random shape and a random scale we don't need to include HR_FP_SoC in our data.frame to create random probability draws for SoC, because we can just select the shape and scale from m_coef_weibull_SoC so that in our function the updated coef_weibull_shape_SoC and coef_weibull_scale_SoC are used to generate S_FP_SoC with a random value, which will in turn generate transition probabilities under standard of care with a random value. 
+# Now that we have applied mvrnorm to get a random shape and a random scale we don't need to include HR_FP_SoC in our data.frame to create random probability draws for SoC, because we can just select the shape and scale from m_coef_weibull_SoC so that in our function the updated coef_weibull_shape_SoC and coef_weibull_scale_SoC are used to generate S_FP_SoC with a random value, which will in turn generate transition probabilities under standard of care with a random value.
+
+
+
 
  # According to:
 #
@@ -3740,59 +3743,190 @@ head(m_coef_weibull_SoC)
 
 
 
-# Function to generate PSA input dataset
-gen_psa <- function(n_sim = 1000, seed = 071818){
-  set.seed(seed) # set a seed to be able to reproduce the same results
-  df_psa <- data.frame(
-    # Transition probabilities (per cycle), conditional on surviving
-    # probability to become PFS when OS
-    # probability of dying when OS
-    p_HD       = rbeta(n_sim, shape1 = 4,  shape2 = 391),
-    p_HS_SoC   = rbeta(n_sim, shape1 = 24, shape2 = 450),  # under standard of care
-    p_HS_trtA  = rbeta(n_sim, shape1 = 15, shape2 = 368),  # under treatment A
-    p_HS_trtB  = rbeta(n_sim, shape1 = 16, shape2 = 767),  # under treatment B
-    
-    # probability of dying when PFS
-    p_SD       = rbeta(n_sim, shape1 = 22.4, shape2 = 201.6), 
-    
-    # Cost vectors with length n_sim
-    # cost of remaining one cycle in state H
-    c_H        = rgamma(n_sim, shape = 16, scale = 25), 
-    # cost of remaining one cycle in state S1
-    c_S        = rgamma(n_sim, shape = 100, scale = 10), 
-    # cost of being in the death state
-    c_D        = 0, 
-    # cost of treatment (per cycle)
-    c_trtA    = rgamma(n_sim, shape = 64, scale = 12.5),
-    # cost of treatment (per cycle)
-    c_trtB    = rgamma(n_sim, shape = 225, scale = 6.67),
-    
-    # Utility vectors with length n_sim 
-    # utility when OS
-    u_H        = rbeta(n_sim, shape1 =  1.5, shape2 = 0.0015), 
-    # utility when PFS
-    u_S        = rbeta(n_sim, shape1 = 49.5, shape2 = 49.5), 
-    # utility when dead
-    u_D        = 0                                              
-  )
-  return(df_psa)
-}
 
 
-# Try it
-gen_psa(10) 
 
-# Number of simulations
-n_sim <- 1000
+# Below I create the data.frame that I will use in the PSA.
 
-# Generate PSA input dataset
-df_psa_input <- gen_psa(n_sim = n_sim)
-# First six observations
-head(df_psa_input)
+df_PA_input <- data.frame(
+  coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
+  coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
+
+# To generate random draws for the hazard ratio,   
+  
+  HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
+
+# To generate random draws for the probabilities:
+
+# When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
+
+# i.e., when alpha values are all the times things happened, while  beta values are all the times they didnt, how do you apply 
+
+# transistion_probabiliy <- rbeta(n_runs,alpha,beta)
+# when there are so many things that can happen?
+
+# FOR NON-MULTI STATE, I.E. FOR THE SICK TO DEAD STATE IN THE MARKOV MODEL YOU CAN APPLY THE BETA DISTRIBUTION, BECAUSE YOU CAN ONLY LEAVE (ALPHA) OR STAY (BETA).
+
+# Sometimes a Dirichlet is suggested, a Dirichlet distribution is the multidimensional generalization of the beta distribution, so it's the same as applying the beta distribution, - as per: https://www.rdocumentation.org/packages/rBeta2009/versions/1.0/topics/rdirichlet but I would need to have all the counts included I think, which works when you are drawing all your transition data from one larger dataset, like in a clinical trial, but my data necessarily comes from several sources, so I if I just build everything as conditional probabilities, per my notes in this Notepad [search 19/08/22: in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt] in combination with the slides [C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf] these are notes on, that is 1-Probabilities like I've done in R already, then I should be able to apply a Beta distribution to each probability and not have to worry about applying a Dirichlet.
+
+# Here's a quote explaining how best to do that from my notes above:
+
+# "In the above you would have a beta distribution with parameters 731, 527 [the 512+15] to look at whether you stayed in State B and then, conditional on leaving State B, we could assign another beta distribution with parameters 512 and 15 to whether you, conditional on having left State B then transited to State C. And, of course, death is then the third category. Death is the residual probability. [i.e., conditional on having left state B is 1-the probability of staying in State B, so you could apply a Beta distribution to the probability of going into State C multiplied by 1-the probability of staying in State B. Death would be 1-the probability you create of moving into State C, because if you're not going into State C then you're going into Death as there's nowhere else for you to go, I think if you wanted to apply a Beta distribution to Death you could apply a Beta distribution to the probability of going into Death and then multiply that by 1-the probability of staying in the B state]."
+
+# Conditional probabilities are built from the below p_'s in the function, so you basically create the beta distribution probabilities below as p_'s, and then in the function you multiply them by 1-whatever probability as necessary such that they become conditional probabilities.
+
+##1
+
+# Fitting Beta distributions to (constant) probability parameters [I guess the "constant" here is to clarify that this isnt how you do it for time varying transition probabilities, like the transition probabilities I create from Weibull].
+
+# There are two main ways to do this, per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.3 Practical exercise R\A231_Making_Models_Proba.pdf say you had something like the following printed in a study:
+
+# ‘The hospital records of a sample of 100 patients receiving a primary THR were examined retrospectively. Of these patients, two patients died either during or immediately following the procedure. The operative mortality for the procedure is therefore estimated to be 2%.’
+
+# You could use this information directly to specify the parameters (alpha and beta) of a beta distribution for the probability of operative mortality during primary surgery. These are noted by “a.” and “b.” respectively. Your alpha values are all the times things happened, while your beta values are all the times they didnt, so 2 and 98.
+
+# alpha <- 2 ## alpha value for operative mortality from primary surgery
+# beta <- 100- alpha ## beta value for operative mortality from primary surgery
+
+# tp.PTHR2dead <- rbeta(n_runs,alpha,beta) ## Operative mortality rate  (OMR) following primary THR
+
+# (as coded in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.3 Practical exercise R\A233_Making_Models_Probabilistic_Solutions-210604 (1))
+
+# The question is, does this give the transition probability for the time period that the quote describes? Well in the same pdf and r code as above you have the following:
+
+# "The following information has been provided to you concerning revision procedures among patients already having had a revision operation (i.e. the re-revision risk). ‘The hospital records of a sample of 100 patients having experienced a revision procedure to replace a failed primary THR were reviewed at one year. During this time, four patients had undergone a further revision procedure.’iv) Use this information to fit a constant transition probability for the annual re-revision rate parameter (tp.rrr), using the same approach as for operative mortality above. Your beta value for re-revision risk should be equivalent to 96."
+
+
+# a.rrr <- 4   ## alpha value for re-revision risk
+# b.rrr <- 100-a.rrr  ## beta value for re-revision risk
+# tp.rrr <-rbeta(1,a.rrr,b.rrr) ## Re-revision risk transition probability
+
+# tp.PTHR2dead
+# tp.RTHR2dead
+# tp.rrr
+
+
+# Because the cycle length in the model is one year according to page 3 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A1_Advanced Markov Modelling\A1.3 Practical exercise R\A131_Advanced_Markov_Modelling_Instructions-210528-18 this indicates that it does.
+
+
+##2
+                          # METHOD OF MOMENTS:
+
+
+# In cases where you don't have this information, but you do have a mean and a standard error, you can do the following (per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt):
+
+# My initial reading for probabilistic analysis with probabilities suggested that the method of moments can be applied to a mean and standard error for a transition probability sourced from the literature to create an appropriate alpha and beta to use in a probabilistic sensitivity analysis:
+
+# So, I built the following code to translate the formula for the methods of moments into R, to allow us to take our transition probabilities from the literature:
+# 
+# 
+#  ## Methods of moments
+# 
+# 
+# #Assume the below mean and std error come from the reported literature
+# 
+# mean <- 0.75 ## mean from the literature
+# std.error <- 0.04 ## standard error from the literature
+# 
+# # The method of moments can be coded up as below to get the alpha and beta from the sample using the mean and standard error from the sample:
+# 
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# 
+# # Following this, you can randomly draw from the beta distribution using the below, I only have one random draw, but you could change that 1 to 10,000 (the standard number of draws) and save these as a matrix of draws to use in your probabilistic sensitivity analysis:
+# 
+# probabilistic.beta.dist.draw <- rbeta(1,alpha,beta) ## drawing from the Beta distribution based on a and b
+
+# Per the above pdf:
+
+# "Note that the rbeta function takes 3 arguments, first the number of draws or samples, the alpha parameter (named shape1) and the beta parameter (named shape2)." 
+# "rbeta(n = 5, shape1 = 50, shape2 = 100)"
+
+# while in their R code they use the below, as included above, so I don't think it matters if you include shape1= or just include the alpha and beta directly, but I'll keep it as below, as that's how DARTH do it. 
+
+# tp.rrr <-rbeta(1,a.rrr,b.rrr) ## Re-revision risk transition probability
+
+# The below gives the same results either way:
+
+# set.seed(100)
+# n = 1
+# b4 <- rbeta(n, shape1 = 2, shape2 = 8)
+# b4
+# [1] 0.1329533
+# 
+# set.seed(100)
+# n = 1
+# b4 <- rbeta(n, 2, 8)
+# b4
+# [1] 0.1329533
+
+
+
+  p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_A1F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_A1D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_A2F_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_A2D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_A3F_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_A3D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_FD_SoC  = rbeta(n_runs, shape1 = , shape2 = ),
+  p_FD_Exp  = rbeta(n_runs, shape1 = , shape2 = ),
+  p_PD_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_PD_Exp = rbeta(n_runs, shape1 = , shape2 = ),
+  p_FA1_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_FA2_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_FA3_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+
+
+
+
+# Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
+
+
+
+
+  # Cost vectors with length n_runs
+  c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
+  c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
+  c_P       = rgamma(n_runs, shape = 100, scale = 10), 
+  c_D       = 0,
+  c_AE1 = c_AE1,
+  c_AE2 = c_AE2,
+  c_AE3 = c_AE3,
+  # Utility vectors with length n_runs 
+  u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+  u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
+  u_D       = 0,
+  u_AE1 = u_AE1,
+  u_AE2 = u_AE2,
+  u_AE3 = u_AE3,
+  d_c       = 0.03,
+  d_e       = 0.03,
+  n_cycle   = 60,
+  t_cycle   = 0.25
+)
+
+# Inspect the data.frame to see what it looks like
+head(df_PA_input)
+
+
 
 # Save the dataframe
-# save dataframe
-#save(df_psa_input, file = "df_psa_input.rda")
+
+#save(df_PA_input, file = "df_PA_input.rda")
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Histogram of parameters
@@ -3813,6 +3947,13 @@ df_e <- as.data.frame(matrix(0,
                              nrow = n_sim,
                              ncol = n_str))
 colnames(df_e) <- v_names_str
+
+
+
+
+# So I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
+
+
 ```
 
 I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
