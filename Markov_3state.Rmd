@@ -3665,6 +3665,13 @@ Also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ir
 
 If we want to repeat all our one-way sensivity analysis probabilistically, rather than deterministically, you can see how to do this here, it might make for a good appendix because the description is technically complex, so would read well in the paper, but the application in R is actually very straightforward: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
+For the hazard ratio we generate random draws from a log-normal distribution.
+The value of ratio intervention effects have a lowest possible value of 0, a value of 1 corresponding to no intervention effect, and a highest value possible value of infinity.
+Logically, a ratio that halves effects and one that doubles effects should average to no effect.
+However, the average of 0.5 and 2 is 1.25, rather than 1.
+Thus, a log transformation is applied to make the hazard ratio number scale symmetric: the log of 0 is minus infinity, the log of 1 is zero, and the log of infinity is infinity.
+The log of 0.5 is --0.69 and the log of the OR of 2 is 0.69, such that when the halving and doubling ratios are averaged, a value of 0 is obtained, i.e., the log transformed value of 1, or no effect.
+
 ```{r}
 
 
@@ -3755,6 +3762,15 @@ df_PA_input <- data.frame(
 # To generate random draws for the hazard ratio,   
   
   HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
+
+# random draws from a log-normal distribution
+
+# a log normally distributed HAZARD RATIO
+
+
+
+# Per [SLIDE 16] onwards in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt I don't think we need to worry about the duration of time a hazard ratio refers to. In my model I definitely don't, as the hazard ratio and underlying rate survival curves that make up SoC transition probabilities come from the same paper, and thus the same time period. 
+
 
 # To generate random draws for the probabilities:
 
@@ -3930,6 +3946,13 @@ head(df_PA_input)
 
 
 # Histogram of parameters
+
+
+# I believe they make a histogram of parameters to show the distribution of parameters, and thus indicate which distribution they should be using in their sensitivity analysis. Just like slide 18 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\A212ProbabilisticDistributions-210604-154.pdf which is also a HISTOGRAM OF RANDOM DRAWS FOR RELATIVE RISK and the related notes in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt from [SLIDE 18] onward.
+
+# i.e., "And that's exactly what Andrews done here showing the histogram of random draws from the relative risk parameter, and you see that, in fact, in this case, with quite a lot of information [I guess the nine trials with a total of 2,541 patients pooled], we wouldn't have been that far off if we'd assumed a normally distributed relative risk [i.e. our distribution looks very similar to a normal distribution]. But you can probably detect a very slight skew to that distribution, which reveals it actually as a log normally distributed relative risk."
+
+
 ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
   geom_histogram(aes(y = ..density..)) +
