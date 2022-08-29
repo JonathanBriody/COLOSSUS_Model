@@ -3748,6 +3748,16 @@ head(m_coef_weibull_SoC)
 # This will also be useful for utility and PSA in the adverse event setting.
 
 
+# I create the SD to include in the sensitivity analysis applied to the hazard ratio below, as I need to create it outside the data.frame for the PSA:
+
+UpperCI <- 0.89
+LowerCI <- 0.54
+SD <- (log(UpperCI) - log(LowerCI)) / 3.92
+
+MEAN_HR_FP_Exp <- HR_FP_Exp
+# I copy the hazard ratio above in case the below would start building HR_FP_Exp from the updated HR_FP_Exp made from random draws, i.e., in case it started including the HR_FP_Exp updated from the random draws from HR_FP_Exp in meanlog = (HR_FP_Exp), when we really need to be drawing the variability from the hazard ratio we started out with, and not a hazard ratio that we started out with, but that has since already been varied and will be varied from again if we take a random draw from this pre-varied hazard ratio.
+
+# HR_FP_Exp = rlnorm(n_runs, meanlog = log(HR_FP_Exp), sdlog = SD)
 
 
 
@@ -3759,20 +3769,93 @@ df_PA_input <- data.frame(
   coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
 
-# To generate random draws for the hazard ratio,   
   
-  HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
+
+  
+### Hazard Ratios  
+  
+# They use exp for rnorm (i.e., to make random draws from a normal distribution) I to use want rlnorm.
+
+#  HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08))
+
+# The rlnorm() function in R is used for generating random draws from a log-normal distribution.
+ 
+# To make draws from the log-normal distribution you need to enter a hazard ratio and standard deviation.
+
+# If you find a hazard ratio and confidence interval in the literature, rather than a hazard ratio and a standard deviation, you can make conversions to a standard deviation.
+
+# To generate random draws for the hazard ratio, I need a mean for the hazard ratio(just the hazard ratio value itself), and a standard deviation built from the 95% confidence interval of the hazard ratio (the SD is built from log(Upper CI) - log(Lower CI)/2*SE, so sd is already built from logs for inclusion in rlnorm and doesnt need to be set as sdlog = log() unlike meanlog = log() where you need to take the log of the hazard ratio value). 
+
+
+# SD: (natural log(Upper confidence interval) -  natural log(lower confidence interval) / 2*Standard error (i.e. 1.95*2 = 3.92 for a 95% confidence interval)
+
+
+# So, it looks like I take the natural log of the upper limit minus the natural log of the lower limit (in confidence intervals the lower limit is reported on the left and the upper limit is reported on the right, so it would be 95% CI (30.0 [LOWER LIMIT], 34.2[UPPER LIMIT]), and I would rearrange these to have [ln(UPPER LIMIT) - ln(LOWER LIMIT)], i.e., [ln(34.2)-ln(30.0)]) and divide by 2 times the standard error. Provided the sample size is large, then for the 95% confidence interval this would be 2 x 1.96 = 3.92 For 90% confidence intervals 3.92 should be replaced by 3.29, and for 99% confidence intervals it should be replaced by 5.15. 
+
+# I often come across hazard ratios and their confidence intervals in the published literature on clinical trials, but rarely do I see standard deviations. 
+ 
+# A typical example from the literature is the following: "HR, 0.69; 95% CI, 0.54 to 0.89 in mCRC for cetuximab plus FOLFOX-4 vs FOLFOX-4 alone" -  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7044820/pdf/bmjopen-2019-030738.pdf:
+# 
+# To compute the standard deviation for hazard ratios from the above typical reports in the literature, so that I can then generate random draws from a log-normal distribution for a hazard ratio I would do the following:
+# 
+# (natural log(Upper confidence interval) -  natural log(lower confidence interval) / 2*Standard error (i.e. 1.95*2 = 3.92 for a 95% confidence interval)
+# 
+# or in R: (log(0.89) - log(0.54)) / 3.92 = 0.1274623
+# 
+# 
+# UpperCI <- 0.89
+# LowerCI <- 0.54
+# SD <- (log(UpperCI) - log(LowerCI)) / 3.92
+# SD = 0.1274623
+# 
+
+# If I need to provide a citation for this formula I can use the below which, although this does not provide the formula I use, it provides enough information that is similar to the above, and which I could say ultimately informed the formula:
+# Higgins, J. P. T., & Deeks, J. J. (2011). Chapter 7.7. 3.3: Obtaining standard deviations from standard errors, confidence intervals, t values and P values for differences in means. Cochrane handbook for systematic reviews of interventions, Version, 5(0).
+# 
+# 
+# This approach is also supported by the following post, which provides good clarity on all of the above:
+# 
+# https://stats.stackexchange.com/questions/546192/calculate-the-standard-deviation-from-a-hazard-ratios-confidence-interval
+
 
 # random draws from a log-normal distribution
 
-# a log normally distributed HAZARD RATIO
+# hr_draws <- rlnorm(nsims, meanlog = log(mean), sdlog = SD). 
 
+# 
+# We take random draws from the log-normal distribution for ratios, because if we were to take random draws from the ratio as it stands, because the hazard ratio can't go any lower than 0 but can go to plus infinity, our random draws would be skewed in the values we take from the distribution, on the other hand, if we were to put things on the natural log scale we would be taking our random draws from a more normalised distribution. So, you'll see that in:
+# 
+# rlnorm(n_sim, meanlog = log(mean),  sdlog = SD)
+# 
+# it's the log of the mean (the ratio value, so the hazard ratio) and the log of the standard deviation (which we put on the log scale when we calculate it so we don't need to put in as sdlog = log() here, just sdlog = ) in order to be taking random draws from a log-normal distribution (i.e. a log normally distributed HAZARD RATIO).
 
+HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Per [SLIDE 16] onwards in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt I don't think we need to worry about the duration of time a hazard ratio refers to. In my model I definitely don't, as the hazard ratio and underlying rate survival curves that make up SoC transition probabilities come from the same paper, and thus the same time period. 
 
 
-# To generate random draws for the probabilities:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#### To generate random draws for the probabilities:
 
 # When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
 
