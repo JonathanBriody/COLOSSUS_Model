@@ -136,6 +136,16 @@ Cost-effectiveness of sorafenib versus best supportive care in advanced hepatoce
 Journal of Medical Economics, 22(2), 163-168.
 <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
 
+"The WTP threshold was set as three times the GDP per capita in 2017, which was \$10,800/QALY in Indonesia."
+
+Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S.
+(2021).
+Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia.
+*Asian Pacific Journal of Cancer Prevention: APJCP*, *22*(6), 1921.
+
+
+<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf>
+
 Maybe for \*\*Germany\*\*, where they don't appear to have a cost-effectiveness threshold, I can use the GDP per capita approach I've read about (somewhere) or some range of this.
 Rough description of this here: Marseille, E., Larson, B., Kazi, D. S., Kahn, J. G., & Rosen, S.
 (2014).
@@ -832,7 +842,18 @@ Value in Health, 14(6), 836-845.
 > Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
 > Oncology Research and Treatment, 43(4), 153-159.
 > [\<https://www.karger.com/Article/Pdf/505932\>](https://www.karger.com/Article/Pdf/505932){.uri}
-
+>
+> 20% costs variation here: Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H.
+> (2012).
+> Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy.
+> British journal of cancer, 106(5), 805-816.
+> <https://www.nature.com/articles/bjc2011580.pdf>
+>
+> 20% costs variability Goulart, B., & Ramsey, S.
+> (2011).
+> A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
+> *Value in Health*, *14*(6), 836-845.
+>
 **Costing Data in Spain:**
 
 Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
@@ -2547,6 +2568,12 @@ A trial-based assessment of the cost-utility of bevacizumab and chemotherapy ver
 Value in Health, 14(6), 836-845.
 sciencedirect.com/science/article/pii/S1098301511014124
 
+We assumed the mean value of each distribution to be the base case value of the corresponding variable, and the standard deviation to be half of the 95% confidence intervals for utility and 20% of the mean values for other variables.
+So, I can just cite this when I have point estimates and want to build a range around these: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
+(2015).
+Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
+JAMA oncology, 1(9), 1293-1300.
+
 A number of sensitivity analyses were conducted to address uncertainty in parameter estimation and assess robustness of the model results.
 
 A one-way sensitivity analysis evaluates the relative weight of each parameter in our model on overall uncertainty of cost-effectiveness [@hamdyelsisi2019].
@@ -3992,6 +4019,10 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 ##  Costs
 
 
+# 1) COSTS WITH A RANGE:
+
+
+
 # Maximum <- SOMEVALUEHERE
 # Mean <- SOMEVALUEHERE
 
@@ -4015,9 +4046,111 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
  
 # If costs are reported with a 95% confidence interval the maximum is the upper confidence interval. If the interval is not centered on the mean, use the maximum or minimum in place of the upper confidence interval, depending on which one is further away from the mean SE = (m-CIlower)/t, here the bit in the brackets is rearranged when dealing with lower limits to have the MEAN minus the lower confidence interval so that things don't become negative (because the lower value will of course always be lower than the mean, as it's supposed to be below the mean, so a smaller number minus a larger number will be negative), but when the interval is centered on the mean the formula of SE = (CIupper-m)/t and SE = (m-CIlower)/t are inherently doing the same thing, that is getting the difference between the mean and the confidence interval and dividing this by t. So both formulas are options to use in getting the SE, and an author may choose to use the one which incorporates the interval that is farthest from the mean in order to incorporate as much variability in doing this SE calculation as possible, i.e. to reflect the variability in their SE calculation.
 
+# 
+# As per: https://stats.stackexchange.com/questions/550293/how-to-calculate-standard-error-given-mean-and-confidence-interval-for-a-gamma-d/550892#550892
+ 
+ 
+# "I would like to note that, while those values in the table happen to correspond with ±2σ, the minimum and maximum values do not generally follow such simple formula with mean plus-minus some standard deviation.
+ 
+# In this case, the minimum and maximum values only correspond to the interval μ±2σ because the distribution seems to have been truncated at those values."
+ 
+ 
+# i.e., my formula will only work if the minimum and maximum values reported in a study are ±2 SE from the mean, i.e. + 2 SE from the mean for the maximum value, and -2 SE from the mean for the minimum value.
+ 
+# And that will be the case any time there is a 95% Confidence Interval:
+ 
+
+# [ "Since 95% of values fall within two standard deviations of the mean according to the 68-95-99.7 Rule, simply add and subtract two standard deviations from the mean in order to obtain the 95% confidence interval. Notice that with higher confidence levels the confidence interval gets large so there is less precision." https://www.westga.edu/academics/research/vrc/assets/docs/confidence_intervals_notes.pdf also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\gammadist\confidence_intervals_notes.pdf
+
+# A good image can be found as per: https://www.quora.com/What-is-meant-by-one-standard-deviation-away-from-the-mean also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\gammadist\www-quora-com-What-is-meant-by-.pdf]
+
+# So, if I'm taking my costs and a range about these costs from the literature, I just need to make sure the range is a 95% Confidence Interval, like that reported here: Tilson, L., Sharp, L., Usher, C., Walsh, C., Whyte, S., O’Ceilleachair, A., ... & Barry, M. (2012). Cost of care for colorectal cancer in Ireland: a health care payer perspective. The European journal of health economics, 13(4), 511-524. (https://www.researchgate.net/publication/51188456_Cost_of_care_for_colorectal_cancer_in_Ireland_A_health_care_payer_perspective) reports a cost in Table 3 for Colorectal cancer with a 95% CI: € 48,835 (€40,548–€62,582)..
+
+# For "PK test cost MEAN: 400.00 MIN: 300.00 MAX: 500.00" from Table 4, row 3 page 222 in Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. Clinical colorectal cancer, 13(4), 219-225 plugged into the formula above to find the SE, I get an SE of 50, so plugging the 50 and mean into the CI = m ± t*SE from Jochen above I get:
+ 
+# 400 + 2*50 = 500
+ 
+# 400 - 2*50 = 300
+ 
+# Which is the same confidence interval as I got in the Table 4 row 3, i.e. 300 and 500.
+ 
+# So, this might be a good way to check if my standard error is correct. Although this will only work if my confidence interval is centred on the mean, i.e. if I am the same distance from the mean to the max and to the min. If my confidence interval is NOT centred on the mean, I can calculate 2 standard errors, one between the lower interval and the mean, and one between the upper interval and the mean, and then apply these in CI = m ± t*SE, knowing that:
+
+# CIupper = m + t*SE
+
+# CIlower = m - t*SE
+
+# I've figured out a simple test for whether the max/min reported is ±2σ:
+# se <- ((Max) - (Mean)) / 2
+# MaxMatch <- Mean + 2*se 
+# MinMatch <- Mean - 2*se
+ 
+# I can then check if the max/min reported in a Table match the above, and if so I know that the max/min reported is ±2σ.
+ 
+# If not, it may be that they used the se off the minimum as it's further away, so try the below:
+ 
+# se <- ((Mean) - (Min)) / 2
+# MaxMatch <- Mean + 2*se 
+# MinMatch <- Mean - 2*se
+ 
+ 
+# I can then check if the max/min reported in a Table match the above, and if so I know that the max/min reported is ±2σ.
+ 
+ 
+ 
+ 
+# Even if it's not symmetric, this may still be a 95% confidence interval if the mean is at 2 of one of the standard errors from the min or the max, we can see this in action below:
+ 
+ 
+# > Maximum <- 27655.84
+# > Mean <- 11565.60
+# > 
+# > se <- ((Maximum) - (Mean)) / 2
+# > se                                  
+# [1] 8045.12
+# > 
+# > MaxMatch <- Mean + 2*se 
+# > MinMatch <- Mean - 2*se
+# > MaxMatch
+# [1] 27655.84
+# > MinMatch
+# [1] -4524.64
+ 
+# But still, for these values
+ 
+# FN: Value: 11,565.60 Minimum: 7092.16 Maximum: 27,655.84  Distribution: γ: (2.067, 5596.247)
+ 
+# that are not centered on the mean, this still came out the same as the Table using this se <- ((Maximum) - (Mean)) / 2 method. Because looking at the below, the upper interval (the maximum) is further from the mean at a difference of 16090.24, than the lower interval (the minimum) at a difference between it and the mean of 4473.44 (i.e. the maximum is nearly four times further away from the mean that the minimum).
+ 
+ 
+# > Maximum <- 27655.84
+# > Minimum <- 7092.16
+# > Mean <-  11565.60
+  
+# > Maximum - Mean
+# [1] 16090.24
+  
+# > Mean - Minimum
+# [1] 4473.44
+ 
+ 
+# And when we plug the se in for the further away max we get:
+ 
+ 
+# > a.cIntervention
+# [1] 2.066671
+# > b.cIntervention
+# [1] 5596.247
+ 
+# Just the same as the values for FN above.
+# 
+
+# So, this kind of applies to situations where an interval is reported, when you might want to check if it's a 95% confidence interval, and if not, which interval is furthest from the mean, in cases of a point estimate only, you do the following:
 
 
 
+
+# 2) POINT ESTIMATE ONLY:
 
 # If they arent reported with a 95% confidence interval, the Goldstein paper says: "Drug costs were varied within +/-20% of their baseline values as previously done by Goulart and Ramsey".
  
@@ -4035,6 +4168,41 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # [1] 355.128
  
 # They still applied the SE = (CIupper-m)/t or SE = (m-CIlower)/t to this interval which they generated from 20% plus the mean and 20% minus the mean.
+
+# In the Goldstein 2014 paper, where the ranges are more than 20% away from the mean, i.e., 25%, etc., they use the same formula for ranges that are symmetrically far from the mean, i.e., 25% bigger or smaller than the mean, and they use the same formula but incoporating the range that's furthest from the mean when generating the se when the ranges arent symmetric about the mean.
+
+
+
+
+
+# OK, so the question is, can we apply any percentage we like to the point estimate we find for costs to generate the max or min and then just apply the formula above to generate the SE? I reviewed Koen's study below:
+
+# Degeling, K., Franken, M. D., May, A. M., van Oijen, M. G., Koopman, M., Punt, C. J., ... & Koffijberg, H. (2018). Matching the model with the evidence: comparing discrete event simulation and state-transition modeling for time-to-event predictions in a cost-effectiveness analysis of treatment in metastatic colorectal cancer patients. Cancer epidemiology, 57, 60-67.
+
+# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen
+
+# In the excel file, on the second sheet there is a row called parameter 1. For utility this parameter is the alpha value, and when you click on 16.000 it shows the formula that created this alpha value, which is the same as for my alpha value formula above. This formula includes the mean and the SE. When I take the mean (which is just the baseline value) and plug this into the R code to generate the SE:
+
+# I get the same se as in the excel file when making the max and min 50% larger or smaller than the mean in the code below. 
+# Mean<-   2062.35
+# Maximum <- Mean + 0.50*Mean
+# Minimum <- Mean - 0.50*Mean
+# se <- ((Maximum) - (Mean)) / 2
+# se
+# 515.5875
+
+# Even more important, they apply the same code as I have for creating the alpha value above using this mean and SE generated just from taking 50% either side of the mean. 
+
+# The implication of this is that you can generate the SE of a point estimate by taking any percentage either side of the mean and that you can also apply the code as above to generate the alpha and beta. Unfortunately in the excel file they don't create the beta in parameter 2, but the lambda, which is something else again. 
+
+
+# This 20% approach is also taken by Lesley tilson and cited in her study and other studies here: https://trello.com/c/m653JBWV/48-20-cost-sensitivity
+
+
+
+
+
+
 
 
 
@@ -4056,6 +4224,9 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 
   # Utility vectors with length n_runs 
+
+# Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H. (2012). Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy. British journal of cancer, 106(5), 805-816. https://www.nature.com/articles/bjc2011580.pdf
+
   u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
   u_D       = 0,
@@ -4174,6 +4345,24 @@ v_wtp <- seq(0, 30000, by = 1000)
 ```
 
 ## 09.3.1 Cost-Effectiveness Scatter plot
+
+3.2.
+Cost-effectiveness analysis The cost-effectiveness outcomes obtained from the DT-STM and the DES model are presented in the incremental cost-effectiveness planes of Fig.
+4.
+The incremental effectiveness estimates, including their 95% confidence intervals (CI), for CAP-B maintenance therapy compared to the observation strategy are 0.21 (CI: 0.015; 0.430) and 0.18 (CI: 0.006; 0.374) QALYs, and the incremental costs are €35,536 (CI: 19,945; 54,629) and €30,053, (CI: 17,047; 46,132) for the DT-STM and DES model, respectively.
+The mean ICERs are €172,443 and €168,383 per QALY gained for the DT-STM and DES model, respectively.
+The PSA for both models only demonstrated a small difference in the amount of uncertainty surrounding the mean ICER point-estimates (Fig. 4).
+This is illustrated by the magnitude of the 95%-confidence ellipses surrounding these estimates, being slightly smaller for the DES model.
+However, as both mean ICER point-estimates and corresponding confidence ellipses are located rather similarly compared to the willingness- to-pay (WTP) threshold, the CEACs for both models are similar (Fig. 5).
+per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\Matching the model with the evidence Koen
+
+Also see here for write up:
+
+Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H.
+(2012).
+Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy.
+British journal of cancer, 106(5), 805-816.
+<https://www.nature.com/articles/bjc2011580.pdf>
 
 ```{r}
 plot(l_psa, xlim = c(9.5, 22.5))
