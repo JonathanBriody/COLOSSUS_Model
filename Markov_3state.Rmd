@@ -337,6 +337,18 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 # Parametric Survival Analysis:
 
+This study: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
+(2015).
+Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
+JAMA oncology, 1(9), 1293-1300.
+saved here: C:/Users/Jonathan/Dropbox/PC/Downloads/coi150070.pdf and particulary it's supplementary material, saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/supplementary%20materials.pdf> explains how to use PFS and OS curves to generate transition probabilities from the first state into the second and from the first state into death, so, it tells you how to create both by taking the PFS probabilities and OS probabilities from eachother to get the progressing probability and using the OS probability to get the death probability, it also talks about AIC, BIC, etc.,
+
+This talks about AIC as well: Briggs, A., Sculpher, M., Dawson, J., Fitzpatrick, R., Murray, D., & Malchau, H.
+(2003).
+Modelling the cost-effectiveness of primary hip replacement: how cost-effective is the Spectron compared to the Charnley prosthesis.
+CHE Technical Paper Series, 28.
+<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Training%20Resources/Decision%20Modelling%20-%20Advanced%20Course/A2_Making%20Models%20Probabilistic/A2.1.2%20Distributions%20for%20parameters/gammadist/interquartile%20range.pdf>
+
 A GREAT EXPLANATION OF PARAMETRIC SURVIVAL ANALYSIS, MATHEMATICAL NOTATION AND CODE CAN BE FOUND HERE: <https://rpubs.com/mbounthavong/survival_analysis_in_r> ALSO SAVED HERE: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\rpubs-com-mbounthavong-survival_analysis_in_r
 
 Survival Curves in R: <https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html> <https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_survival/BS704_Survival_print.html>
@@ -2574,6 +2586,8 @@ So, I can just cite this when I have point estimates and want to build a range a
 Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
 JAMA oncology, 1(9), 1293-1300.
 
+[There are more studies that take the 20% approach describe in this file under "the range around things"].
+
 A number of sensitivity analyses were conducted to address uncertainty in parameter estimation and assess robustness of the model results.
 
 A one-way sensitivity analysis evaluates the relative weight of each parameter in our model on overall uncertainty of cost-effectiveness [@hamdyelsisi2019].
@@ -4181,7 +4195,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen
 
-# In the excel file, on the second sheet there is a row called parameter 1. For utility this parameter is the alpha value, and when you click on 16.000 it shows the formula that created this alpha value, which is the same as for my alpha value formula above. This formula includes the mean and the SE. When I take the mean (which is just the baseline value) and plug this into the R code to generate the SE:
+# In the excel file, on the second sheet there is a row called parameter 1. For cost this parameter is the alpha value, and when you click on 16.000 it shows the formula that created this alpha value, which is the same as for my alpha value formula above. This formula includes the mean and the SE. When I take the mean (which is just the baseline value) and plug this into the R code to generate the SE:
 
 # I get the same se as in the excel file when making the max and min 50% larger or smaller than the mean in the code below. 
 # Mean<-   2062.35
@@ -4194,6 +4208,73 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # Even more important, they apply the same code as I have for creating the alpha value above using this mean and SE generated just from taking 50% either side of the mean. 
 
 # The implication of this is that you can generate the SE of a point estimate by taking any percentage either side of the mean and that you can also apply the code as above to generate the alpha and beta. Unfortunately in the excel file they don't create the beta in parameter 2, but the lambda, which is something else again. 
+
+
+# This may solve the riddle of lambda in Koen's code, I noticed that here they use 1/Beta: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r so I took that approach with the Lambda in Koen's code, plugging it in for beta, and got the same value of the mean as I started out with.
+
+# Mean<-   2062.35
+# Maximum <- Mean + 0.50*Mean
+# Minimum <- Mean - 0.50*Mean
+# se <- ((Maximum) - (Mean)) / 2
+
+# se
+# Maximum
+# Minimum
+# mean <-Mean
+
+# mn.cIntervention <- mean ## mean cost of intervention
+# se.cIntervention <- se ## standard error of cost of intervention
+# a.cIntervention <- (mn.cIntervention/se.cIntervention)^2 ## alpha value for cost of intervention (shape)
+# b.cIntervention <- (mn.cIntervention)/((se.cIntervention)^2) ## beta value for cost of intervention (scale) using Koen's Lambda code.
+
+# a.cIntervention
+# b.cIntervention
+# se
+
+# c_H   = rgamma(10000, shape = a.cIntervention, scale = 1/b.cIntervention) # cost of intervention
+# mean(c_H)
+ 
+
+# Likewise, if I do the following:
+
+# 1/# b.cIntervention
+# I get the exact same value for b.cIntervention as when I use the original code to generate b.cIntervention from Andy, as below.
+
+# b.cIntervention <- (se.cIntervention^2)/mn.cIntervention ## beta value for cost of intervention (scale)
+# b.cIntervention
+
+# So, it looks like the whole Lambda thing is just a different way of getting b.cIntervention, but Koen's way of doing it requires the addition of 1/ for the scale part of rgamma, while Andy's method doesnt.
+
+# So, in this it looks like Andy is generating the scale for the beta, while Koen is generating the rate: 
+
+# This is supported by this: 
+
+# "Density, distribution function, quantile function and random generation for the Gamma distribution with parameters alpha (or shape) and beta (or scale or 1/rate)." https://search.r-project.org/CRAN/refmans/Rlab/html/Gamma.html 
+
+
+# "There is a R function for simulating this random variable. Here in addition to the number of values to simulate, we just need two parameters, one for the shape and one for either the rate or the scale. The rate is the inverse of the scale. The general formula is: rgamma(n, shape, rate = 1, scale = 1/rate)." https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/gamma-variables-optional.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\13.7 Gamma Variables (Optional) _ Analytics Using R.pdf
+
+# I think the code above also implies that if you were to include it as a "rate" instead of calling it scale in the rcode for Koen's rate, then you wouldnt need to do the 1/ bit over scale. So, he may have taken this approach as well.This is supported by: "rate:	a numeric vector in the range [0, Inf) that specifies the inverse of the scale parameter." https://docs.tibco.com/pub/enterprise-runtime-for-R/4.1.1/doc/html/Language_Reference/stats/GammaDist.html
+
+# This is supported by the below:
+
+# > set.seed(1)
+# > x <- rgamma(n = 1000, shape = 5, scale = 3)
+# > mean(x)
+# [1] 14.61593
+# Knowing that the rate is the inverse of the scale, we can get the rate as 1/3 below:
+# > 1/3
+# [1] 0.3333333
+# > set.seed(1)
+# > x <- rgamma(n = 1000, shape = 5, rate = 0.3333333)
+# > mean(x)
+# [1] 14.61593
+# > set.seed(1)
+# > x <- rgamma(n = 1000, shape = 5, scale = 1/0.3333333)
+# > mean(x)
+# [1] 14.61593
+
+# Thus, Koen generated the rate and used that in rgamma, while Andy showed me how to use scale and use that in rgamma. 
 
 
 # This 20% approach is also taken by Lesley tilson and cited in her study and other studies here: https://trello.com/c/m653JBWV/48-20-cost-sensitivity
@@ -4250,6 +4331,10 @@ head(df_PA_input)
 
 
 
+
+
+
+# If I want to do the discount rate I can use the following: # "Density, distribution function, quantile function and random generation for the Gamma distribution with parameters alpha (or shape) and beta (or scale or 1/rate)." https://search.r-project.org/CRAN/refmans/Rlab/html/Gamma.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\13.5 Uniform (Continuous Version) _ Analytics Using R.pdf
 
 
 
