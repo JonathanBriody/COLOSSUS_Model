@@ -4225,7 +4225,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # mn.cIntervention <- mean ## mean cost of intervention
 # se.cIntervention <- se ## standard error of cost of intervention
 # a.cIntervention <- (mn.cIntervention/se.cIntervention)^2 ## alpha value for cost of intervention (shape)
-# b.cIntervention <- (mn.cIntervention)/((se.cIntervention)^2) ## beta value for cost of intervention (scale) using Koen's Lambda code.
+# b.cIntervention <- (mn.cIntervention)/((se.cIntervention)^2) ## beta value for cost of intervention (scale) using Koen's backwards version of Andy's (se.cIntervention^2)/mn.cIntervention to generate the Lambda code.
 
 # a.cIntervention
 # b.cIntervention
@@ -4237,7 +4237,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Likewise, if I do the following:
 
-# 1/# b.cIntervention
+# 1/ b.cIntervention
 # I get the exact same value for b.cIntervention as when I use the original code to generate b.cIntervention from Andy, as below.
 
 # b.cIntervention <- (se.cIntervention^2)/mn.cIntervention ## beta value for cost of intervention (scale)
@@ -4308,12 +4308,32 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H. (2012). Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy. British journal of cancer, 106(5), 805-816. https://www.nature.com/articles/bjc2011580.pdf
 
+# There may also be helpful books here: C:\Users\Jonathan\Dropbox\PhD\HTA\Markov Modelling\books
+
+
+
+
+
+
+
   u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
   u_D       = 0,
   u_AE1 = u_AE1,
   u_AE2 = u_AE2,
   u_AE3 = u_AE3,
+
+
+
+
+
+
+
+# Discounting:
+
+# as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
+
+
   d_c       = 0.03,
   d_e       = 0.03,
   n_cycle   = 60,
