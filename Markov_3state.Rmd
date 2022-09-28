@@ -4312,6 +4312,73 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 
 
+##### POINT ESTIMATES ONLY:
+
+
+# If you have a point estimate, then you can generate the standard error/standard deviation using the method of moments again.
+
+#Per Table 4 in the Goldstein paper:
+# > mean<-   0.850
+# > Maximum <- mean + 0.20*mean
+# > Maximum
+# [1] 1.02
+# > Minimum <- mean - 0.20*mean
+# > Minimum
+# [1] 0.68
+# > se <- ((Maximum) - (mean)) / 2
+# > se  
+# [1] 0.085
+# > std.error <- se
+# > alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# > alpha <- mean*alpha.plus.beta ## alpha (a)
+# > beta <- alpha*(1-mean)/mean ## beta(b)
+# > alpha
+# [1] 14.15
+# > beta
+# [1] 2.497059
+# So, a perfect match to the Goldstein paper.
+# Because this approach to point estimates ends up making the same range around this point estimate as reported in Table 4, the implication is that when a point estimate is reported with a range, you can generate the SE the exact same way as above, that is, se <- ((Maximum) - (mean)) / 2, because we are applying the same manner of generating the SE to the range that was reported in the paper, as to the point estimate.
+
+
+
+
+
+# Should I take the furthest range when there is a range present and it's not equal from max to point estimate and min to point estimate?
+
+mean<-   0.650
+Maximum <- mean + 0.20*mean
+Maximum
+Minimum <- mean - 0.20*mean
+Minimum
+
+
+se <- ((Maximum) - (mean)) / 2
+se  
+
+std.error <- se
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+#> alpha
+#[1] 34.35
+#> beta
+#[1] 18.49615
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
