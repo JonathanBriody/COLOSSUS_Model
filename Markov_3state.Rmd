@@ -143,7 +143,6 @@ Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., A
 Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia.
 *Asian Pacific Journal of Cancer Prevention: APJCP*, *22*(6), 1921.
 
-
 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf>
 
 Maybe for \*\*Germany\*\*, where they don't appear to have a cost-effectiveness threshold, I can use the GDP per capita approach I've read about (somewhere) or some range of this.
@@ -866,7 +865,7 @@ Value in Health, 14(6), 836-845.
 > A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
 > *Value in Health*, *14*(6), 836-845.
 >
-**Costing Data in Spain:**
+> **Costing Data in Spain:**
 
 Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
 (2017).
@@ -4340,8 +4339,63 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # Because this approach to point estimates ends up making the same range around this point estimate as reported in Table 4, the implication is that when a point estimate is reported with a range, you can generate the SE the exact same way as above, that is, se <- ((Maximum) - (mean)) / 2, because we are applying the same manner of generating the SE to the range that was reported in the paper, as to the point estimate.
 
 
+# I double check the manner in which I calculate the SE with the excel file from Koen's paper: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen both are saved here, but the filepath may be too long to access them without moving them to downloads or desktop.
+
+# For his paper, I update the Maximum/Minimum part by taking the max as 50% bigger than the mean. When I do this, I get the exact same SE as he reports in the excel file, I know this because in his cells creating the alpha and beta values for utility on sheet 2 of his excel file, he includes 2 numbers, one is the mean reported on sheet 1 for the parameter whose utility he is taking random draws from, and then the other number is an EXACT match for the SE number I calculate, and must therefore be the SE number he calculates. Especially because he then applies a formula to this mean and SE to generate the alpha and the beta. You can see this in my model code below, where the mean and SE I report in my own analysis turn up in his alpha and beta formulas.
+
+# Although he uses a different method to calculate the alpha and the beta, these typically work out as very close to the values calculated for the alpha and beta using my method, which Briggs told me to use once I had the SE and mean, so I think Koen just has a deeper understanding of mathematics and is using this to apply a different formula for the generation of alpha and beta from the SE and mean.
+
+# The takeaway here is that my method for calculating SE is correct, as proven by Koen's excel file, and once I have the SE and the mean (mean is just the point estimate value I started with for this parameter) Andrew Briggs told me what to do to calculate the alpha and the beta, so I now can be confident in the manner in which I take the PSA for utility. 
+ 
+# mean<-   0.042178846
+# Maximum <- mean + 0.50*mean
+# Maximum
+# Minimum <- mean - 0.40*mean
+# Minimum
+# 
+# se <- ((Maximum) - (mean)) / 2
+# se  
+# 
+# std.error <- se
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha.plus.beta
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# alpha
+# beta
+# 
+# 
+# 
+# 
+# mean: 0.042178846
+# se: 0.01054471
+# 
+# alpha =(((0.042178846)^2)*(1-(0.042178846))/((0.01)^2)-(0.042178846))
+# beta =((1-(0.042178846))*(((1-(0.042178846))*(0.042178846))/((0.01)^2)-1))
+#
+# My alpha and beta:
+#
+# > alpha
+# [1] 15.28296
+# > beta
+# [1] 347.0541
+#
+# Koen's alpha and beta:
+# alpha = 14.961
+# beta = 363.614
+
+# mean<-   0.042178846
+
+# u_ME       = rbeta(10000, shape1 =  15.28296, shape2 = 347.0541)
+# mean(u_ME)
+# [1] 0.04208022
+# u_KOEN       = rbeta(10000, shape1 =  14.961, shape2 = 363.614)
+# mean(u_KOEN)
+# [1] 0.03940224
+# Which will both come to 0.04 if rounding to 2 decimal points
 
 
+# RANGES NEXT: See if Koen's paper can lead you to ranges for the values he included, check ranges available in your other sources.
 
 # Should I take the furthest range when there is a range present and it's not equal from max to point estimate and min to point estimate?
 
