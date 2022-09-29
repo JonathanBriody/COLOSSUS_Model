@@ -156,6 +156,12 @@ Estimating health opportunity costs in low-income and middle-income countries: a
 BMJ Global Health, 3(6).
 <https://gh.bmj.com/content/3/6/e000964>
 
+This study also didnt have thresholds, much like Germany doesnt: Franken, M. D., Van Rooijen, E. M., May, A. M., Koffijberg, H., van Tinteren, H., Mol, L., ... & van Oijen, M. G. H.
+(2017).
+Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer.
+European Journal of Cancer, 75, 204-212.
+<https://sci-hub.ru/10.1016/j.ejca.2017.01.019>
+
 With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
 Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
 
@@ -3897,6 +3903,10 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 #### To generate random draws for the probabilities:
 
+# IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
+# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1.
+
+
 # When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
 
 # i.e., when alpha values are all the times things happened, while  beta values are all the times they didnt, how do you apply 
@@ -4000,7 +4010,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # b4
 # [1] 0.1329533
 
-
+# If I don't describe generating random draws when the probabilities don't have an SE above, I'm sure the Goldstein paper will let me figure out how to do this in the same way that I figured out how to do this for the utility beta distributions below.
 
   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
@@ -4314,6 +4324,10 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 ##### POINT ESTIMATES ONLY:
 
 
+# IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
+# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1.
+
+
 # If you have a point estimate, then you can generate the standard error/standard deviation using the method of moments again.
 
 #Per Table 4 in the Goldstein paper:
@@ -4394,8 +4408,29 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # [1] 0.03940224
 # Which will both come to 0.04 if rounding to 2 decimal points
 
+# 
+# mean= 0.042178846
+# se= 0.01
+#  
+# newalpha =(((mean)^2)*(1-(mean))/((se)^2)-(mean))
+# newbeta =((1-(mean))*(((1-(mean))*(mean))/((se)^2)-1))
+# > newalpha
+# [1] 16.99799
+# > newbeta
+# [1] 385.9999
+# 
+# 
+# manualalpha =(((0.042178846)^2)*(1-(0.042178846))/((0.01)^2)-(0.042178846))
+# manualbeta =((1-(0.042178846))*(((1-(0.042178846))*(0.042178846))/((0.01)^2)-1))
+# > manualalpha
+# [1] 16.99799
+# > manualbeta
+# [1] 385.9999
 
-# RANGES NEXT: See if Koen's paper can lead you to ranges for the values he included, check ranges available in your other sources.
+
+
+
+# RANGES NEXT: See if Koen's paper can lead you to ranges for the values he included, check ranges available in your other sources. Look at how I deal with ranges above, if SE is calculated the same way, I imagine ranges are analysed the same way too.
 
 # Should I take the furthest range when there is a range present and it's not equal from max to point estimate and min to point estimate?
 
@@ -4452,6 +4487,8 @@ beta <- alpha*(1-mean)/mean ## beta(b)
 
 # Discounting:
 
+# Koen's excel file can help with this too.
+  
 # as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
 
 
@@ -4529,6 +4566,167 @@ I need to fix the "\# Histogram of parameters" section above, the below gives ad
 <https://statisticsglobe.com/warning-cannot-remove-prior-installation-in-r>
 
 The above approach worked, I manually deleted the package, installed darthtools from github, chose option 4, i.e. replace rccp and then I was done.
+
+```{r}
+
+
+
+# Once you have an alpha and a beta, you can work your way back to a SE:
+
+
+# per: https://stackoverflow.com/questions/41189633/how-to-get-the-standard-deviation-from-the-fitted-distribution-in-scipy
+# and using this here: Jenks, Michelle, et al. "Tegaderm CHG IV securement dressing for central venous and arterial catheter insertion sites: a NICE medical technology guidance." Applied Health Economics and Health Policy 14.2 (2016): 135-149. https://link.springer.com/content/pdf/10.1007/s40258-015-0202-5.pdf I get 0.002096431 or 0.0021, so it looks like they used the mean as their se.
+
+
+
+# I demonstrate this in Table 1, row 22,  of: Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (2012): 805-816. https://www.nature.com/articles/bjc2011580.pdf also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\bjc2011580.pdf
+
+# CTC sensitivity for CRC Basecase(85%) range(75 – 95%) Beta (50.00, 8.82)
+
+a<- 50.00
+b<- 8.82
+Var <-  a * b / ( (a + b)^2 * (a + b + 1) )
+se <- sqrt(Var)
+se
+# 0.04616056
+
+mean <- 0.85
+
+std.error <- se
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha.plus.beta
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+alpha
+# 50.01124
+beta
+# 8.825513
+
+
+
+myse <- ((0.95) - (0.85)) / 2
+myse
+# 0.05
+
+# The problem is, using this se changes my alpha and beta values, as follows:
+
+std.error <- myse
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha.plus.beta
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+alpha
+# 42.5
+beta
+# 7.5
+
+
+# Here's what I think is happening, the formula to generate the se is se <- ((Maximum) - (Mean))/2 but the 2 is really a t-quantile with n-1 degrees of freedom, but I used 2 as a simplification because "For large n the quantile approaches 2.0 (well, 1.959964... to be more precise; but using 2.0 is good enough)." I think that the authors of this study actually looked up the t-quantile and divided by that each time, rather than dividing by 2, i.e. "The t-quantile can be looked up for the level of confidence when the total sample size (n) and the number of coefficients in the model (k) are known. For instance, the t-quantile for 95% confidence, n=10 and k=2 is 2.3." per: researchgate.net/post/Formula_for_calculate_Standard_errorSE_from_Confidence_IntervalCI There is also information supporting this here: https://stats.stackexchange.com/questions/550293/how-to-calculate-standard-error-given-mean-and-confidence-interval-for-a-gamma-d
+
+
+
+
+
+
+
+
+# Doing this, I can prove that the differences between my results on their tables, and their results, comes down to rounding.
+
+
+
+
+
+# However, when I generate the SE from the values reported in the paper, I don't have as many decimal points for my SE, i.e., it rounds up to 0.05 from 0.04616056, as below:
+
+myse <- ((0.95) - (0.85)) / 2
+myse
+# 0.05
+
+# The problem is, using this rounded se changes my alpha and beta values, as follows:
+
+std.error <- myse
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha.plus.beta
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+alpha
+# 42.5
+beta
+# 7.5
+
+# Which explains the differences in the alpha and beta I generate from the table.
+
+# What this means, is that I can generate my SE as before, that is 
+
+# se <- ((Maximum) - (Mean)) / 2
+
+# Or se off the minimum if it's further away:
+ 
+# se <- ((Mean) - (Min)) / 2
+
+# But where there is a range, instead of just a point estimate value for utility, I use the upper end of the range for the maximum, or the lower end of the range for the minimum when generating the SE.
+
+# I've checked this for all the beta values in the Table.
+
+# All of the above applies to probabilities as well as utilities, as both are for beta distributions.
+
+
+
+
+
+
+# These match the alpha and beta I started with, showing that the way in which I generate the SE is correct, because my se matches the se they use as below:
+
+
+
+# My standard error matches theirs (although involves rounding) and I get the same alpha and beta by including theirs or mine (or, at least I would without rounding) and gives me the same mean as they started out with. Subsequently, my thought process is this: I can take the approach of generating the SE from the upper range - mean or the mean - the lower range (depending on which is further away), and then plug this into my formula to get an appropriate alpha and beta and use this to make random draws for the mean in the rbeta. I won't produce an alpha and beta that matches what they present in the table, but the SE I recover from their alpha and beta, creates an unmatched version of the alpha and beta that matches the alpha and beta I create. 
+
+# The fact that their standard error matches mine means that the way I am calculating SE in my own methods is correct.
+
+std.error <- se
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha.plus.beta
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+alpha
+beta
+
+u_ME       = rbeta(10000, shape1 =  a, shape2 = b)
+mean(u_ME)
+
+
+
+
+
+
+std.error <- myse
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+alpha.plus.beta
+alpha <- mean*alpha.plus.beta ## alpha (a)
+beta <- alpha*(1-mean)/mean ## beta(b)
+alpha
+beta
+
+u_ME       = rbeta(10000, shape1 =  a, shape2 = b)
+mean(u_ME)
+
+
+
+
+
+
+# Then I create alpha and beta using Koen's code, which is a different way of calculating these vales than what Briggs showed me:
+
+newalpha =(((mean)^2)*(1-(mean))/((se)^2)-(mean))
+newbeta =((1-(mean))*(((1-(mean))*(mean))/((se)^2)-1))
+newalpha
+# [1] 50.01124
+newbeta
+# [1] 8.825513
+
+
+
+```
 
 ## 09.1 Conduct probabilistic sensitivity analysis
 
