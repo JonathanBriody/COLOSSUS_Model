@@ -4452,6 +4452,8 @@ beta <- alpha*(1-mean)/mean ## beta(b)
 
 # Discounting:
 
+# Koen's excel file can help with this too.
+  
 # as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
 
 
