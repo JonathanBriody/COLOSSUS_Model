@@ -3695,7 +3695,7 @@ plot(TWSA_NMB)
 
 # 09 Probabilistic Sensitivity Analysis (PSA)
 
-Here's how to generate the standard error (SE) for a log-normal distribution, and then to make random draws for a log-normal distribution: <https://hesim-dev.github.io/hesim/articles/markov-cohort.html>
+Here's how to generate the standard error (SE) for a log-normal distribution, and then to make random draws for a log-normal distribution: <https://hesim-dev.github.io/hesim/articles/markov-cohort.html> also here: <https://devinincerti.com/2018/02/10/psa.html#beta-distribution>
 
 The best way to check if the way you are calculating distributions is correct is by making comparisons to publications which include distributions, ses, etc., here are some publications that include that information:
 
@@ -3728,7 +3728,41 @@ This has mean and alpha beta but nothing else: Kristin, Erna, et al. "Economic e
 The information provided here is less infromative: Jenks, Michelle, et al. "Tegaderm CHG IV securement dressing for central venous and arterial catheter insertion sites: a NICE medical technology guidance." Applied Health Economics and Health Policy 14.2 (2016): 135-149.
 <https://link.springer.com/content/pdf/10.1007/s40258-015-0202-5.pdf>
 
+This may also have informations on SE's given point estimates and 95 CI's Baio, G.
+(2014).
+Bayesian models for cost‐effectiveness analysis in the presence of structural zero costs.
+Statistics in medicine, 33(11), 1900-1913.
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4285321/pdf/sim0033-1900.pdf>
+
 Obviously the Goldstein study, but this is more making use of point estiamtes: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/goldstein2014.pdf>
+
+This may have some limited info on mean, range and SE in the Tables at the end: "How sensitive are cost-effectiveness analyses to choice of parametric distributions?" <https://www.mrc-bsu.cam.ac.uk/wp-content/uploads/CE_para_york.pdf>
+
+There's information on mean alpha beta and se here: Cost-effectiveness of insulin pumps compared with multiple daily injections both provided with structured education for adults with type 1 diabetes: a health economic analysis of the Relative Effectiveness of Pumps over Structured Education (REPOSE) randomised controlled trial <https://bmjopen.bmj.com/content/bmjopen/8/4/e016766.full.pdf>
+
+This may also have some information: Cost-effectiveness and programmatic benefits of maternal vaccination against pertussis in England <https://sci-hub.ru/10.1016/j.jinf.2016.04.012>
+
+This has a point estimate, range, distribution and alpha beta: Campbell, J. R., Johnston, J. C., Cook, V. J., Sadatsafavi, M., Elwood, R. K., & Marra, F.
+(2019).
+Cost-effectiveness of latent tuberculosis infection screening before immigration to low-incidence countries.
+Emerging infectious diseases, 25(4), 661.
+<https://sci-hub.ru/10.3201/eid2504.171630>
+
+This has a point estimate, range, distribution, alpha and beta: Gao, L., Moodie, M., Mitchell, P. J., Churilov, L., Kleinig, T. J., Yassi, N., ... & EXTEND-IA TNK Investigators.
+(2020).
+Cost-effectiveness of tenecteplase before thrombectomy for ischemic stroke.
+Stroke, 51(12), 3681-3689.
+<https://www.ahajournals.org/doi/epdf/10.1161/STROKEAHA.120.029666>
+
+There is information on point estimates, se, alpha and beta on PDF Page 71 of :A cluster randomised trial, cost-effectiveness analysis and psychosocial evaluation of insulin pump therapy compared with multiple injections during flexible intensive insulin therapy for type 1 diabetes: the REPOSE Trial <https://www.journalslibrary.nihr.ac.uk/hta/hta21200#/abstract>
+
+Slide 39 of this has a mean, se, distribution, low and high 95% interval: <https://clas.ucdenver.edu/marcelo-perraillon/sites/default/files/attached-files/lecture_13_uncertainty.pdf> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\Betadist utility\\lecture_13_uncertainty.pdf
+
+This has mean, range, shape, scale and distribution for Beta and Log-normal: Appendix F: Health economics report (2015 work undertaken by NICE Internal Clinical Guidelines) <https://www.nice.org.uk/guidance/ng33/evidence/appendix-f-full-he-report-pdf-80851860763>
+
+It's possible that this will have some information for normal distributions: Bayesian sample size determination for costeffectiveness studies with censored data <https://sci-hub.ru/10.1371/journal.pone.0190422#savedHeader>
+
+Beta and Gamma with point estimate and shape and scale: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\paper with shapes and scales\\12874_2017_437_MOESM1_ESM.pdf
 
 This book explains some of the concepts you need to describe, like how to read a two-way sensitivity analysis graph: Muennig, P., & Bounthavong, M.
 (2016).
@@ -4351,7 +4385,6 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 
 
-
   c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
   c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
   c_P       = rgamma(n_runs, shape = 100, scale = 10), 
@@ -4538,16 +4571,30 @@ beta <- alpha*(1-mean)/mean ## beta(b)
 
 
 # Discounting:
+  
+# A uniform distribution is a probability distribution in which every value between an interval from a to b is equally likely to be chosen. https://www.statology.org/uniform-distribution-r/
+  
+# "Generates random values that are evenly spread between min and max bounds" - https://docs.oracle.com/cd/E57185_01/CYBUG/apcs03s03s01.html 
 
-# Koen's excel file can help with this too.
+# Devin Incerti talks about the Uniform distribution here: "The uniform distribution is useful when there is little data available to estimate a parameter and determine its distribution. It is always preferable to place uncertainty on a parameter even when there is little evidence for it than to assume a fixed value (which gives a false sense of precision). Sampling from the uniform distribution is straightforward." https://devinincerti.com/2018/02/10/psa.html  
+  
+#Reading the literature, it seems like studies pick a lower bound and upper bound for the discount rate, such that the average (mean of the discount rate) will reach the point estimate they started with: 
+  
+  # A Trial-Based Assessment of the Cost-Utility of Bevacizumab and Chemotherapy versus Chemotherapy Alone for Advanced Non-Small Cell Lung Cancer https://sci-hub.ru/10.1016/j.jval.2011.04.004 
+  
+# file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Paper%20Materials%20and%20Methods/Hamdy%20Elsisi%20et%20al_2019_Cost-effectiveness%20of%20sorafenib%20versus%20best%20supportive%20care%20in%20advanced.pdf  
+    
+# Koen's excel file does this too: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen
   
 # as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
 
 
-  d_c       = 0.03,
-  d_e       = 0.03,
+#  d_c       = 0.04,
+#  d_e       = 0.04,
   
-  
+  d_c    = runif(n_runs,  min = 0, max = 0.08),
+  d_e    = runif(n_runs,  min = 0, max = 0.08),
+
   
   
   n_cycle   = 60,
@@ -4568,7 +4615,7 @@ head(df_PA_input)
 
 
 
-# If I want to do the discount rate I can use the following: # "Density, distribution function, quantile function and random generation for the Gamma distribution with parameters alpha (or shape) and beta (or scale or 1/rate)." https://search.r-project.org/CRAN/refmans/Rlab/html/Gamma.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\13.5 Uniform (Continuous Version) _ Analytics Using R.pdf
+
 
 
 
@@ -4626,6 +4673,8 @@ The above approach worked, I manually deleted the package, installed darthtools 
 ```{r}
 
 # Calculating a Beta distribution when you have a range around this in the literature you are reviewing:
+
+# To determine the best way to do this, I'll open all the sources I mention just above the previous code chunk which include a range, se, alpha, beta, etc., and then I'll apply all the methods I have and see which is best. I'll also be heavily guided by the suggestions Andy made, as he has being doing this work for 2 decades, if he says that a certain way is correct, I'll take him at his word.
 
 # Once you have an alpha and a beta, you can work your way back to a SE:
 
@@ -4910,8 +4959,33 @@ grep(se, x1)
 # So, they definitely didnt create their SE from the same formula I used.
 
 
+# Here's code provided by Briggs (in email) and reported by Devin Incerti (https://hesim-dev.github.io/hesim/articles/markov-cohort.html) when generating the SE:
 
+a <- 3.92   
+b <-  0.69 
+max <-0.94
+min <-  0.43   
+mean <- 0.80
 
+Var <- a*b/((a+b)^2*(a+b+1))
+se<-sqrt(Var)
+se
+
+myse <- ((max)-(mean))/2
+#myse <- ((mean)-(min))/2
+myse
+
+lrr_se <- (max - min)/(2 * qnorm(.975))
+lrr_se
+
+briggsse <- ((max)-(mean))/1.96
+briggsse
+
+altbriggsse <- ((max)-(min))/2*1.96
+altbriggsse
+
+altbriggsse <- (max-min)/(2*1.96)
+altbriggsse
 
 
 
