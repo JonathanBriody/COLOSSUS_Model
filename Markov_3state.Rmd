@@ -4963,7 +4963,13 @@ grep(se, x1)
 # So, they definitely didnt create their SE from the same formula I used.
 
 
-# Here's code provided by Briggs (in email) and reported by Devin Incerti (https://hesim-dev.github.io/hesim/articles/markov-cohort.html) when generating the SE:
+
+# The solution:
+
+# I take the code provided by Briggs, provided by Devin, and my own assumed code, and I apply it to the Packman paper. Basically, I recover the SE's for this paper by applying the SE recovery code to the alpha and beta they report, then I compare all the different methods I have to get the SE myself to see which one comes out right most of the time.
+
+
+# Here's my own code, the code provided by Briggs (in email) and the code reported by Devin Incerti (https://hesim-dev.github.io/hesim/articles/markov-cohort.html) when generating the SE:
 
 
 b <-c(891.6005,15.41799,736.9145,1257.92,419.1321,48.37248,54.66747,759.661,1161.571,46.55078,371.0238,613.4266,1349.813,1007.815,150.3308,515.7984,1.572009,1.709663,1196.415,44.16013,432.4305,1143.101,478.3303,344.844,318.2237,839.0925,665.8365,668.3704,15334.68,2261.868,210.4119,295.9456,839.0925,295.9456,248.218,50.63905,51.89032,54.66747,265.7833) 
@@ -4978,21 +4984,47 @@ mean <-c(0.12,0.77,0.02,0.21,0.13,0.20,0.13,0.005,0.18,0.51,0.11,0.27,0.25,0.14,
 
 # Recover the papers SE:
 
-# For the values in Table A4, I have to divide these by 100. They start off as just percents, so 10.0 (7.0, 13.0) to reflect 10% with a range of 7 to 13 percent. But, if I want have them the same as the percentages I have throughout the model, i.e., 0 is 0% and 1 is 100%, and 0.5 is 50%, then I'll need to divide these by 100. This goes equally for any percentages I find in the literature reported as just 10% say, and want to include, they'll need to be divided by 100 to put them in the same units as the 0-1 percentages range I use throughout my model. And the fact that the alpha and beta calculated in this report exactly match the alpha and beta I calculate when I've made this /100) adjustment means that, regardless of the fact that the authors list the percentages as 10.0, 7.0 and 13.0 in Table A4, when they actually went to analyse these, they also applied the /100) adjustment.
+# Just a quick aside that for the values in Table A4, I have to divide these by 100. They start off as just percents, so 10.0 (7.0, 13.0) to reflect 10% with a range of 7 to 13 percent. But, if I want have them the same as the percentages I have throughout the model, i.e., 0 is 0% and 1 is 100%, and 0.5 is 50%, then I'll need to divide these by 100. This goes equally for any percentages I find in the literature reported as just 10% say, and want to include, they'll need to be divided by 100 to put them in the same units as the 0-1 percentages range I use throughout my model. And the fact that the alpha and beta calculated in this report exactly match the alpha and beta I calculate when I've made this /100) adjustment means that, regardless of the fact that the authors list the percentages as 10.0, 7.0 and 13.0 in Table A4, when they actually went to analyse these, they also applied the /100) adjustment.
+
+# Code to recover the SE's:
+
 
 Var <- a*b/((a+b)^2*(a+b+1))
 se<-sqrt(Var)
 
-
+# My own assumed SE code:
 myse <- ((max)-(mean))/2
+# My own assumed SE  code, using the min when the mean isnt centered in the range, so say the min is further from the mean than the max:
 mysemin <- ((mean)-(min))/2
 
+# Devin's code to generate the SE, as described above:
 devinse <- (max - min)/(2 * qnorm(.975))
 
+# Brigs code to generate the SE, with the max - the mean, and then repeated but for the mean minus the min:
 briggsse <- ((max)-(mean))/1.96
 briggssemin <- ((mean)-(min))/1.96
 
+# Here are the results, for the paper, there are:
+
+# myse: ------11-1--10-1--------00-
+# devinse: -------------11-1------
+# briggsse:11111110111111-111-111-
+# altbriggsse:11-1111111111
+# wrongbriggsse:1
+# logse:
+# logse2:
+# mysemin:
+# briggssemin:111111
+# logsemin2
+# tqse:
+
+# Obviously, briggsse is the most correct, most of the time (in this Table 1 represents an exact match, and - represents a close but not exact match, when something was wrong I either didnt include it, or included it as a 0 when it was really, really wrong). Only 12.82% of the time it wrong. So, 87.18% of the time it was correct.
+
+
 # When the range isnt PERFECTLY centered around the mean, i.e., the min is further away from the mean than the max, it looks like you use altbriggsse to incorporate this wider range, than you would see taking max-mean, what's interesting is that mean-min isnt enough to replicate the results in the study, it has to be max-min (although the fact that mean-min is divided by /1.96 and max-min is divided by /2*1.96 also contributes I'm sure). Devinse does this also, but I don't like it as much because the qnorm(.975) seems a bit less clear on what it's doing, even though > 2 * qnorm(.975) [1] 3.919928 is more or less the exact same as > 2*1.96 [1] 3.92. Nonetheless, Devins SE's are always slightly different to the actual SE when compared to briggsse, which has made me prefer briggsse.
+
+# So, the recipe is simple, use briggsse when the range is centered around the base case value, or point estimate, or mean, or however they describe it. But, When the range isnt PERFECTLY centered around the mean, i.e., the min is further away from the mean than the max, or vice versa, it looks like you use altbriggsse to incorporate this wider range. I've reviewed studies where Beta values refer to probabilities, and studies where Beta values refer to utilities, and the above still holds regardless. 
+
 altbriggsse <- (max-min)/(2*1.96)
 
 
@@ -5012,6 +5044,7 @@ logsemin2 <- (log(mean) - log(min)) / (2*1.96)
 
 
 tq <- c(1,1.376,1.963,3.078,6.31,12.71,31.82,63.66,106.1,159.2,0.816,1.061,1.386,1.886,2.92,4.303,6.965,9.925,12.85,15.76,0.765,0.978,1.25,1.638,2.353,3.182,4.541,5.841,6.994,8.053,0.741,0.941,1.19,1.533,2.132,2.776,3.747,4.604,5.321,5.951,0.727,0.92,1.156,1.476,2.015,2.571,3.365,4.032,4.57,5.03,0.718,0.906,1.134,1.44,1.943,2.447,3.143,3.707,4.152,4.524,0.711,0.896,1.119,1.415,1.895,2.365,2.998,3.499,3.887,4.207,0.706,0.889,1.108,1.397,1.86,2.306,2.896,3.355,3.705,3.991,0.703,0.883,1.1,1.383,1.833,2.262,2.821,3.25,3.573,3.835,0.7,0.879,1.093,1.372,1.812,2.228,2.764,3.169,3.472,3.716,0.697,0.876,1.088,1.363,1.796,2.201,2.718,3.106,3.393,3.624,0.695,0.873,1.083,1.356,1.782,2.179,2.681,3.055,3.33,3.55,0.694,0.87,1.079,1.35,1.771,2.16,2.65,3.012,3.278,3.489,0.692,0.868,1.076,1.345,1.761,2.145,2.624,2.977,3.234,3.438,0.691,0.866,1.074,1.341,1.753,2.131,2.602,2.947,3.197,3.395,0.69,0.865,1.071,1.337,1.746,2.12,2.583,2.921,3.165,3.358,0.689,0.863,1.069,1.333,1.74,2.11,2.567,2.898,3.138,3.326,0.688,0.862,1.067,1.33,1.734,2.101,2.552,2.878,3.113,3.298,0.688,0.861,1.066,1.328,1.729,2.093,2.539,2.861,3.092,3.273,0.687,0.86,1.064,1.325,1.725,2.086,2.528,2.845,3.073,3.251,0.686,0.859,1.063,1.323,1.721,2.08,2.518,2.831,3.056,3.231,0.686,0.858,1.061,1.321,1.717,2.074,2.508,2.819,3.041,3.214,0.685,0.858,1.06,1.319,1.714,2.069,2.5,2.807,3.027,3.198,0.685,0.857,1.059,1.318,1.711,2.064,2.492,2.797,3.014,3.183,0.684,0.856,1.058,1.316,1.708,2.06,2.485,2.787,3.003,3.17,0.684,0.856,1.058,1.315,1.706,2.056,2.479,2.779,2.992,3.158,0.684,0.855,1.057,1.314,1.703,2.052,2.473,2.771,2.982,3.147,0.683,0.855,1.056,1.313,1.701,2.048,2.467,2.763,2.973,3.136,0.683,0.854,1.055,1.311,1.699,2.045,2.462,2.756,2.965,3.127,0.683,0.854,1.055,1.31,1.697,2.042,2.457,2.75,2.957,3.118,0.682,0.853,1.054,1.309,1.696,2.04,2.453,2.744,2.95,3.109,0.682,0.853,1.054,1.309,1.694,2.037,2.449,2.738,2.943,3.102,0.682,0.853,1.053,1.308,1.692,2.035,2.445,2.733,2.937,3.094,0.682,0.852,1.052,1.307,1.691,2.032,2.441,2.728,2.931,3.088,0.682,0.852,1.052,1.306,1.69,2.03,2.438,2.724,2.926,3.081,0.681,0.851,1.05,1.303,1.684,2.021,2.423,2.704,2.902,3.055,0.679,0.849,1.047,1.299,1.676,2.009,2.403,2.678,2.87,3.018,0.679,0.848,1.045,1.296,1.671,2,2.39,2.66,2.849,2.994,0.677,0.845,1.041,1.289,1.658,1.98,2.358,2.617,2.798,2.935,0.674,0.842,1.036,1.282,1.645,1.96,2.326,2.576,2.748,2.878)
+
 #tqse <- ((max)-(min))/tq
 sprintf("%.100f",tqse <- ((max)-(min))/tq)
 
@@ -5046,10 +5079,14 @@ tqse
 
 
 
+# Picot, J., et al. "The clinical effectiveness and cost-effectiveness of bortezomib and thalidomide in combination regimens with an alkylating agent and a corticosteroid for the first-line treatment of multiple myeloma: a systematic review and economic evaluation." Health technology assessment (Winchester, England) 15.41 (2011): 1.
+
+# For this, briggsse is always right, while the other SE's are not.   
 
 
+# Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (2012): 805-816.
 
-
+# For this, I typically get approximations of the SE from the paper.
 
 
 
@@ -5081,7 +5118,7 @@ tqse
 # For Table 1 in the following, under utilities if I plug the SE and base case value into my formula for creating alpha and beta and then take randome draws for the mean from rbeta I get the same mean as reported as the base case value in the table. Indicating that the formula I use once I have the SE and mean to get the alpha and beta, and thus the new mean, is correct: Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S. (2021). Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia. Asian Pacific Journal of Cancer Prevention: APJCP, 22(6), 1921. also saved here: file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf
 
 
-# So, the whole problems comes down to the manner in which I am generating the SE from the mean and range
+# So, the whole problems comes down to the manner in which I am generating the SE from the mean and range.
 
 
 ```
