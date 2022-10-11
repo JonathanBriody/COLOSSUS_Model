@@ -348,6 +348,8 @@ Necitumumab in metastatic squamous cell lung cancer: establishing a value-based 
 JAMA oncology, 1(9), 1293-1300.
 saved here: C:/Users/Jonathan/Dropbox/PC/Downloads/coi150070.pdf and particulary it's supplementary material, saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/supplementary%20materials.pdf> explains how to use PFS and OS curves to generate transition probabilities from the first state into the second and from the first state into death, so, it tells you how to create both by taking the PFS probabilities and OS probabilities from eachother to get the progressing probability and using the OS probability to get the death probability, it also talks about AIC, BIC, etc.,
 
+And I talked to **Qiushi Chen** about this in detail in email, so look to that conversation on how he approached this to make sure I am not making any mistakes.
+
 This talks about AIC as well: Briggs, A., Sculpher, M., Dawson, J., Fitzpatrick, R., Murray, D., & Malchau, H.
 (2003).
 Modelling the cost-effectiveness of primary hip replacement: how cost-effective is the Spectron compared to the Charnley prosthesis.
@@ -5087,6 +5089,138 @@ tqse
 # Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (2012): 805-816.
 
 # For this, I typically get approximations of the SE from the paper.
+
+
+# Campbell, Jonathon R., et al. "Cost-effectiveness of latent tuberculosis infection screening before immigration to low-incidence countries." Emerging infectious diseases 25.4 (2019): 661.
+
+# For this, the SE is close, but typically a few percentage points off the recovered SE, so instead of 0.06 we might have 0.05, etc., which shouldnt really change the mean calculation much when doing the beta draws in the PSA.  
+
+# Gao, L., Moodie, M., Mitchell, P. J., Churilov, L., Kleinig, T. J., Yassi, N., … & EXTEND-IA TNK Investigators. (2020). Cost-effectiveness of tenecteplase before thrombectomy for ischemic stroke. Stroke, 51(12), 3681-3689. https://www.ahajournals.org/doi/epdf/10.1161/STROKEAHA.120.029666
+
+# For this, the SE I generate is typically quite different to the SE they report.
+
+## My formulas and the need for a 95% CI:
+ 
+# As per: https://stats.stackexchange.com/questions/550293/how-to-calculate-standard-error-given-mean-and-confidence-interval-for-a-gamma-d/550892#550892
+ 
+ 
+# "I would like to note that, while those values in the table happen to correspond with ±2σ, the minimum and maximum values do not generally follow such simple formula with mean plus-minus some standard deviation.
+ 
+# In this case, the minimum and maximum values only correspond to the interval μ±2σ because the distribution seems to have been truncated at those values."
+ 
+ 
+# i.e., my formula will only work if the minimum and maximum values reported in a study are ±2 SE from the mean, i.e. + 2 SE from the mean for the maximum value, and -2 SE from the mean for the minimum value.
+ 
+# And that will be the case any time there is a 95% Confidence Interval:
+ 
+
+# [ "Since 95% of values fall within two standard deviations of the mean according to the 68-95-99.7 Rule, simply add and subtract two standard deviations from the mean in order to obtain the 95% confidence interval. Notice that with higher confidence levels the confidence interval gets large so there is less precision." https://www.westga.edu/academics/research/vrc/assets/docs/confidence_intervals_notes.pdf also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\gammadist\confidence_intervals_notes.pdf
+
+# A good image can be found as per: https://www.quora.com/What-is-meant-by-one-standard-deviation-away-from-the-mean also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\gammadist\www-quora-com-What-is-meant-by-.pdf]
+
+# So, if I'm taking my costs and a range about these costs from the literature, I just need to make sure the range is a 95% Confidence Interval, like that reported here: Tilson, L., Sharp, L., Usher, C., Walsh, C., Whyte, S., O’Ceilleachair, A., ... & Barry, M. (2012). Cost of care for colorectal cancer in Ireland: a health care payer perspective. The European journal of health economics, 13(4), 511-524. (https://www.researchgate.net/publication/51188456_Cost_of_care_for_colorectal_cancer_in_Ireland_A_health_care_payer_perspective) reports a cost in Table 3 for Colorectal cancer with a 95% CI: € 48,835 (€40,548–€62,582)..
+
+# For "PK test cost MEAN: 400.00 MIN: 300.00 MAX: 500.00" from Table 4, row 3 page 222 in Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R. (2014). Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer. Clinical colorectal cancer, 13(4), 219-225, plugging the SE and mean into the CI = m ± t*SE from Jochen above I get:
+ 
+# 400 + 2*50 = 500
+ 
+# 400 - 2*50 = 300
+ 
+# Which is the same confidence interval as I got in the Table 4 row 3, i.e. 300 and 500.
+ 
+# So, this might be a good way to check if my standard error is correct. Although this will only work if my confidence interval is centred on the mean, i.e. if I am the same distance from the mean to the max and to the min. If my confidence interval is NOT centred on the mean, I can calculate 2 standard errors, one between the lower interval and the mean, and one between the upper interval and the mean, and then apply these in CI = m ± t*SE, knowing that:
+
+# CIupper = m + t*SE
+
+# CIlower = m - t*SE
+
+# So, I've figured out a simple test for whether the max/min reported is ±2σ, i.e., whether it is a 95% CI:
+# MaxMatch <- Mean + 2*se 
+# MinMatch <- Mean - 2*se
+ 
+# I can then check if the max/min reported in a Table match the above, and if so I know that the max/min reported is ±2σ.
+ 
+# If not, it may be that they used the se off the minimum as it's further away, so try the below again, but with the minimums SE:
+
+# MaxMatch <- Mean + 2*se 
+# MinMatch <- Mean - 2*se
+ 
+ 
+# I can then check if the max/min reported in a Table match the above, and if so I know that the max/min reported is ±2σ.
+ 
+ 
+# Even if it's not symmetric, this may still be a 95% confidence interval if the mean is at 2 of one of the standard errors from the min or the max, we can see this in action below:
+ 
+ 
+# > Maximum <- 27655.84
+# > Mean <- 11565.60
+# > 
+# > se <- ((Maximum) - (Mean)) / 2
+# > se                                  
+# [1] 8045.12
+# > 
+# > MaxMatch <- Mean + 2*se 
+# > MinMatch <- Mean - 2*se
+# > MaxMatch
+# [1] 27655.84
+# > MinMatch
+# [1] -4524.64
+ 
+# But still, for these values
+ 
+# FN: Value: 11,565.60 Minimum: 7092.16 Maximum: 27,655.84  Distribution: γ: (2.067, 5596.247)
+ 
+# that are not centered on the mean, this still came out the same as the Table using this se <- ((Maximum) - (Mean)) / 2 method. Because looking at the below, the upper interval (the maximum) is further from the mean at a difference of 16090.24, than the lower interval (the minimum) at a difference between it and the mean of 4473.44 (i.e. the maximum is nearly four times further away from the mean that the minimum).
+ 
+ 
+# > Maximum <- 27655.84
+# > Minimum <- 7092.16
+# > Mean <-  11565.60
+  
+# > Maximum - Mean
+# [1] 16090.24
+  
+# > Mean - Minimum
+# [1] 4473.44
+ 
+ 
+# And when we plug the se in for the further away max we get:
+ 
+ 
+# > a.cIntervention
+# [1] 2.066671
+# > b.cIntervention
+# [1] 5596.247
+ 
+# Just the same as the values for FN above.
+# 
+
+# So, this kind of applies to situations where an interval is reported, when you might want to check if it's a 95% confidence interval, and if not, which interval is furthest from the mean.
+
+
+# So, I did this in the papers, by recovering the SE from the paper, and building a max and min that was 2 of these SE's from the mean as follows, and comparing this to the max and min reported in the paper:
+
+
+# Var <- a*b/((a+b)^2*(a+b+1))
+# se<-sqrt(Var)
+
+# MaxMatch <- mean + 2*se 
+# MinMatch <- mean - 2*se
+
+# I found that the times where the interval wasnt like a 95% CI, i.e., the max and min were not 2 SE's either side of the mean away, was the times that my calculated SE and the papers calculated SE's didnt match. When they were close enough to 2 SE's either side, my formulas would calculate an SE that was a closer approximination to what was reported in the paper, but when they were further away than the 2 SE's either side of the mean, the SE's calculated from my formula would also be further away. The takeaway here is probably that, with a 95% CI, I can use my briggsse formula. Where the range isnt a 95% CI, but is pretty centered on the mean value I can use altbriggsse, when the range isnt a 95% CI, and isnt even slightly centered on the mean value then I should consider treating the mean as a point estimate and ignoring the range, to create my own SE which I know I can rely on.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
