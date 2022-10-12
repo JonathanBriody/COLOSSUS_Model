@@ -4415,7 +4415,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 
 # IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
-# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1.
+# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1. If you do, just round it to 0 or 1.
 
 
 # If you have a point estimate, then you can generate the standard error/standard deviation using the method of moments again.
@@ -4518,172 +4518,46 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # [1] 385.9999
 
 
+##### Calculating Beta values when you have a range around your point estimate in the literature:
 
 
-# RANGES NEXT: See if Koen's paper can lead you to ranges for the values he included, check ranges available in your other sources. Look at how I deal with ranges above, if SE is calculated the same way, I imagine ranges are analysed the same way too.
+# Here are my formulas, and if you read further below you can see how I got to these formulas.
 
-# Should I take the furthest range when there is a range present and it's not equal from max to point estimate and min to point estimate?
+# Here's the bottomline takeaway on the Beta formuala. My SE's are typically very close to the SE's that I recover from the published studies. I've seen first hand, that you need big changes to the SE to affect the mean you draw in the PSA. So, what I'll do is apply the briggse or altbriggse as appropriate, and then when I do the PSA I'll check the mean on the parameter drawn from the PSA draws to make sure the parameter is on average the same as the one we started with, I can do this by doing mean() whatever the parameter is, and that will show me the average value.
 
-mean<-   0.650
-Maximum <- mean + 0.20*mean
-Maximum
-Minimum <- mean - 0.20*mean
-Minimum
+# Brigs code to generate the SE for a parameter with a range perfectly centered around the mean (briggsse), and then repeated but for the situations where the range isnt PERFECTLY centered around the mean (altbriggsse), i.e., the min is further away from the mean than the max, or vice versa (even a little):
 
+# briggsse <- ((max)-(mean))/1.96
+# altbriggsse <- (max-min)/(2*1.96)
 
-se <- ((Maximum) - (mean)) / 2
-se  
+## Generating the alpha and beta:
 
-std.error <- se
-alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
-alpha <- mean*alpha.plus.beta ## alpha (a)
-beta <- alpha*(1-mean)/mean ## beta(b)
-#> alpha
-#[1] 34.35
-#> beta
-#[1] 18.49615
+# mean <- Somevaluehere
 
+# std.error <- briggsse OR altbriggsse - as appropriate
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha.plus.beta
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# alpha
+# beta
+# 
+# u_ME       = rbeta(10000, shape1 =  a, shape2 = b)
+# mean(u_ME)
 
+# I could also create alpha and beta using Koen's code, which is a different way of calculating these vales than what Briggs showed me, but typically gives the same alpha and beta, so can be ignored:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
-  u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
-  u_D       = 0,
-  u_AE1 = u_AE1,
-  u_AE2 = u_AE2,
-  u_AE3 = u_AE3,
-
-
-
-
-
-
-
-# Discounting:
-  
-# A uniform distribution is a probability distribution in which every value between an interval from a to b is equally likely to be chosen. https://www.statology.org/uniform-distribution-r/
-  
-# "Generates random values that are evenly spread between min and max bounds" - https://docs.oracle.com/cd/E57185_01/CYBUG/apcs03s03s01.html 
-
-# Devin Incerti talks about the Uniform distribution here: "The uniform distribution is useful when there is little data available to estimate a parameter and determine its distribution. It is always preferable to place uncertainty on a parameter even when there is little evidence for it than to assume a fixed value (which gives a false sense of precision). Sampling from the uniform distribution is straightforward." https://devinincerti.com/2018/02/10/psa.html  
-  
-#Reading the literature, it seems like studies pick a lower bound and upper bound for the discount rate, such that the average (mean of the discount rate) will reach the point estimate they started with: 
-  
-  # A Trial-Based Assessment of the Cost-Utility of Bevacizumab and Chemotherapy versus Chemotherapy Alone for Advanced Non-Small Cell Lung Cancer https://sci-hub.ru/10.1016/j.jval.2011.04.004 
-  
-# file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Paper%20Materials%20and%20Methods/Hamdy%20Elsisi%20et%20al_2019_Cost-effectiveness%20of%20sorafenib%20versus%20best%20supportive%20care%20in%20advanced.pdf  
-    
-# Koen's excel file does this too: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen
-  
-# as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
-
-
-#  d_c       = 0.04,
-#  d_e       = 0.04,
-  
-  d_c    = runif(n_runs,  min = 0, max = 0.08),
-  d_e    = runif(n_runs,  min = 0, max = 0.08),
-
-  
-  
-  n_cycle   = 60,
-  t_cycle   = 0.25
-)
-
-# Inspect the data.frame to see what it looks like
-head(df_PA_input)
-
-
-
-# Save the dataframe
-
-#save(df_PA_input, file = "df_PA_input.rda")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Histogram of parameters
-
-
-# I believe they make a histogram of parameters to show the distribution of parameters, and thus indicate which distribution they should be using in their sensitivity analysis. Just like slide 18 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\A212ProbabilisticDistributions-210604-154.pdf which is also a HISTOGRAM OF RANDOM DRAWS FOR RELATIVE RISK and the related notes in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt from [SLIDE 18] onward.
-
-# i.e., "And that's exactly what Andrews done here showing the histogram of random draws from the relative risk parameter, and you see that, in fact, in this case, with quite a lot of information [I guess the nine trials with a total of 2,541 patients pooled], we wouldn't have been that far off if we'd assumed a normally distributed relative risk [i.e. our distribution looks very similar to a normal distribution]. But you can probably detect a very slight skew to that distribution, which reveals it actually as a log normally distributed relative risk."
-
-
-ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
-  facet_wrap(~Parameter, scales = "free") +
-  geom_histogram(aes(y = ..density..)) +
-  theme_bw(base_size = 16) + 
-  theme(axis.text = element_text(size=8))
-
-# Initialize dataframes with PSA output 
-# Dataframe of costs
-df_c <- as.data.frame(matrix(0, 
-                             nrow = n_sim,
-                             ncol = n_str))
-colnames(df_c) <- v_names_str
-# Dataframe of effectiveness
-df_e <- as.data.frame(matrix(0, 
-                             nrow = n_sim,
-                             ncol = n_str))
-colnames(df_e) <- v_names_str
-
-
-
-
-# So I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
-
-
-```
-
-I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
-
-<https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove>
-
-[https://www.mail-archive.com/rcpp-devel\@lists.r-forge.r-project.org/msg10226.html](https://www.mail-archive.com/rcpp-devel@lists.r-forge.r-project.org/msg10226.html){.uri}
-
-<https://statisticsglobe.com/warning-cannot-remove-prior-installation-in-r>
-
-The above approach worked, I manually deleted the package, installed darthtools from github, chose option 4, i.e. replace rccp and then I was done.
-
-```{r}
+# newalpha =(((mean)^2)*(1-(mean))/((se)^2)-(mean))
+# newbeta =((1-(mean))*(((1-(mean))*(mean))/((se)^2)-1))
+# newalpha
+# newbeta
 
 
 # Calculating a Beta distribution when you have a range around this in the literature you are reviewing:
 
 # All of the below applies to probabilities as well as utilities, as both are for beta distributions.
 
-
-# To determine the best way to do this, I open all the sources I mention just above the previous code chunk which include a range, se, alpha, beta, etc., and then I apply all the methods I have and see which is best. I'll also be heavily guided by the suggestions Andy made, as he has being doing this work for 2 decades, if he says that a certain way is correct, I'll take him at his word. Lesley also made some suggestions.
+# To determine the best way to do this, I open all the sources I mention just above which include a range, se, alpha, beta, etc., and then I apply all the methods I have and see which is best. I'll also be heavily guided by the suggestions Andy made, as he has being doing this work for 2 decades, if he says that a certain way is correct, I'll take him at his word. Lesley also made some suggestions.
 
 # Once you have an alpha and a beta, you can work your way back to a SE:
 
@@ -4693,72 +4567,70 @@ The above approach worked, I manually deleted the package, installed darthtools 
 # and using this here: Jenks, Michelle, et al. "Tegaderm CHG IV securement dressing for central venous and arterial catheter insertion sites: a NICE medical technology guidance." Applied Health Economics and Health Policy 14.2 (2016): 135-149. https://link.springer.com/content/pdf/10.1007/s40258-015-0202-5.pdf I get 0.002096431 or 0.0021, so it looks like they used the mean as their se.
 
 
-
 # I demonstrate this in Table 1, row 22,  of: Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (2012): 805-816. https://www.nature.com/articles/bjc2011580.pdf also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\bjc2011580.pdf
 
-# CTC sensitivity for CRC Basecase(85%) range(75 – 95%) Beta (50.00, 8.82)
+# CTC sensitivity for CRC Basecase(85%) range(75 – 95%) Beta (Alpha = 50.00, Beta = 8.82)
 
-a<- 50.00
-b<- 8.82
-Var <-  a * b / ( (a + b)^2 * (a + b + 1) )
-se <- sqrt(Var)
-se
+# a<- 50.00
+# b<- 8.82
+# Var <-  a * b / ( (a + b)^2 * (a + b + 1) )
+# se <- sqrt(Var)
+# se
 # 0.04616056
 
 # Here's a way to get alpha and beta with just the variance and mean: https://devinincerti.com/2018/02/10/psa.html
 
 # If I wanted to turn my own SE into the variance, I can multiply it by itself, i.e. se*se per: https://r-lang.com/how-to-calculate-square-of-all-values-in-r-vector/#:~:text=To%20calculate%20square%20in%20R,square%20of%20the%20input%20value.
 
-mean <- 0.85
+# mean <- 0.85
 
-std.error <- se
-alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
-alpha.plus.beta
-alpha <- mean*alpha.plus.beta ## alpha (a)
-beta <- alpha*(1-mean)/mean ## beta(b)
-alpha
+# std.error <- se
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha.plus.beta
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# alpha
 # 50.01124
-beta
+# beta
 # 8.825513
 
 
-
-myse <- ((0.95) - (0.85)) / 2
-myse
+# myse <- ((0.95) - (0.85)) / 2
+# myse
 # 0.05
+
+###### Below, I work through the differences that my SE formula lead to, and come to the realisation that an alternative formula informed by Briggs may be better: ######
 
 # The problem is, using this se changes my alpha and beta values, as follows:
 
-std.error <- myse
-alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
-alpha.plus.beta
-alpha <- mean*alpha.plus.beta ## alpha (a)
-beta <- alpha*(1-mean)/mean ## beta(b)
-alpha
+# std.error <- myse
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha.plus.beta
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# alpha
 # 42.5
-beta
+# beta
 # 7.5
-
 
 # The differences between my results on their tables, and their results, may come down to rounding.
 
-
 # When I generate the SE from the values reported in the paper, I don't have as many decimal points for my SE, i.e., it rounds up to 0.05 from 0.04616056, as below:
 
-myse <- ((0.95) - (0.85)) / 2
-myse
+# myse <- ((0.95) - (0.85)) / 2
+# myse
 # 0.05
 
 # The problem is, using this rounded se changes my alpha and beta values, as follows:
 
-std.error <- myse
-alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
-alpha.plus.beta
-alpha <- mean*alpha.plus.beta ## alpha (a)
-beta <- alpha*(1-mean)/mean ## beta(b)
-alpha
+# std.error <- myse
+# alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1 ## alpha + beta (ab)
+# alpha.plus.beta
+# alpha <- mean*alpha.plus.beta ## alpha (a)
+# beta <- alpha*(1-mean)/mean ## beta(b)
+# alpha
 # 42.5
-beta
+# beta
 # 7.5
 
 # Which explains the differences in the alpha and beta I generate from the table.
@@ -4773,12 +4645,9 @@ beta
 
 # But where there is a range, instead of just a point estimate value for utility, I use the upper end of the range for the maximum, or the lower end of the range for the minimum when generating the SE.
 
-# I've checked this for all the beta values in the Table. Only rows 1, 5, 20, 34 (out of the 17 beta rows) give results that are too different to be accounted for by rounding. To make sure I am 100% correct about this, I've emailed Lesley to ask how she got these distributions, as she is one of the co-authors on the paper.
-
+# I've checked this for all the beta values in the Table. Only rows 1, 5, 20, 34 (out of the 17 beta rows) give results that are too different to be accounted for by rounding. To make sure I am 100% correct about this, I've emailed Lesley to ask how she got these distributions, as she is one of the co-authors on the paper. Lesley didnt do the analysis for this paper, and doesnt remember who did...
 
 # When the SE is only different by rounding, the alpha and beta that comes out of the formula after I've worked out the SE for their beta vars from the alpha and beta and plugged it into the formula matches the alpha and beta they started with, showing that the way in which I generate the SE is correct, because my se matches the se they use as below:
-
-
 
 # My standard error matches theirs (although involves rounding) and I get the same alpha and beta by including theirs or mine (or, at least I would without rounding) and gives me the same rbeta mean as they started out with. Subsequently, my thought process is this: I can take the approach of generating the SE from the upper range - mean or the mean - the lower range (depending on which is further away), and then plug this into my formula to get an appropriate alpha and beta and use this to make random draws for the mean in the rbeta. I won't produce an alpha and beta that matches what they present in the table, but the SE I recover from their alpha and beta, creates an unmatched version of the alpha and beta that matches the alpha and beta I create. 
 
@@ -4816,10 +4685,6 @@ beta
 # [1] 50.01124
 # newbeta
 # [1] 8.825513
-
-
-
-
 
 
 # Spackman, D. E., & Veenstra, D. L. (2008). A cost-effectiveness analysis of currently approved treatments for HBeAg-positive chronic hepatitis B. Pharmacoeconomics, 26(11), 937-949. http://download.lww.com/wolterskluwer_vitalstream_com/permalink/pcz/a/00019053-920082611-00002.pdf Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\00019053-920082611-00002.pdf
@@ -4879,14 +4744,7 @@ beta
 # [1] 0.02007
 
 
-
-
-
-
-
-
-
-# I create a vector with 1 million entries drawing randomly from between a minimum and a maximum valuefor the mean and max values featured in the paper:
+# I create a vector with 1 million entries drawing randomly from between a minimum and a maximum value for the mean and max values featured in the paper:
 
 
 # possiblemeans <- runif(1000000, 0.012499999999999999, 0.0134999999999999999)
@@ -4894,19 +4752,15 @@ beta
 
 # I create an SE that's made up of all these possible values
 
-mypossibleses <- ((max)-(mean))/2
+# mypossibleses <- ((max)-(mean))/2
 # mypossibleses <- ((mean)-(min))/2
-mypossibleses
-
+# mypossibleses
 
 # The below tells me all the cells that have the included value :
 
-grep(se, x1)
+# grep(se, x1)
 
 # So, basically, what I am doing is taking all the possible numbers that could make up the max and the mean, putting them into my formula, and seeing if any permutation will give me the SE they report in their paper. If it does, this simply means that their SE and my SE differ because of the number of decimal places they have.
-
-
-
 
 # a <- 8.16870263
 # b <-  54.66747 
@@ -4957,7 +4811,7 @@ grep(se, x1)
 # se
 # mypossiblesesdf <- data.frame(mypossibleses, tq)
 
-# I ctrl f and searched 0.04209 and got a few hits, but when I went to look at these with the all the digits being displaye none of them matched exactly the long version of their SE, i.e. 0.0420918376330846
+# I ctrl f and searched 0.04209 and got a few hits, but when I went to look at these with the all the digits being displayed none of them matched exactly the long version of their SE, i.e. 0.0420918376330846
 
 # > print(mypossiblesesdf[748327,], digits = 22)
 
@@ -4968,6 +4822,8 @@ grep(se, x1)
 
 
 # The solution:
+
+# [The below fact that there is a better formula may imply that the reason none of the million draws above match the SE recovered from the paper down to the decimal point is because I was using the wrong formula to calculte the SE, and maybe it would have matched given the correct formula from Briggs below]. Plus, even if they report 3 decimal points in the paper, you never know if they did their calculations with even more, say 5 decimal points, and as we saw above, even a few more decimal points can change the SE slightly, and thus the alpha plus beta and then the alpha and beta.
 
 # I take the code provided by Briggs, provided by Devin, and my own assumed code, and I apply it to the Packman paper. Basically, I recover the SE's for this paper by applying the SE recovery code to the alpha and beta they report, then I compare all the different methods I have to get the SE myself to see which one comes out right most of the time.
 
@@ -4987,7 +4843,7 @@ grep(se, x1)
 
 # Recover the papers SE:
 
-# Just a quick aside that for the values in Table A4, I have to divide these by 100. They start off as just percents, so 10.0 (7.0, 13.0) to reflect 10% with a range of 7 to 13 percent. But, if I want have them the same as the percentages I have throughout the model, i.e., 0 is 0% and 1 is 100%, and 0.5 is 50%, then I'll need to divide these by 100. This goes equally for any percentages I find in the literature reported as just 10% say, and want to include, they'll need to be divided by 100 to put them in the same units as the 0-1 percentages range I use throughout my model. And the fact that the alpha and beta calculated in this report exactly match the alpha and beta I calculate when I've made this /100) adjustment means that, regardless of the fact that the authors list the percentages as 10.0, 7.0 and 13.0 in Table A4, when they actually went to analyse these, they also applied the /100) adjustment.
+# Just a quick aside that for the values in Table A4, I have to divide these by 100. They start off as just percents, so 10.0 (7.0, 13.0) to reflect 10% with a range of 7 to 13 percent. But, if I want them to be the same as the percentages I have throughout the model, i.e., 0 is 0% and 1 is 100%, and 0.5 is 50%, then I'll need to divide these by 100. This goes equally for any percentages I find in the literature reported as just 10% say, and want to include, they'll need to be divided by 100 to put them in the same units as the 0-1 percentages range I use throughout my model. And the fact that the alpha and beta calculated in this report exactly match the alpha and beta I calculate when I've made this /100) adjustment means that, regardless of the fact that the authors list the percentages as 10.0, 7.0 and 13.0 in Table A4, when they actually went to analyse these, they also applied the /100) adjustment.
 
 # Code to recover the SE's:
 
@@ -5007,7 +4863,7 @@ grep(se, x1)
 # briggsse <- ((max)-(mean))/1.96
 # briggssemin <- ((mean)-(min))/1.96
 
-# Here are the results, for the paper, there are:
+# Here are the results, for the paper:
 
 # myse: ------11-1--10-1--------00-
 # devinse: -------------11-1------
@@ -5021,12 +4877,11 @@ grep(se, x1)
 # logsemin2
 # tqse:
 
-# Obviously, briggsse is the most correct, most of the time (in this Table 1 represents an exact match, and - represents a close but not exact match, when something was wrong I either didnt include it, or included it as a 0 when it was really, really wrong). Only 12.82% of the time it wrong. So, 87.18% of the time it was correct.
-
+# Obviously, briggsse is the most correct, most of the time (in this Table 1 represents an exact match, and - represents a close but not exact match, when something was wrong I either didnt include it, or included it as a 0 when it was really, really wrong). Only 12.82% of the time it was wrong. So, 87.18% of the time it was correct.
 
 # When the range isnt PERFECTLY centered around the mean, i.e., the min is further away from the mean than the max, it looks like you use altbriggsse to incorporate this wider range, than you would see taking max-mean, what's interesting is that mean-min isnt enough to replicate the results in the study, it has to be max-min (although the fact that mean-min is divided by /1.96 and max-min is divided by /2*1.96 also contributes I'm sure). Devinse does this also, but I don't like it as much because the qnorm(.975) seems a bit less clear on what it's doing, even though > 2 * qnorm(.975) [1] 3.919928 is more or less the exact same as > 2*1.96 [1] 3.92. Nonetheless, Devins SE's are always slightly different to the actual SE when compared to briggsse, which has made me prefer briggsse.
 
-# So, the recipe is simple, use briggsse when the range is centered around the base case value, or point estimate, or mean, or however they describe it. But, When the range isnt PERFECTLY centered around the mean, i.e., the min is further away from the mean than the max, or vice versa, it looks like you use altbriggsse to incorporate this wider range. I've reviewed studies where Beta values refer to probabilities, and studies where Beta values refer to utilities, and the above still holds regardless. 
+# So, the recipe is simple, use briggsse when the range is centered around the base case value, or point estimate, or mean, or however they describe it. But, When the range isnt PERFECTLY centered around the mean, i.e., the min is further away from the mean than the max, or vice versa (even a little), it looks like you use altbriggsse to incorporate this wider range. I've reviewed studies where Beta values refer to probabilities, and studies where Beta values refer to utilities, and the above still holds regardless. 
 
 # altbriggsse <- (max-min)/(2*1.96)
 
@@ -5237,8 +5092,118 @@ grep(se, x1)
 
 # So, the whole problems comes down to the manner in which I am generating the SE from the mean and range.
 
+  u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+  u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
+  u_D       = 0,
+  u_AE1     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+  u_AE2     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+  u_AE3     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
+
+
+
+
+
+
+
+# Discounting:
+  
+# A uniform distribution is a probability distribution in which every value between an interval from a to b is equally likely to be chosen. https://www.statology.org/uniform-distribution-r/
+  
+# "Generates random values that are evenly spread between min and max bounds" - https://docs.oracle.com/cd/E57185_01/CYBUG/apcs03s03s01.html 
+
+# Devin Incerti talks about the Uniform distribution here: "The uniform distribution is useful when there is little data available to estimate a parameter and determine its distribution. It is always preferable to place uncertainty on a parameter even when there is little evidence for it than to assume a fixed value (which gives a false sense of precision). Sampling from the uniform distribution is straightforward." https://devinincerti.com/2018/02/10/psa.html  
+  
+#Reading the literature, it seems like studies pick a lower bound and upper bound for the discount rate, such that the average (mean of the discount rate) will reach the point estimate they started with: 
+  
+  # A Trial-Based Assessment of the Cost-Utility of Bevacizumab and Chemotherapy versus Chemotherapy Alone for Advanced Non-Small Cell Lung Cancer https://sci-hub.ru/10.1016/j.jval.2011.04.004 
+  
+# file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Paper%20Materials%20and%20Methods/Hamdy%20Elsisi%20et%20al_2019_Cost-effectiveness%20of%20sorafenib%20versus%20best%20supportive%20care%20in%20advanced.pdf  
+    
+# Koen's excel file does this too: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen
+  
+# as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
+
+
+#  d_c       = 0.04,
+#  d_e       = 0.04,
+  
+  d_c    = runif(n_runs,  min = 0, max = 0.08),
+  d_e    = runif(n_runs,  min = 0, max = 0.08),
+
+  
+  
+  n_cycle   = 60,
+  t_cycle   = 0.25
+)
+
+# Inspect the data.frame to see what it looks like
+head(df_PA_input)
+
+
+
+# Save the dataframe
+
+#save(df_PA_input, file = "df_PA_input.rda")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Histogram of parameters
+
+
+# I believe they make a histogram of parameters to show the distribution of parameters, and thus indicate which distribution they should be using in their sensitivity analysis. Just like slide 18 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\A212ProbabilisticDistributions-210604-154.pdf which is also a HISTOGRAM OF RANDOM DRAWS FOR RELATIVE RISK and the related notes in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt from [SLIDE 18] onward.
+
+# i.e., "And that's exactly what Andrews done here showing the histogram of random draws from the relative risk parameter, and you see that, in fact, in this case, with quite a lot of information [I guess the nine trials with a total of 2,541 patients pooled], we wouldn't have been that far off if we'd assumed a normally distributed relative risk [i.e. our distribution looks very similar to a normal distribution]. But you can probably detect a very slight skew to that distribution, which reveals it actually as a log normally distributed relative risk."
+
+
+ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
+  facet_wrap(~Parameter, scales = "free") +
+  geom_histogram(aes(y = ..density..)) +
+  theme_bw(base_size = 16) + 
+  theme(axis.text = element_text(size=8))
+
+# Initialize dataframes with PSA output 
+# Dataframe of costs
+df_c <- as.data.frame(matrix(0, 
+                             nrow = n_sim,
+                             ncol = n_str))
+colnames(df_c) <- v_names_str
+# Dataframe of effectiveness
+df_e <- as.data.frame(matrix(0, 
+                             nrow = n_sim,
+                             ncol = n_str))
+colnames(df_e) <- v_names_str
+
+
+
+
+# So I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
+
 
 ```
+
+I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
+
+<https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove>
+
+[https://www.mail-archive.com/rcpp-devel\@lists.r-forge.r-project.org/msg10226.html](https://www.mail-archive.com/rcpp-devel@lists.r-forge.r-project.org/msg10226.html){.uri}
+
+<https://statisticsglobe.com/warning-cannot-remove-prior-installation-in-r>
+
+The above approach worked, I manually deleted the package, installed darthtools from github, chose option 4, i.e. replace rccp and then I was done.
 
 ## 09.1 Conduct probabilistic sensitivity analysis
 
