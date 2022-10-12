@@ -3995,7 +3995,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 #### To generate random draws for the probabilities:
 
 # IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
-# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1.
+# When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1. If you do, then change it to be 0 or 1, as appropriate, i.e., rather than 1.02, make it 1.
 
 
 # When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
@@ -4101,7 +4101,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # b4
 # [1] 0.1329533
 
-# If I don't describe generating random draws when the probabilities don't have an SE above, I'm sure the Goldstein paper will let me figure out how to do this in the same way that I figured out how to do this for the utility beta distributions below.
+# I don't describe generating random draws when the probabilities don't have an SE above, however, I can do this in the same way that I figured out how to do this for the utility beta distributions below. If they are reported with a range, he section on utility below also advises how to handle this.
 
   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
@@ -4118,8 +4118,6 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
   p_FA1_SoC = rbeta(n_runs, shape1 = , shape2 = ),
   p_FA2_SoC = rbeta(n_runs, shape1 = , shape2 = ),
   p_FA3_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-
-
 
 
 # Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
@@ -4405,9 +4403,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
   # Utility vectors with length n_runs 
 
-# Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H. (2012). Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy. British journal of cancer, 106(5), 805-816. https://www.nature.com/articles/bjc2011580.pdf
-
-# There may also be helpful books here: C:\Users\Jonathan\Dropbox\PhD\HTA\Markov Modelling\books
+# There may be helpful books here: C:\Users\Jonathan\Dropbox\PhD\HTA\Markov Modelling\books
 
 
 
@@ -4445,11 +4441,11 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # I double check the manner in which I calculate the SE with the excel file from Koen's paper: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Matching the model with the evidence Koen both are saved here, but the filepath may be too long to access them without moving them to downloads or desktop.
 
-# For his paper, I update the Maximum/Minimum part by taking the max as 50% bigger than the mean. When I do this, I get the exact same SE as he reports in the excel file, I know this because in his cells creating the alpha and beta values for utility on sheet 2 of his excel file, he includes 2 numbers, one is the mean reported on sheet 1 for the parameter whose utility he is taking random draws from, and then the other number is an EXACT match for the SE number I calculate, and must therefore be the SE number he calculates. Especially because he then applies a formula to this mean and SE to generate the alpha and the beta. You can see this in my model code below, where the mean and SE I report in my own analysis turn up in his alpha and beta formulas.
+# For his paper, I update the Maximum/Minimum part by taking the max as 50% bigger than the mean. When I do this, I get the exact same SE as he reports in the excel file, I know this because in his cells creating the alpha and beta values for utility or probability on sheet 2 of his excel file, he includes 2 numbers, one is the mean reported on sheet 1 for the parameter whose utility or probability he is taking random draws from, and then the other number is an EXACT match for the SE number I calculate, and must therefore be the SE number he calculates. Especially because he then applies a formula to this mean and SE to generate the alpha and the beta. You can see this in my model code below, where the mean and SE I report in my own analysis turn up in his alpha and beta formulas.
 
 # Although he uses a different method to calculate the alpha and the beta, these typically work out as very close to the values calculated for the alpha and beta using my method, which Briggs told me to use once I had the SE and mean, so I think Koen just has a deeper understanding of mathematics and is using this to apply a different formula for the generation of alpha and beta from the SE and mean.
 
-# The takeaway here is that my method for calculating SE is correct, as proven by Koen's excel file, and once I have the SE and the mean (mean is just the point estimate value I started with for this parameter) Andrew Briggs told me what to do to calculate the alpha and the beta, so I now can be confident in the manner in which I take the PSA for utility. 
+# The takeaway here is that my method for calculating SE is correct, as proven by Koen's excel file, and once I have the SE and the mean (mean is just the point estimate value I started with for this parameter) Andrew Briggs told me what to do to calculate the alpha and the beta, so I now can be confident in the manner in which I take the PSA for utility or probability when it comes to beta distributions. 
  
 # mean<-   0.042178846
 # Maximum <- mean + 0.50*mean
@@ -4517,8 +4513,9 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # > manualbeta
 # [1] 385.9999
 
+## RANGE:
 
-##### Calculating Beta values when you have a range around your point estimate in the literature:
+##### Calculating Beta values when you have a range around your point estimate in the literature (THIS CAN BE APPLIED TO PROBABILITY OR UTILITY): 
 
 
 # Here are my formulas, and if you read further below you can see how I got to these formulas.
@@ -5091,6 +5088,10 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 
 # So, the whole problems comes down to the manner in which I am generating the SE from the mean and range.
+
+
+######################## SECTION ON INCORRECT SOLUTIONS ENDS ###################
+
 
   u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
