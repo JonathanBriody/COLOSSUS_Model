@@ -4683,6 +4683,10 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # newbeta
 # [1] 8.825513
 
+# Gianluca Baio emailed me this code for calculating alpha and beta, which matches the above:
+
+# a <- m * ((m * (1 - m)/s^2) - 1)
+# b <- (1 - m) * ((m * (1 - m)/s^2) - 1)
 
 # Spackman, D. E., & Veenstra, D. L. (2008). A cost-effectiveness analysis of currently approved treatments for HBeAg-positive chronic hepatitis B. Pharmacoeconomics, 26(11), 937-949. http://download.lww.com/wolterskluwer_vitalstream_com/permalink/pcz/a/00019053-920082611-00002.pdf Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\00019053-920082611-00002.pdf
 
@@ -4921,7 +4925,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # For this, briggsse is always right, while the other SE's are not.   
 
 
-# Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (2012): 805-816.
+# Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (20book12): 805-816.
 
 # For this, I typically get approximations of the SE from the paper.
 
@@ -4953,6 +4957,11 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Here's the takeaway on the Beta formuala. My SE's are typically very close to the SE's that I recover from the published studies. I've seen first hand, that you need big changes to the SE to affect the mean you draw in the PSA. So, what I'll do is apply the briggse or altbriggse as appropriate, and then when I do the PSA check the mean on the parameter drawn from the PSA draws to make sure the parameter is on average the same as the one we started with, I can do this by doing mean() whatever the parameter is, and that will show me the average value.
 
+# The following paper shows that my methodology above can be applied to papers with 2.5/97.5% percentiles also: A dynamic Bayesian Markov model for health economic evaluations of interventions in infectious disease https://sci-hub.ru/10.1186/s12874-018-0541-7 also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\haeussler2018.pdf
+
+# # Lan Gao of "Cost-Effectiveness of Tenecteplase Before Thrombectomy for Ischemic Stroke" didnt use a range, instead he assumed SD=0.1*mean (here the terms SE and SD are being used to refer to the same thing, Gianluca calss SE by SD also). 
+
+#
 
 ############### Below are some incorrect solutions I came up with #############
 
