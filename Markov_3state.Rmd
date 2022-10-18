@@ -4693,6 +4693,8 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # a <- m * ((m * (1 - m)/s^2) - 1)
 # b <- (1 - m) * ((m * (1 - m)/s^2) - 1)
 
+# According to Brett (McQueen, Robert <ROBERT.MCQUEEN@CUANSCHUTZ.EDU> in email): The beta distribution has two shape parameters calculated as alpha = ((mean^2)*(1-mean)/(error)^2)-mean and beta = alpha*((1-mean)/mean).
+
 # Spackman, D. E., & Veenstra, D. L. (2008). A cost-effectiveness analysis of currently approved treatments for HBeAg-positive chronic hepatitis B. Pharmacoeconomics, 26(11), 937-949. http://download.lww.com/wolterskluwer_vitalstream_com/permalink/pcz/a/00019053-920082611-00002.pdf Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\00019053-920082611-00002.pdf
 
 
@@ -5323,52 +5325,30 @@ l_PA <- make_psa_obj(cost          = df_c,
 
 ```{r}
 
-
-# First we can consider the mean outcome estimates, that is, we compute the expected costs and effects for each strategy from the PSA:
+# First we take the mean outcome estimates, that is, we summarise the expected costs and effects for each strategy from the PSA:
 (df_out_ce_PA <- summary(l_PA))
 
 
-# Compute expected costs and effects for each strategy from the PSA
-df_out_ce_psa <- summary(l_psa)
-
-
-
-
-
-
-
 # Calculate incremental cost-effectiveness ratios (ICERs)
-df_cea_psa <- calculate_icers(cost       = df_out_ce_psa$meanCost, 
-                              effect     = df_out_ce_psa$meanEffect,
-                              strategies = df_out_ce_psa$Strategy)
-df_cea_psa
 
-# Save CEA table with ICERs
+# Then we calculate the ICERs from this df_out_ce_PA (summary must be a dampack function doing things under the hood to create a selectable ($) meanCost, meanEffect and Strategy parameter in df_out_ce_PA):
+(df_cea_PA <- calculate_icers(cost       = df_out_ce_PA$meanCost, 
+                              effect     = df_out_ce_PA$meanEffect,
+                              strategies = df_out_ce_PA$Strategy))
+
+# We can view the ICER results from the PSA here:
+df_cea_PA
+
+# If we wanted to save the CEA (or leauge) table with ICERs, we would do this as follows:
 # As .RData
-save(df_cea_psa, 
-     file = "markov_3state_probabilistic_CEA_results.RData")
+# save(df_cea_pa, 
+#     file = "markov_3state_probabilistic_CEA_results.RData")
 # As .csv
-write.csv(df_cea_psa, 
-          file = "markov_3state_probabilistic_CEA_results.csv")
-
-
-
-
-
-
-
-
+# write.csv(df_cea_pa, 
+#          file = "markov_3state_probabilistic_CEA_results.csv")
 ```
 
-## 0
-
-Vector with willingness-to-pay (WTP) thresholds.
-
-```{r}
-v_wtp <- seq(0, 30000, by = 1000)
-```
-
-## 09.3.1 Cost-Effectiveness Scatter plot
+## 09.3.2 Cost-Effectiveness Scatter plot
 
 3.2.
 Cost-effectiveness analysis The cost-effectiveness outcomes obtained from the DT-STM and the DES model are presented in the incremental cost-effectiveness planes of Fig.
@@ -5389,13 +5369,11 @@ British journal of cancer, 106(5), 805-816.
 <https://www.nature.com/articles/bjc2011580.pdf>
 
 ```{r}
-plot(l_psa, xlim = c(9.5, 22.5))
-```
+# Incremental cost-effectiveness plane
+plot(l_PA)
 
-## 09.4.1 Plot cost-effectiveness frontier
-
-```{r}
-plot(df_cea_psa)
+# plot(l_PA, xlim = c(9.5, 22.5))
+# In the DARTH package R code they use the additional bits above, I can see how they look in my own model, and if I'd like to use them.
 ```
 
 ## 09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
@@ -5410,22 +5388,33 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 ```{r}
 
+# Cost-effectiveness acceptability curve (CEAC):
+
+# We first generate a vector of willingness to pay values (thresholds) to define for which values the CEAC is made:
+v_wtp <- seq(0, 50000, by = 100)
+# This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 50,000 euro, increasing by 100 euro each time, so start with 0 euro, go to 100 euro, go to 200 euro, and so on until you hit 50,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 30000, by = 1000)
+CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 
 
+# The below provides details on the regions of highest probability of cost-effectiveness for each strategy
+summary(CEAC_obj)
 
-ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
-# Regions of highest probability of cost-effectiveness for each strategy
-summary(ceac_obj)
-# CEAC & CEAF plot
-plot(ceac_obj)
+# CEAC and cost-effectiveness acceptability frontier (CEAF) plot
+plot(CEAC_obj)
 ```
 
-## 09.4.3 Expected Loss Curves (ELCs)
+## 09.4.3 Plot cost-effectiveness frontier
+
+```{r}
+plot(df_cea_PA)
+```
+
+## 09.4.4 Expected Loss Curves (ELCs)
 
 The expected loss is the the quantification of the foregone benefits when choosing a suboptimal strategy given current evidence.
 
 ```{r}
-elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_psa)
+elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_PA)
 elc_obj
 # ELC plot
 plot(elc_obj, log_y = FALSE)
