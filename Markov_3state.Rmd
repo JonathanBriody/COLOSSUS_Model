@@ -5299,8 +5299,6 @@ for(i_run in 1:n_runs){
 ## 09.2 Create PSA object for dampack
 
 ```{r}
-## 5.3 Visualizing the probabilistic analysis results ----
-
 # Dampack has a number of functions to summarise and visualise the results of a probabilistic sensitivity analysis. However, the data needs to be in a specific structure before we can use those functions. 
 
 # The 'dampack' package contains multiple useful functions that summarize and visualize the results of a
@@ -5320,6 +5318,49 @@ l_PA <- make_psa_obj(cost          = df_c,
 # save(df_PA_input, df_c, df_e, v_names_strats, n_str, l_PA,
 #     file = "markov_3state_PSA_dataset.RData")
 ```
+
+## 09.3.1 Conduct CEA with probabilistic output
+
+```{r}
+
+
+# First we can consider the mean outcome estimates, that is, we compute the expected costs and effects for each strategy from the PSA:
+(df_out_ce_PA <- summary(l_PA))
+
+
+# Compute expected costs and effects for each strategy from the PSA
+df_out_ce_psa <- summary(l_psa)
+
+
+
+
+
+
+
+# Calculate incremental cost-effectiveness ratios (ICERs)
+df_cea_psa <- calculate_icers(cost       = df_out_ce_psa$meanCost, 
+                              effect     = df_out_ce_psa$meanEffect,
+                              strategies = df_out_ce_psa$Strategy)
+df_cea_psa
+
+# Save CEA table with ICERs
+# As .RData
+save(df_cea_psa, 
+     file = "markov_3state_probabilistic_CEA_results.RData")
+# As .csv
+write.csv(df_cea_psa, 
+          file = "markov_3state_probabilistic_CEA_results.csv")
+
+
+
+
+
+
+
+
+```
+
+## 0
 
 Vector with willingness-to-pay (WTP) thresholds.
 
@@ -5349,27 +5390,6 @@ British journal of cancer, 106(5), 805-816.
 
 ```{r}
 plot(l_psa, xlim = c(9.5, 22.5))
-```
-
-## 09.4 Conduct CEA with probabilistic output
-
-```{r}
-# Compute expected costs and effects for each strategy from the PSA
-df_out_ce_psa <- summary(l_psa)
-
-# Calculate incremental cost-effectiveness ratios (ICERs)
-df_cea_psa <- calculate_icers(cost       = df_out_ce_psa$meanCost, 
-                              effect     = df_out_ce_psa$meanEffect,
-                              strategies = df_out_ce_psa$Strategy)
-df_cea_psa
-
-# Save CEA table with ICERs
-# As .RData
-save(df_cea_psa, 
-     file = "markov_3state_probabilistic_CEA_results.RData")
-# As .csv
-write.csv(df_cea_psa, 
-          file = "markov_3state_probabilistic_CEA_results.csv")
 ```
 
 ## 09.4.1 Plot cost-effectiveness frontier
