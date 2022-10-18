@@ -105,7 +105,7 @@ JEL CLASSIFICATION CODES
 
 I19, I1, I, I11, I1, I,
 
-[*Possible Journal Homes:*]{.ul}
+[*Possible Journal Homes:*]{.underline}
 
 Value in Health: BEST POSSIBLE HOME, HIGHEST RATED JOURNAL, FOCUSED ON CEA, ETC.,
 
@@ -221,7 +221,7 @@ To reflect that transitions between states may occur at any point within each cy
 > [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
 > All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
 > After treatment discontinuation due to progession, best supportive care (BSC) was modeled.
-> \*\*--> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
+> \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
 >
 > Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
 > (2021).
@@ -631,13 +631,13 @@ coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
 
-[**I need to figure out:**]{.ul}
+[**I need to figure out:**]{.underline}
 
 If I'm building the R code to be just standard of care versus experimental care I need to get rid of the treatment A - Treatment B stuff.
 
 m_M\_Exp
 
-[**How to extrapolate the parametric models beyond the KM curve**]{.ul}
+[**How to extrapolate the parametric models beyond the KM curve**]{.underline}
 
 1 How to deal with time in parametric survival analysis, that is, when I digitise for a certain period of time, how do I convert it to the time period I want to look at in my own analysis?
 [there may be a clue to this by how they handle time here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\Parametric Survival Analysis\\flexsurv\\THE FLEXSURV EXAMPLE CODE EXPLAINED.txt OS_TimeYears\<-AVAL\*(1/12) it looks like they wanted overal survival time in years, and so converted AVAL by 1/12]
@@ -647,7 +647,7 @@ m_M\_Exp
 3 What does the flexsurvreg code mean?
 
 Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this.
-Because this R code specificaly has: "# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
+Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
 
 > Read the below in tangent with:
 >
@@ -694,11 +694,11 @@ Because this R code specificaly has: "# 2. SURVIVAL ANALYSIS survival analysis o
 
 > **All done below:**
 >
-> [*"Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445. C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf*]{.ul}
+> [*"Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445. C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf*]{.underline}
 >
-> [*"Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)*]{.ul}
+> [*"Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)*]{.underline}
 >
-> [*Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.*]{.ul}
+> [*Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.*]{.underline}
 
 #### Utility Estimates
 
@@ -744,7 +744,7 @@ The duration-adjusted disutility was subtracted from the baseline utility to cal
 
 > Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)].
 > For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event.
-> In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.ul} events.
+> In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.underline} events.
 > The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).
 >
 > Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
@@ -822,7 +822,7 @@ Goulart, B., & Ramsey, S.
 (2011).
 A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
 Value in Health, 14(6), 836-845.
-[\<https://sci-hub.se/10.1016/j.jval.2011.04.004>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+[\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
 
 > The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
 >
@@ -835,7 +835,7 @@ Value in Health, 14(6), 836-845.
 > The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers.
 > 2014.
 > "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25.
-> [\<https://doi.org/10.1016/j.clcc.2014.09.007.>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
+> [\<https://doi.org/10.1016/j.clcc.2014.09.007.\>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
 >
 > seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
 > Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
@@ -848,7 +848,7 @@ Value in Health, 14(6), 836-845.
 > (2019).
 > Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
 > Journal of Medical Economics, 22(2), 163-168.
-> [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
+> [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432\>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
 >
 > The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
 > For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
@@ -868,7 +868,7 @@ Value in Health, 14(6), 836-845.
 > (2020).
 > Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
 > Oncology Research and Treatment, 43(4), 153-159.
-> [\<https://www.karger.com/Article/Pdf/505932>](https://www.karger.com/Article/Pdf/505932){.uri}
+> [\<https://www.karger.com/Article/Pdf/505932\>](https://www.karger.com/Article/Pdf/505932){.uri}
 >
 > 20% costs variation here: Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H.
 > (2012).
@@ -946,7 +946,7 @@ The dampack package was based on the following textbook:
 
 If I find any parts of the package confusing I can email:
 
-Maintainer: Greg Knowlton \<knowl193\@umn.edu>
+Maintainer: Greg Knowlton \<knowl193\@umn.edu\>
 
 The official website is here: <https://cran.r-project.org/web/packages/dampack/>
 
@@ -2544,7 +2544,7 @@ The frontier is also discussed here: C:\\Users\\Jonathan\\OneDrive - Royal Colle
 
 <https://yhec.co.uk/glossary/cost-effectiveness-frontier/>
 
-[\<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
+[\<https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf\>](https://www.hiqa.ie/sites/default/files/2017-01/Revised_Economic_Guidelines_posted_100714.pdf){.uri} [also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\Revised_Economic_Guidelines_posted_100714.pdf]
 
 <https://researchonline.lshtm.ac.uk/id/eprint/4648686/1/The%20efficiency-frontier%20approach%20for%20health_GREEN%20AAM.pdf> also saved here:C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS\_Model\The efficiency-frontier approach for health_GREEN AAM.pdf
 
@@ -2696,7 +2696,7 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 If a reviewer wants me to do a more unusual deterministic sensitivity analysis, which is probabilistic or includes regression, I can find information on doing that here: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
-**Describing plotted outcome values over a range of values of the parameters of interest and treatment strategies:** OR, MORE SIMPLY PUT -> **Describing Plotting One Way Sensitivity Analysis (OWSA) Plot:**
+**Describing plotted outcome values over a range of values of the parameters of interest and treatment strategies:** OR, MORE SIMPLY PUT -\> **Describing Plotting One Way Sensitivity Analysis (OWSA) Plot:**
 
 In Figure X we conduct a one-way deterministic sensitivity analysis separately on each of the different parameters, per treatment strategy.
 This figure illustrates how the expected outcome value from the decision model varies (on the x axis) as the parameters vary across the range of minimum to maximum values described in Table X (on the y axis).
@@ -2727,7 +2727,7 @@ With ICERS, all the possible ICERS following the TWSA are plotted in the quadran
 
 ICERs explained on page 8 of:
 
-[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
+[\<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf\>](file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf){.uri}
 
 Per the following links, you can plot these on any model outcome - such as cost and effect, not just NMB.
 This is supported by when I went into the ispor webinar and applied these plots with ICERS as the outcomes rather than NMB, and it worked.
@@ -3563,7 +3563,7 @@ owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
 ## 08.3.3 Table Describing Parameters
 
 To build a Table describing parameters, you click on the Table button at the top, and design it in there.
-Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</> from above to put it in a code block.
+Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</\> from above to put it in a code block.
 You do the same for gamma, etc., put this in code blocks also.
 
 Per: [Putting the value of a variable into a table in R Markdown, rather than it's name - Stack Overflow](https://stackoverflow.com/questions/72902548/putting-the-value-of-a-variable-into-a-table-in-r-markdown-rather-than-its-nam)
@@ -5235,7 +5235,7 @@ colnames(df_e) <- v_names_str
 
 ```
 
-I need to fix the "# Histogram of parameters" section above, the below gives advice on doing this:
+I need to fix the "\# Histogram of parameters" section above, the below gives advice on doing this:
 
 <https://stackoverflow.com/questions/68416435/rcpp-package-doesnt-include-rcpp-precious-remove>
 
