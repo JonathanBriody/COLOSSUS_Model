@@ -3911,6 +3911,7 @@ MEAN_HR_FP_Exp <- HR_FP_Exp
 
 
 # Below I create the data.frame that I will use in the PSA.
+# So, this is the PSA input dataset.
 
 df_PA_input <- data.frame(
   coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
@@ -4132,6 +4133,9 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
   p_FA1_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_FA2_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
   p_FA3_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+
+
+# If I was going with my initial plan of applying the PSA to the original COLOSSUS limited sample size, I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
 
 
 # Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
@@ -5181,12 +5185,12 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
   t_cycle   = t_cycle
 )
 
-# Inspect the data.frame to see what it looks like
+# Inspect the data.frame to see what it looks like (we'll see the first 6 observations):
 head(df_PA_input)
 
+# It's a dataframe made up of the 10,000 values I asked be made at the start of this code chunk.
 
-
-# Save the dataframe
+# If I wanted to save the dataframe, I would do this as follows:
 
 #save(df_PA_input, file = "df_PA_input.rda")
 
@@ -5214,30 +5218,11 @@ head(df_PA_input)
 # i.e., "And that's exactly what Andrews done here showing the histogram of random draws from the relative risk parameter, and you see that, in fact, in this case, with quite a lot of information [I guess the nine trials with a total of 2,541 patients pooled], we wouldn't have been that far off if we'd assumed a normally distributed relative risk [i.e. our distribution looks very similar to a normal distribution]. But you can probably detect a very slight skew to that distribution, which reveals it actually as a log normally distributed relative risk."
 
 
-ggplot(melt(df_psa_input, variable.name = "Parameter"), aes(x = value)) +
+ggplot(melt(df_PA_input, variable.name = "Parameter"), aes(x = value)) +
   facet_wrap(~Parameter, scales = "free") +
   geom_histogram(aes(y = ..density..)) +
   theme_bw(base_size = 16) + 
   theme(axis.text = element_text(size=8))
-
-# Initialize dataframes with PSA output 
-# Dataframe of costs
-df_c <- as.data.frame(matrix(0, 
-                             nrow = n_sim,
-                             ncol = n_str))
-colnames(df_c) <- v_names_str
-# Dataframe of effectiveness
-df_e <- as.data.frame(matrix(0, 
-                             nrow = n_sim,
-                             ncol = n_str))
-colnames(df_e) <- v_names_str
-
-
-
-
-# So I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
-
-
 ```
 
 I need to fix the "\# Histogram of parameters" section above, the below gives advice on doing this:
@@ -5256,14 +5241,57 @@ We apply deterministic methods (point estimates with an appropriate range) and p
 C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
 
 ```{r}
-# Run Markov model on each parameter set of PSA input dataset
-for(i in 1:n_sim){
-  l_out_temp <- calculate_ce_out(df_psa_input[i, ])
-  df_c[i, ] <- l_out_temp$Cost
-  df_e[i, ] <- l_out_temp$Effect
-  # Display simulation progress
-  if(i/(n_sim/10) == round(i/(n_sim/10), 0)) { # display progress every 10%
-    cat('\r', paste(i/n_sim * 100, "% done", sep = " "))
+
+# Running the probabilistic analysis :
+
+# First we need to create data.frames to store the output from the PSA:
+
+df_c <- df_e <- data.frame(
+  SoC = rep(NA, n_runs),
+  Exp = rep(NA, n_runs)
+)
+
+# As you'll see, first we make blank (repeat NA for the number of runs of the simulationn_runs) data.frames for costs (df_c) and effectiveness (df_e) for SoC and the experimental treatment:
+
+head(df_c)
+
+# > head(df_c)
+#   SoC Exp
+# 1  NA  NA
+# 2  NA  NA
+# 3  NA  NA
+# 4  NA  NA
+# 5  NA  NA
+# 6  NA  NA
+
+head(df_e)
+
+# > head(df_e)
+#   SoC Exp
+# 1  NA  NA
+# 2  NA  NA
+# 3  NA  NA
+# 4  NA  NA
+# 5  NA  NA
+# 6  NA  NA
+
+# We run the Markov model for each set of parameter values from the PSA input dataset (a set of parameters here is the row of parameter values in the PSA data.frame from whatever run number of the nruns in the PSA dataset we are on, i.e. if we were doing this for run number 10 out of 10,000, we would be on row 10 in the data.frame (as each row refers to a run) and we would use all the values for costs and effect that appear in this row when running the Markov model. So, we would be using all the random draws for that PSA run in the Markov model).
+
+# - I read a note indicating that this loop can be run in parallel to decrease the runtime, something to consider in the future if it takes a very long time...
+
+for(i_run in 1:n_runs){
+
+    # Evaluate the model and store the outcomes
+  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 20000)
+# The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 20,000.
+  df_c[i_run, ] <- l_out_temp$Cost
+  df_e[i_run, ] <- l_out_temp$Effect
+# The above says, for the costs and effectiveness data.frames, store the value of costs and effects for each run that we are on in a row that reflects that run (remembering that [ROW,COLUMN], we are putting each cost and effect in a row that relates to the number of the run we are on, so if we are on run 1, i_run = 1 and we store the costs and effects for that run 1 in row 1. Remembering that our oncologySemiMarkov makes the "Cost" and "Effect" parameters at the end of the function, after applying the Markov cost-effectiveness model to all our input data for the cost-effectiveness model (so, things like, cost, utility and probability), so we are just pulling the ouputted Cost and Effect values calculated from a Markov cost-effectiveness model applied to our input data after the input data has been randomly drawn from a PSA (per the PSA input dataframe)).  
+
+  
+  # While we're doing this, we might like to display the progress of the simulation:
+  if(i_run/(n_runs/10) == round(i_run/(n_runs/10), 0)) { # We've chosen to display progress every 10%
+    cat('\r', paste(i_run/n_runs * 100, "% done", sep = " "))
   }
 }
 ```
