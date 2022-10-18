@@ -13,6 +13,12 @@ bibliography: references.bib
 (1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
 (2) National Centre for Pharmacoeconomics, St James Hospital, Dublin 8, Ireland
 
+**Co-authors:**
+
+*Annette feels Rodrigo should be on this paper as he suggested considering the Angiopredict study. Annette said that as Matias Ebert, a gastroenterologist in Germany, is on both COLOSSUS and Angiopredict, he should be on the paper. This collaboration may also help us to get some of the cost data that we've been waiting on from Germany.*
+
+*Annette feels that all the PIs on Angiopredict should be co-authors on this paper Matthias Ebert as mentioned above, Jochen Prehn and Bauke Ylstra. I would probably like to add Qiushi Chen, dependent on how helpful his thoughts on parametric survival analysis actually turn out to be.*
+
 IF THIS BECOMES THE BEVACIZUMAB STUDY WE CAN INCOPORATE SOME OF THE BELOW:
 
 <https://www.angiopredict.com/go/about_us>
@@ -348,7 +354,7 @@ Necitumumab in metastatic squamous cell lung cancer: establishing a value-based 
 JAMA oncology, 1(9), 1293-1300.
 saved here: C:/Users/Jonathan/Dropbox/PC/Downloads/coi150070.pdf and particulary it's supplementary material, saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/supplementary%20materials.pdf> explains how to use PFS and OS curves to generate transition probabilities from the first state into the second and from the first state into death, so, it tells you how to create both by taking the PFS probabilities and OS probabilities from eachother to get the progressing probability and using the OS probability to get the death probability, it also talks about AIC, BIC, etc.,
 
-And I talked to **Qiushi Chen** about this in detail in email, so look to that conversation on how he approached this to make sure I am not making any mistakes.
+And I talked to **Qiushi Chen** about this in detail in email (I also described to Kathleen in email), so look to that conversation on how he approached this to make sure I am not making any mistakes.
 
 This talks about AIC as well: Briggs, A., Sculpher, M., Dawson, J., Fitzpatrick, R., Murray, D., & Malchau, H.
 (2003).
@@ -4957,11 +4963,35 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Here's the takeaway on the Beta formuala. My SE's are typically very close to the SE's that I recover from the published studies. I've seen first hand, that you need big changes to the SE to affect the mean you draw in the PSA. So, what I'll do is apply the briggse or altbriggse as appropriate, and then when I do the PSA check the mean on the parameter drawn from the PSA draws to make sure the parameter is on average the same as the one we started with, I can do this by doing mean() whatever the parameter is, and that will show me the average value.
 
-# The following paper shows that my methodology above can be applied to papers with 2.5/97.5% percentiles also: A dynamic Bayesian Markov model for health economic evaluations of interventions in infectious disease https://sci-hub.ru/10.1186/s12874-018-0541-7 also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\haeussler2018.pdf
+# The following paper shows that my methodology above can be applied to papers with 2.5/97.5% percentiles and also shows that the code for myse is used in those rare situations where the mean, min and max are all the exact same number: A dynamic Bayesian Markov model for health economic evaluations of interventions in infectious disease https://sci-hub.ru/10.1186/s12874-018-0541-7 also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\haeussler2018.pdf
+
+# And speaking to Gianluca Baio directly in email, he tells me to calculate SE's in the same way in which I was doing this with myse.
+
+# # I think very similarly to what you did --- but say you think that the info is a range of .25 to .43, then you kind of figure out that the mean is sort of halfway through (~0.34). Then you assume that, approximately, the sd would be around 0.045 (because 0.34 +/- 2*.045 gets you, approximately, in the range you have in the first place). [i.e. brings you to the min and the max you started with].
+
+# mean <-c(0.34)
+# min <-c(0.25)
+# max <-c(0.43)
+
+# myse <- ((max)-(mean))/2
+# myse <- ((0.43)-(0.34))/2
+
+# He says the se should be a number multiplied by two that brings you from the mean to the max or the mean to the min. So, ((0.43)-(0.34)) = 0.09, 0.09/2 = 0.045. The number 0.045 times 2 gives you 0.09, 0.34 + 0.09 gives you 0.43, i.e., the max.
 
 # # Lan Gao of "Cost-Effectiveness of Tenecteplase Before Thrombectomy for Ischemic Stroke" didnt use a range, instead he assumed SD=0.1*mean (here the terms SE and SD are being used to refer to the same thing, Gianluca calss SE by SD also). 
 
 #
+
+
+
+
+
+
+
+
+
+
+
 
 ############### Below are some incorrect solutions I came up with #############
 
