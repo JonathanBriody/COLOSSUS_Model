@@ -3810,8 +3810,12 @@ However, the average of 0.5 and 2 is 1.25, rather than 1.
 Thus, a log transformation is applied to make the hazard ratio number scale symmetric: the log of 0 is minus infinity, the log of 1 is zero, and the log of infinity is infinity.
 The log of 0.5 is --0.69 and the log of the OR of 2 is 0.69, such that when the halving and doubling ratios are averaged, a value of 0 is obtained, i.e., the log transformed value of 1, or no effect.
 
+**My writing on what a PSA is (then I'll describe each results section):**
+
 Confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, costs and utilities, where this information was not available, model inputs were varied 20% above and below base case values.
 The baseline values, ranges, and distributions for model parameters are reported in Table X.
+
+*In probabilistic sensitivity analysis, parameters were varied simultaneously according to their sampling distributions. We used g distribution for cost parameters, b distribution for parameters bounded on the 0 to 1 interval (eg, AE incidence estimates and utilities), and the uniform distribution for the discount factor. The range for the discount factor was 0.00 to 0.05. In multivariate analysis, we ran 10,000 replications in the probabilistic sensitivity analysis. The baseline values, ranges, and distributions for model parameters are presented in Table 4. Per: Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colo . <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>*
 
 ```{r}
 
@@ -4107,23 +4111,27 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # b4
 # [1] 0.1329533
 
+## 3
+
+# RANGE:
+
 # I don't describe generating random draws when the probabilities don't have an SE above, however, I can do this in the same way that I figured out how to do this for the utility beta distributions below. If they are reported with a range, he section on utility below also advises how to handle this.
 
   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
   p_A1F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_A1D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_A2F_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_A2D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_A3F_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_A3D_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_FD_SoC  = rbeta(n_runs, shape1 = , shape2 = ),
-  p_FD_Exp  = rbeta(n_runs, shape1 = , shape2 = ),
-  p_PD_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_PD_Exp = rbeta(n_runs, shape1 = , shape2 = ),
-  p_FA1_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_FA2_SoC = rbeta(n_runs, shape1 = , shape2 = ),
-  p_FA3_SoC = rbeta(n_runs, shape1 = , shape2 = ),
+  p_A1D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_A2F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_A2D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_A3F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_A3D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FD_SoC  = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_FD_Exp  = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_PD_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_PD_Exp = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FA1_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_FA2_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FA3_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
 
 
 # Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
@@ -4384,27 +4392,14 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # This 20% approach is also taken by Lesley tilson and cited in her study and other studies here: https://trello.com/c/m653JBWV/48-20-cost-sensitivity
 
 
-
-
-
-
-
-
-
-
-
-
   c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
   c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
   c_P       = rgamma(n_runs, shape = 100, scale = 10), 
   c_D       = 0,
-  c_AE1 = c_AE1,
-  c_AE2 = c_AE2,
-  c_AE3 = c_AE3,
-
-
-
-
+# The cost of being dead doesnt vary, it always costs the same to treat a dead person, which is 0 because we don't give any of our chemo, etc., to a dead body.
+  c_AE1 = rgamma(n_runs, shape = 16, scale = 25), 
+  c_AE2 = rgamma(n_runs, shape = 16, scale = 50),
+  c_AE3 = rgamma(n_runs, shape = 100, scale = 10),
 
 
   # Utility vectors with length n_runs 
@@ -4930,10 +4925,19 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # For this, briggsse is always right, while the other SE's are not.   
 
+# Thanks for your email. I’m afraid the details are lost to me in the midst of time. Having a look at our model, we may have used different assumptions to the confidence intervals depending on what data were available, for example assuming a 10%, 20% increase of the mean for the CI. We then would have worked out the standard error from the confidence intervals as you describe in your email [briggse and altbriggse] and the alpha/beta are worked out from the se and mean. The formulas for alpha and beta are taken from Briggs et al. (Decision modelling for health economic evaluation, 2006).
+
+
 
 # Sharp, Linda, et al. "Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy." British journal of cancer 106.5 (20book12): 805-816.
 
 # For this, I typically get approximations of the SE from the paper.
+
+# Thank you for getting in touch and it’s great that your work on the CRC model is progressing. Unfortunately, I don’t have an answer to your query. I was not actually involved in deriving these estimates and it is also quite a long time ago that I don’t remember who did the actual analysis - it would have been either Linda or Alan.
+
+# I think the approach that you are taking seems valid and reasonable so it may be better for you to use the simple estimate of +/-20%.
+
+# Sorry I am not able to provide more clarification.
 
 
 # Campbell, Jonathon R., et al. "Cost-effectiveness of latent tuberculosis infection screening before immigration to low-incidence countries." Emerging infectious diseases 25.4 (2019): 661.
@@ -4943,6 +4947,8 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 # Gao, L., Moodie, M., Mitchell, P. J., Churilov, L., Kleinig, T. J., Yassi, N., … & EXTEND-IA TNK Investigators. (2020). Cost-effectiveness of tenecteplase before thrombectomy for ischemic stroke. Stroke, 51(12), 3681-3689. https://www.ahajournals.org/doi/epdf/10.1161/STROKEAHA.120.029666
 
 # For this, the SE I generate is typically quite different to the SE they report.
+
+# # Lan Gao of "Cost-Effectiveness of Tenecteplase Before Thrombectomy for Ischemic Stroke" didnt use a range, instead he assumed SD=0.1*mean (here the terms SE and SD are being used to refer to the same thing, Gianluca calss SE by SD also). 
 
 
 #A cluster randomised trial, cost-effectiveness analysis and psychosocial evaluation of insulin pump therapy compared with multiple injections during flexible intensive insulin therapy for type 1 diabetes: the REPOSE Trial https://www.journalslibrary.nihr.ac.uk/hta/hta21200#/abstract
@@ -4978,7 +4984,6 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # He says the se should be a number multiplied by two that brings you from the mean to the max or the mean to the min. So, ((0.43)-(0.34)) = 0.09, 0.09/2 = 0.045. The number 0.045 times 2 gives you 0.09, 0.34 + 0.09 gives you 0.43, i.e., the max.
 
-# # Lan Gao of "Cost-Effectiveness of Tenecteplase Before Thrombectomy for Ischemic Stroke" didnt use a range, instead he assumed SD=0.1*mean (here the terms SE and SD are being used to refer to the same thing, Gianluca calss SE by SD also). 
 
 #
 
@@ -5135,6 +5140,7 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
   u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
   u_D       = 0,
+# The utility of being dead doesnt vary, it always is the same utility to be a dead person, which is 0 because we don't have any quality of life, as we are no longer alive. I could have also just set u_D       = u_D, because when you set something equal to itself in here, that also means it's constant.
   u_AE1     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_AE2     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
   u_AE3     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
@@ -5166,14 +5172,13 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 #  d_c       = 0.04,
 #  d_e       = 0.04,
+# If I wanted constant values for the discount rates I would have set them as above.
   
   d_c    = runif(n_runs,  min = 0, max = 0.08),
   d_e    = runif(n_runs,  min = 0, max = 0.08),
 
-  
-  
-  n_cycle   = 60,
-  t_cycle   = 0.25
+  n_cycle   = n_cycle,
+  t_cycle   = t_cycle
 )
 
 # Inspect the data.frame to see what it looks like
