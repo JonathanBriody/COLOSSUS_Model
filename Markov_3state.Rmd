@@ -5299,17 +5299,26 @@ for(i_run in 1:n_runs){
 ## 09.2 Create PSA object for dampack
 
 ```{r}
-l_psa <- make_psa_obj(cost          = df_c, 
-                      effectiveness = df_e, 
-                      parameters    = df_psa_input, 
-                      strategies    = v_names_str)
+## 5.3 Visualizing the probabilistic analysis results ----
+
+# Dampack has a number of functions to summarise and visualise the results of a probabilistic sensitivity analysis. However, the data needs to be in a specific structure before we can use those functions. 
+
+# The 'dampack' package contains multiple useful functions that summarize and visualize the results of a
+# probabilitic analysis. To use those functions, the data has to be in a particular structure.
+l_PA <- make_psa_obj(cost          = df_c, 
+                     effectiveness = df_e, 
+                     parameters    = df_PA_input, 
+                     strategies    = c("SoC", "Exp"))
+
+# So, basically we make a psa object for Dampack where df_c is the dataframe of costs from the Markov model being applied to the PSA data, and df_e is the data.frame of effectiveness from the Markov model being applied to the PSA dataset, the parameters that are included are those from the PSA analysis, which we fed into df_PA_input above (df_PA_input<-) and the two strategies are SoC and Exp.
 ```
 
 ## 09.2.1 Save PSA objects
 
 ```{r}
-save(df_psa_input, df_c, df_e, v_names_str, n_str, l_psa,
-     file = "markov_3state_PSA_dataset.RData")
+# If we wanted to save the PSA objects once they have been created above, we could do this as follows (v_names_strats is just another way of including the strategies part from above):
+# save(df_PA_input, df_c, df_e, v_names_strats, n_str, l_PA,
+#     file = "markov_3state_PSA_dataset.RData")
 ```
 
 Vector with willingness-to-pay (WTP) thresholds.
@@ -5380,6 +5389,10 @@ Also saved here:
 C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\sensitivity analysis help files\\Basic Cost Effectiveness Analysis.pdf
 
 ```{r}
+
+
+
+
 ceac_obj <- ceac(wtp = v_wtp, psa = l_psa)
 # Regions of highest probability of cost-effectiveness for each strategy
 summary(ceac_obj)
