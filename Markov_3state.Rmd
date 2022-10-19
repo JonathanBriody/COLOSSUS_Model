@@ -2493,7 +2493,7 @@ df_cea
 # The default view is ordered by dominance status (ND = non-dominated, ED = extended/weak dominance, or D= strong dominance), and then ascending by cost per: https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html
 
 
-# The icer object can be easily formatted into a publication quality table using the kableExtra package.
+# The icer object can be easily formatted into a publication quality table using the kableExtra package, as below, but there's probably a better way to do this per Dampack just under:
 
 # library(kableExtra)
 # library(dplyr)
@@ -2501,6 +2501,10 @@ df_cea
 #  kable() %>%
 #  kable_styling()
 
+
+## CEA table in proper format ---- per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation.r
+table_cea <- format_table_cea(df_cea) # Function included in "R/Functions.R"; depends on the `scales` package
+table_cea
 
 ```
 
@@ -5346,6 +5350,11 @@ df_cea_PA
 # As .csv
 # write.csv(df_cea_pa, 
 #          file = "markov_3state_probabilistic_CEA_results.csv")
+
+
+## CEA table in proper format ---- per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation.r
+table_cea_PA <- format_table_cea(df_cea_PA) # Function included in "R/Functions.R"; depends on the `scales` package
+table_cea_PA
 ```
 
 ## 09.3.2 Cost-Effectiveness Scatter plot
@@ -5431,12 +5440,27 @@ C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Train
 There's also a paper on this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\Betadist utility\\EVSI.doc
 
 ```{r}
-evpi <- calc_evpi(wtp = v_wtp, psa = l_psa)
+# Expected value of perfect information (EVPI)
+EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
 # EVPI plot
-plot(evpi, effect_units = "QALY")
+plot(EVPI_obj, effect_units = "QALY")
 ```
 
-## 09.4.5 Scenario Analysis
+## 09.4.5 Alternative plotting approaches:
+
+You can find alternative plotting approaches here:
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\analysis\\cSTM_time_dep_simulation.R
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\cSTM_Tutorial_TimeDep.Rmd
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\cSTM_Tutorial_TimeDep.R
+
+C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\Appendix_code_walkthrough_Markov_Tutorial_Part2.Rmd
+
+There may be information more generally in the R files found in: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\
+
+## 09.4.6 Scenario Analysis
 
 > The below study includes scenario analysis at the end:
 >
@@ -5448,7 +5472,7 @@ plot(evpi, effect_units = "QALY")
 
 Scenario Analysis: "Often, uncertainty in a parameter may be represented by several discrete values, instead of a continuous range, sometimes called scenario analyses (e.g., evidence from clinical studies, utility surveys, or cost data sets may lead to different values). It is acceptable to report alternative outcomes under each of these discrete assumptions to complement other uncertainty analysis." - Per: Model Parameter Estimation and Uncertainty Analysis C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
 
-## 09.4.6 Calibration
+## 09.4.7 Calibration
 
 > The following has a calibration section: Lawrence, D., Maschio, M., Leahy, K. J., Yunger, S., Easaw, J. C., & Weinstein, M. C.
 > (2013).
