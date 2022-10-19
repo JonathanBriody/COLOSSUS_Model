@@ -88,6 +88,7 @@ Progression risks, cause-specific mortality and probabilities of adverse events 
 Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries.
 Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
 To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
+To test the robustness of the results, parameter values were varied individually to assess the sensitivity of the model to individual parameters or specific sets of parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions.
 
 **Results:** Predictive biomarkers with targeted therapy provided X QALYS at a cost of €X,000 compared with standard of care (FOLFOX without testing).
 Compared to standard of care, the ICER of predictive biomarkers with targeted therapy provided was EUR X,000/QALY from a European health care perspective, which was above the threshold used to define cost-effectiveness in the countries studied, which provided X QALYS at a cost of €X,000.
@@ -2472,6 +2473,8 @@ cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
 (If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
 
+DOMINATED STRATEGIES EXPLAINED: <https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
+
 ```{r}
 
 # The discounted costs and QALYs can be summarized and visualized using functions from the 'dampack' package
@@ -2508,7 +2511,9 @@ table_cea
 
 ```
 
-## Results Table
+## Results
+
+I like the way they describe their results: *A Cost-Effectiveness Analysis of Currently Approved Treatments for HBeAg-Positive Chronic Hepatitis B <https://sci-hub.ru/10.2165/00019053-200826110-00006>*
 
 > A good way to report your results can be seen in Table 4 of the following:
 >
@@ -3807,19 +3812,20 @@ Also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ir
 
 If we want to repeat all our one-way sensivity analysis probabilistically, rather than deterministically, you can see how to do this here, it might make for a good appendix because the description is technically complex, so would read well in the paper, but the application in R is actually very straightforward: <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
+**My writing on what a PSA is (then I'll describe each results section):**
+
+In a probabilistic sensitivity analysis (PSA) simultaneous samples were drawn from model parameters in Monte Carlo simulations, according to their sampling distributions.
+Thus, joint uncertainty was propagated through the model over 10,000 replications.
+Confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, costs and utilities.
+Where this information was not available, model inputs were varied 20% above and below base case values.
+The baseline values, ranges, and distributions for model parameters are reported in Table X.
+
 For the hazard ratio we generate random draws from a log-normal distribution.
 The value of ratio intervention effects have a lowest possible value of 0, a value of 1 corresponding to no intervention effect, and a highest value possible value of infinity.
 Logically, a ratio that halves effects and one that doubles effects should average to no effect.
 However, the average of 0.5 and 2 is 1.25, rather than 1.
 Thus, a log transformation is applied to make the hazard ratio number scale symmetric: the log of 0 is minus infinity, the log of 1 is zero, and the log of infinity is infinity.
 The log of 0.5 is --0.69 and the log of the OR of 2 is 0.69, such that when the halving and doubling ratios are averaged, a value of 0 is obtained, i.e., the log transformed value of 1, or no effect.
-
-**My writing on what a PSA is (then I'll describe each results section):**
-
-Confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, costs and utilities, where this information was not available, model inputs were varied 20% above and below base case values.
-The baseline values, ranges, and distributions for model parameters are reported in Table X.
-
-*In probabilistic sensitivity analysis, parameters were varied simultaneously according to their sampling distributions. We used g distribution for cost parameters, b distribution for parameters bounded on the 0 to 1 interval (eg, AE incidence estimates and utilities), and the uniform distribution for the discount factor. The range for the discount factor was 0.00 to 0.05. In multivariate analysis, we ran 10,000 replications in the probabilistic sensitivity analysis. The baseline values, ranges, and distributions for model parameters are presented in Table 4. Per: Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colo . <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>*
 
 ```{r}
 
@@ -5386,6 +5392,10 @@ plot(l_PA)
 ```
 
 ## 09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
+
+Borrowing from: A Cost-Effectiveness Analysis of Currently Approved Treatments for HBeAg-Positive Chronic Hepatitis B <https://sci-hub.ru/10.2165/00019053-200826110-00006> I can say:
+
+The results of the probabilistic sensitivity analysis indicate that treatment X is preferred at cost-effectiveness thresholds less than approximately \$X,000 per QALY, and treatment Y had the highest probability of being optimal above this willingness to pay threshold.
 
 Understand this plot here:
 
