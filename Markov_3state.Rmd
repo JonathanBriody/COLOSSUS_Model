@@ -2567,6 +2567,9 @@ The efficiency frontier is described on page 277 [in the textbook] of: [file:///
 
 # **Sensitivity Analysis Below:**
 
+"It is well known7,8 that conventional univariate sensitivity analysis, whereby individual parameters are varied while maintaining all remaining parameters at their baseline value, is likely to underestimate uncertainty because, in reality, parameters will not vary in isolation. Probabilistic sensitivity analysis involves specifying distributions for model parameters to represent uncertainty in their estimation and employing Monte Carlo simulation to select values at random from those distributions.5,6 In this way, probabilistic models allow the effects of joint uncertainty across all the parameters of the model to be considered. , in probabilistic modeling, parameters are considered random variables, which can take a range of values described by the specified distribution. Parameters in decision models represent summary values related to the average experience across a population of (potential) patients. Therefore, the relevant uncertainty to capture in the formation of a distribution for the parameter is 2nd-order uncertainty related to the sampling distribution of the parameter, not the variability in the values observed in a particular population (1st-order uncertainty; see Stinnett and Paltiel3 for further discussion)." This also has mathematical notation for calculating Beta and Gamma distributions at the end.
+Probabilistic Analysis of Cost-Effectiveness Models: Choosing between Treatment Strategies for Gastroesophageal Reflux Disease Andrew H. Briggs, DPhil, Ron Goeree, MA, Gord Blackhouse, MBA, Bernie J. O'Brien, PhD www.med.mcgill.ca/epidemiology/courses/EPIB654/Summer2010/EF/example%20PPI.pdfinsu
+
 All plots produced by dampack are ggplot objects and can be readily customized.
 <https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html>
 
@@ -2591,6 +2594,8 @@ Results for which incremental costs are positive and health consequences negativ
 C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
 
 # 08 Deterministic Sensitivity Analysis
+
+A good description of one way sensitivity is here: Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer <https://sci-hub.ru/10.1016/j.ejca.2017.01.019>
 
 When i'm thinking about the range around the point estimate, i.e., the max and min, I'll have to return to my uncertainty notepad file and see how daniel did it to make his table in the goldstein paper because I know he used the same range there for the DSA and PSA based on how he described the results of the tornado diagram, i.e.:
 
@@ -5257,6 +5262,7 @@ The above approach worked, I manually deleted the package, installed darthtools 
 ## 09.1 Conduct probabilistic sensitivity analysis
 
 To propagate uncertainty throughout the model, we assigned distributions to any parameters not estimated with certainty.
+We consider whether values within a plausible range for input variables alter the conclusions of cost-effectiveness drawn from the original analysis.
 
 To evaluate the robustness of the model, we apply deterministic methods (point estimates with an appropriate range) and probabilistic methods (parameterized distributions) to conduct a sensitivity analysis of our results.
 C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
@@ -5343,7 +5349,11 @@ l_PA <- make_psa_obj(cost          = df_c,
 ## 09.3.1 Conduct CEA with probabilistic output
 
 In the PSA we computed model outcomes (total discounted costs and QALYs) for the experimental strategy and standard of care for each sampled set of parameter values.
-Results were remarkably similar to the deterministic analysis, per the probabilistic league table below [or else I could say, eith ICER of X, incremental costs of Y and incremental effectiveness of Y, i.e. describe the league table, but describe it in words], demonstrating the robustness of the model:
+Results were remarkably similar to the deterministic analysis, per the probabilistic league table below [or else I could say, eith ICER of X, incremental costs of Y and incremental effectiveness of Y, i.e. describe the league table, but describe it in words, i.e., a mean incremental cost of xx,xxx (95% CI xx,xxx - xx,xxx) with a mean incremental benefit of x.xx QALYs (95% CI x.xx - x.xx), resulted in a mean ICER of xxx,xxx per QALY (95% CI xxx,xxx - xxx,xxx).], demonstrating the robustness of the model.
+
+The values estimated using means from the PSA (costs, QALYs and ICER) reflect those estimated in the deterministic analysis.
+
+:
 
 ```{r}
 
@@ -5381,11 +5391,30 @@ This indicates that what I am displaying here is not the cost-effectiveness plan
 
 Devin does the traditional cost-effectiveness plane (but DARTH may also offer this in Dampack, and I should dig in there first if I want to draw a more traditional cost-effectiveness plane) <https://hesim-dev.github.io/hesim/articles/cea.html>
 
+Figure 3 here shows the same scatterplt as I make, but parts of it cross the axis, I suspect that my scatterplot would cross the axis if necessary and thus reflect the above planes: Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer sci-hub.ru/10.1016/j.ejca.2017.01.019 Actually.
+That would never happen.
+The axis needs an origin point.
+Typically ,the origin point is the SoC's cost and effect, than we can say, look, does Exp fall below this cost (so our points for cost are lower on the graph, below the origin point) or above (so our costs are above this point on the graph, higher up above the origin point) and how does are utility look, higher than the SoC, so further to the right where effectiveness is the numberline along the bottom on the x-axis, or worse than SoC, so to the left of the SoC origin point, so a lower utility as we get further down the numberline and away from the SoC origin point for utility.
+It's easiest to understand this while looking at Figure 3 below, where C is the origin point, because it A) reflects what I am saying above, and B) Shows that even the SoC maybe can be made of random draws too (although I'm not super sure on that, because if that value keeps changing then the comparative value of the ExP would be different always, so probably we need to still take the SoC value for the origin point we started with from the deterministic CEA so that we have something to compare our probabilistic ExP values to, but then we show the variability in SoC values around this from the PSA draws for SoC).
+Realistically, it's probably best to produce a scatterplot as provided by dampack, and if a reviewer then wants the cost-effectiveness plane, to look into how this can be done in dampack.
+
+This is supported by Figure 3 of: Probabilistic Analysis of Cost-Effectiveness Models: Choosing between Treatment Strategies for Gastroesophageal Reflux Disease Andrew H. Briggs, DPhil, Ron Goeree, MA, Gord Blackhouse, MBA, Bernie J. O'Brien, PhD med.mcgill.ca/epidemiology/courses/EPIB654/Summer2010/EF/example%20PPI.pdf
+
 The cost-effectiveness plane illustrates the distribution of costs and effects for SoC and Exp.
 
 Incremental costs and QALYs with their respective ICERs.
 
 These values are illustrated in a cost-effectiveness plane of incremental costs in the y axis and incremental QALYs in the x axis.
+
+We randomly sampled from each specified parameter distribution in the probabilistic analysis, calculating the expected costs and effects of that combination of parameter values.
+This reflects a single replication of model results, in total, 10,000 replications were completed to determine the possible distribution of the resulting ICERs for both SoC and the experimental treatment.
+In Figure X we plot the results of this probabilistic sensitivity analysis for these 10,000 replications from the model.
+
+In Figure X we plot a probabilistic sensitivity analysis for 10,000 samples.
+
+[**Legend Underneath:** Fig.
+X. Probabilistic Sensitivity Analysis (n = 10,000).
+Each dot represents an incremental cost-effectiveness ratio, ellipse represent the 95% confidence incidence.]
 
 Well explained here: *An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example <https://arxiv.org/pdf/2001.07824.pdf>*
 
