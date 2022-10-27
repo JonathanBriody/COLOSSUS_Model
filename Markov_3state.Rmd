@@ -408,10 +408,18 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 ```{r}
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves
+
+# df_TTP <- read.csv(file='PFS.csv', header=TRUE)
+# save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTP.RData")
+# df_TTD <- read.csv(file='OS.csv', header=TRUE)
+# save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTD.RData")
+
 load(file = "df_TTP.RData")
 # Load the individual patient data for the time-to-death (TTD) that you recovered by digitising published survival curves
 load(file = "df_TTD.RData")
 # At the moment I don't have time-to-death (TTD) data, and creating a fake dataset by duplicating time-to-progression (TTP) won't work as R will recognise the duplication and refuse to load the data, but when I DO have time-to-death (TTD) data I'll load it in here.
+
+# Here's how to remove the BVZ rows from the excel files we have: https://techcommunity.microsoft.com/t5/excel/deleting-rows-that-contain-specific-content/m-p/2084473
 
 # At the moment this is just nonsense data and needs to be replaced when I have figured out the issues described at the end of this section.
 
@@ -488,7 +496,7 @@ l_TTP_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 # Inspect fit based on visual fit
 colors <- rainbow(6)
-plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in years", las = 1)
+plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
 lines(l_TTP_SoC_gamma,    col = colors[2], ci = FALSE)
 lines(l_TTP_SoC_gompertz, col = colors[3], ci = FALSE)
 lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
@@ -561,7 +569,7 @@ coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
 
 # I duplicate the time to progression data frame as time to dead here, I'll REALLY need to make sure to delete this line when I have actual time to dead data or else I'll be running my analysis on the time to progression data twice and thinking I'm running it on time to dead:
 
-df_TTD <- df_TTP
+# df_TTD <- df_TTP
 
 head(df_TTD)
 
@@ -582,7 +590,7 @@ l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 # Inspect fit based on visual fit
 colors <- rainbow(6)
-plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in years", las = 1)
+plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
 lines(l_TTD_SoC_gamma,    col = colors[2], ci = FALSE)
 lines(l_TTD_SoC_gompertz, col = colors[3], ci = FALSE)
 lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
@@ -637,12 +645,6 @@ l_TTD_SoC_weibull$coefficients
 coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
-
-[**I need to figure out:**]{.underline}
-
-If I'm building the R code to be just standard of care versus experimental care I need to get rid of the treatment A - Treatment B stuff.
-
-m_M\_Exp
 
 [**How to extrapolate the parametric models beyond the KM curve**]{.underline}
 
@@ -710,12 +712,14 @@ Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis 
 #### Utility Estimates
 
 To present health outcomes in terms of QALYS, we adjusted survival time by quality of life using a Health Related Quality of Life (HR-QOL) score on a 0-1 utility scale.
-The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N.
+The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] FIND NEW UTILITIES ELSEWHERE [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N.
 (2009).
 Are adverse effects incorporated in economic models?
 An initial review of current practice.
 *Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
 We assumed in the model that utility was only related to health state, and not to therapy.
+
+#### Probability of Adverse events:
 
 > We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
 > (2014).
@@ -736,66 +740,46 @@ We assumed in the model that utility was only related to health state, and not t
 >
 > Remember that Leukopenia = Febrile Neutropenia.
 
-The probability of Grade 3/4 adverse events (AEs) was informed by the literature [CITE].
+Adverse events were added as a health state in the Markov model, per [@nebuloni2013] [@goulart2011a].
+The probability, and disutility, of Grade 3/4 adverse events (AEs) was informed by the literature [@hochster2008] [@aballéa2007].
+[PROBABBILITY:Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.310, DISUTILITY:Leukopenia = 45% LOWER PFS UTILITY Diarrhea = 36% LOWER PFS UTILITY Vomiting = 19% LOWER PFS UTILITY].
+Duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state, we assumed the duration of each adverse event was 7 days, and that treatment-induced complications are mutually exclusive [@goldstein2015] [@refaat2014].
 
-AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea.
-We assumed the duration of each AE was 5 days.
-For each AE, the average disutility was weighted by the incidence reported in the clinical study.
+[*AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea. We assumed the duration of each AE was 5 days. For each AE, the average disutility was weighted by the incidence reported in the clinical study.*]{.underline}
 
-Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13.
-The duration of AEs was estimated based on Expert Consultation.
-From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116.
-Hypertension would last for five days and the disutility was 0.
-Diarrhea would last for five days and the disutility was 0.1038 .
-The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
+[*Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13. The duration of AEs was estimated based on Expert Consultation. From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116. Hypertension would last for five days and the disutility was 0. Diarrhea would last for five days and the disutility was 0.1038 . The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.*]{.underline}
 
-> Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)].
-> For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event.
-> In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to [adverse]{.underline} events.
-> The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).
+> [Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)]. For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event. In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to adverse events. The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).]{.underline}
 >
-> Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M.
-> (2021).
-> Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China.
-> *Journal of Comparative Effectiveness Research*, *10*(6), 469-480.
+> [Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.]{.underline}
 >
-> If a patient suffered multiple adverse events, I think they just applied the disutility that was the worst to their baseline utility, rather than trying to combine disutilities - which would probably be messy.
+> [*If a patient suffered multiple adverse events, I think they just applied the disutility that was the worst to their baseline utility, rather than trying to combine disutilities - which would probably be messy.*]{.underline}
 >
-> We assumed that treatment-induced complications---grade 3 or 4---are mutually exclusive---a patient can have only 1 complication at a time
+> [*We assumed that treatment-induced complications---grade 3 or 4---are mutually exclusive---a patient can have only 1 complication at a time*]{.underline}
 >
-> Refaat, T., Choi, M., Gaber, G., Kiel, K., Mehta, M., Gradishar, W., & Small Jr, W.
-> (2014).
-> Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer.
-> American journal of clinical oncology, 37(5), 480-485.
-> <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>
+> [*Refaat, T., Choi, M., Gaber, G., Kiel, K., Mehta, M., Gradishar, W., & Small Jr, W. (2014). Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer. American journal of clinical oncology, 37(5), 480-485. <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>*]{.underline}
 >
-> This is an alternative approach that may be cleaner, assume patients can only have one adverse event per cycle, and that way you don't have to find out which is worse and apply that one.
+> [*This is an alternative approach that may be cleaner, assume patients can only have one adverse event per cycle, and that way you don't have to find out which is worse and apply that one.*]{.underline}
 
-Lots of adverse events in studies to consider here:
+[*Lots of adverse events in studies to consider here:*]{.underline}
 
-"The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."
+[*"The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."*]{.underline}
 
-\- Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J.
-(2021).
-Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review.
-Vaccines 2021, 9, 111.
+[*- Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.*]{.underline}
 
-<https://sci-hub.se/10.3390/vaccines9020111>
+[*https://sci-hub.se/10.3390/vaccines9020111*](https://sci-hub.se/10.3390/vaccines9020111){.uri}
 
-###### Adverse Events Occurring:
+###### [*Adverse Events Occurring:*]{.underline}
 
-> Have a look at my emails to Kathleen and Daniel re: Adverse events, utilities during adverse events, etc.,
+> [*Have a look at my emails to Kathleen and Daniel re: Adverse events, utilities during adverse events, etc.,*]{.underline}
 >
-> "The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."
+> [*"The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."*]{.underline}
 >
-> \- Per:
+> [*- Per:*]{.underline}
 >
-> Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J.
-> (2021).
-> Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review.
-> Vaccines 2021, 9, 111.
+> [*Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.*]{.underline}
 >
-> <https://sci-hub.se/10.3390/vaccines9020111>
+> [*https://sci-hub.se/10.3390/vaccines9020111*](https://sci-hub.se/10.3390/vaccines9020111){.uri}
 >
 > To convert reported incidence rates to probabilities read:
 >
@@ -817,25 +801,17 @@ Vaccines 2021, 9, 111.
 >
 > C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Foundation Course\\F2_Decision Trees\\F2.1.2 Probabilities & conditioning\\Probabilities and Conditioning Notes
 
-These guys add adverse events as a State in the Markov model, so I could probably just do that:
+[*These guys add adverse events as a State in the Markov model, so I could probably just do that:*]{.underline}
 
-Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M.
-(2013).
-Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis.
-Molecular and Clinical Oncology, 1(1), 175-179.
-<https://sci-hub.st/10.3892/mco.2012.12>
+[*Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M. (2013). Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis. Molecular and Clinical Oncology, 1(1), 175-179. <https://sci-hub.st/10.3892/mco.2012.12>*]{.underline}
 
-Goulart, B., & Ramsey, S.
-(2011).
-A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
-Value in Health, 14(6), 836-845.
-[\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}
+[*Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer. Value in Health, 14(6), 836-845. [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}*]{.underline}
 
-> The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.
+> [*The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.*]{.underline}
 >
-> Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
+> [*Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>*]{.underline}
 >
-> Progression Risk and Mortality Progression risks and cause-specific mortalitie
+> [*Progression Risk and Mortality Progression risks and cause-specific mortalitie*]{.underline}
 
 ###### Range around things:
 
@@ -1009,13 +985,37 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 
 
 
+
+
+
+# At the bottom of the parametric survival code I think about how time from individual patient data may be changed to match the time of our cycles.
+
+# I think the digitiser will give me the time in the context of the survival curves I am digitising, i.e., time in weeks, or time in months or time in years.
+
+# Then I will have to set-up my time accordingly in the R code so that my cycle length is at the same level as the individual patient data.
+
+# That is, in Koen's example:
+
+# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R\ISPOR_webinar_R-master
+
+# the data includes a column for the time (in years)
+# t_cycle <- 1/4      # cycle length of 3 months (in years)                                # n_cycle <- 60       # number of cycles (total runtime 15 years)
+  
+
+# So I would have my colum for time, in the [TIME] the graph I was digitising used.
+# Then I would create my cycle length of X weeks (in [TIME] the graph I was digitising used)
+# Then I would have my number of cycles that would add up to give me a total runtime of how long I want to run the model for.
+# So, above Koen wanted to run the model for 15 years, but his cycles were in 3 months, or each cycle was a quarter of a year, so 60 quarters, or 60 3 month cycles, is 15 years.
+
+
+
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 1/2      # cycle length of 2 weeks (in [[months]] - this is assuming the survival curves I am digitising will be in [[months]] if they are in another period I will have to represent my cycle length in that period instead).                                  
-n_cycle        <- 120                            
-# We set the number of cycles to 120 to reflect 5 years broken down into fortnightly cycles
+t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 143                            
+# We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
-# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 120.
+# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 143.
 v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")  
 # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
 n_states        <- length(v_names_states)        
@@ -2577,7 +2577,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
