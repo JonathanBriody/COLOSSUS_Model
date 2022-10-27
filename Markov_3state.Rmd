@@ -742,7 +742,7 @@ We assumed in the model that utility was only related to health state, and not t
 
 Adverse events were added as a health state in the Markov model, per [@nebuloni2013] [@goulart2011a].
 The probability, and disutility, of Grade 3/4 adverse events (AEs) was informed by the literature [@hochster2008] [@aballéa2007].
-[PROBABBILITY:Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.310, DISUTILITY:Leukopenia = 45% LOWER PFS UTILITY Diarrhea = 36% LOWER PFS UTILITY Vomiting = 19% LOWER PFS UTILITY].
+[PROBABBILITY:Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.310, --\> POTENTIALLY I SHOULD TAKE THE PROBABILITIES UNDER BVZ FOR AE'S FROM HERE TOO AND USE THEM IN THE MODEL. DISUTILITY:Leukopenia = 45% LOWER PFS UTILITY Diarrhea = 36% LOWER PFS UTILITY Vomiting = 19% LOWER PFS UTILITY].
 Duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state, we assumed the duration of each adverse event was 7 days, and that treatment-induced complications are mutually exclusive [@goldstein2015] [@refaat2014].
 
 [*AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea. We assumed the duration of each AE was 5 days. For each AE, the average disutility was weighted by the incidence reported in the clinical study.*]{.underline}
@@ -1007,7 +1007,7 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 # Then I would have my number of cycles that would add up to give me a total runtime of how long I want to run the model for.
 # So, above Koen wanted to run the model for 15 years, but his cycles were in 3 months, or each cycle was a quarter of a year, so 60 quarters, or 60 3 month cycles, is 15 years.
 
-
+# REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
@@ -1044,9 +1044,9 @@ n_str           <- length(v_names_strats)
 # 1) Defining the cycle times
 (t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
 
-# I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in months, so we have 0 in cycle 0, 0.5 or half a month in cycle 1, and so on.
+# I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in days, so we have 0 in cycle 0, 14 (or two weeks) in cycle 1, and so on.
 
-# Having established that allows us to obtain the transition probabilities for the time we are interested in for our cycles from this longer period individual patient data, so where the individual patient data is in months and our cycles are in fortnight or half months, this allows us to obtain transition probabilities for these fortnights.
+# Having established that allows us to obtain the transition probabilities for the time we are interested in for our cycles from this different period individual patient data, so where the individual patient data is in days and our cycles are in fortnight or half months, this allows us to obtain transition probabilities for these fortnights.
 
 # 2) Obtaining the event-free (i.e. survival) probabilities for the cycle times for SoC
 # S_FP_SoC - survival of progression free to progression, i.e. not going to progression, i.e. staying in progression free.
@@ -1085,7 +1085,7 @@ head(cbind(t, S_FP_SoC))
 # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
 # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
 # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.
-HR_FP_Exp <- 0.6
+HR_FP_Exp <- 0.68
 H_FP_SoC  <- -log(S_FP_SoC)
 H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
 S_FP_Exp  <- exp(-H_FP_Exp)
@@ -1212,19 +1212,21 @@ p_FP_Exp
 
 
 
-
-
- # NOW I NEED TO REPEAT THE ABOVE, BUT THIS TIME FOR OS TO DEATH.
-
-# AT THE MOMENT I'M JUST LEAVING THIS CHUNK OF CODE ALONE, AS I DON'T THINK I'LL BE USING IT...
-
 # TRANSITION PROBABILITIES: Time-To-Dead TTD
+
+# REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
+
+
+# To make sure that my PFS probabilities only reflect going from PFS to progression, I create the probability of going from PFS to DEAD under standard of care and the experimental, and decrease my PFS to progression probability by the probability of going into the dead state, such that I am only capturing people going into progression, and not people going into death as well. 
+
+
+# So, first I create the transition probabilities of progression free into dead for SoC and Exp, then I convert all the probabilities (i.e. those for PFS and those for OS) into rates, minus them from eachother, turn them back into probabilities, and make sure none are negative (and where they are replace these with 0).
 
 
 # Time-dependent transition probabilities are obtained in four steps
 # 1) Defining the cycle times [we already did this above]
 # 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
-# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio if we think we will be applying a hazard ratio in the OS -> Death setting. Probably not, probably what we'll be doing is saying that once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC. - I'll code in both options here and I can make a decision when applying this.
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio if we think we will be applying a hazard ratio in the OS -> Death setting. Probably not, probably what we'll be doing is saying that once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC. - Actually, I create transition probabilities from treatment to death under SoC and the Exp treatment here such that I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
 
 # 1) Defining the cycle times
@@ -1260,7 +1262,7 @@ head(cbind(t, S_PD_SoC))
 # https://web.stanford.edu/~lutian/coursepdf/unit1.pdf
 # Also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv
 # And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convery back to the survivor function, and then these survivor functions are used for the probabilities.
-HR_PD_Exp <- 0.6
+HR_PD_Exp <- 0.65
 H_PD_SoC  <- -log(S_PD_SoC)
 H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
 S_PD_Exp  <- exp(-H_PD_Exp)
@@ -1269,33 +1271,91 @@ head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
 
 
 # If I decide that, as I said,  once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC, then I can use the following coding - which is just repeating what I did for standard of care but this time giving it to the experimental stratgey:
-
-S_PD_Exp <- pweibull(
-  q     = t, 
-  shape = exp(coef_TTD_weibull_shape_SoC), 
-  scale = exp(coef_TTD_weibull_scale_SoC), 
-  lower.tail = FALSE
-)
-
-head(cbind(t, S_PD_Exp))
+# 
+# S_PD_Exp <- pweibull(
+#   q     = t, 
+#   shape = exp(coef_TTD_weibull_shape_SoC), 
+#   scale = exp(coef_TTD_weibull_scale_SoC), 
+#   lower.tail = FALSE
+# )
+# 
+# head(cbind(t, S_PD_Exp))
 
 # I've coded in both options here and I can make a decision when applying this.
 
 
 
 
-# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
+# I want to vary my probabilities for the one-way sensitivity analysis, particularly for the tornado       plot of the deterministic sensitivity analysis. 
 
-# Now we can take the probability of being in the OS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the OS state, i.e. in order to get the probability of moving into the deda state.
+# The problem here is that df_params_OWSA doesnt like the fact that a different probability for each       cycle (from the time-dependent transition probabilities) gives 122 rows (because there are 60 cycles,      two treatment strategies and a probability for each cycle). It wants the same number of       rows as      there are probabilities, i.e., it would prefer a probability of say 0.50 and then a max and a      min     around that.
+
+# To address this, I think I can apply this mean, max and min to the hazard ratios instead, knowing        that when run_owsa_det is run in the sensitivity analysis it calls this function to run and in this        function the hazard ratios generate the survivor function, and then these survivor functions are used      to generate the probabilities (which will be cycle dependent).
+
+# This is fine for the hazard ratio for the experimental strategy, I can just take:
+
+# HR_PD_Exp as my mean, and:
+
+# Minimum_HR_PD_Exp <- HR_PD_Exp - 0.20*HR_PD_Exp
+# Maximum_HR_PD_Exp <- HR_PD_Exp + 0.20*HR_PD_Exp
+
+# For min and max.
+
+# For standard of care there was no hazard ratio, because we took these values from the survival curves     directly, and didnt vary them by a hazard ratio, like we do above.
+
+# To address this, I create a hazard ratio that is exactly one.
+
+# hazard ratio
+
+# A measure of how often a particular event happens in one group compared to how often it happens in       another group, over time. In cancer research, hazard ratios are often used in clinical trials to           measure survival at any point in time in a group of patients who have been given a specific treatment      compared to a control group given another treatment or a placebo. A hazard ratio of one means that         there is no difference in survival between the two groups. A hazard ratio of greater than one or less      than one means that survival was better in one of the groups. https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hazard-ratio
+
+# Thus, I can have a hazard ratio where the baseline value of it gives you the survival curves, and        thus the probabilities, from the actual survival curves we are drawing from, and where the min and max     will be 1 +/- 0.20, which will give us probabilities that are 20% higher or lower than the probabilities from the actual survival curves that we are drawing from in the parametric survival analysis to get transitions under standard of care.
+
+# To do this, I just have to add a hazard ratio to the code that creates the transition probabilities      under standard of care as below, then I can add that hazard ratio, and it's max and min, to the            deterministic sensitivity analysis and vary all the probabilities by 20%.
+
+
+# So here we basically have a hazard ratio that is equal to 1, so it leaves things unchanged for           patients, and we want to apply it to standard of care from our individual patient data to leave things     unchanged in this function, but allow things to change in the sensitivity analysis.
+
+# Here our hazard ratio is 1, things are unchanged.
+
+# So, first we create our hazard ratio == 1
+HR_PD_SoC <- 1
+
+# (I'm creating the below as new parameters, i.e. putting "nu" infront of them, in case keeping the name the same causes a problem for when I want to use them in the deterministic sensivity analysis, i.e., if I generate a parameter from itself - say var_name = var_name exactly, then there may be some way in which R handles code that won't let this work, or will take one parameter before the other, or something and stop the model from executing correctly).
+
+# Then, we create our hazard function for SoC:
+NU_S_PD_SoC <- S_PD_SoC
+NU_H_PD_SoC  <- -log(NU_S_PD_SoC)
+# Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
+NUnu_H_PD_SoC  <- NU_H_PD_SoC * HR_PD_SoC
+# Again, I was worried that with overlap when creating parameters I would have a problem with the deterministic sensivity analysis so I call it NU again to make it a "new" parameter again.
+NU_S_PD_SoC  <- exp(-NUnu_H_PD_SoC)
+
+head(cbind(t, NU_S_PD_SoC, NUnu_H_PD_SoC))
+
+
+
+# NU_H_PD_SoC  <- -log(NU_S_PD_SoC)
+# # Then, we multiply this hazard function by our hazard ratio, which is just 1, but which gives us the      opportunity to apply a hazard ratio to standard of care in our code and thus to have a hazard ratio for     standard of care for our one way deterministic sensitivity analysis and tornado diagram.
+# NU_H_PD_SoC  <- NU_H_PD_SoC * HR_PD_SoC
+# # 
+# NU_S_PD_SoC  <- exp(-NU_H_PD_SoC)
+# 
+# head(cbind(t, NU_S_PD_SoC, NU_H_PD_SoC))
+
+
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+# Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
 
 
 p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
 
-# First we make the probability of going from progression (P) to dead (D) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
+# First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
 
 
 for(i in 1:n_cycle) {
-  p_PD_SoC[i] <- 1 - S_PD_SoC[i+1] / S_PD_SoC[i]
+  p_PD_SoC[i] <- 1 - NU_S_PD_SoC[i+1] / NU_S_PD_SoC[i]
   p_PD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
 }
 
@@ -1308,6 +1368,23 @@ for(i in 1:n_cycle) {
 p_PD_SoC
 
 p_PD_Exp
+
+# Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
+
+p_FP_SoC
+p_PD_SoC
+p_FP_SoC <- p_FP_SoC - p_PD_SoC
+p_FP_SoC
+
+p_FP_Exp
+p_PD_Exp
+p_FP_Exp <- p_FP_Exp - p_PD_Exp
+p_FP_Exp
+
+
+
+
+
 
 
 # Time-constant transition probabilities [ADVERSE EVENTS]:
@@ -1395,6 +1472,9 @@ p_PD_Exp
 
 p_FP_SoC
 p_FP_Exp
+
+so, i now need to change this so that the PD above reflects # REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
+and the FD below instead reflects the probability of going to death in the second line treatment
 
 p_FD_SoC   <- 0.02 # Probability of dying when progression-free:
 p_FD_Exp   <- 0.02 # Probability of dying when progression-free:
@@ -2288,6 +2368,7 @@ v_tc_Exp
 # "
 
 # - note that to obtain QALYs, the utility needs to be mutiplied by the cycle length as well
+
 
 # v_tu_SoC <- m_M_SoC %*% c(u_F, u_P, u_D) * t_cycle
 # v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D) * t_cycle
