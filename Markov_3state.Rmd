@@ -386,6 +386,9 @@ Therefore, we estimated the transition probabilities for each cycle based on the
 Because PFS curves capture patients under progression and death, we estimate the progression risks, that is the transition probability from first to second line treatment, by subtracting the mortality risks \$r\_{i}\$ from these transition probabilities \$p\_{i}\$.
 Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* = 1,2,\\cdots, per [@goldstein2015a].
 
+Transition from first to second line treatment in each cycle was calculated based on the [@wang2020] [USE THIS PAPER TO DESCRIBE THE PARAMETRIC SURVIVAL ANALYSIS] formulation: 1−exp(\$*λ*[t−1]\^{γ}\$ − \$*λ*t\^{γ}\$), where the current stage in the model is t, and *λ* and *γ* are the estimated scale and shape parameters respectively.
+The transition probability of second-line treatment into death is as informed by [@wen2016].
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 # To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
@@ -940,6 +943,8 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 
 # 03 Input model parameters
 
+Great utility values for first and second line treatment and adverse events here: Cost-effectiveness analysis of selective first-line use of biologics for unresectable RAS wild-type left-sided metastatic colorectal cancer saved here: <file:///C:/Users/Jonathan/Dropbox/Grammarly%20files/curroncol-26-04843.pdf>
+
 ```{r}
 ## General setup
 
@@ -1014,11 +1019,11 @@ IT'S ALSO VERY IMPORTANT TO CONSIDER WHAT BEARING THE INCLUSION OF ADDITIONAL MA
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
-n_cycle        <- 143                            
-# We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
+t_cycle <- 30      # cycle length of 4 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 67                            
+# We set the number of cycles to 67 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
-# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 143.
+# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 67
 v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")  
 # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
 n_states        <- length(v_names_states)        
@@ -1451,24 +1456,24 @@ p_FP_Exp
 # Probability of going to the adverse event state from the progression free state:
 
 
-p_FA1_STD     <- 0.02   # probability of adverse event 1 when progression-free under SOC
-p_A1_D_STD    <- 0.1    # probability of dying when in adverse event 1 under SOC
+p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
+p_A1_D_STD    <- 0.10    # probability of dying when in adverse event 1 under SOC
 
-p_FA2_STD     <- 0.02   # probability of adverse event 2 when progression-free under SOC
-p_A2_D_STD    <- 0.1    # probability of dying when in adverse event 2 under SOC
+p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
+p_A2_D_STD    <- 0.10    # probability of dying when in adverse event 2 under SOC
 
-p_FA3_STD     <- 0.02   # probability of adverse event 3 when progression-free under SOC
-p_A3_D_STD    <- 0.1    # probability of dying when in adverse event 3 under SOC
+p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
+p_A3_D_STD    <- 0.10    # probability of dying when in adverse event 3 under SOC
 
 
-p_FA1_EXPR     <- 0.02   # probability of adverse event 1 when progression-free under EXPR
-p_A1_D_EXPR    <- 0.1    # probability of dying when in adverse event 1 under EXPR
+p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
+p_A1_D_EXPR    <- 0.10    # probability of dying when in adverse event 1 under EXPR
 
-p_FA2_EXPR     <- 0.02   # probability of adverse event 2 when progression-free under EXPR
-p_A2_D_EXPR    <- 0.1    # probability of dying when in adverse event 2 under EXPR
+p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
+p_A2_D_EXPR    <- 0.10    # probability of dying when in adverse event 2 under EXPR
 
-p_FA3_EXPR     <- 0.02   # probability of adverse event 3 when progression-free under EXPR
-p_A3_D_EXPR    <- 0.1    # probability of dying when in adverse event 3 under EXPR
+p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
+p_A3_D_EXPR    <- 0.10    # probability of dying when in adverse event 3 under EXPR
 
 p_PD_SoC
 p_PD_Exp
@@ -1476,11 +1481,11 @@ p_PD_Exp
 p_FP_SoC
 p_FP_Exp
 
-so, i now need to change this so that the PD above reflects # REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
-and the FD below instead reflects the probability of going to death in the second line treatment
+# So, I now need to change p_FD_SoC and p_FD_Exp to reflect OS -> DEAD, becuase I now REALISE HERE TEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
+ # and the FD below instead reflects the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead.
 
-p_FD_SoC   <- 0.02 # Probability of dying when progression-free:
-p_FD_Exp   <- 0.02 # Probability of dying when progression-free:
+p_FD_SoC   <- 0.17 # Probability of dying when in OS.
+p_FD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # When digitising a progression-free survival curve everyone on that curve is on PFS, and if they leave that curve it is because their disease has progressed (so they've gone from progression free to progression, or from PFS to OS) or they've died:
 
@@ -1492,7 +1497,7 @@ p_FD_Exp   <- 0.02 # Probability of dying when progression-free:
 
 # "The length of time from the date of diagnosis or the start of treatment for a disease until the disease starts to get worse or spread to other parts of the body. In a clinical trial, measuring the time to progression is one way to see how well a new treatment works. Also called TTP." https://www.cancer.gov/publications/dictionaries/cancer-terms/def/time-to-progression
 
-# Koen's data is time to progression data, so we can't figure out time to death from it. It may be possible to do this with the data I end up using, or as advised by the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder, but at the moment I'll just set PFS to Dead as a time-constant transition probability as he does.
+# Koen's data is time to progression data, so we can't figure out time to death from it. It may be possible to do this with the data I end up using, or as advised by the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder, but at the moment I'll just set PFS to Dead as a time-constant transition probability as he does. [I UPDATED THIS ABOVE]
 
 # I could probably apply parametric survival models to OS data, as all individuals from the OS curve were under standard of care, and get free to dead that way from the data.
 
