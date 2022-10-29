@@ -383,6 +383,9 @@ Statistical analyses demonstrated a good fit was provided for both curves by Wei
 Weibull models have been demonstrated to be more suitable for modeling events occurring in mCRC [@goldstein2014a], and support the application of proportional hazard models [@guan2021] such that the Weibull distribution model was chosen for the base case analysis.
 Therefore, we estimated the transition probabilities for each cycle based on the fitted Weibull survival models.
 
+Because PFS curves capture patients under progression and death, we estimate the progression risks, that is the transition probability from first to second line treatment, by subtracting the mortality risks \$r\_{i}\$ from these transition probabilities \$p\_{i}\$.
+Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* = 1,2,\\cdots, per [@goldstein2015a].
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 # To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
