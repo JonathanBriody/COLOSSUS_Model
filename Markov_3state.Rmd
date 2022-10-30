@@ -1643,20 +1643,27 @@ p_A3F_Exp  <- 1-p_A3D_Exp
 
 # Costs
 
-c_F_SoC       <- 400   # cost of one cycle in PFS state under standard of care
-c_F_Exp       <- 1000  # cost of one cycle in PFS state under the experimental treatment 
-c_F_Ex_trtA       <- 1000  # cost of one cycle in PFS state under the experimental treatment A 
-c_F_Ex_trtB       <- 1000  # cost of one cycle in PFS state under the experimental treatment
-c_P       <- 1000  # cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
+c_PFS_Folfox <-307.81
+c_PFS_Bevacizumab <-2580.38
+c_OS_Folfiri <-326.02
+administration_cost <- 365.00
+
+
+c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
+c_F_Exp       <- administration_cost + c_PFS_Folfox + c_PFS_Bevacizumab # cost of one cycle in PFS state under the experimental treatment 
+#c_F_Ex_trtA       <- 1000  # cost of one cycle in PFS state under the experimental treatment A 
+#c_F_Ex_trtB       <- 1000  # cost of one cycle in PFS state under the experimental treatment
+c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
 c_D       <- 0     # cost of one cycle in dead state
 
 
 # We define the costs of the adverse events:
 
+# :Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.31
 
-c_AE1 <- 100
-c_AE2 <- 100
-c_AE3 <- 100
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03
 
 
 
