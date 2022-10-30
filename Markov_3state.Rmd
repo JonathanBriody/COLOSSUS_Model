@@ -1874,7 +1874,7 @@ m_P_SoC <- array(
   data = 0,
   dim = c(n_states, n_states, n_cycle),
   dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
-  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
 )
 
 head(m_P_SoC)
@@ -1884,7 +1884,7 @@ m_P_Exp <- array(
   data = 0,
   dim = c(n_states, n_states, n_cycle),
   dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
-  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 120. So Cycle 1 will have all of our patients in PFS, while cycle 120 will have most people in the dead state.
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
 )
 
 head(m_P_Exp)
