@@ -2089,13 +2089,17 @@ Check if transition probability matrices are valid.
 
 
 
-# UNCOMMENT THIS! check_transition_probability(m_P_SoC,  verbose = TRUE)
-# UNCOMMENT THIS! check_transition_probability(m_P_Exp,  verbose = TRUE)
+# UNCOMMENT THIS! 
+check_transition_probability(m_P_SoC,  verbose = TRUE)
+# UNCOMMENT THIS! 
+check_transition_probability(m_P_Exp,  verbose = TRUE)
 #check_transition_probability(m_P_trtA, verbose = TRUE)
 #check_transition_probability(m_P_trtB, verbose = TRUE)
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
-# UNCOMMENT THIS! check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-# UNCOMMENT THIS! check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# UNCOMMENT THIS! 
+check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# UNCOMMENT THIS! 
+check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
