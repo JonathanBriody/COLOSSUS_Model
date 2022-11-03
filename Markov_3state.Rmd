@@ -1358,14 +1358,14 @@ head(cbind(t, NU_S_PD_SoC, NUnu_H_PD_SoC))
 # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
 
 
-p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
+p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
 
 # First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
 
 
 for(i in 1:n_cycle) {
-  p_PD_SoC[i] <- 1 - NU_S_PD_SoC[i+1] / NU_S_PD_SoC[i]
-  p_PD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
+  p_PFSD_SoC[i] <- 1 - NU_S_PD_SoC[i+1] / NU_S_PD_SoC[i]
+  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
 }
 
 
@@ -1374,20 +1374,20 @@ for(i in 1:n_cycle) {
 
 # The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
 
-p_PD_SoC
+p_PFSD_SoC
 
-p_PD_Exp
+p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
 p_FP_SoC
-p_PD_SoC
-p_FP_SoC <- p_FP_SoC - p_PD_SoC
+p_PFSD_SoC
+p_FP_SoC <- p_FP_SoC - p_PFSD_SoC
 p_FP_SoC
 
 p_FP_Exp
-p_PD_Exp
-p_FP_Exp <- p_FP_Exp - p_PD_Exp
+p_PFSD_Exp
+p_FP_Exp <- p_FP_Exp - p_PFSD_Exp
 p_FP_Exp
 
 
@@ -1476,8 +1476,8 @@ p_A2_D_EXPR    <- 0.001    # probability of dying when in adverse event 2 under 
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 p_A3_D_EXPR    <- 0.001    # probability of dying when in adverse event 3 under EXPR
 
-p_PD_SoC
-p_PD_Exp
+p_PFSD_SoC
+p_PFSD_Exp
 
 p_FP_SoC
 p_FP_Exp
@@ -1485,8 +1485,8 @@ p_FP_Exp
 # So, I now need to change p_FD_SoC and p_FD_Exp to reflect OS -> DEAD, becuase I now REALISE HERE TEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
  # and the FD below instead reflects the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead.
 
-p_FD_SoC   <- 0.17 # Probability of dying when in OS.
-p_FD_Exp   <- 0.17 # Probability of dying when in OS.
+P_OSD_SoC   <- 0.17 # Probability of dying when in OS.
+P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # When digitising a progression-free survival curve everyone on that curve is on PFS, and if they leave that curve it is because their disease has progressed (so they've gone from progression free to progression, or from PFS to OS) or they've died:
 
@@ -1500,12 +1500,12 @@ p_FD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # Koen's data is time to progression data, so we can't figure out time to death from it. It may be possible to do this with the data I end up using, or as advised by the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder, but at the moment I'll just set PFS to Dead as a time-constant transition probability as he does. [I UPDATED THIS ABOVE]
 
-# p_PD_SoC <- PFS TO DEAD
+# p_PFSD_SoC <- PFS TO DEAD
 # p_FP_SoC <-  PFS TO OS
 # 
 # 
 # 
-# p_PD_Exp <- PFS TO DEAD
+# p_PFSD_Exp <- PFS TO DEAD
 # p_FP_Exp <- PFS TO OS
 # 
 # 
@@ -1519,18 +1519,25 @@ p_FD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # PFS -> PFS:
 
-p_PFS_SoC  <-   (1 - p_PD_SoC) * (1 - p_FP_SoC)
-p_PFS_Exp  <-   (1 - p_PD_Exp) * (1 - p_FP_Exp)
+p_PFS_SoC  <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC) 
+p_PFS_Exp  <-   (1 - p_PFSD_Exp) * (1 - p_FP_Exp)* (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR)
 
 # First, I need to create progression free survival probabilities under standard of care.
 
-# It's 1- p_PD_SoC, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_FP_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_FP_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model).
+# It's 1- p_PFSD_SoC, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_FP_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_FP_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model). I also add in the three adverse events as well.
 
 
 # PFS -> OS:
 
-p_PFS_OS_SoC    <- (1 - p_PD_SoC) *      p_FP_SoC
-p_PFS_OS_Exp    <- (1 - p_PD_Exp) *      p_FP_Exp
+p_PFS_OS_SoC    <- (1 - p_PFSD_SoC) * (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* p_FP_SoC
+
+
+p_PFS_OS_Exp    <- (1 - p_PFSD_Exp) * (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR) *  p_FP_Exp
+
+
+
+
+
 
 # We have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
 
@@ -1539,6 +1546,14 @@ p_PFS_OS_Exp    <- (1 - p_PD_Exp) *      p_FP_Exp
 
 
 #So, because you took a probability that was conditional from the literature, or digitised a PFS curve to get a transition probability - and those probabilities come from people who were necessarily still in the PFS state when you digitise a PFS curve, so those are transition probabilities conditional on being in the PFS (or healthy) state - you need to do the multiplication to give you a probability you can put in your transition matrix that reflects that the probability you are working with is conditional.
+
+
+# # PFS -> DEAD:
+# 
+# p_PFSD_SoC  <-   (p_PFS_SoC) * (p_PFSD_SoC)
+# p_PFSD_Exp  <-   (p_PFS_Exp) * (p_PFSD_Exp)
+
+
 
 # Adverse event transition probabilities have all been conditional, this is to reflect that probabilities on transitioning from adverse event to death will necessarily be conditional probabilities - as they come from individuals who were studied in the adverse event group - so they are necessarily probabilities conditional on experiencing the adverse event. Likewise, the probability of experiencing the adverse event when under treatment is conditional on being in PFS for the treatment in the first place, because it will come from reports of adverse events in studies of the treatments given that we look at. 
 
@@ -1902,19 +1917,25 @@ Fill in the transition probability matrix:
 # It looks like I will need to decide if I have to go back to the start of putting everything in the model and put stuff in for not just the experimental strategy, but for experimental strategy 1 AND experimental strategy 2 individually.
 
 
+AE1MARK     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+AE2MARK     <- (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+
+
 # Setting the transition probabilities from PFS based on the model parameters
   # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
-m_P_SoC["PFS", "PFS", ] <- p_PFS_SoC
-m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
-m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
-m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
-m_P_SoC["PFS", "OS", ]     <- p_PFS_OS_SoC
-m_P_SoC["PFS", "Dead", ]            <- p_FD_SoC
+m_P_SoC["PFS", "PFS", ] <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "AE1", ]     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "AE2", ]     <-  (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "AE3", ]     <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "OS", ]     <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* p_FP_SoC* (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "Dead", ]            <-  (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (p_PFSD_SoC)
+
 
 
 # Setting the transition probabilities from OS
-m_P_SoC["OS", "OS", ] <- 1 - p_PD_SoC
-m_P_SoC["OS", "Dead", ]        <- p_PD_SoC
+m_P_SoC["OS", "OS", ] <- 1 - P_OSD_SoC
+m_P_SoC["OS", "Dead", ]        <- P_OSD_SoC
 
 # Setting the transition probabilities from Dead
 m_P_SoC["Dead", "Dead", ] <- 1
@@ -1943,12 +1964,12 @@ m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
 m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
 m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
 m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
-m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+m_P_Exp["PFS", "Dead", ]            <- p_PFSD_Exp
 
 
 # Setting the transition probabilities from OS
-m_P_Exp["OS", "OS", ] <- 1 - p_PD_Exp
-m_P_Exp["OS", "Dead", ]        <- p_PD_Exp
+m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
+m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
 
 # Setting the transition probabilities from Dead
 m_P_Exp["Dead", "Dead", ] <- 1
@@ -3130,8 +3151,8 @@ l_params_all <- list(
   p_A3D_SoC = p_A3D_SoC,
   p_FD_SoC  = p_FD_SoC,
   p_FD_Exp  = p_FD_Exp,
-  p_PD_SoC = p_PD_SoC,
-  p_PD_Exp = p_PD_Exp,
+  p_PFSD_SoC = p_PFSD_SoC,
+  p_PFSD_Exp = p_PFSD_Exp,
   p_FA1_SoC = p_FA1_SoC,
   p_FA2_SoC = p_FA2_SoC,
   p_FA3_SoC = p_FA3_SoC,
@@ -4271,8 +4292,8 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
   p_A3D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
   p_FD_SoC  = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_FD_Exp  = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_PD_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_PD_Exp = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_PFSD_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_PFSD_Exp = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
   p_FA1_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
   p_FA2_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
   p_FA3_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
