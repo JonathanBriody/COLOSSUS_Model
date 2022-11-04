@@ -4038,8 +4038,23 @@ m_coef_weibull_SoC <- mvrnorm(
 
 head(m_coef_weibull_SoC)
 
+m_coef_weibull_OS_SoC <- mvrnorm(
+  n     = n_runs, 
+  mu    = l_TTD_SoC_weibull$coefficients, 
+  Sigma = l_TTD_SoC_weibull$cov
+)
+
+head(m_coef_weibull_OS_SoC)
+
+
 
 # Now that we have applied mvrnorm to get a random shape and a random scale we don't need to include HR_FP_SoC in our data.frame to create random probability draws for SoC, because we can just select the shape and scale from m_coef_weibull_SoC so that in our function the updated coef_weibull_shape_SoC and coef_weibull_scale_SoC are used to generate S_FP_SoC with a random value, which will in turn generate transition probabilities under standard of care with a random value.
+
+
+
+
+
+
 
 
 
@@ -4070,6 +4085,16 @@ MEAN_HR_FP_Exp <- HR_FP_Exp
 
 # HR_FP_Exp = rlnorm(n_runs, meanlog = log(HR_FP_Exp), sdlog = SD)
 
+# !!! I MAY NEED TO REPEAT THIS FOR: HR_PD_Exp
+
+# I create the SD to include in the sensitivity analysis applied to the hazard ratio below, as I need to create it outside the data.frame for the PSA:
+
+OS_UpperCI <- 0.86
+OS_LowerCI <- 0.49
+OS_SD <- (log(OS_UpperCI) - log(OS_LowerCI)) / 3.92
+
+MEAN_HR_PD_Exp <- HR_PD_Exp
+# I copy the hazard ratio above in case the below would start building HR_FP_Exp from the updated HR_FP_Exp made from random draws, i.e., in case it started including the HR_FP_Exp updated from the random draws from HR_FP_Exp in meanlog = (HR_FP_Exp), when we really need to be drawing the variability from the hazard ratio we started out with, and not a hazard ratio that we started out with, but that has since already been varied and will be varied from again if we take a random draw from this pre-varied hazard ratio.
 
 
 
@@ -4080,8 +4105,9 @@ MEAN_HR_FP_Exp <- HR_FP_Exp
 df_PA_input <- data.frame(
   coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
-
-  
+  coef_TTD_weibull_shape_SoC = m_coef_weibull_OS_SoC[ , "shape"],
+  coef_TTD_weibull_scale_SoC = m_coef_weibull_OS_SoC[ , "scale"],
+             
 
   
 ### Hazard Ratios  
@@ -4142,6 +4168,8 @@ df_PA_input <- data.frame(
 # it's the log of the mean (the ratio value, so the hazard ratio) and the log of the standard deviation (which we put on the log scale when we calculate it so we don't need to put in as sdlog = log() here, just sdlog = ) in order to be taking random draws from a log-normal distribution (i.e. a log normally distributed HAZARD RATIO).
 
 HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
+HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
+
 
 # Per [SLIDE 16] onwards in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt I don't think we need to worry about the duration of time a hazard ratio refers to. In my model I definitely don't, as the hazard ratio and underlying rate survival curves that make up SoC transition probabilities come from the same paper, and thus the same time period. 
 
