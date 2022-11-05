@@ -338,7 +338,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
     # [6,] 2.5 0.8454597
     
     
-    # Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
+    # Having the above header shows that this is probability for surviving in the PFS->DEAD state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt gone to the dead state and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
     
     
     
