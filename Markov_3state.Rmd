@@ -3218,7 +3218,7 @@ l_params_all <- list(
 
 # Test whether the function works (and generates the same results)
 
-oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 20000)
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 45000)
 
 
 
@@ -3603,7 +3603,7 @@ OWSA_NMB  <- run_owsa_det(
 # cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
 
-  n_wtp            = 20000               # extra argument to pass to FUN to specify the willingness to pay
+  n_wtp            = 45000               # extra argument to pass to FUN to specify the willingness to pay
 )
 
 # Value
@@ -3862,7 +3862,7 @@ TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with p
                          strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
                          progress        = TRUE, #Progress bar like before
 
-                         n_wtp           = 20000               # extra argument to pass to FUN to specify the willingness to pay
+                         n_wtp           = 45000               # extra argument to pass to FUN to specify the willingness to pay
 )
 # Plot TWSA
 
@@ -5527,7 +5527,7 @@ head(df_e)
 for(i_run in 1:n_runs){
 
     # Evaluate the model and store the outcomes
-  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 20000)
+  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 45000)
 # The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 20,000.
   df_c[i_run, ] <- l_out_temp$Cost
   df_e[i_run, ] <- l_out_temp$Effect

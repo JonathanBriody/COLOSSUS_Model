@@ -2,7 +2,7 @@
 
 # This "function" is basically just repeating the code from the Markov_3state.R script again.
 
-oncologySemiMarkov <- function(l_params_all, n_wtp = 10000) {
+oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
   
   with(as.list(l_params_all), {
     
