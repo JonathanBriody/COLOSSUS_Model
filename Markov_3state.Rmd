@@ -220,6 +220,7 @@ For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (
 In both instances we made use of treatment-specific utility values.
 At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state.
 To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
+Within cycle correction here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\R\\Functions.R
 
 > [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
 > All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
@@ -351,6 +352,8 @@ The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2
 
 # Parametric Survival Analysis:
 
+Some more R code on parametric survival analysis here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Applied Cost Effectiveness Modeling with R\\rcea-rscripts\\05-psm
+
 This study: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
 (2015).
 Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
@@ -398,6 +401,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 ```{r}
 rm(list = ls())  
 # clear memory (removes all the variables from the work space)
+options(scipen=999) 
+# turns scientific notation off
+# options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
 ```
 
 # 01 Load parametric packages
@@ -1416,6 +1422,8 @@ p_FP_Exp
 # ?rate_to_prob will tell you more about this function.
 # ?prob_to_rate will tell you more about this function.
 
+# You can see conversions from probabilities to rates here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Model Calibration in R\UNZIP to Working Directory_Calibration Participant Materials\ISPOR Calibration Participant Materials\SickSicker_MarkovModel_Function.R
+
 # As will the 50 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
 
 
@@ -1921,6 +1929,13 @@ AE1MARK     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 
 AE2MARK     <- (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
 AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
 
+# If I really struggle with the transition probabilities below, I could build them from here alternatively: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Applied Cost Effectiveness Modeling with R\rcea-rscripts\01-markov-cohort
+
+# A better way to fill this may be here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Model Calibration in R\UNZIP to Working Directory_Calibration Participant Materials\ISPOR Calibration Participant Materials\SickSicker_MarkovModel_Function.R
+
+# This also gives advice on filling this in: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\manuscript\Appendix_code_walkthrough_Markov_Tutorial_Part2
+
+# Andy gave me advice on how to add adverse event disutility and costs, but I could also think about the strategy taken here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\R\Functions_cSTM_time_dep_simulation
 
 # Setting the transition probabilities from PFS based on the model parameters
   # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
@@ -3895,6 +3910,8 @@ plot(TWSA_NMB)
 ```
 
 # 09 Probabilistic Sensitivity Analysis (PSA)
+
+If you wanted to calculate the proportion of samples for which the incremental net benefit is positive, or try Gianlucas way of plotting results as a cost-effectiveness plane, you could try BCEA here: hazaC:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Health Economic Modeling in R A Hands-on Introduction\\Health-Eco\\Markov models\\markov_smoking_probabilistic (there's also definitely good tutorials on using BCEA online) and he has slides on this here: <https://gianluca.statistica.it/slides/ispor-2022/bcea/#27>
 
 Here's how to generate the standard error (SE) for a log-normal distribution, and then to make random draws for a log-normal distribution: <https://hesim-dev.github.io/hesim/articles/markov-cohort.html> also here: <https://devinincerti.com/2018/02/10/psa.html#beta-distribution>
 
