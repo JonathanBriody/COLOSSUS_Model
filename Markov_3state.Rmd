@@ -3768,25 +3768,7 @@ owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
 
 ```
 
-## 08.3.3 Table Describing Parameters
-
-To build a Table describing parameters, you click on the Table button at the top, and design it in there.
-Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</\> from above to put it in a code block.
-You do the same for gamma, etc., put this in code blocks also.
-
-Per: [Putting the value of a variable into a table in R Markdown, rather than it's name - Stack Overflow](https://stackoverflow.com/questions/72902548/putting-the-value-of-a-variable-into-a-table-in-r-markdown-rather-than-its-nam)
-
-Line 320 of this: <https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/manuscript/cSTM_Tutorial_Intro.Rmd> is informative when viewing the final document on page 7 here: <https://arxiv.org/pdf/2001.07824.pdf>
-
-This also includes within-cycle correction (WCC) using Simpson's 1/3 rule, which I probably don't want to bother applying, but at least I know it's an option.
-
-Some helpful tips on using math notation in R Markdown.
-
-<https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
-
-This paper says in technical terms which distributions fit and why:
-
-Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+## 
 
 ## 08.4 Two-way sensitivity analysis (TWSA)
 
@@ -5751,6 +5733,63 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\Appendix_code_walkthrough_Markov_Tutorial_Part2.Rmd
 
 There may be information more generally in the R files found in: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\
+
+## 08.3.3 Table Describing Parameters
+
+To build a Table describing parameters, you click on the Table button at the top, and design it in there.
+Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</\> from above to put it in a code block.
+You do the same for gamma, etc., put this in code blocks also.
+
+Per: [Putting the value of a variable into a table in R Markdown, rather than it's name - Stack Overflow](https://stackoverflow.com/questions/72902548/putting-the-value-of-a-variable-into-a-table-in-r-markdown-rather-than-its-nam)
+
+Line 320 of this: <https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/manuscript/cSTM_Tutorial_Intro.Rmd> is informative when viewing the final document on page 7 here: <https://arxiv.org/pdf/2001.07824.pdf>
+
+This also includes within-cycle correction (WCC) using Simpson's 1/3 rule, which I probably don't want to bother applying, but at least I know it's an option.
+
+Some helpful tips on using math notation in R Markdown.
+
+<https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
+
+This paper says in technical terms which distributions fit and why:
+
+Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
+
+| Parameter                                            | Base Case Value       | Minimum Value | Maximum Value | Source | Distribution |
+|------------------------------------------------------|-----------------------|---------------|---------------|--------|--------------|
+| **Cost (Per Cycle)**                                 |                       |               |               |        |              |
+| FOLFOX                                               | `c_PFS_Folfox`        |               |               |        |              |
+| FOLFIRI                                              | `c_OS_Folfiri`        |               |               |        |              |
+| Bevacizumab                                          | `c_PFS_Bevacizumab`   |               |               |        |              |
+| Administration Cost                                  | `administration_cost` |               |               |        |              |
+| **Adverse Event Cost**                               |                       |               |               |        |              |
+| Leukopenia                                           | `c_AE1`               |               |               |        |              |
+| Diarrhea                                             | `c_AE1`               |               |               |        |              |
+| Vomiting                                             | `c_AE1`               |               |               |        |              |
+|                                                      |                       |               |               |        |              |
+| **Adverse Event Incidence - With Bevacizumab**       |                       |               |               |        |              |
+| Leukopenia                                           | p_FA1_Exp             |               |               |        |              |
+| Diarrhea                                             | p_FA2_Exp             |               |               |        |              |
+| Vomiting                                             | p_FA3_Exp             |               |               |        |              |
+| **Adverse Event Incidence - Without Bevacizumab**    |                       |               |               |        |              |
+| Leukopenia                                           | p_FA1_STD             |               |               |        |              |
+| Diarrhea                                             | p_FA2_STD             |               |               |        |              |
+| Vomiting                                             | p_FA3_STD             |               |               |        |              |
+| **Utility (Per Cycle)**                              |                       |               |               |        |              |
+| Progression Free Survival                            | `u_F`                 |               |               |        |              |
+| Overall Survival                                     | `u_P`                 |               |               |        |              |
+| **Adverse Event Disutility**                         |                       |               |               |        |              |
+| Leukopenia                                           | -0.45                 |               |               |        |              |
+| Diarrhea                                             | -0.19                 |               |               |        |              |
+| Vomiting                                             | -0.36                 |               |               |        |              |
+| **Hazard Ratios**                                    |                       |               |               |        |              |
+| PFS to OS under the Experimental Strategy            | `HR_FP_Exp`           |               |               |        |              |
+| OS to PFS under the Experimental Strategy            | `HR_PD_Exp`           |               |               |        |              |
+| **Probability of Dying under Second-Line Treatment** | `P_OSD_SoC`           |               |               |        |              |
+| **Discount Rate**                                    |                       |               |               |        |              |
+| Costs                                                | `d_c`                 |               |               |        |              |
+| Outcomes                                             | `d_e`                 |               |               |        |              |
+
+: Table X Model Parameters Values: Baseline, Ranges and Distributions for Sensitivity Analysis
 
 ## 09.4.6 Scenario Analysis
 
