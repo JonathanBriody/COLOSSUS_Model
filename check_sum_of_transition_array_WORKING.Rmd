@@ -1,0 +1,754 @@
+---
+title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
+author: "Jonathan Briody"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: sentence
+bibliography: references.bib
+---
+
+# **Abstract:**
+
+**Background:** Colorectal cancer is the third most common cancer in Europe.
+Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC) [some details about this specific cancer]....
+
+\newpage
+
+# Introduction
+
+Cost--effectiveness of targetted therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
+
+# Materials and Methods
+
+#### Model Structure
+
+We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy.
+As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) adverse events 1, 2 and 3, (3) second line treatment following progression; (4) death.
+We applied published estimates of costs associated with each health state in the countries studied [CITE].
+The Markov model simulated the health state transitions following a diagnosis of metastatic cancer.
+A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE].
+For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
+For the comparator we also considered 2 lines of treatment (FOLFOX + Bevacizumab), then (FOLFIRI).
+In both instances we made use of treatment-specific utility values.
+At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state.
+
+The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Ireland from a healthcare payer perspective.
+Subsequently the analysis only included direct medical costs.
+Effectiveness is reflected in life-years (LYs) and quality adjusted life years (QALYS).
+Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [citation here].
+The primary outcome of the model was the total direct costs, LYs, QALYS, and the incremental cost-effectiveness ratio (ICER).
+
+# Parametric Survival Analysis:
+
+Progression and mortality probabilities were derived from the PFS and OS curves of the Angiopredict study [CITE].
+Data points were provided by the study authors, and these data points were used to fit parametric survival models [@mitchell2022].
+
+Several parametric models were fit to a number of distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
+Statistical analyses demonstrated a good fit was provided for both curves by Weibull models, according to the Akaike information criterion (AIC), and visual inspection of the relative conformity of parametric models to the original Kaplan-Meier survival curves.
+
+The cycle length studied was 2 weeks, corresponding to the time between chemotherapy administrations.
+Because PFS curves capture patients under progression and death, we estimate the progression risks, that is the transition probability from first to second line treatment, by subtracting the mortality risks \$r\_{i}\$ from these transition probabilities \$p\_{i}\$.
+Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* = 1,2,\\cdots, per [@goldstein2015a].
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+# To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
+```
+
+```{r}
+rm(list = ls())  
+# clear memory (removes all the variables from the work space)
+```
+
+# 01 Load parametric packages
+
+```{r}
+
+# Check whether the required packages are installed and, if not, install the missing packages
+# - the 'pacman' package is used to conveniently install other packages
+if (!require("pacman")) install.packages("pacman"); library(pacman)
+p_load("flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram")   
+p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
+```
+
+# 02 Individual Data for Parametric Code
+
+```{r}
+# Load the individual patient data for the time-to-progression (TTP) 
+load(file = "df_TTP.RData")
+# Load the individual patient data for the time-to-death (TTD)
+load(file = "df_TTD.RData")
+```
+
+# 03 Parametric Survival Analysis Model Plan
+
+```{r}
+
+# We will implement a semi-Markov model with time-dependent transition probabilities, via a parametric survival model fitted to some individual patient data for the time-to-progression (TTP) and time-to-death (TTD) for standard of care.
+
+# A hazard ratio for the new intervention therapy vs. the standard of care will then be applied to obtain transition probabilities for the new experimental strategy.
+```
+
+# Time-to-Progression (TTP):
+
+# 04 Parametric Survival Analysis itself:
+
+```{r}
+
+# We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
+
+# The data needs to be set up to include a column for the time and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
+
+head(df_TTP)
+
+l_TTP_SoC_exp      <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "exp")
+l_TTP_SoC_gamma    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "gamma")
+l_TTP_SoC_gompertz <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "gompertz")
+l_TTP_SoC_llogis   <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "llogis")
+l_TTP_SoC_lnorm    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "lnorm")
+l_TTP_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTP, dist = "weibull")
+
+
+```
+
+# 05 Inspecting the fits:
+
+```{r}
+
+# Inspect fit based on visual fit
+colors <- rainbow(6)
+plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
+lines(l_TTP_SoC_gamma,    col = colors[2], ci = FALSE)
+lines(l_TTP_SoC_gompertz, col = colors[3], ci = FALSE)
+lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
+lines(l_TTP_SoC_lnorm,    col = colors[5], ci = FALSE)
+lines(l_TTP_SoC_weibull,  col = colors[6], ci = FALSE)
+legend("right",
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       col    = colors,
+       lty    = 1,
+       bty    = "n")
+```
+
+```{r}
+
+# Compare the fit numerically based on the AIC
+(v_AIC <- c(
+  exp      = l_TTP_SoC_exp$AIC,
+  gamma    = l_TTP_SoC_gamma$AIC,
+  gompertz = l_TTP_SoC_gompertz$AIC,
+  llogis   = l_TTP_SoC_llogis$AIC,
+  lnorm    = l_TTP_SoC_lnorm$AIC,
+  weibull  = l_TTP_SoC_weibull$AIC
+))
+
+# Weibull has the best visual and numerical fit
+```
+
+# 06 Saving the survival parameters for use in the model:
+
+```{r}
+
+# Saving the survival parameters ----
+
+# The 'flexsurv' package return the coefficients, which need to be transformed for use in the base R functions, but that will be done when the coefficients actually are used, for the time being we will just save the survival parameters from the distribution we decide to use. 
+
+l_TTP_SoC_weibull
+
+l_TTP_SoC_weibull$coefficients
+
+coef_weibull_shape_SoC <- l_TTP_SoC_weibull$coefficients["shape"]
+coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
+
+```
+
+# Time-to-Dead (TTD): Just repeating the above for the OS curve data.
+
+# 07 Parametric Survival Analysis itself:
+
+```{r}
+
+head(df_TTD)
+
+l_TTD_SoC_exp      <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "exp")
+l_TTD_SoC_gamma    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "gamma")
+l_TTD_SoC_gompertz <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "gompertz")
+l_TTD_SoC_llogis   <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "llogis")
+l_TTD_SoC_lnorm    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "lnorm")
+l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "weibull")
+
+```
+
+# 08 Inspecting the fits:
+
+```{r}
+
+# Inspect fit based on visual fit
+colors <- rainbow(6)
+plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
+lines(l_TTD_SoC_gamma,    col = colors[2], ci = FALSE)
+lines(l_TTD_SoC_gompertz, col = colors[3], ci = FALSE)
+lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
+lines(l_TTD_SoC_lnorm,    col = colors[5], ci = FALSE)
+lines(l_TTD_SoC_weibull,  col = colors[6], ci = FALSE)
+legend("right",
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       col    = colors,
+       lty    = 1,
+       bty    = "n")
+```
+
+```{r}
+
+# Compare the fit numerically based on the AIC
+(v_AIC <- c(
+  exp      = l_TTD_SoC_exp$AIC,
+  gamma    = l_TTD_SoC_gamma$AIC,
+  gompertz = l_TTD_SoC_gompertz$AIC,
+  llogis   = l_TTD_SoC_llogis$AIC,
+  lnorm    = l_TTD_SoC_lnorm$AIC,
+  weibull  = l_TTD_SoC_weibull$AIC
+))
+
+# Weibull has the best visual and numerical fit
+```
+
+# 09 Saving the survival parameters for use in the model:
+
+```{r}
+
+l_TTD_SoC_weibull
+
+l_TTD_SoC_weibull$coefficients
+
+coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
+coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
+```
+
+#### Utility Estimates
+
+The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000].
+We assumed in the model that utility was only related to health state, and not to therapy.
+
+#### Probability of Adverse events:
+
+Adverse events were added as a health state in the Markov model, per [@nebuloni2013] [@goulart2011a] in Figure 1.
+The probability, and disutility, of Grade 3/4 adverse events (AEs) was informed by the literature [@hochster2008] [@aballéa2007].
+[PROBABBILITY:Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.310, --\> UTILITY FOR AE'S :Leukopenia = 45% LOWER PFS UTILITY Diarrhea = 36% LOWER PFS UTILITY Vomiting = 19% LOWER PFS UTILITY].
+Duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state, we assumed the duration of each adverse event was 7 days, and that treatment-induced complications are mutually exclusive [@goldstein2015] [@refaat2014].
+
+```{r}
+# rm(list = ls())  
+# clear memory (removes all the variables from the work space)
+```
+
+# 02 Load functions
+
+```{r}
+options(scipen=0)
+```
+
+```{r}
+## General setup
+
+# Here we define all our model parameters, so that we can call on these parameters later during our model:
+
+t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 143                            
+# We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
+v_names_cycles  <- paste("cycle", 0:n_cycle)    
+# So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 143
+v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")  
+# These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
+n_states        <- length(v_names_states)        
+# We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
+
+# Strategy names
+v_names_strats     <- c("Standard of Care",         
+                     "Experimental Treatment") 
+               # store the strategy names
+n_str           <- length(v_names_strats)           
+# number of strategies
+
+
+
+# TRANSITION PROBABILITIES: Time-To-Transition - TTP:
+
+
+# Time-dependent transition probabilities are obtained in four steps
+# 1) Defining the cycle times
+# 2) Obtaining the event-free (i.e. survival) probabilities for the cycle times for SoC
+# 3) Obtaining the event-free (i.e. survival) probabilities for the cycle times for Exp based on a hazard ratio
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+# 1) Defining the cycle times
+(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
+
+# I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in days, so we have 0 in cycle 0, 14 (or two weeks) in cycle 1, and so on.
+
+# Having established that allows us to obtain the transition probabilities for the time we are interested in for our cycles from this different period individual patient data, so where the individual patient data is in days and our cycles are in fortnight or half months, this allows us to obtain transition probabilities for these fortnights.
+
+# 2) Obtaining the event-free (i.e. survival) probabilities for the cycle times for SoC
+# S_FP_SoC - survival of progression free to progression, i.e. not going to progression, i.e. staying in progression free.
+# Note that the coefficients [that we took from flexsurvreg earlier] need to be transformed to obtain the parameters that the base R function uses
+
+
+S_FP_SoC <- pweibull(
+  q     = t, 
+  shape = exp(coef_weibull_shape_SoC), 
+  scale = exp(coef_weibull_scale_SoC), 
+  lower.tail = FALSE
+)
+
+head(cbind(t, S_FP_SoC))
+
+
+
+# Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
+
+
+# 3) Obtaining the event-free (i.e. survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
+# So here we basically have a hazard ratio for the novel therapy that says you do X much better under the novel therapy than under standard of care, and we want to apply it to standard of care from our individual patient data to see how much improved things would be under the novel therapy.
+
+# - note that S(t) = exp(-H(t)) and, hence, H(t) = -ln(S(t))
+# that is, the survival function is the expoential of the negative hazard function.
+# And to multiply by the hazard ratio it's necessary to convert the survivor function into the hazard function, multiply by the hazard ratio, and then convert back to the survivor function, and then these survivor functions are used for the probabilities.
+HR_FP_Exp <- 0.68
+H_FP_SoC  <- -log(S_FP_SoC)
+H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
+S_FP_Exp  <- exp(-H_FP_Exp)
+
+head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+
+
+head(cbind(t, S_FP_SoC, H_FP_SoC))
+
+
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+# Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
+ 
+
+p_PFSOS_SoC <- p_PFSOS_Exp <- rep(NA, n_cycle)
+
+# First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
+
+
+for(i in 1:n_cycle) {
+  p_PFSOS_SoC[i] <- 1 - S_FP_SoC[i]
+  p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i]
+}
+
+# round(p_PFSOS_SoC, digits=2)
+# round(p_PFSOS_Exp, digits=2)
+
+# Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
+
+
+# The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
+
+p_PFSOS_SoC
+
+p_PFSOS_Exp
+
+
+
+
+# TRANSITION PROBABILITIES: Time-To-Dead TTD
+
+# REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
+
+
+# To make sure that my PFS probabilities only reflect going from PFS to progression, I create the probability of going from PFS to DEAD under standard of care and the experimental, and decrease my PFS to progression probability by the probability of going into the dead state, such that I am only capturing people going into progression, and not people going into death as well. 
+
+
+# So, first I create the transition probabilities of progression free into dead for SoC and Exp, then I take all the probabilities (i.e. those for PFS and those for OS), minus them from eachother.
+
+
+# Time-dependent transition probabilities are obtained in four steps
+# 1) Defining the cycle times [we already did this above]
+# 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio.
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
+
+
+
+# 1) Defining the cycle times
+(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
+
+# 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
+# S_PD_SoC - survival of progression to dead, i.e. not going to dead, i.e. staying in progression.
+
+S_PD_SoC <- pweibull(
+  q     = t, 
+  shape = exp(coef_TTD_weibull_shape_SoC), 
+  scale = exp(coef_TTD_weibull_scale_SoC), 
+  lower.tail = FALSE
+)
+
+head(cbind(t, S_PD_SoC))
+
+
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
+
+HR_PD_Exp <- 0.65
+H_PD_SoC  <- -log(S_PD_SoC)
+H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
+S_PD_Exp  <- exp(-H_PD_Exp)
+
+head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
+
+
+# 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
+
+
+p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
+
+
+for(i in 1:n_cycle) {
+  p_PFSD_SoC[i] <- 1 - S_PD_SoC[i]
+  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i]
+}
+
+# round(p_PFSD_SoC, digits=2)
+# round(p_PFSD_Exp, digits=2)
+
+# The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
+
+p_PFSD_SoC
+
+p_PFSD_Exp
+
+# Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
+
+# p_PFSOS_SoC
+# p_PFSD_SoC
+# p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
+# p_PFSOS_SoC
+# 
+# p_PFSOS_Exp
+# p_PFSD_Exp
+# p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
+# p_PFSOS_Exp
+
+
+# Time-constant transition probabilities [ADVERSE EVENTS]:
+
+
+# I generate the adverse event probabilities under standard of care and the experimental strategy from the literature. I generate the probability of going from an PFS to an adverse event, and from an Adverse event into death:
+
+
+# Probability of going to the adverse event state from the progression free state:
+
+
+p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
+p_A1_D_STD    <- 0.001    # probability of dying when in adverse event 1 under SOC
+
+p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
+p_A2_D_STD    <- 0.001    # probability of dying when in adverse event 2 under SOC
+
+p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
+p_A3_D_STD    <- 0.001    # probability of dying when in adverse event 3 under SOC
+
+
+p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
+p_A1_D_EXPR    <- 0.001    # probability of dying when in adverse event 1 under EXPR
+
+p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
+p_A2_D_EXPR    <- 0.001    # probability of dying when in adverse event 2 under EXPR
+
+p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
+p_A3_D_EXPR    <- 0.001    # probability of dying when in adverse event 3 under EXPR
+
+p_PFSD_SoC
+p_PFSD_Exp
+
+p_PFSOS_SoC
+p_PFSOS_Exp
+
+# I generate the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead:
+
+p_FD_SoC   <- 0.17 # Probability of dying when in OS.
+p_FD_Exp   <- 0.17 # Probability of dying when in OS.
+
+
+
+
+
+
+p_A1D_SoC  <- 0.001 
+# Probability of going from AE1 to death
+p_A1F_SoC  <- 1-p_A1D_SoC
+# Probability of returning from AE1 to PFS is 100% minus the people who have gone into the dead state.
+
+
+# I repeat this for the other adverse events and for both standard of care and the experimental (novel) treatment:
+
+
+# PFS -> PFS:
+
+p_PFS_SoC  <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_PFSOS_SoC) * (1 - p_PFSD_SoC) 
+p_PFS_Exp  <-   (1 - p_PFSD_Exp) * (1 - p_PFSOS_Exp)* (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR)
+
+
+# Probability of A2 when PFS, conditional on surviving, under standard of care
+p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+# Probability of going from A2 to death
+p_A1D_SoC  <- 0.001 
+
+# Probability of A2 when PFS, conditional on surviving, under standard of care
+p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
+# Probability of going from A2 to death
+p_A2D_SoC  <- 0.001 
+# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+p_A2F_SoC  <- 1-p_A2D_SoC
+
+# Probability of A3 when PFS, conditional on surviving, under standard of care
+p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
+# Probability of going from A3 to death.
+p_A3D_SoC  <- 0.001 
+# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+p_A3F_SoC  <- 1-p_A3D_SoC
+
+
+
+# Probability of A1 when PFS, conditional on surviving, under standard of care
+p_FA1_EXPR <- (p_PFS_Exp) * p_FA1_EXPR
+# Probability of going from A1 to death.
+p_A1D_Exp  <- 0.001 
+# Probability of returning from A1 to PFS is 100% minus the people who have gone into the dead state.
+p_A1F_Exp  <- 1-p_A1D_Exp
+
+# Probability of A2 when PFS, conditional on surviving, under standard of care
+p_FA2_Exp  <- (p_PFS_Exp) * p_FA2_EXPR
+# Probability of going from A2 to death.
+p_A2D_Exp  <- 0.001 
+# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+p_A2F_Exp  <- 1-p_A2D_Exp
+
+# Probability of A3 when PFS, conditional on surviving, under standard of care
+p_FA3_Exp  <- (p_PFS_Exp) * p_FA3_EXPR
+# Probability of going from A3 to death.
+p_A3D_Exp  <- 0.001 
+# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+p_A3F_Exp  <- 1-p_A3D_Exp
+
+
+## Health State Values (AKA State rewards)
+# Costs and utilities  
+
+
+# Costs
+
+c_PFS_Folfox <-307.81
+c_PFS_Bevacizumab <-2580.38
+c_OS_Folfiri <-326.02
+administration_cost <- 365.00
+
+
+c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
+c_F_Exp       <- administration_cost + c_PFS_Folfox + c_PFS_Bevacizumab # cost of one cycle in PFS state under the experimental treatment 
+c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
+c_D       <- 0     # cost of one cycle in dead state
+
+# We define the costs of the adverse events:
+
+# Leukopenia = AE1 Diarrhea = AE2 Vomiting = AE3
+
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03
+
+# Then we define the utilities per health states.
+
+
+u_F       <- 0.850     # utility when PFS 
+u_P       <- 0.650   # utility when OS
+u_D       <- 0     # utility when dead
+
+
+# We define the utilities in the adverse event states as a percentage lower utility for has the cycle of the PFS state:
+
+daily_utility <- u_F/14
+AE1_discounted_daily_utility <- daily_utility * (1-0.45)
+AE2_discounted_daily_utility <- daily_utility * (1-0.19)
+AE3_discounted_daily_utility <- daily_utility * (1-0.36)
+
+
+u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
+u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
+u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
+
+
+
+# Discounting factors
+d_c             <- 0.04                          
+# discount rate for costs (per year)
+d_e             <- 0.04                          
+# discount rate for QALYs (per year)
+
+
+```
+
+## Draw the state-transition cohort model
+
+```{r}
+# 
+# diag_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")  
+# 
+# m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+# 
+# m_P_diag["PFS", "PFS" ]  = ""
+# m_P_diag["PFS", "AE1" ]     = ""
+# m_P_diag["PFS", "AE2" ]     = ""
+# m_P_diag["PFS", "AE3" ]     = ""
+# m_P_diag["PFS", "OS" ]     = "" 
+# m_P_diag["PFS", "Dead" ]     = ""
+# m_P_diag["OS", "OS" ]     = ""
+# m_P_diag["OS", "Dead" ]     = ""
+# m_P_diag["AE1", "PFS" ]     = ""
+# m_P_diag["AE2", "PFS" ]     = ""
+# m_P_diag["AE3", "PFS" ]     = ""
+# m_P_diag["AE1", "Dead" ]     = ""
+# m_P_diag["AE2", "Dead" ]     = ""
+# m_P_diag["AE3", "Dead" ]     = ""
+# m_P_diag["Dead", "Dead" ]     = ""
+# layout.fig <- c(1, 4, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+# plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,  
+#         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9, 
+#         cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+```
+
+# 04 Define and initialize matrices and vectors
+
+After setting up our parameters above, we initialise our structure below.
+
+This is where we will store all of the model output, and all the things that we need to track over time as we are simulating the progression of this cohort through this disease process.
+
+## 04.1 Cohort trace
+
+```{r}
+
+
+# Initialize matrices to store the Markov cohort traces for each strategy
+
+# - note that the number of rows is n_cycle + 1, because R doesn't use index 0 (i.e. cycle 0)  --> What we mean here, is that when we do our calculations later they need to be for cycle-1 to reflect cycle 0.
+m_M_SoC <- m_M_Exp  <-  matrix(
+  data = NA, 
+  nrow = n_cycle,  
+  ncol = n_states, 
+  dimnames = list(paste('Cycle', 1:n_cycle), v_names_states)
+)
+
+# Specifying the initial state for the cohorts (all patients start in PFS)
+m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
+m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
+m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
+m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
+m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
+m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
+
+# Inspect whether properly defined
+# head(m_M_SoC)
+# head(m_M_Exp)
+#head(m_M_Exp_trtB)
+```
+
+## 04.2 Transition probability matrix
+
+```{r}
+
+# Initialize matrices for the transition probabilities
+# - note that these are now 3-dimensional matrices (so, above we originally included dim = nrow and ncol, but now we also include n_cycle - i.e. the number of cycles).
+# - starting with standard of care
+m_P_SoC <- array(
+  data = 0,
+  dim = c(n_states, n_states, n_cycle),
+  dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
+)
+
+head(m_P_SoC)
+
+
+m_P_Exp <- array(
+  data = 0,
+  dim = c(n_states, n_states, n_cycle),
+  dimnames = list(v_names_states, v_names_states, paste0("Cycle", 1:n_cycle))
+  # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
+)
+
+# head(m_P_Exp)
+
+
+
+
+
+```
+
+Fill in the transition probability matrix:
+
+```{r}
+
+# Setting the transition probabilities from PFS based on the model parameters
+  # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
+
+m_P_SoC["PFS", "PFS",]<- (1 -p_PFSOS_SoC) * (1 - p_PFSD_SoC)
+m_P_SoC["PFS", "OS",]<- p_PFSOS_SoC*(1 - p_PFSD_SoC)
+m_P_SoC["PFS", "Dead",]<-p_PFSD_SoC
+
+
+# Setting the transition probabilities from OS
+m_P_SoC["OS", "OS", ] <- 1 - p_PFSD_SoC
+m_P_SoC["OS", "Dead", ]        <- p_PFSD_SoC
+
+# Setting the transition probabilities from Dead
+m_P_SoC["Dead", "Dead", ] <- 1
+
+
+# Setting the transition probabilities from AE1
+m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
+m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
+
+# Setting the transition probabilities from AE2
+m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
+m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
+
+# Setting the transition probabilities from AE3
+m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
+m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
+
+
+m_P_SoC
+```
+
+Check if transition probability matrices are valid.
+
+```{r}
+# This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
+
+check_transition_probability(m_P_SoC,  verbose = TRUE)
+#check_transition_probability(m_P_Exp,  verbose = TRUE)
+check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+```
+
+# 05 Run Markov model
+
+L
+
+```{r}
+for(i_cycle in 1:(n_cycle-1)) {
+  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+}
+
+
+head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+```
+
+# 

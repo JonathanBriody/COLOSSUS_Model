@@ -1026,8 +1026,8 @@ Great utility values for first and second line treatment and adverse events here
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
-n_cycle        <- 143                            
+t_cycle <- 30      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 200                            
 # We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
 # So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 67
@@ -1191,9 +1191,10 @@ p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
 
 
 for(i in 1:n_cycle) {
-  p_FP_SoC[i] <- 1 - NU_S_FP_SoC[i+1] / NU_S_FP_SoC[i]
-  p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
+  p_FP_SoC[i] <- 1 - NU_S_FP_SoC[i]
+  p_FP_Exp[i] <- 1 - S_FP_Exp[i]
 }
+
 
 
 
@@ -1370,8 +1371,8 @@ p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
 
 
 for(i in 1:n_cycle) {
-  p_PFSD_SoC[i] <- 1 - NU_S_PD_SoC[i+1] / NU_S_PD_SoC[i]
-  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
+  p_PFSD_SoC[i] <- 1 - NU_S_PD_SoC[i]
+  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i]
 }
 
 
@@ -1386,15 +1387,15 @@ p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
-p_FP_SoC
-p_PFSD_SoC
-p_FP_SoC <- p_FP_SoC - p_PFSD_SoC
-p_FP_SoC
-
-p_FP_Exp
-p_PFSD_Exp
-p_FP_Exp <- p_FP_Exp - p_PFSD_Exp
-p_FP_Exp
+# p_FP_SoC
+# p_PFSD_SoC
+# p_FP_SoC <- p_FP_SoC - p_PFSD_SoC
+# p_FP_SoC
+# 
+# p_FP_Exp
+# p_PFSD_Exp
+# p_FP_Exp <- p_FP_Exp - p_PFSD_Exp
+# p_FP_Exp
 
 
 
@@ -1910,7 +1911,7 @@ m_P_Exp <- array(
   # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
 )
 
-head(m_P_Exp)
+# head(m_P_Exp)
 
 
 
@@ -1924,10 +1925,10 @@ Fill in the transition probability matrix:
 
 # It looks like I will need to decide if I have to go back to the start of putting everything in the model and put stuff in for not just the experimental strategy, but for experimental strategy 1 AND experimental strategy 2 individually.
 
-
-AE1MARK     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-AE2MARK     <- (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+# 
+# AE1MARK     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+# AE2MARK     <- (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
+# AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
 
 # If I really struggle with the transition probabilities below, I could build them from here alternatively: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Applied Cost Effectiveness Modeling with R\rcea-rscripts\01-markov-cohort
 
@@ -1939,12 +1940,15 @@ AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - 
 
 # Setting the transition probabilities from PFS based on the model parameters
   # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
-m_P_SoC["PFS", "PFS", ] <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-m_P_SoC["PFS", "AE1", ]     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-m_P_SoC["PFS", "AE2", ]     <-  (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-m_P_SoC["PFS", "AE3", ]     <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-m_P_SoC["PFS", "OS", ]     <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* p_FP_SoC* (1 - p_PFSD_SoC)
-m_P_SoC["PFS", "Dead", ]            <-  (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (p_PFSD_SoC)
+m_P_SoC["PFS", "PFS", ] <-   1 - (p_PFSD_SoC + p_FP_SoC)
+m_P_SoC["PFS", "OS", ]     <-  1 - (1-p_FP_SoC + p_PFSD_SoC)
+m_P_SoC["PFS", "Dead", ]            <-  1 - (p_FP_SoC + 1 - p_PFSD_SoC)
+
+
+
+#m_P_SoC["PFS", "PFS", ] <-   1 - (p_PFSD_SoC + p_FP_SoC)
+#m_P_SoC["PFS", "OS", ]     <- p_FP_SoC* (1 - p_PFSD_SoC)
+#m_P_SoC["PFS", "Dead", ]            <-  (1 - p_FP_SoC) * (p_PFSD_SoC)
 
 
 
@@ -1955,54 +1959,54 @@ m_P_SoC["OS", "Dead", ]        <- P_OSD_SoC
 # Setting the transition probabilities from Dead
 m_P_SoC["Dead", "Dead", ] <- 1
 
-
-# Setting the transition probabilities from AE1
-m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
-m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
-
-# Setting the transition probabilities from AE2
-m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
-m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
-
-# Setting the transition probabilities from AE3
-m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
-m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
+# 
+# # Setting the transition probabilities from AE1
+# m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
+# m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
+# 
+# # Setting the transition probabilities from AE2
+# m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
+# m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
+# 
+# # Setting the transition probabilities from AE3
+# m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
+# m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
 
 
 m_P_SoC
 
 # Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
 
-
-m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
-m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
-m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
-m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
-m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
-m_P_Exp["PFS", "Dead", ]            <- p_PFSD_Exp
-
-
-# Setting the transition probabilities from OS
-m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
-m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
-
-# Setting the transition probabilities from Dead
-m_P_Exp["Dead", "Dead", ] <- 1
-
-
-# Setting the transition probabilities from AE1
-m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
-m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
-
-# Setting the transition probabilities from AE2
-m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
-m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
-
-# Setting the transition probabilities from AE3
-m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
-m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
-
-m_P_Exp
+# 
+# m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
+# m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
+# m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
+# m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
+# m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
+# m_P_Exp["PFS", "Dead", ]            <- p_PFSD_Exp
+# 
+# 
+# # Setting the transition probabilities from OS
+# m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
+# m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
+# 
+# # Setting the transition probabilities from Dead
+# m_P_Exp["Dead", "Dead", ] <- 1
+# 
+# 
+# # Setting the transition probabilities from AE1
+# m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
+# m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
+# 
+# # Setting the transition probabilities from AE2
+# m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
+# m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
+# 
+# # Setting the transition probabilities from AE3
+# m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
+# m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
+# 
+# m_P_Exp
 
 
 ```
@@ -2128,14 +2132,14 @@ Check if transition probability matrices are valid.
 # UNCOMMENT THIS! 
 check_transition_probability(m_P_SoC,  verbose = TRUE)
 # UNCOMMENT THIS! 
-check_transition_probability(m_P_Exp,  verbose = TRUE)
+# check_transition_probability(m_P_Exp,  verbose = TRUE)
 #check_transition_probability(m_P_trtA, verbose = TRUE)
 #check_transition_probability(m_P_trtB, verbose = TRUE)
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
 # UNCOMMENT THIS! 
 check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 # UNCOMMENT THIS! 
-check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+# check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
@@ -2171,7 +2175,7 @@ check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle,
 # Inspect whether properly defined
 # - note that we inspect for the first two cycles
 m_P_SoC[ , , 1:2]
-m_P_Exp[ , , 1:2]
+# m_P_Exp[ , , 1:2]
 
 # Does it visually sum to 1?
 
