@@ -248,7 +248,7 @@ Duration-adjusted disutility was subtracted from the baseline utility to calcula
 # 02 Load functions
 
 ```{r}
-options(scipen=0)
+options(scipen=999)
 ```
 
 ```{r}
@@ -256,7 +256,7 @@ options(scipen=0)
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+t_cycle <- 30      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
 n_cycle        <- 143                            
 # We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
@@ -424,15 +424,15 @@ p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
-# p_PFSOS_SoC
-# p_PFSD_SoC
-# p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
-# p_PFSOS_SoC
-# 
-# p_PFSOS_Exp
-# p_PFSD_Exp
-# p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
-# p_PFSOS_Exp
+p_PFSOS_SoC
+p_PFSD_SoC
+p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
+p_PFSOS_SoC
+
+p_PFSOS_Exp
+p_PFSD_Exp
+p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
+p_PFSOS_Exp
 
 
 # Time-constant transition probabilities [ADVERSE EVENTS]:
@@ -671,7 +671,7 @@ m_P_SoC <- array(
   # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
 )
 
-head(m_P_SoC)
+# head(m_P_SoC)
 
 
 m_P_Exp <- array(
@@ -702,8 +702,8 @@ m_P_SoC["PFS", "Dead",]<-p_PFSD_SoC
 
 
 # Setting the transition probabilities from OS
-m_P_SoC["OS", "OS", ] <- 1 - p_PFSD_SoC
-m_P_SoC["OS", "Dead", ]        <- p_PFSD_SoC
+m_P_SoC["OS", "OS", ] <- 1 - p_FD_SoC
+m_P_SoC["OS", "Dead", ]        <- p_FD_SoC
 
 # Setting the transition probabilities from Dead
 m_P_SoC["Dead", "Dead", ] <- 1
