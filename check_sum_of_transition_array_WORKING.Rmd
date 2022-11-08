@@ -306,6 +306,13 @@ S_FP_SoC <- pweibull(
 head(cbind(t, S_FP_SoC))
 
 
+# In the first cycle, maybe I need to delete the 1.0000 value to reflect that after 1 cycle people have progressed, if I do need to do that, the code to do it is here: 
+
+S_FP_SoC[-c(1)]
+
+# I'll check and see what other studies do in this situation.
+
+
 
 # Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
 
@@ -424,15 +431,15 @@ p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
-p_PFSOS_SoC
-p_PFSD_SoC
-p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
-p_PFSOS_SoC
-
-p_PFSOS_Exp
-p_PFSD_Exp
-p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
-p_PFSOS_Exp
+# p_PFSOS_SoC
+# p_PFSD_SoC
+# p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
+# p_PFSOS_SoC
+# 
+# p_PFSOS_Exp
+# p_PFSD_Exp
+# p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
+# p_PFSOS_Exp
 
 
 # Time-constant transition probabilities [ADVERSE EVENTS]:
@@ -723,6 +730,9 @@ m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
 
 
 m_P_SoC
+# I round my transition matrix so things sum exactly to 1, instead of 0.99999999:
+round(m_P_SoC, digits=2) 
+m_P_SoC
 ```
 
 Check if transition probability matrices are valid.
@@ -748,7 +758,7 @@ for(i_cycle in 1:(n_cycle-1)) {
 
 
 head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
-head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+#head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 ```
 
 # 
