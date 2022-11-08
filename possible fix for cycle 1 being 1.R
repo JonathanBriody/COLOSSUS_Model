@@ -31,6 +31,7 @@ n_str           <- length(v_names_strats)
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
 
 # 1) Defining the cycle times
+(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
 
 # I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in days, so we have 0 in cycle 0, 14 (or two weeks) in cycle 1, and so on.
 
@@ -40,19 +41,17 @@ n_str           <- length(v_names_strats)
 # S_FP_SoC - survival of progression free to progression, i.e. not going to progression, i.e. staying in progression free.
 # Note that the coefficients [that we took from flexsurvreg earlier] need to be transformed to obtain the parameters that the base R function uses
 
-(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
 
-x <- pweibull(
+S_FP_SoC <- pweibull(
   q     = t, 
   shape = exp(coef_weibull_shape_SoC), 
   scale = exp(coef_weibull_scale_SoC), 
   lower.tail = FALSE
 )
 
-head(cbind(t, x))
-x
-S_FP_SoC <- x[-c(1)]
+head(cbind(t, S_FP_SoC))
 S_FP_SoC
+
 
 # Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
 
@@ -124,23 +123,19 @@ p_PFSOS_Exp
 
 
 # 1) Defining the cycle times
-(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
+#(t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
 
 # 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
 # S_PD_SoC - survival of progression to dead, i.e. not going to dead, i.e. staying in progression.
 
-y <- pweibull(
+S_PD_SoC <- pweibull(
   q     = t, 
   shape = exp(coef_TTD_weibull_shape_SoC), 
   scale = exp(coef_TTD_weibull_scale_SoC), 
   lower.tail = FALSE
 )
 
-head(cbind(t, y))
-y
-
-S_PD_SoC <- y[-c(1)]
-S_PD_SoC
+head(cbind(t, S_PD_SoC))
 
 
 # 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
@@ -423,13 +418,14 @@ check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle,
 # check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
 
-for(i_cycle in 1:(n_cycle-1)) {
-  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+for(i_cycle in 1:(n_cycle)) {
+  m_M_SoC[i_cycle - 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
 }
 
 
 head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 #head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+
 
 
 
