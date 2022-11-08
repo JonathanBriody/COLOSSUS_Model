@@ -419,7 +419,7 @@ check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle,
 
 
 for(i_cycle in 1:(n_cycle)) {
-  m_M_SoC[i_cycle - 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+  m_M_SoC[i_cycle, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
 }
 
 
