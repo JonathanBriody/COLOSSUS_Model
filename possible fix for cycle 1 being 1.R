@@ -7,7 +7,7 @@ n_cycle        <- 44
 # We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
 # So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 143
-v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")  
+v_names_states  <- c("PFS", "OS", "Dead")  
 # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
 n_states        <- length(v_names_states)        
 # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
@@ -50,7 +50,7 @@ S_FP_SoC <- pweibull(
 )
 
 head(cbind(t, S_FP_SoC))
-S_FP_SoC
+#S_FP_SoC
 
 
 # Having the above header shows that this is probability for surviving in the F->P state, i.e., staying in this state, because you can see in time 0 100% of people are in this state, meaning 100% of people hadnt progressed and were in PFS, if this was instead about the progressed state (i.e. OS), there should be no-one in this state when the model starts, as everyone starts in the PFS state, and it takes a while for people to reach the OS state.
@@ -67,10 +67,10 @@ H_FP_SoC  <- -log(S_FP_SoC)
 H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
 S_FP_Exp  <- exp(-H_FP_Exp)
 
-head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+#head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
 
 
-head(cbind(t, S_FP_SoC, H_FP_SoC))
+#head(cbind(t, S_FP_SoC, H_FP_SoC))
 
 
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
@@ -84,8 +84,8 @@ p_PFSOS_SoC <- p_PFSOS_Exp <- rep(NA, n_cycle)
 
 
 for(i in 1:n_cycle) {
-  p_PFSOS_SoC[i] <- 1 - S_FP_SoC[i]
-  p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i]
+  p_PFSOS_SoC[i] <- 1 - S_FP_SoC[i+1] /  S_FP_SoC[i]
+  p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
 }
 
 # round(p_PFSOS_SoC, digits=2)
@@ -96,9 +96,9 @@ for(i in 1:n_cycle) {
 
 # The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
 
-p_PFSOS_SoC
-
-p_PFSOS_Exp
+# p_PFSOS_SoC
+# 
+# p_PFSOS_Exp
 
 
 
@@ -135,7 +135,7 @@ S_PD_SoC <- pweibull(
   lower.tail = FALSE
 )
 
-head(cbind(t, S_PD_SoC))
+# head(cbind(t, S_PD_SoC))
 
 
 # 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
@@ -145,7 +145,7 @@ H_PD_SoC  <- -log(S_PD_SoC)
 H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
 S_PD_Exp  <- exp(-H_PD_Exp)
 
-head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
+# head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
 
 
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
@@ -155,8 +155,8 @@ p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
 
 
 for(i in 1:n_cycle) {
-  p_PFSD_SoC[i] <- 1 - S_PD_SoC[i]
-  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i]
+  p_PFSD_SoC[i] <- 1 - S_PD_SoC[i+1] / S_PD_SoC[i]
+  p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
 }
 
 # round(p_PFSD_SoC, digits=2)
@@ -164,9 +164,9 @@ for(i in 1:n_cycle) {
 
 # The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
 
-p_PFSD_SoC
-
-p_PFSD_Exp
+# p_PFSD_SoC
+# 
+# p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
@@ -338,9 +338,6 @@ m_M_SoC <- m_M_Exp  <-  matrix(
 
 # Specifying the initial state for the cohorts (all patients start in PFS)
 m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
-m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
-m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
-m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
 m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
 m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
 
@@ -390,24 +387,7 @@ m_P_SoC["OS", "Dead", ]        <- p_FD_SoC
 # Setting the transition probabilities from Dead
 m_P_SoC["Dead", "Dead", ] <- 1
 
-
-# Setting the transition probabilities from AE1
-m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
-m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
-
-# Setting the transition probabilities from AE2
-m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
-m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
-
-# Setting the transition probabilities from AE3
-m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
-m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
-
-
-m_P_SoC
-# I round my transition matrix so things sum exactly to 1, instead of 0.99999999:
-round(m_P_SoC, digits=2) 
-m_P_SoC
+# m_P_SoC
 
 
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
@@ -418,23 +398,81 @@ check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle,
 # check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
 
-for(i_cycle in 1:(n_cycle)) {
-  m_M_SoC[i_cycle, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+
+
+## 3.4 Model evaluation ----
+
+# Create the Markov cohort trace by looping over all cycles
+# - note that the trace can easily be obtained using matrix multiplications
+# - note that now the right probabilities for the cycle need to be selected
+for(i_cycle in 1:(n_cycle-1)) {
+  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
 }
-
-
-head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
-#head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
-
+m_M_SoC
+m_M_Exp
 
 
 
 
 
+# Plotting the Markov cohort traces
+matplot(m_M_SoC, 
+        type = "l", 
+        ylab = "Probability of state occupancy",
+        xlab = "Cycle",
+        main = "Makrov Cohort Traces",
+        lwd  = 3,
+        lty  = 1)
+legend("right", 
+       legend = c(paste(v_names_states, "(SOC)"), 
+       col    = rep(c("black", "red", "green"), 2), 
+       lty    = c(1, 1, 1, 3, 3, 3), 
+       lwd    = 3,
+       bty    = "n")
 
 
+       matplot(m_M_SoC, type = 'l', 
+               ylab = "Probability of state occupancy",
+               xlab = "Cycle",
+               main = "Cohort Trace", lwd = 3)  # create a plot of the data
+       legend("right", v_names_states, col = c("black", "red", "green"), 
+              lty = 1:3, bty = "n")  # add a legend to the graph
+       
+       
+       
+       
 
-
-
-
-
+# 
+# 
+# 
+# for(i_cycle in 1:(n_cycle)) {
+#   m_M_SoC[i_cycle, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+# }
+# 
+# 
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+# #head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# # Then run this:
+# 
+# for(i_cycle in 1:(n_cycle-1)) {
+#   m_M_SoC[i_cycle - 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#   m_M_Exp[i_cycle - 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
+# 
+# 
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+# #head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+# 

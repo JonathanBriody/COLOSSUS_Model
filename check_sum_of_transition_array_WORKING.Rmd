@@ -303,7 +303,7 @@ S_FP_SoC <- pweibull(
   lower.tail = FALSE
 )
 
-head(cbind(t, S_FP_SoC))
+#head(cbind(t, S_FP_SoC))
 
 
 # In the first cycle, maybe I need to delete the 1.0000 value to reflect that after 1 cycle people have progressed, if I do need to do that, the code to do it is here: 
@@ -328,10 +328,10 @@ H_FP_SoC  <- -log(S_FP_SoC)
 H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
 S_FP_Exp  <- exp(-H_FP_Exp)
 
-head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
+#head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
 
 
-head(cbind(t, S_FP_SoC, H_FP_SoC))
+#head(cbind(t, S_FP_SoC, H_FP_SoC))
 
 
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
@@ -357,9 +357,9 @@ for(i in 1:n_cycle) {
 
 # The way this works is the below, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
 
-p_PFSOS_SoC
+#p_PFSOS_SoC
 
-p_PFSOS_Exp
+#p_PFSOS_Exp
 
 
 
@@ -396,7 +396,7 @@ S_PD_SoC <- pweibull(
   lower.tail = FALSE
 )
 
-head(cbind(t, S_PD_SoC))
+#head(cbind(t, S_PD_SoC))
 
 
 # 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
@@ -406,7 +406,7 @@ H_PD_SoC  <- -log(S_PD_SoC)
 H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
 S_PD_Exp  <- exp(-H_PD_Exp)
 
-head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
+#head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
 
 
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
@@ -425,9 +425,9 @@ for(i in 1:n_cycle) {
 
 # The way this works is, you take next cycles probability of staying in this state, divide it by this cycles probability of staying in this state, and take it from 1 to get the probability of leaving this state. 
 
-p_PFSD_SoC
+#p_PFSD_SoC
 
-p_PFSD_Exp
+#p_PFSD_Exp
 
 # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
@@ -470,11 +470,11 @@ p_A2_D_EXPR    <- 0.001    # probability of dying when in adverse event 2 under 
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 p_A3_D_EXPR    <- 0.001    # probability of dying when in adverse event 3 under EXPR
 
-p_PFSD_SoC
-p_PFSD_Exp
+#p_PFSD_SoC
+#p_PFSD_Exp
 
-p_PFSOS_SoC
-p_PFSOS_Exp
+#p_PFSOS_SoC
+#p_PFSOS_Exp
 
 # I generate the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead:
 
@@ -729,10 +729,10 @@ m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
 m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
 
 
-m_P_SoC
+#m_P_SoC
 # I round my transition matrix so things sum exactly to 1, instead of 0.99999999:
-round(m_P_SoC, digits=2) 
-m_P_SoC
+#round(m_P_SoC, digits=2) 
+#m_P_SoC
 ```
 
 Check if transition probability matrices are valid.
@@ -754,7 +754,7 @@ L
 
 # The fix seems to be run the model code, run the below:
 
-for(i_cycle in 1:(n_cycle-1)) {
+for(i_cycle in 1:(n_cycle-2)) {
   m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
   m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
 }
@@ -764,17 +764,19 @@ head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m
 #head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 
 # Then run this:
+# 
+# for(i_cycle in 1:(n_cycle-1)) {
+#   m_M_SoC[i_cycle - 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#   m_M_Exp[i_cycle - 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
 
-for(i_cycle in 1:(n_cycle-1)) {
-  m_M_SoC[i_cycle - 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
-  m_M_Exp[i_cycle - 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
-}
 
-
-head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 #head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 
 
 ```
 
-# 
+```{r}
+
+```
