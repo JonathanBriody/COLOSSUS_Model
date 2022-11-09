@@ -1790,21 +1790,21 @@ C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Train
 ## Draw the state-transition cohort model
 
 ```{r}
-
-diag_names_states  <- c("PFS", "OS", "Dead")  
-
-m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
-
-m_P_diag["PFS", "PFS" ]  = ""
-m_P_diag["PFS", "OS" ]     = "" 
-m_P_diag["PFS", "Dead" ]     = ""
-m_P_diag["OS", "OS" ]     = ""
-m_P_diag["OS", "Dead" ]     = ""
-m_P_diag["Dead", "Dead" ]     = ""
-layout.fig <- c(1, 3, 2) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
-plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,  
-        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9, 
-        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+# 
+# diag_names_states  <- c("PFS", "OS", "Dead")  
+# 
+# m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+# 
+# m_P_diag["PFS", "PFS" ]  = ""
+# m_P_diag["PFS", "OS" ]     = "" 
+# m_P_diag["PFS", "Dead" ]     = ""
+# m_P_diag["OS", "OS" ]     = ""
+# m_P_diag["OS", "Dead" ]     = ""
+# m_P_diag["Dead", "Dead" ]     = ""
+# layout.fig <- c(1, 3, 2) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+# plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,  
+#         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9, 
+#         cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
 ```
 
 # 04 Define and initialize matrices and vectors
@@ -1919,7 +1919,7 @@ m_P_Exp <- array(
   # define row and column names - then name each array after which cycle it's for, i.e. cycle 1 all the way through to cycle 143. So Cycle 1 will have all of our patients in PFS, while cycle 143 will have most people in the dead state.
 )
 
-# head(m_P_Exp)
+head(m_P_Exp)
 
 
 
@@ -2004,7 +2004,24 @@ m_P_SoC
 # # Setting the transition probabilities from Dead
 # m_P_Exp["Dead", "Dead", ] <- 1
 # 
-# 
+
+# Setting the transition probabilities the experimental strategy
+m_P_Exp["PFS", "PFS",]<- (1 -p_PFSOS_Exp) * (1 - p_PFSD_Exp)
+m_P_Exp["PFS", "OS",]<- p_PFSOS_Exp*(1 - p_PFSD_Exp)
+m_P_Exp["PFS", "Dead",]<-p_PFSD_Exp
+
+# Setting the transition probabilities from OS
+m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
+m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
+
+# Setting the transition probabilities from Dead
+m_P_Exp["Dead", "Dead", ] <- 1
+
+
+
+
+
+
 # # Setting the transition probabilities from AE1
 # m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
 # m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
@@ -2017,7 +2034,7 @@ m_P_SoC
 # m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
 # m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
 # 
-# m_P_Exp
+m_P_Exp
 
 
 # If I wanted to round my transition matrix so things sum exactly to 1, instead of 0.99999999 (in cases where this was happening):
