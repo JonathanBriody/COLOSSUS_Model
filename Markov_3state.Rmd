@@ -2487,6 +2487,13 @@ v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
 v_tc_SoC
 v_tc_Exp
 
+
+
+
+
+
+
+
 # calculate expected QALYs by multiplying cohort trace with the utilities for the different health states 
 
 # The three vectors of utilities are basically built in the exact same way as the three vectors of costs above:
@@ -2572,8 +2579,8 @@ v_tc_Exp
 
 # So, what I think this means is that provided utilities are for the period of the cycle we can do the below, and if they are not for the period of the cycle then we can just convert them like in the smoking file above and then apply them as though they are for the period of the cycle:
 
-v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
-v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+v_tu_SoC <- m_M_SoC %*% c(u_F, u_P, u_D)
+v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D)
 
 v_tu_SoC
 v_tu_Exp
