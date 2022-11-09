@@ -1548,13 +1548,13 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
 
 # PFS -> OS:
-
-p_PFS_OS_SoC    <- (1 - p_PFSD_SoC) * (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* p_FP_SoC
-
-
-p_PFS_OS_Exp    <- (1 - p_PFSD_Exp) * (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR) *  p_FP_Exp
-
-
+# 
+# p_PFS_OS_SoC    <- (1 - p_PFSD_SoC) * (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* p_FP_SoC
+# 
+# 
+# p_PFS_OS_Exp    <- (1 - p_PFSD_Exp) * (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR) *  p_FP_Exp
+# 
+# 
 
 
 
@@ -1582,7 +1582,7 @@ p_PFS_OS_Exp    <- (1 - p_PFSD_Exp) * (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p
 
 
 
-p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+# p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
 
 
 # Probability of AE1 when PFS, conditional on surviving, under standard of care
@@ -1595,7 +1595,7 @@ p_A1D_SoC  <- 0.001
 
 
 
-p_A1F_SoC  <- 1-p_A1D_SoC
+#p_A1F_SoC  <- 1-p_A1D_SoC
 
 # Probability of returning from AE1 to PFS is 100% minus the people who have gone into the dead state.
 
@@ -1606,59 +1606,59 @@ p_A1F_SoC  <- 1-p_A1D_SoC
 
 
 # PFS -> PFS:
-
-p_PFS_SoC  <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_PFSOS_SoC) * (1 - p_PFSD_SoC) 
-p_PFS_Exp  <-   (1 - p_PFSD_Exp) * (1 - p_PFSOS_Exp)* (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR)
-
-
-# Probability of A2 when PFS, conditional on surviving, under standard of care
-p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
-# Probability of going from A2 to death
-p_A1D_SoC  <- 0.001 
-
-
-# Probability of A2 when PFS, conditional on surviving, under standard of care
-p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
-# Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
-p_A2D_SoC  <- 0.001 
-# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
-p_A2F_SoC  <- 1-p_A2D_SoC
-
-# Probability of A3 when PFS, conditional on surviving, under standard of care
-p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
-# Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
-p_A3D_SoC  <- 0.001 
-# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
-p_A3F_SoC  <- 1-p_A3D_SoC
-
-
-
-
-
-
-# Probability of A1 when PFS, conditional on surviving, under standard of care
-p_FA1_EXPR  <- (p_PFS_Exp) * p_FA1_EXPR
-# Probability of going from A1 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
-p_A1D_Exp  <- 0.001 
-# Probability of returning from A1 to PFS is 100% minus the people who have gone into the dead state.
-p_A1F_Exp  <- 1-p_A1D_Exp
-
-# Probability of A2 when PFS, conditional on surviving, under standard of care
-p_FA2_Exp  <- (p_PFS_Exp) * p_FA2_EXPR
-# Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
-p_A2D_Exp  <- 0.001 
-# Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
-p_A2F_Exp  <- 1-p_A2D_Exp
-
-# Probability of A3 when PFS, conditional on surviving, under standard of care
-p_FA3_Exp  <- (p_PFS_Exp) * p_FA3_EXPR
-# Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
-p_A3D_Exp  <- 0.001 
-# Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
-p_A3F_Exp  <- 1-p_A3D_Exp
-
-
-# These all have to be conditional on survival, i.e. conditional on being in PFS, this is to ensure that I am only applying adverse events to the people still in the PFS, after transitions etc., have happened. --> This is not how conditional probabilities work, I have the correct interpretation of them elsewhere in this code file.
+# 
+# p_PFS_SoC  <-   (1 - p_FA1_STD)* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_PFSOS_SoC) * (1 - p_PFSD_SoC) 
+# p_PFS_Exp  <-   (1 - p_PFSD_Exp) * (1 - p_PFSOS_Exp)* (1 - p_FA1_EXPR)* (1 - p_FA2_EXPR)* (1 - p_FA3_EXPR)
+# 
+# 
+# # Probability of A2 when PFS, conditional on surviving, under standard of care
+# p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD
+# # Probability of going from A2 to death
+# p_A1D_SoC  <- 0.001 
+# 
+# 
+# # Probability of A2 when PFS, conditional on surviving, under standard of care
+# p_FA2_SoC  <- (p_PFS_SoC) * p_FA2_STD
+# # Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+# p_A2D_SoC  <- 0.001 
+# # Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+# p_A2F_SoC  <- 1-p_A2D_SoC
+# 
+# # Probability of A3 when PFS, conditional on surviving, under standard of care
+# p_FA3_SoC  <- (p_PFS_SoC) * p_FA3_STD
+# # Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+# p_A3D_SoC  <- 0.001 
+# # Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+# p_A3F_SoC  <- 1-p_A3D_SoC
+# 
+# 
+# 
+# 
+# 
+# 
+# # Probability of A1 when PFS, conditional on surviving, under standard of care
+# p_FA1_EXPR  <- (p_PFS_Exp) * p_FA1_EXPR
+# # Probability of going from A1 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+# p_A1D_Exp  <- 0.001 
+# # Probability of returning from A1 to PFS is 100% minus the people who have gone into the dead state.
+# p_A1F_Exp  <- 1-p_A1D_Exp
+# 
+# # Probability of A2 when PFS, conditional on surviving, under standard of care
+# p_FA2_Exp  <- (p_PFS_Exp) * p_FA2_EXPR
+# # Probability of going from A2 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+# p_A2D_Exp  <- 0.001 
+# # Probability of returning from A2 to PFS is 100% minus the people who have gone into the dead state.
+# p_A2F_Exp  <- 1-p_A2D_Exp
+# 
+# # Probability of A3 when PFS, conditional on surviving, under standard of care
+# p_FA3_Exp  <- (p_PFS_Exp) * p_FA3_EXPR
+# # Probability of going from A3 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
+# p_A3D_Exp  <- 0.001 
+# # Probability of returning from A3 to PFS is 100% minus the people who have gone into the dead state.
+# p_A3F_Exp  <- 1-p_A3D_Exp
+# 
+# 
+# # These all have to be conditional on survival, i.e. conditional on being in PFS, this is to ensure that I am only applying adverse events to the people still in the PFS, after transitions etc., have happened. --> This is not how conditional probabilities work, I have the correct interpretation of them elsewhere in this code file.
 
 
 
@@ -2165,14 +2165,14 @@ Check if transition probability matrices are valid.
 # UNCOMMENT THIS! 
 check_transition_probability(m_P_SoC,  verbose = TRUE)
 # UNCOMMENT THIS! 
-# check_transition_probability(m_P_Exp,  verbose = TRUE)
+check_transition_probability(m_P_Exp,  verbose = TRUE)
 #check_transition_probability(m_P_trtA, verbose = TRUE)
 #check_transition_probability(m_P_trtB, verbose = TRUE)
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
 # UNCOMMENT THIS! 
 check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 # UNCOMMENT THIS! 
-# check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
+check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 #check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
@@ -2208,7 +2208,7 @@ check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle,
 # Inspect whether properly defined
 # - note that we inspect for the first two cycles
 m_P_SoC[ , , 1:2]
-# m_P_Exp[ , , 1:2]
+m_P_Exp[ , , 1:2]
 
 # Does it visually sum to 1?
 
@@ -2290,8 +2290,8 @@ matplot(m_M_Exp,
         add  = TRUE) # add a plot of the experimental data ontop of the above plot
 legend("right", 
        legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
-       col    = rep(c("black", "red", "green", "blue", "yellow", "orange"), 2), 
-       lty    = c(1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 12 times here because we have 6 lines under standard of care (6 full lines) and 6 lines under experimental treatment (6 dashed lines)
+       col    = rep(c("black", "red", "green"), 2), 
+       lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 12 times here because we have 6 lines under standard of care (6 full lines) and 6 lines under experimental treatment (6 dashed lines)
        lwd    = 3,
        bty    = "n")
 
@@ -2481,8 +2481,8 @@ Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College o
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
 
-v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
-v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
+v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
+v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
 
 v_tc_SoC
 v_tc_Exp
