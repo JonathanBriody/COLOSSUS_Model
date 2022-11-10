@@ -1687,10 +1687,10 @@ p_A1D_SoC  <- 0.001
 
 # Costs
 
-c_PFS_Folfox <-307.81
-c_PFS_Bevacizumab <-2580.38
-c_OS_Folfiri <-326.02
-administration_cost <- 365.00
+c_PFS_Folfox <-42
+c_PFS_Bevacizumab <-280
+c_OS_Folfiri <-49
+administration_cost <- 50
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
@@ -1722,8 +1722,8 @@ c_AE3 <- 409.03
 # Then we define the utilities per health states.
 
 
-u_F       <- 0.850     # utility when PFS 
-u_P       <- 0.650   # utility when OS
+u_F       <- 0.950     # utility when PFS 
+u_P       <- 0.550   # utility when OS
 u_D       <- 0     # utility when dead
 
 
@@ -5818,7 +5818,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value | Maximum Value | Source        | Distribution |
-|------------|------------|------------|------------|------------|------------|
+|------------------------------------------------------|-----------------------|---------------|---------------|---------------|--------------|
 | **Cost (Per Cycle)**                                 |                       |               |               |               |              |
 | FOLFOX                                               | `c_PFS_Folfox`        |               |               |               |              |
 | FOLFIRI                                              | `c_OS_Folfiri`        |               |               |               |              |
