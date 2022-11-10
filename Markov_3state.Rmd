@@ -490,17 +490,17 @@ load(file = "df_TTD.RData")
 
 # My understanding of survival curves is supported by: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
 
-install.packages(c("survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk"))
-remotes::install_github("zabore/condsurv")
-remotes::install_github("zabore/ezfun")
+#install.packages(c("survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk"))
+#remotes::install_github("zabore/condsurv")
+#remotes::install_github("zabore/ezfun")
 library(survival)
 library(lubridate)
 library(ggsurvfit)
 library(gtsummary)
 library(tidycmprsk)
-library(condsurv)
-install.packages("magrittr") # package installations are only needed the first time you use it
-install.packages("dplyr")    # alternative installation of the %>%
+#library(condsurv)
+#install.packages("magrittr") # package installations are only needed the first time you use it
+#install.packages("dplyr")    # alternative installation of the %>%
 library(magrittr) # needs to be run every time you start R and want to use %>%
 library(dplyr)    # alternatively, this also loads %>%
 
@@ -536,6 +536,69 @@ summary(km_fit_OS, times = c(0,300,600,900,1200,1500,1800,1810,1820,1830,1840,18
 
 
 # The PFS and OS curves I create, match those from the publication, so we know the data we are feeding in is correct.
+
+
+
+
+
+# I calculate the probability of not progressing at the different time periods in the data from the publication, to contrast this to the probabilities I create of not progressing at different time periods once I've created probabilities in the R code, the probability of survival at each time period will be reported under the "survival" heading, per: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html 
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 0)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 150)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 300)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 450)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 600)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 750)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 900)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 1050)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 1200)
+
+
+
+# I can repeat this for TTD:
+
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 0)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 150)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 300)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 450)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 600)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 750)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 900)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1050)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1200)
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1350)
+
+
+summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
+
+
+
+
+
+
+
+
+
+
+
 
 
 ```
