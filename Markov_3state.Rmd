@@ -537,7 +537,7 @@ summary(km_fit_OS, times = c(0,300,600,900,1200,1500,1800,1810,1820,1830,1840,18
 
 # The PFS and OS curves I create, match those from the publication, so we know the data we are feeding in is correct.
 
-
+# So, the problem must be in how I am generating probabilities in my model.
 
 
 
@@ -1153,8 +1153,8 @@ Great utility values for first and second line treatment and adverse events here
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 1      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
-n_cycle        <- 2700                            
+t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 143                            
 # We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
 # So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 67
