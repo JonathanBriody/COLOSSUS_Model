@@ -478,8 +478,64 @@ load(file = "df_TTD.RData")
 
 # A hazard ratio for the new intervention therapy vs. the standard of care will then be applied to obtain transition probabilities for the new experimental strategy.
 
+# Let's first review the survival curves and see if they match the study:
+
+# Simple survival curves:
+
+# km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
+# plot(km_fit_PFS)
+# 
+# km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
+# plot(km_fit_OS)
+
+# My understanding of survival curves is supported by: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+
+install.packages(c("survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk"))
+remotes::install_github("zabore/condsurv")
+remotes::install_github("zabore/ezfun")
+library(survival)
+library(lubridate)
+library(ggsurvfit)
+library(gtsummary)
+library(tidycmprsk)
+library(condsurv)
+install.packages("magrittr") # package installations are only needed the first time you use it
+install.packages("dplyr")    # alternative installation of the %>%
+library(magrittr) # needs to be run every time you start R and want to use %>%
+library(dplyr)    # alternatively, this also loads %>%
 
 
+# We want to make sure the data we're feeding in matches the data from the publication in Table 4d and Supplementary Table 10d
+
+
+# A really good intro to survival curves is here: https://shariq-mohammed.github.io/files/cbsa2019/1-intro-to-survival.html
+
+
+survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
+  labs(
+    x = "Days",
+    y = "Progression Free survival probability"
+  ) + 
+  add_risktable()
+
+
+km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
+summary(km_fit_PFS, times = c(0,150,300,450, 600, 750, 900, 1050, 1200, 1350)) # This will stop just before the last patient is censored in the data, also, n.event means number of events that happened at this time.
+
+
+survfit2(Surv(time, status) ~ 1, data = df_TTD) %>% ggsurvfit() +
+  labs(
+    x = "Days",
+    y = "Overall survival probability"
+  ) + 
+  add_risktable()
+
+
+km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
+summary(km_fit_OS, times = c(0,300,600,900,1200,1500,1800,1810,1820,1830,1840,1850,1860,1870,1880,1890,1891,1892,1893,1894,1895,1896,1897,1898,1899,1900,1901,2000,2010))
+
+
+# The PFS and OS curves I create, match those from the publication, so we know the data we are feeding in is correct.
 
 
 ```
@@ -1034,8 +1090,8 @@ Great utility values for first and second line treatment and adverse events here
 
 # Here we define all our model parameters, so that we can call on these parameters later during our model:
 
-t_cycle <- 30      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
-n_cycle        <- 44                            
+t_cycle <- 1      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                  
+n_cycle        <- 2700                            
 # We set the number of cycles to 143 to reflect 2,000 days from the Angiopredict study (5 Years, 5 Months, 3 Weeks, 1 Day) broken down into fortnightly cycles
 v_names_cycles  <- paste("cycle", 0:n_cycle)    
 # So here, we just name each cycle by the cycle its on, going from 0 up to the number of cycles there are, here 67
@@ -1687,10 +1743,10 @@ p_A1D_SoC  <- 0.001
 
 # Costs
 
-c_PFS_Folfox <-42
-c_PFS_Bevacizumab <-280
-c_OS_Folfiri <-49
-administration_cost <- 50
+c_PFS_Folfox <-307.81
+c_PFS_Bevacizumab <-2580.38
+c_OS_Folfiri <-326.02
+administration_cost <- 365.00
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
@@ -1722,8 +1778,8 @@ c_AE3 <- 409.03
 # Then we define the utilities per health states.
 
 
-u_F       <- 0.950     # utility when PFS 
-u_P       <- 0.550   # utility when OS
+u_F       <- 0.850     # utility when PFS 
+u_P       <- 0.650   # utility when OS
 u_D       <- 0     # utility when dead
 
 
@@ -2250,6 +2306,12 @@ for(i_cycle in 1:(n_cycle-1)) {
 
 head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+
+#m_M_SoC
+m_M_SoC
+#m_M_Exp
+m_M_Exp
+
 ```
 
 # 06 Compute and Plot Epidemiological Outcomes
@@ -2314,15 +2376,15 @@ abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
 
 
 
-
-
-
-     matplot(m_M_SoC, type = 'l', 
-               ylab = "Probability of state occupancy",
-               xlab = "Cycle",
-               main = "Cohort Trace", lwd = 3)  # create a plot of the data
-       legend("right", v_names_states, col = c("black", "red", "green"), 
-              lty = 1:3, bty = "n")  # add a legend to the graph
+# 
+# 
+# 
+#      matplot(m_M_SoC, type = 'l', 
+#                ylab = "Probability of state occupancy",
+#                xlab = "Cycle",
+#                main = "Cohort Trace", lwd = 3)  # create a plot of the data
+#        legend("right", v_names_states, col = c("black", "red", "green"), 
+#               lty = 1:3, bty = "n")  # add a legend to the graph
 
 
 
@@ -5818,7 +5880,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value | Maximum Value | Source        | Distribution |
-|------------------------------------------------------|-----------------------|---------------|---------------|---------------|--------------|
+|------------|------------|------------|------------|------------|------------|
 | **Cost (Per Cycle)**                                 |                       |               |               |               |              |
 | FOLFOX                                               | `c_PFS_Folfox`        |               |               |               |              |
 | FOLFIRI                                              | `c_OS_Folfiri`        |               |               |               |              |
