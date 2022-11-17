@@ -2780,8 +2780,8 @@ sum(v_tu_Exp)
 
 # When I calculate the QALYs above, I don’t convert these quality adjusted cycles to years. If I sum each of v_tu_SoC and v_tu_Exp I get 16.7 quality adjusted cycles in the SoC arm and 21.1 quality adjusted cycles in the Exp arm. I can convert these quality adjusted cycles to years for fortnights by working out how many fortnights there are in a year (26.0714) and then divide by this number. These correspond to 0.64 and 0.81 QALYs respectively so 0.17 QALYs gained.
 
-v_tu_SoC <- v_tu_SoC/26.0714
-v_tu_Exp <- v_tu_Exp/26.0714
+v_tu_SoC <- v_tu_SoC*0.0384
+v_tu_Exp <- v_tu_Exp*0.0384
 
 sum(v_tu_SoC)
 sum(v_tu_Exp)
