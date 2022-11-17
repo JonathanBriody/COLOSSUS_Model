@@ -2594,7 +2594,7 @@ daily_v_le_exp
 
 # Disease prevalence is the proportion who are sick divided by the proportion who are alive, so it's necessary to account for the fact that some of the cohort have died, so you only calculate prevalence among people who are alive,in the diagram you can see it plateauing over time, even though the number of people in the OS (or "progressed") state have gone up and come down over time and this is because this is prevalence as a proportion of those who are alive, and there are few people who are still alive by cycle 60.
 
-# Probably looks a bit funny dividing OS by v_os below, but it's necessary to remember that v_os is PFS + OS.
+# Probably looks a bit funny dividing OS by v_os below, but it's necessary to remember that v_os is PFS + OS, because it's anyone who is not dead.
 
 # So, I guess in our context you can think of this as progression prevalence over time:
 
@@ -2622,7 +2622,7 @@ Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College o
 
 # Basically, you take the cohort trace over time for each strategy [m_M_SoC] and multiply this by a vector of our costs for each state: [c(c_H, c_S, c_D)] -> So, basically the number of people in each state at each cycle multiplied by the cost of being in that state [cost of healthy, cost of sick and cost of dead] for each strategy that we look at (standard of care, treatment A and treatment B).
 
-# Bear in mind we are doing matrix multiplication [%*%], because what this does is for each cycle [row in the matrix], take the vector of costs, and multiply it be the distribution in that cycle [breakdown of proportions in the states in that row] and add it all together, to get the total costs for that cycle [row]. This gives us a vector of the costs accrued in this cohort of individuals ending up in these different states for each cycle on a per person basis, because it's a cohort distribution (it always sums to 1).
+# Bear in mind we are doing matrix multiplication [%*%], because what this does is for each cycle [row in the matrix], take the vector of costs, and multiply it by the distribution in that cycle [breakdown of proportions in the states in that row] and add it all together, to get the total costs for that cycle [row]. This gives us a vector of the costs accrued in this cohort of individuals ending up in these different states for each cycle on a per person basis, because it's a cohort distribution (it always sums to 1).
 
 # So, in cycle 1 everyone is in the OS state, so they only incur the OS cost, as more and more time passes and more and more people get sick, the costs increases due to more people being in the PFS state, but over time this falls again as more and more people go into the dead state, which has no costs as we don't treat corpses.
 
@@ -2630,7 +2630,7 @@ Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College o
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
 
-# 1. Probability of an adverse even of given type
+# 1. Probability of an adverse event of given type
 p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
 p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
 p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
@@ -2660,11 +2660,11 @@ u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
 # uState<-uState-pAE1*duAE1
 
 
-c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
-c_F_Exp<-c_F_Exp +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+#c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+#c_F_Exp<-c_F_Exp +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
 
 
-u_F<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+#u_F<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
 
 
 v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
@@ -2771,9 +2771,25 @@ v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D)
 v_tu_SoC
 v_tu_Exp
 
-# The above displays the amount of QALY's gathered in each cycle.
+# BUT, we need to remember that the above displays the amount of utilitie's gathered in each cycle.
 
-# These are quality adjusted cycles, these are quality adjusted life years where cycles are annual, so I need to consider what this means for utility where cycles are monthly... I suppose it's just quality adjusted monthly utility.
+sum(v_tu_SoC)
+sum(v_tu_Exp)
+
+# Particularly, these are quality adjusted cycles, these are quality adjusted life years where cycles are annual, so I need to consider what this means for utility where cycles are monthly, or fortnightly.
+
+# When I calculate the QALYs above, I don’t convert these quality adjusted cycles to years. If I sum each of v_tu_SoC and v_tu_Exp I get 16.7 quality adjusted cycles in the SoC arm and 21.1 quality adjusted cycles in the Exp arm. I can convert these quality adjusted cycles to years for fortnights by working out how many fortnights there are in a year (26.0714) and then divide by this number. These correspond to 0.64 and 0.81 QALYs respectively so 0.17 QALYs gained.
+
+v_tu_SoC <- v_tu_SoC/26.0714
+v_tu_Exp <- v_tu_Exp/26.0714
+
+v_tu_SoC
+v_tu_Exp
+
+# QALYS Gained:
+
+Qalys_gained <- v_tu_Exp - v_tu_SoC
+Qalys_gained
 
 # You can see above that there are no utility differences between the different treatments considered: c(u_H, u_S, u_D), it's just different utilities per the health states people are in.
 
