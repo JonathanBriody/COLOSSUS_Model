@@ -2551,7 +2551,31 @@ v_le <- sum(v_OS_SoC)  # summing probability of OS over time  (i.e. life expecta
 v_le
 
 
-# So, if this gives a value of [1] 24.26038, that is [1] 24.26038 cycles, where in the context of our model, cycles are months, so the life expectancy for our population of patients is 24 months.
+v_le_exp <- sum(v_OS_Exp)  # summing probability of OS over time  (i.e. life expectancy)
+
+v_le_exp
+
+
+
+# So, if this gives a value of [1] 20.70332, that is [1] 20.70332 cycles, where in the context of our model, cycles are fortnights, so the life expectancy for our population of patients is 20.70332 fortnights or, in days:
+
+
+daily_v_le <- v_le * 14
+daily_v_le
+daily_v_le_exp <- v_le_exp * 14
+daily_v_le_exp
+
+
+
+# When I calculate LE I calculate it in cycles. Note that my code gives a LE of 20.7 cycles for the SoC group which is approx. 290 days or 0.8 years.  Caculating the LE for the Exp group I calculated the corresponding figures as: 25.9 cycles = 363 days = 1 year (approx.). So a LE gain of about 0.2 life-years.
+
+
+
+
+
+
+
+
 
 
 # Discounted life expectancy:
@@ -2605,6 +2629,43 @@ Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College o
 # v_tc_SoC  <- m_M_SoC  %*% c(c_H, c_S, c_D)  
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
+
+# 1. Probability of an adverse even of given type
+p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
+p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
+p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
+
+p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
+p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
+p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03
+#3. Disutiltiy of AE (negative qol impact x duration of event)
+daily_utility <- u_F/14
+AE1_discounted_daily_utility <- daily_utility * (1-0.45)
+AE2_discounted_daily_utility <- daily_utility * (1-0.19)
+AE3_discounted_daily_utility <- daily_utility * (1-0.36)
+
+
+u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
+u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
+u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
+
+
+# I then adjust my state costs and utilities:
+
+# uState<-uState-pAE1*duAE1
+
+
+c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+c_F_Exp<-c_F_Exp +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+
+
+u_F<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+
 
 v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
 v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
