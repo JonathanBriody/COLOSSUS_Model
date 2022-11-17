@@ -2783,13 +2783,13 @@ sum(v_tu_Exp)
 v_tu_SoC <- v_tu_SoC/26.0714
 v_tu_Exp <- v_tu_Exp/26.0714
 
-v_tu_SoC
-v_tu_Exp
+sum(v_tu_SoC)
+sum(v_tu_Exp)
 
 # QALYS Gained:
 
 Qalys_gained <- v_tu_Exp - v_tu_SoC
-Qalys_gained
+sum(Qalys_gained)
 
 # You can see above that there are no utility differences between the different treatments considered: c(u_H, u_S, u_D), it's just different utilities per the health states people are in.
 
@@ -2797,7 +2797,8 @@ Qalys_gained
 
 
 
-
+sum(v_tc_SoC)
+sum(v_tc_Exp)
 
 
 
