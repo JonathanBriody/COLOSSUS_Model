@@ -28,7 +28,7 @@ Smeets, D., Miller, I. S., O'Connor, D. P., Das, S., Moran, B., Boeckx, B., ... 
 Copy number load predicts outcome of metastatic colorectal cancer patients receiving bevacizumab combination therapy.
 *Nature communications*, *9*(1), 1-16.
 
-# **Abstract:**
+# **Abstract \# For your write-up on Bevacizumab, and particularly for the part indicating it's not cost effective, you should use these 3 studies: Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S. (2021). Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia. Asian Pacific Journal of Cancer Prevention: APJCP, 22(6), 1921. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8418847/pdf/APJCP-22-1921.pdf> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., El-Rayes, B. F., & Flowers, C. R. (2015). First-and second-line bevacizumab in addition to chemotherapy for metastatic colorectal cancer: a United States--based cost-effectiveness analysis. Journal of Clinical Oncology, 33(10), 1112. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4881313/pdf/zlj1112.pdf> Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., ... & Hall, P. S. (2017). Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis. The Oncologist, 22(6), 694-699. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5469597/pdf/onco12164.pdf>:**
 
 > I'll initially draft this as informed by:
 >
@@ -2660,11 +2660,16 @@ u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
 # uState<-uState-pAE1*duAE1
 
 
-#c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
-#c_F_Exp<-c_F_Exp +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
 
 
-#u_F<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+u_F_SoC<-u_F
+u_F_Exp<-u_F
+
+
+u_F_SoC<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
 
 
 v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
@@ -2765,8 +2770,11 @@ v_tc_Exp
 
 # So, what I think this means is that provided utilities are for the period of the cycle we can do the below, and if they are not for the period of the cycle then we can just convert them like in the smoking file above and then apply them as though they are for the period of the cycle:
 
-v_tu_SoC <- m_M_SoC %*% c(u_F, u_P, u_D)
-v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D)
+
+
+
+v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_P, u_D)
+v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_P, u_D)
 
 v_tu_SoC
 v_tu_Exp
@@ -3357,6 +3365,8 @@ but probably a good idea to ensure this is the case (i.e., change the n_wtp to s
 
 BEFORE I CAN RUN THE SENSITIVITY ANALYSIS, I'LL NEED TO MAKE MY ADDITIONS ABOVE TO THE FUNCTION FOR SENSTIVIITY ANALYIS.
 
+If I updated utility above re: adverse events, then I'll need to take this into account for u_F below:
+
 p_PD  <- 0.05
 p_FD  <- 0.02      
 u_F <- 0.5
@@ -3457,6 +3467,7 @@ source(file = "oncologySemiMarkov_function.R")
 
 # Now I update this list with the variables I have:
 
+If I updated utility for AE above, then I'll have to take that into account for u_F below:
 
 l_params_all <- list(
   coef_weibull_shape_SoC = coef_weibull_shape_SoC,
@@ -3742,6 +3753,7 @@ Maximum_c_AE3  <- c_AE3 + 0.20*c_AE3
 
 # Utilities:
 
+If I updated utility for AEs above, then I'll have to take that into account for u_F below
 
 u_F
 
@@ -3812,7 +3824,7 @@ Maximum_d_c <- d_c + 0.20*d_c
 
 # options(scipen = 999) # disabling scientific notation in R
 
-
+If I updated utility for AE above, then I'll have to take that into account for u_F below:
 
 df_params_OWSA <- data.frame(
   pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
