@@ -2780,8 +2780,11 @@ sum(v_tu_Exp)
 
 # When I calculate the QALYs above, I don’t convert these quality adjusted cycles to years. If I sum each of v_tu_SoC and v_tu_Exp I get 16.7 quality adjusted cycles in the SoC arm and 21.1 quality adjusted cycles in the Exp arm. I can convert these quality adjusted cycles to years for fortnights by working out how many fortnights there are in a year (26.0714) and then divide by this number. These correspond to 0.64 and 0.81 QALYs respectively so 0.17 QALYs gained.
 
-v_tu_SoC <- v_tu_SoC*0.0384
-v_tu_Exp <- v_tu_Exp*0.0384
+v_tu_SoC <- v_tu_SoC/26.0714
+v_tu_Exp <- v_tu_Exp/26.0714
+
+# So, these are per-cycle utility values, but, our cycles aren't years, they are fortnights, so these are per fortnight values, if we want this value to reflect the per year value, so that we have a quality adjusted life year, or QALY, then we need to adjust this utility value by how many of these fortnights there are in a year (26.0714), that is divide by how many fortnights there are in a year to bring the per fortnight value to a per year value
+
 
 sum(v_tu_SoC)
 sum(v_tu_Exp)
@@ -2845,7 +2848,7 @@ tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
 # So, now we have the average cost per person for treatment with standard of care, and the experimental treatment. 
 
 
-# Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would be a better term here, as it's monthly health state quality of life, rather than yearly health state quality of life]
+# Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would have been a better term here, if I hadnt of updated it from fortnightly health state quality of life, to yearly health state quality of life]
 # tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
 # tu_d_trtA <-  t(v_tu_trtA) %*% v_dwe
 # tu_d_trtB <-  t(v_tu_trtB) %*% v_dwe
