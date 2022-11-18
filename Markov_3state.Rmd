@@ -2829,10 +2829,24 @@ sum(v_tc_Exp)
 
 # Obtain the discounted costs and QALYs by multiplying the vectors of total cost and total utility we created above by the discount rate for each cycle:
 
-# - note first the discount rate for each cycle needs to be defined accounting for the cycle length, as below:
+# Its important to remember what scale I'm on when I applied my discounting formula.
+# If I set d_e<-0 then my code estimates 16.7 and 21.1 QALYs in each group which must be the quality adjusted cycles.
+
+# Setting the discount rate back to 4% gives me 1.97 and 1.98 QALYs (which are really QA-cycles).
+
+# Looking at the discounting vector I have defined below, I have converted cycles to days but I need to convert the discount rate to a daily discount. If I don't, the result is that discounting reduces the cycles dramatically which reduces the difference which increases with time.
+
+# I can adress this by defining the discount rate as divided by 365 (i.e. the number of days in a year) then the results become 16.4 and 20.6 QA-cycles which of course become 0.63 and 0.79 QALYs respectively, or 0.16 QALYs gained.
+
+d_c <- d_c/365
+d_e <- d_e/365
+
+# - Then, the discount rate for each cycle needs to be defined accounting for the cycle length, as below:
+
 
 v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle)) 
 v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
+
 
 # So, below we take the vector of costs, transposing it [the t() bit] to make it a 1 row matrix and using matrix multiplication [%*%] to multiply it by that discount factor vector, which is what you multiply by the outcome in each cycle to get the discounted value of the outcome for that cycle, and then it will all be summed all together across all cycles [across all cells of the 1 row matrix]. Giving you tc_d_SoC which is a scalar, or a single value, which is the lifetime expected cost for an average person under standard of care in this cohort. 
 
@@ -2873,6 +2887,9 @@ v_tc_d
 names (v_tu_d) <- v_names_strats
 v_tu_d
 
+
+Discounted_Qalys_gained <- tu_d_Exp - tu_d_SoC
+sum(Discounted_Qalys_gained)
 
 # For utility, the utility values aren't different for the different states depending on the treatment strategy, i.e. SOC, Experimental Treatment, but the time spent in the states with the associated utility is different due to the treatment you're on, so your utility value will be higher if the treatment keeps you well for longer so that you stay in a higher utility state for longer than a lower utility state, i.e., progression.
 
@@ -3318,6 +3335,9 @@ but probably a good idea to ensure this is the case (i.e., change the n_wtp to s
 #Normal chrome Session buddy has all the tabs on describing tornado diagrams that I need to read saved. Canary session buddy has all the tabs saved on doing a tornado diagram outside of the darth framework.
 
 # A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
+
+
+BEFORE I CAN RUN THE SENSITIVITY ANALYSIS, I'LL NEED TO MAKE MY ADDITIONS ABOVE TO THE FUNCTION FOR SENSTIVIITY ANALYIS.
 
 p_PD  <- 0.05
 p_FD  <- 0.02      
