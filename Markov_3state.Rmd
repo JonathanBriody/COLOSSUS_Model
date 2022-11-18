@@ -2906,6 +2906,9 @@ sum(Discounted_Qalys_gained)
 
 ## 07.3 Compute ICERs of the Markov model
 
+This study also found that Bevacizumab wasnt a cost-effective addition to care in a number of studies, so I should follow their manner of discussing this: Goldstein, Daniel A., et al. "Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis." The Oncologist 22.6 (2017): 694-699.
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5469597/pdf/onco12164.pdf>
+
 I think somewhere in all my example files there must be some example code on generating life years, etc., and reporting them as part of your results table.
 I basically want to be able to report the following per page 5 of Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>:
 
