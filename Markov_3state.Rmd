@@ -2798,10 +2798,20 @@ sum(Qalys_gained)
 
 # If we did want to do different utilities for the health state you are in per the treatment you are on, we could define this in the input parameters and then add this in above when creating the vector of utilities for that treatment.
 
-
-
 sum(v_tc_SoC)
 sum(v_tc_Exp)
+
+# The question is, should I be making that similar conversion of cycles to years for costs? I could do this as below: 
+
+# v_tc_SoC <- v_tc_SoC/26.0714
+# v_tc_Exp <- v_tc_Exp/26.0714
+# 
+# sum(v_tc_SoC)
+# sum(v_tc_Exp)
+
+
+# But, I assume my costs could be correct, if I correctly defined my costs per cycle.
+
 
 
 
