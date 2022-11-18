@@ -2786,6 +2786,9 @@ v_tu_Exp <- v_tu_Exp/26.0714
 # So, these are per-cycle utility values, but, our cycles aren't years, they are fortnights, so these are per fortnight values, if we want this value to reflect the per year value, so that we have a quality adjusted life year, or QALY, then we need to adjust this utility value by how many of these fortnights there are in a year (26.0714), that is divide by how many fortnights there are in a year to bring the per fortnight value to a per year value
 
 
+# James, I'd like your thoughts on what I've done here and whether this seems reasonable.
+
+
 sum(v_tu_SoC)
 sum(v_tu_Exp)
 
@@ -2812,8 +2815,10 @@ sum(v_tc_Exp)
 
 # But, I assume my costs could be correct, if I correctly defined my costs per cycle.
 
+# This is probably where I would like some feedback, is the manner in which I generate my costs (particularly) and QALYs above, correct?
 
 
+# Reviewing the literature, the fact that: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., El-Rayes, B. F., & Flowers, C. R. (2015). First-and second-line bevacizumab in addition to chemotherapy for metastatic colorectal cancer: a United States–based cost-effectiveness analysis. Journal of Clinical Oncology, 33(10), 1112. has similar costs, QALYS and Life Years gained and reports similar ICERs (the $352,734/QALY in the UK, which is similar to my own several hundred thousand per QALY without dividing costs by 26.0714 and dissimilar to my ~18,000 per QALY when I divide costs by 26.0714 makes me think I shouldnt be dividing costs by 26.0714).
 
 ```
 
