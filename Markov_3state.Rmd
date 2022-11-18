@@ -393,11 +393,13 @@ Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* =
 Transition from first to second line treatment in each cycle was calculated based on the [@wang2020] [USE THIS PAPER TO DESCRIBE THE PARAMETRIC SURVIVAL ANALYSIS] formulation: 1−exp(\$*λ*[t−1]\^{γ}\$ − \$*λ*t\^{γ}\$), where the current stage in the model is t, and *λ* and *γ* are the estimated scale and shape parameters respectively.
 The transition probability of second-line treatment into death is as informed by [@wen2016].
 
+# 00 Set up general state of play
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 # To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
 
-# If you wanted to compare to R files and see what the differences are between them, you can do so with this:
+# If you wanted to compare two R files and see what the differences are between them, you can do so with this:
 
 # install.packages("diffr")
 # library(diffr)
@@ -414,7 +416,7 @@ options(scipen=999)
 # options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
 ```
 
-# 01 Load parametric packages
+# 01 Load all packages
 
 ```{r}
 # Joshua's Package Manager:
@@ -1614,37 +1616,6 @@ p_PFSD_Exp
 
 
 
-# Now that I am doing parametric survival analysis, the only probabilities I need to generate here are the adverse event probabilities, I generate them as conditional probabilities per chunk 20:
-
-
-# Probability of going to the adverse event state from the progression free state:
-
-
-p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
-p_A1_D_STD    <- 0.001    # probability of dying when in adverse event 1 under SOC
-
-p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
-p_A2_D_STD    <- 0.001    # probability of dying when in adverse event 2 under SOC
-
-p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
-p_A3_D_STD    <- 0.001    # probability of dying when in adverse event 3 under SOC
-
-
-p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
-p_A1_D_EXPR    <- 0.001    # probability of dying when in adverse event 1 under EXPR
-
-p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
-p_A2_D_EXPR    <- 0.001    # probability of dying when in adverse event 2 under EXPR
-
-p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
-p_A3_D_EXPR    <- 0.001    # probability of dying when in adverse event 3 under EXPR
-
-p_PFSD_SoC
-p_PFSD_Exp
-
-p_PFSOS_SoC
-p_PFSOS_Exp
-
 # So, I now need to change p_FD_SoC and p_FD_Exp to reflect OS -> DEAD, becuase I now REALISE HERE TEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
  # and the FD below instead reflects the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead.
 
@@ -1732,7 +1703,7 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
 
 
-p_A1D_SoC  <- 0.001 
+#p_A1D_SoC  <- 0.001 
 
 # Probability of going from AE1 to death, at the moment this is just a dummy value, I expect this to be a really low value source from the literature.
 
@@ -1844,15 +1815,6 @@ c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progressi
 c_D       <- 0     # cost of one cycle in dead state
 
 
-# We define the costs of the adverse events:
-
-# AE1:Leukopenia = 0.040 AE2:Diarrhea = 0.310 AE3:Vomiting = 0.31
-
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03
-
-
 
 # Above is the cost for each state, PFS, OS and dead,
 
@@ -1869,18 +1831,6 @@ u_F       <- 0.850     # utility when PFS
 u_P       <- 0.650   # utility when OS
 u_D       <- 0     # utility when dead
 
-
-# We define the utilities in the adverse event states as a percentage lower utility for has the cycle of the PFS state:
-
-daily_utility <- u_F/14
-AE1_discounted_daily_utility <- daily_utility * (1-0.45)
-AE2_discounted_daily_utility <- daily_utility * (1-0.19)
-AE3_discounted_daily_utility <- daily_utility * (1-0.36)
-
-
-u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
-u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
-u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
 
 
 
@@ -1901,7 +1851,11 @@ d_e             <- 0.04
 
 # So, we create a discount weight vector above, to understand the way this works I'll have to return to my York notes on discounting
 
+p_PFSD_SoC
+p_PFSD_Exp
 
+p_PFSOS_SoC
+p_PFSOS_Exp
 ```
 
 Discount rate for costs and utilities I need to return to it more generally with the notes I wrote from York on discounting.
@@ -2070,7 +2024,7 @@ head(m_P_Exp)
 
 ```
 
-Fill in the transition probability matrix:
+## 04.3 Fill in the transition probability matrix:
 
 ```{r}
 
@@ -2282,7 +2236,7 @@ m_P_Exp
 
 I may want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
 
-Check if transition probability matrices are valid.
+## 04.4 Check if transition probability matrices are valid.
 
 ```{r}
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
@@ -2634,7 +2588,7 @@ plot(v_prev,
 
 Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Applied Cost Effectiveness Modeling with R\\rcea-master\\rcea-master\\vignettes
 
-## 07.1 Mean Costs and QALYs for each strategy
+## 07.1 Including ADVERSE EVENTS in Mean Costs and QALYs for each strategy
 
 ```{r}
 
@@ -2654,7 +2608,10 @@ Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College o
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
 
-# 1. Probability of an adverse event of given type
+# 1. Probability of adverse events 1,2 3 in the PFS state under standard of care and exp care:
+
+# AE1:Leukopenia = 0.040 AE2:Diarrhea = 0.310 AE3:Vomiting = 0.31
+
 p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
 p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
 p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
@@ -2668,6 +2625,7 @@ c_AE1 <- 2835.89
 c_AE2 <- 1458.80
 c_AE3 <- 409.03
 #3. Disutiltiy of AE (negative qol impact x duration of event)
+
 daily_utility <- u_F/14
 AE1_discounted_daily_utility <- daily_utility * (1-0.45)
 AE2_discounted_daily_utility <- daily_utility * (1-0.19)
