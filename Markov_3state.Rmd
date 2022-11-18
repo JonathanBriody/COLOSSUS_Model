@@ -417,12 +417,36 @@ options(scipen=999)
 # 01 Load parametric packages
 
 ```{r}
+# Joshua's Package Manager:
+
+# Package names
+
+packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr")
+
+# Install packages not yet installed
+
+installed_packages <- packages %in% rownames(installed.packages())
+
+if (any(installed_packages == FALSE)) {
+
+  install.packages(packages[!installed_packages])
+
+}
+
+# Packages loading
+
+invisible(lapply(packages, library, character.only = TRUE))
+
+p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
+```
+
+```{r}
 
 # Check whether the required packages are installed and, if not, install the missing packages
-# - the 'pacman' package is used to conveniently install other packages
-if (!require("pacman")) install.packages("pacman"); library(pacman)
-p_load("flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram")   
-p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
+# # - the 'pacman' package is used to conveniently install other packages
+# if (!require("pacman")) install.packages("pacman"); library(pacman)
+# p_load("flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram")   
+# p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 ```
 
 # 02 Individual Data for Parametric Code
@@ -493,16 +517,16 @@ load(file = "df_TTD.RData")
 #install.packages(c("survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk"))
 #remotes::install_github("zabore/condsurv")
 #remotes::install_github("zabore/ezfun")
-library(survival)
-library(lubridate)
-library(ggsurvfit)
-library(gtsummary)
-library(tidycmprsk)
-#library(condsurv)
-#install.packages("magrittr") # package installations are only needed the first time you use it
-#install.packages("dplyr")    # alternative installation of the %>%
-library(magrittr) # needs to be run every time you start R and want to use %>%
-library(dplyr)    # alternatively, this also loads %>%
+# library(survival)
+# library(lubridate)
+# library(ggsurvfit)
+# library(gtsummary)
+# library(tidycmprsk)
+# #library(condsurv)
+# #install.packages("magrittr") # package installations are only needed the first time you use it
+# #install.packages("dplyr")    # alternative installation of the %>%
+# library(magrittr) # needs to be run every time you start R and want to use %>%
+# library(dplyr)    # alternatively, this also loads %>%
 
 
 # We want to make sure the data we're feeding in matches the data from the publication in Table 4d and Supplementary Table 10d
