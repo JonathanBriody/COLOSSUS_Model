@@ -673,6 +673,9 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 
 # looking at the cohort trace -> m_M_SoC, you see that the proportions in the PFS state from 100 are basically identical to the probabilities of being in those states created from the Kaplan Meier, again starting from 100% of people under study, thus, the Weibull probabilities created match the Kaplan-Meier.
+
+# They can be a few % off but that's OK, as it's fitting a Weibull to the Kaplan Meier curves, so they're not going to be identical.
+
 # m_M_SoC
 
 
