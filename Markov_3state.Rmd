@@ -619,6 +619,142 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 
 
 
+# Do the Weibull probabilities match the probabilities created directly by the Kaplan-Meier:
+
+# Here's how I checked if the Weibull probabilities match the probabilities created directly by the Kaplan-Meier, basically, I take the Kaplan-Meier probabilities at a few different cycles directly from the data as below, the probability of survival at each time period will be reported under the "survival" heading:
+
+# I do this first for TTP:
+
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 0)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 14)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 28)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 42)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 56)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 70)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 84)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 98)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 112)
+
+
+
+# Then, I calculate the probability of staying in the PFS state, which is what the above gives me. To do this, I create all the other probabilities as zero because I just want to look at whats going on with my Weibull probabilities for the PFS curve, I also put it in the first slot, as the way it works is that it needs to be multiplied by 1, and m_M_SoC has a cohort trace with 1 in in the first slot, ready to be matrix multiplied by m_P_SoC with it's probabilities. It's 1- because the probabilities created above from the PFS curve are probabilities of staying in PFS, not the probabilities of moving from PFS to OS.
+
+# m_P_SoC["PFS", "PFS",]<- (1 -p_PFSOS_SoC)
+# m_P_SoC["PFS", "OS",]<- 0
+# m_P_SoC["PFS", "Dead",]<-0
+# 
+# # Setting the transition probabilities from OS
+# m_P_SoC["OS", "OS", ] <- 0
+# m_P_SoC["OS", "Dead", ]        <- 0
+# 
+# 
+# # Setting the transition probabilities from Dead
+# m_P_SoC["Dead", "Dead", ] <- 0
+
+
+# So here I once again create the Markov cohort trace by looping over all cycles
+# - note that the trace can easily be obtained using matrix multiplications
+# - note that now the right probabilities for the cycle need to be selected, like I explained above. (this is all just the comments written from where I actually do the analysis).
+# for(i_cycle in 1:(n_cycle-1)) {
+#   m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#   m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
+
+
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+# head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+
+# looking at the cohort trace -> m_M_SoC, you see that the proportions in the PFS state from 100 are basically identical to the probabilities of being in those states created from the Kaplan Meier, again starting from 100% of people under study, thus, the Weibull probabilities created match the Kaplan-Meier.
+# m_M_SoC
+
+
+# I can repeat this for TTD:
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 0)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 14)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 28)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 42)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 56)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 70)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 84)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 98)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 112)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 126)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 158)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 172)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 184)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 198)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 212)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 224)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 238)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 252)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 266)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 280)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 294)
+# 
+# summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 308)
+
+
+# Here, like above, I put the p_PFSD_SoC bit into the first part of the probability matrix, even though it concerns people going from first line treatment or PFS to dead, because it needs to be multiplied by the 1 that exists in the cohort:
+
+# 
+# m_P_SoC["PFS", "PFS",]<- 1- p_PFSD_SoC
+# m_P_SoC["PFS", "OS",]<- 0
+# m_P_SoC["PFS", "Dead",]<-0
+# 
+# # Setting the transition probabilities from OS
+# m_P_SoC["OS", "OS", ] <- 0
+# m_P_SoC["OS", "Dead", ]        <- 0
+# 
+# 
+# # Setting the transition probabilities from Dead
+# m_P_SoC["Dead", "Dead", ] <- 0
+
+
+# So here I once again create the Markov cohort trace by looping over all cycles
+# - note that the trace can easily be obtained using matrix multiplications
+# - note that now the right probabilities for the cycle need to be selected, like I explained above.
+# for(i_cycle in 1:(n_cycle-1)) {
+#   m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#   m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
+# 
+# 
+# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+# head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
+# 
+# #m_M_SoC
+# m_M_SoC
+
+
 
 
 
