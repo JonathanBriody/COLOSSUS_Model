@@ -199,7 +199,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
     #   HR_FP_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
     #   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
-    #   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+    #   P_OSD_SoC      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
     #   c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
     #   c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
     #   c_P       = rgamma(n_runs, shape = 100, scale = 10), 
@@ -213,7 +213,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   t_cycle   = 0.25
     # )
     
-# And then the S_FP_SoC is created from m_coef_weibull_SoC and H_FP_Exp is created from this S_FP_SoC multiplied by the similarly varied HR_FP_Exp and this H_FP_Exp is used to create p_FP_Exp. So, two things that were varied were used to create p_FP_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
+# And then the S_FP_SoC is created from m_coef_weibull_SoC and H_FP_Exp is created from this S_FP_SoC multiplied by the similarly varied HR_FP_Exp and this H_FP_Exp is used to create p_PFSOS_Exp. So, two things that were varied were used to create p_PFSOS_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
     
     #   t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
     #   S_FP_SoC <- pweibull(
@@ -225,10 +225,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   H_FP_SoC  <- -log(S_FP_SoC)
     #   H_FP_Exp  <- H_FP_SoC * HR_FP_Exp
     #   S_FP_Exp  <- exp(-H_FP_Exp)
-    #   p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
+    #   p_PFSOS_SoC <- p_PFSOS_Exp <- rep(NA, n_cycle)
     #   for(i in 1:n_cycle) {
-    #     p_FP_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
-    #     p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
+    #     p_PFSOS_SoC[i] <- 1 - S_FP_SoC[i+1] / S_FP_SoC[i]
+    #     p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     #   }    
     # 
         
@@ -244,17 +244,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     
     
     
-    
-    p_FP_SoC <- p_FP_Exp <- rep(NA, n_cycle)
+    p_PFSOS_SoC <- p_PFSOS_Exp <- rep(NA, n_cycle)
     # First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
     for(i in 1:n_cycle) {
-      p_FP_SoC[i] <- 1 - XNU_S_FP_SoC[i+1] / XNU_S_FP_SoC[i]
-      p_FP_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
+      p_PFSOS_SoC[i] <- 1 - XNU_S_FP_SoC[i+1] / XNU_S_FP_SoC[i]
+      p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     }
-    
-    
-    
-    
+
     # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
@@ -275,11 +271,11 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     # > 1-0.9821523
     # [1] 0.0178477
     
-    p_FP_SoC
+    p_PFSOS_SoC
     
-    #> p_FP_SoC
+    #> p_PFSOS_SoC
     #  [1] 0.005178566 0.017847796 0.031973721 0.046845943 0.062181645
-    p_FP_Exp
+    p_PFSOS_Exp
     
     
     
@@ -296,7 +292,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     # THEN I REALISED, THIS ISNT OS TO DEAD. THIS IS PFS TO THE DEAD STATE, SO FIRST LINE THERAPY TO THE DEAD STATE. SO I CHANGED MY APPROACH AS BELOW:
     
     
-    # REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
+    # REALISE HERE THEAT P_OSD_SoC ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR APD CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
     
     
     
@@ -491,7 +487,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
     #   HR_PD_Exp = exp(rnorm(n_runs, log(0.6), 0.08)),
     #   p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
-    #   p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+    #   P_OSD_SoC      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
     #   c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
     #   c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
     #   c_P       = rgamma(n_runs, shape = 100, scale = 10), 
@@ -505,7 +501,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   t_cycle   = 0.25
     # )
     
-    # And then the S_PD_SoC is created from m_coef_weibull_SoC and H_PD_Exp is created from this S_PD_SoC multiplied by the similarly varied HR_PD_Exp and this H_PD_Exp is used to create p_PD_Exp. So, two things that were varied were used to create p_PD_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
+    # And then the S_PD_SoC is created from m_coef_weibull_SoC and H_PD_Exp is created from this S_PD_SoC multiplied by the similarly varied HR_PD_Exp and this H_PD_Exp is used to create p_PFSD_Exp. So, two things that were varied were used to create p_PFSD_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
     
     #   t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
     #   S_PD_SoC <- pweibull(
@@ -517,10 +513,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     #   H_PD_SoC  <- -log(S_PD_SoC)
     #   H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
     #   S_PD_Exp  <- exp(-H_PD_Exp)
-    #   p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
+    #   p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
     #   for(i in 1:n_cycle) {
-    #     p_PD_SoC[i] <- 1 - S_PD_SoC[i+1] / S_PD_SoC[i]
-    #     p_PD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
+    #     p_PFSD_SoC[i] <- 1 - S_PD_SoC[i+1] / S_PD_SoC[i]
+    #     p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
     #   }    
     # 
     
@@ -536,17 +532,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     
     
     
-    
-    p_PD_SoC <- p_PD_Exp <- rep(NA, n_cycle)
+    p_PFSD_SoC <- p_PFSD_Exp <- rep(NA, n_cycle)
     # First we make the probability of going from progression-free (F) to progression (P) blank (i.e. NA) for all the cycles in standard of care and all the cycles under the experimental strategy.
     for(i in 1:n_cycle) {
-      p_PD_SoC[i] <- 1 - XNU_S_PD_SoC[i+1] / XNU_S_PD_SoC[i]
-      p_PD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
+      p_PFSD_SoC[i] <- 1 - XNU_S_PD_SoC[i+1] / XNU_S_PD_SoC[i]
+      p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
     }
-    
-    
-    
-    
+
     # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
@@ -567,24 +559,24 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     # > 1-0.9821523
     # [1] 0.0178477
     
-    p_PD_SoC
+    p_PFSD_SoC
     
-    #> p_PD_SoC
+    #> p_PFSD_SoC
     #  [1] 0.005178566 0.017847796 0.031973721 0.046845943 0.062181645
-    p_PD_Exp
+    p_PFSD_Exp
     
     
     # Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
     
-    p_FP_SoC
-    p_PD_SoC
-    p_FP_SoC <- p_FP_SoC - p_PD_SoC
-    p_FP_SoC
-    
-    p_FP_Exp
-    p_PD_Exp
-    p_FP_Exp <- p_FP_Exp - p_PD_Exp
-    p_FP_Exp
+    # p_PFSOS_SoC
+    # p_PFSD_SoC
+    # p_PFSOS_SoC <- p_PFSOS_SoC - p_PFSD_SoC
+    # p_PFSOS_SoC
+    # 
+    # p_PFSOS_Exp
+    # p_PFSD_Exp
+    # p_PFSOS_Exp <- p_PFSOS_Exp - p_PFSD_Exp
+    # p_PFSOS_Exp
     
     
     
@@ -605,7 +597,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     
     
     v_names_strats <- c("Standard of Care", "Experimental Treatment")         # Store the strategy names
-    v_names_states <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   # state names # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
+    v_names_states <- c("PFS", "OS", "Dead")   # state names # These are the health states in our model, PFS, Adverse Event 1, Adverse Event 2, Adverse Event 3, OS, Death.
     n_strats       <- length(v_names_strats)                        # number of strategies
     n_states       <- length(v_names_states)                        # number of states # We're just taking the number of health states from the number of names we came up with, i.e. the number of names to reflect the number of health states 
     
@@ -625,13 +617,9 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     )
     
     # Specifying the initial state for the cohorts (all patients start in PFS)
-    
     m_M_SoC[1, "PFS"] <- m_M_Exp[1, "PFS"] <- 1
-    m_M_SoC[1, "AE1"] <- m_M_Exp[1, "AE1"] <- 0
-    m_M_SoC[1, "AE2"] <- m_M_Exp[1, "AE2"] <- 0
-    m_M_SoC[1, "AE3"] <- m_M_Exp[1, "AE3"] <- 0
     m_M_SoC[1, "OS"]  <- m_M_Exp[1, "OS"]  <- 0
-    m_M_SoC[1, "Dead"] <- m_M_Exp[1, "Dead"]            <- 0
+    m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
     
     
     # Inspect whether properly defined
@@ -678,34 +666,31 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     
     # Setting the transition probabilities from PFS based on the model parameters
     # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?  
-    m_P_SoC["PFS", "PFS", ] <- (1 - p_FD_SoC) * (1 - p_FP_SoC)
-    m_P_SoC["PFS", "AE1", ]     <- p_FA1_SoC
-    m_P_SoC["PFS", "AE2", ]     <- p_FA2_SoC
-    m_P_SoC["PFS", "AE3", ]     <- p_FA3_SoC
-    m_P_SoC["PFS", "OS", ]     <- (1 - p_FD_SoC) * p_FP_SoC
-    m_P_SoC["PFS", "Dead", ]            <- p_FD_SoC
+    m_P_SoC["PFS", "PFS", ] <- (1 - p_PFSOS_SoC)*(1 - p_PFSD_SoC)
+    m_P_SoC["PFS", "OS", ]     <- p_PFSOS_SoC*(1 - p_PFSD_SoC) 
+    m_P_SoC["PFS", "Dead", ]            <- p_PFSD_SoC
     
     # Setting the transition probabilities from OS
     
-    m_P_SoC["OS", "OS", ] <- 1 - p_PD
-    m_P_SoC["OS", "Dead", ]        <- p_PD
+    m_P_SoC["OS", "OS", ] <- 1 - P_OSD_SoC
+    m_P_SoC["OS", "Dead", ]        <- P_OSD_SoC
     
     # Setting the transition probabilities from Dead
     m_P_SoC["Dead", "Dead", ] <- 1
     
-    
-    # Setting the transition probabilities from AE1
-    m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
-    m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
-    
-    # Setting the transition probabilities from AE2
-    m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
-    m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
-    
-    # Setting the transition probabilities from AE3
-    m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
-    m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
-    
+    # 
+    # # Setting the transition probabilities from AE1
+    # m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
+    # m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
+    # 
+    # # Setting the transition probabilities from AE2
+    # m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
+    # m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
+    # 
+    # # Setting the transition probabilities from AE3
+    # m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
+    # m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
+    # 
     m_P_SoC
     
     # Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
@@ -713,9 +698,17 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     # So, you'll see below we copy the matrix of transition probabilities for standard of care over the empty matrix of transition probilities for the experimental treatment, then copy the transition probabilities that are different for the experimental strategy over this:
     
     m_P_Exp <- m_P_SoC
-    m_P_Exp["PFS", "PFS", ] <- (1 - p_FD_Exp) * (1 - p_FP_Exp)
-    m_P_Exp["PFS", "OS", ]     <- (1 - p_FD_Exp) * p_FP_Exp
-    m_P_Exp["PFS", "Dead", ]            <- p_FD_Exp
+    m_P_Exp["PFS", "PFS", ] <- (1 - p_PFSOS_Exp) * (1 - p_PFSD_Exp)
+    m_P_Exp["PFS", "OS", ]     <- p_PFSOS_Exp*(1 - p_PFSD_Exp)
+    m_P_Exp["PFS", "Dead", ]            <- p_PFSD_Exp
+    
+    # Setting the transition probabilities from OS
+    m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
+    m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
+    
+    # Setting the transition probabilities from Dead
+    m_P_Exp["Dead", "Dead", ] <- 1
+    
     
     
     # If I decided the following was different under the experimental strategy I would have to code these in also:
@@ -765,20 +758,91 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
       m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
     }
     
-    # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
     
-    v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
-    v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
+    # I have to include the generation of utility in this function to ensure that when I change the utility value in PFS and the disutility of the various adverse events in the code for the sensitivity analysis, that these value will change here also to ensure that my analysis results will change for these values in the sensitivity analysis:
+    
+    
+    daily_utility <- u_F/14
+    AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
+    AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
+    AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
+    
+    
+    u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
+    u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
+    u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
+    
+    
+    # I then adjust my state costs and utilities:
+    
+    # uState<-uState-pAE1*duAE1
+    
+    u_F_SoC<-u_F
+    u_F_Exp<-u_F
+    
+    
+    u_F_SoC<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+    u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
+    
+    c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
+    c_F_Exp       <- administration_cost + c_PFS_Folfox + c_PFS_Bevacizumab # cost of one cycle in PFS state under the experimental treatment 
+     c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
+
+    
+    c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
+    c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
+    
+    
+   # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
+    
+    v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
+    v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
     
     v_tc_SoC
     v_tc_Exp
     
-    v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
-    v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+    v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_P, u_D)
+    v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_P, u_D)
     
     
     v_tu_SoC
     v_tu_Exp    
+    
+    # BUT, we need to remember that the above displays the amount of utilitie's gathered in each cycle.
+    
+    sum(v_tu_SoC)
+    sum(v_tu_Exp)
+    
+    # Particularly, these are quality adjusted cycles, these are quality adjusted life years where cycles are annual, so I need to consider what this means for utility where cycles are monthly, or fortnightly.
+    
+    # When I calculate the QALYs above, I don’t convert these quality adjusted cycles to years. If I sum each of v_tu_SoC and v_tu_Exp I get 16.7 quality adjusted cycles in the SoC arm and 21.1 quality adjusted cycles in the Exp arm. I can convert these quality adjusted cycles to years for fortnights by working out how many fortnights there are in a year (26.0714) and then divide by this number. These correspond to 0.64 and 0.81 QALYs respectively so 0.17 QALYs gained.
+    
+    v_tu_SoC <- v_tu_SoC/26.0714
+    v_tu_Exp <- v_tu_Exp/26.0714
+    
+    # So, these are per-cycle utility values, but, our cycles aren't years, they are fortnights, so these are per fortnight values, if we want this value to reflect the per year value, so that we have a quality adjusted life year, or QALY, then we need to adjust this utility value by how many of these fortnights there are in a year (26.0714), that is divide by how many fortnights there are in a year to bring the per fortnight value to a per year value
+    
+    
+    # James, I'd like your thoughts on what I've done here and whether this seems reasonable.
+    
+    
+    sum(v_tu_SoC)
+    sum(v_tu_Exp)
+    
+    # I've already updated the discount rate in the main file as below, so I don't do this again or I would be dividing something I had divided by 365 by 365 again:
+    
+    # d_c <- d_c/365
+    # d_e <- d_e/365
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     # Finally, we'll aggregate these costs and utilities into overall discounted mean (average) costs and           utilities.
     

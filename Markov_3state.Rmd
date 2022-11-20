@@ -2765,10 +2765,15 @@ c_AE2 <- 1458.80
 c_AE3 <- 409.03
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
+
+AE1_DisUtil <-0.45
+AE2_DisUtil <-0.19
+AE3_DisUtil <-0.36
+
 daily_utility <- u_F/14
-AE1_discounted_daily_utility <- daily_utility * (1-0.45)
-AE2_discounted_daily_utility <- daily_utility * (1-0.19)
-AE3_discounted_daily_utility <- daily_utility * (1-0.36)
+AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
+AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
+AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
 
 
 u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
@@ -3593,12 +3598,24 @@ If I updated utility for AE above, then I'll have to take that into account for 
 l_params_all <- list(
   coef_weibull_shape_SoC = coef_weibull_shape_SoC,
   coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+  
+  coef_TTD_weibull_shape_SoC = coef_TTD_weibull_shape_SoC,
+  coef_TTD_weibull_scale_SoC = coef_TTD_weibull_scale_SoC,
+  
+  
+  
   HR_FP_Exp = HR_FP_Exp,
   HR_FP_SoC = HR_FP_SoC,
   HR_PD_Exp = HR_PD_Exp,
   HR_PD_SoC = HR_PD_SoC,
   p_FD      = p_FD,      
   p_PD      = p_PD,
+  p_FA1_STD = p_FA1_STD
+  p_FA2_STD = p_FA2_STD
+  p_FA3_STD = p_FA3_STD
+  p_FA1_EXPR = p_FA1_EXPR
+  p_FA2_EXPR = p_FA2_EXPR
+  p_FA3_EXPR = p_FA3_EXPR
   p_A1F_SoC = p_A1F_SoC,
   p_A1D_SoC = p_A1D_SoC,
   p_A2F_SoC = p_A2F_SoC,
@@ -3612,19 +3629,20 @@ l_params_all <- list(
   p_FA1_SoC = p_FA1_SoC,
   p_FA2_SoC = p_FA2_SoC,
   p_FA3_SoC = p_FA3_SoC,
-  c_F_SoC   = c_F_SoC,  
-  c_F_Exp   = c_F_Exp,
-  c_P       = c_P,  
+  administration_cost = administration_cost,
+  c_PFS_Folfox = c_PFS_Folfox,
+  c_PFS_Bevacizumab = c_PFS_Bevacizumab,
+  c_OS_Folfiri = c_OS_Folfiri,
   c_D       = c_D,    
   c_AE1 = c_AE1,
   c_AE2 = c_AE2,
   c_AE3 = c_AE3,
-  u_F = u_F,   
+  u_F = u_F,   ITS FINE TO INCLUDE U_F BUT DON'T INCLUDE U_F_SoC, BECAUSE WE ARE CHANGING WHAT BUILDS U_F_SoC WTH U_F AND AE1_DisUtil SO WE DON'T WANT TO CHANGE IT AGAIN HERE ONCE WE'VE CHANGED WHAT BUILDS IT
   u_P = u_P,   
   u_D = u_D,  
-  u_AE1 = u_AE1,
-  u_AE2 = u_AE2,
-  u_AE3 = u_AE3,
+  AE1_DisUtil = AE1_DisUtil,
+  AE2_DisUtil = AE2_DisUtil,
+  AE3_DisUtil = AE3_DisUtil,
   d_e       = d_e,  
   d_c       = d_c,
   n_cycle   = n_cycle,
