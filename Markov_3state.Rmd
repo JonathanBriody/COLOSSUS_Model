@@ -401,11 +401,11 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 
 # If you wanted to compare two R files and see what the differences are between them, you can do so with this:
 
-# install.packages("diffr")
-# library(diffr)
-# diffr("possible fix for cycle 1 being 1.R", "Markov_3state.Rmd", contextSize = 500, minJumpSize = 500, width = NULL)
-# 
-
+#install.packages("diffr")
+#library(diffr)
+# diffr("Markov_3state_Andy.Rmd", "Markov_3state.Rmd", contextSize = 500, minJumpSize = 500, width = NULL, wordWrap)
+# The above options complicate things and then you have to scroll for ages to the right to get the second file, the below is much more tidy:
+# diffr("Markov_3state_Andy.Rmd", "Markov_3state.Rmd")
 ```
 
 ```{r}
@@ -423,7 +423,7 @@ options(scipen=999)
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr")
+packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr")
 
 # Install packages not yet installed
 
@@ -757,7 +757,7 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # #m_M_SoC
 # m_M_SoC
 
-
+# This also answers the question of how exactly probabilities are created, the m_P_SoC is something that, when multiplied by 1, (when at the start 100% of our cohort are in the PFS state) gives us the first probability from that 100%, and the next part or row of that m_P_SoC probability is then multiplied by the proportion who are in the different states in the next row for the cohort (given their movements last time having been multiplied by m_P_SoC) which gives us the second probability multiplied by the proportion of that 1 (or 100%) in each state, and so on, and so forth, for each wave.
 
 
 
