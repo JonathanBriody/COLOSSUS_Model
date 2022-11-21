@@ -3736,71 +3736,70 @@ Maximum_HR_PD_Exp <- HR_PD_Exp + 0.20*HR_PD_Exp
 
 # Probability of progressive disease to death:
 
-p_PD
+# Under the assumption that everyone will get the same second line therapy, I give them all the same probability of going from progessed (i.e., OS) to dead, and thus only need to include p_PD here once - because it is applied in oncologySemiMarkov_function.R for both SoC and Exp. ACTUALLY I THINK IT SHOULD BE P_OSD_SoC P_OSD_Exp BOTH INCLUDED.
 
-Minimum_p_PD <- p_PD - 0.20*p_PD
-Maximum_p_PD <- p_PD + 0.20*p_PD
+P_OSD_SoC
 
-# Under the assumption that everyone will get the same second line therapy, I give them all the same probability of going from progessed (i.e., OS) to dead, and thus only need to include p_PD here once - because it is applied in oncologySemiMarkov_function.R for both SoC and Exp.
+Minimum_P_OSD_SoC <- P_OSD_SoC - 0.20*P_OSD_SoC
+Maximum_P_OSD_SoC <- P_OSD_SoC + 0.20*P_OSD_SoC
 
-ACTUALLY I THINK IT SHOULD BE PD_EXP PD_SOC BOTH INCLUDED.
+P_OSD_Exp
+
+Minimum_P_OSD_Exp <- P_OSD_Exp - 0.20*P_OSD_Exp
+Maximum_P_OSD_Exp <- P_OSD_Exp + 0.20*P_OSD_Exp
+
+
+
+
+
 
 
 # Probability of going from PFS to Death states under the standard of care treatment and the experimental treatment:
 
-p_FD_SoC
+# # HR_PD_SoC and HR_PD_Exp address this as above:
 
-Minimum_p_FD_SoC <- p_FD_SoC - 0.20*p_FD_SoC
-Maximum_p_FD_SoC <- p_FD_SoC + 0.20*p_FD_SoC
-
-p_FD_Exp
-
-Minimum_p_FD_Exp<- p_FD_Exp - 0.20*p_FD_Exp
-Maximum_p_FD_Exp <- p_FD_Exp + 0.20*p_FD_Exp
-
-
-
-# Probability of Adverse Events, from PFS to AE, from AE to PFS and from AE to Death:
-
-# Although these probabilities say _SoC, I make the assumption that everyone has the same probability of AE1, 2 or 3 regardless of what treatment they are under (i.e., SoC or the Experimental). If I decide to get more complicated with treatment specific AE probabilities in the future I can update this to be _SoC and _Exp.
+# p_FD_SoC
+# 
+# Minimum_p_FD_SoC <- p_FD_SoC - 0.20*p_FD_SoC
+# Maximum_p_FD_SoC <- p_FD_SoC + 0.20*p_FD_SoC
+# 
+# p_FD_Exp
+# 
+# Minimum_p_FD_Exp<- p_FD_Exp - 0.20*p_FD_Exp
+# Maximum_p_FD_Exp <- p_FD_Exp + 0.20*p_FD_Exp
 
 
-p_FA1_SoC
-Minimum_p_FA1_SoC <- p_FA1_SoC - 0.20*p_FA1_SoC
-Maximum_p_FA1_SoC <- p_FA1_SoC + 0.20*p_FA1_SoC
 
-p_A1F_SoC
-Minimum_p_A1F_SoC <- p_A1F_SoC - 0.20*p_A1F_SoC
-Maximum_p_A1F_SoC <- p_A1F_SoC + 0.20*p_A1F_SoC
+# Probability of Adverse Events:
+
+p_FA1_STD
+Minimum_p_FA1_STD <- p_FA1_STD - 0.20*p_FA1_STD
+Maximum_p_FA1_STD <- p_FA1_STD + 0.20*p_FA1_STD
+
+p_FA2_STD
+Minimum_p_FA2_STD <- p_FA2_STD - 0.20*p_FA2_STD
+Maximum_p_FA2_STD <- p_FA2_STD + 0.20*p_FA2_STD
+
+p_FA3_STD
+Minimum_p_FA3_STD <- p_FA3_STD - 0.20*p_FA3_STD
+Maximum_p_FA3_STD <- p_FA3_STD + 0.20*p_FA3_STD
 
 
-p_A1D_SoC
-Minimum_p_A1D_SoC <- p_A1D_SoC - 0.20*p_A1D_SoC
-Maximum_p_A1D_SoC <- p_A1D_SoC + 0.20*p_A1D_SoC
+p_FA1_EXPR
+Minimum_p_FA1_EXPR <- p_FA1_EXPR - 0.20*p_FA1_EXPR
+Maximum_p_FA1_EXPR <- p_FA1_EXPR + 0.20*p_FA1_EXPR
 
-p_FA2_SoC
-Minimum_p_FA2_SoC <- p_FA2_SoC - 0.20*p_FA2_SoC
-Maximum_p_FA2_SoC <- p_FA2_SoC + 0.20*p_FA2_SoC
+p_FA2_EXPR
+Minimum_p_FA2_EXPR <- p_FA2_EXPR - 0.20*p_FA2_EXPR
+Maximum_p_FA2_EXPR <- p_FA2_EXPR + 0.20*p_FA2_EXPR
 
-p_A2F_SoC
-Minimum_p_A2F_SoC <- p_A2F_SoC - 0.20*p_A2F_SoC
-Maximum_p_A2F_SoC <- p_A2F_SoC + 0.20*p_A2F_SoC
+p_FA3_EXPR
+Minimum_p_FA3_EXPR <- p_FA3_EXPR - 0.20*p_FA3_EXPR
+Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
 
-p_A2D_SoC
-Minimum_p_A2D_SoC <- p_A2D_SoC - 0.20*p_A2D_SoC
-Maximum_p_A2D_SoC <- p_A2D_SoC + 0.20*p_A2D_SoC
 
-p_FA3_SoC
-Minimum_p_FA3_SoC <- p_FA3_SoC - 0.20*p_FA3_SoC
-Maximum_p_FA3_SoC <- p_FA3_SoC + 0.20*p_FA3_SoC
 
-p_A3F_SoC
-Minimum_p_A3F_SoC <- p_A3F_SoC - 0.20*p_A3F_SoC
-Maximum_p_A3F_SoC <- p_A3F_SoC + 0.20*p_A3F_SoC
 
-p_A3D_SoC
-Minimum_p_A3D_SoC <- p_A3D_SoC - 0.20*p_A3D_SoC
-Maximum_p_A3D_SoC <- p_A3D_SoC + 0.20*p_A3D_SoC
 
 
 #install.packages("Rmpfr")
@@ -3824,20 +3823,25 @@ Maximum_p_A3D_SoC <- p_A3D_SoC + 0.20*p_A3D_SoC
 
 # If I decide to include the cost of the test for patients I will also need to include this in the sensitivity analysis here:
 
-c_F_SoC
+administration_cost
 
-Minimum_c_F_SoC <- c_F_SoC - 0.20*c_F_SoC
-Maximum_c_F_SoC <- c_F_SoC + 0.20*c_F_SoC
+Minimum_administration_cost <- administration_cost - 0.20*administration_cost
+Maximum_administration_cost <- administration_cost + 0.20*administration_cost
 
-c_F_Exp
+c_PFS_Folfox
 
-Minimum_c_F_Exp  <- c_F_Exp - 0.20*c_F_Exp
-Maximum_c_F_Exp  <- c_F_Exp + 0.20*c_F_Exp
+Minimum_c_PFS_Folfox  <- c_PFS_Folfox - 0.20*c_PFS_Folfox
+Maximum_c_PFS_Folfox  <- c_PFS_Folfox + 0.20*c_PFS_Folfox
 
-c_P 
+c_PFS_Bevacizumab 
 
-Minimum_c_P  <- c_P - 0.20*c_P
-Maximum_c_P  <- c_P + 0.20*c_P
+Minimum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab - 0.20*c_PFS_Bevacizumab
+Maximum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab + 0.20*c_PFS_Bevacizumab
+
+c_OS_Folfiri 
+
+Minimum_c_OS_Folfiri  <- c_OS_Folfiri - 0.20*c_OS_Folfiri
+Maximum_c_OS_Folfiri  <- c_OS_Folfiri + 0.20*c_OS_Folfiri
 
 c_D  
 
@@ -3862,8 +3866,6 @@ Maximum_c_AE3  <- c_AE3 + 0.20*c_AE3
 
 # Utilities:
 
-If I updated utility for AEs above, then I'll have to take that into account for u_F below
-
 u_F
 
 Minimum_u_F <- u_F - 0.20*u_F
@@ -3882,28 +3884,30 @@ Minimum_u_D <- u_D - 0.20*u_D
 Maximum_u_D <- u_D + 0.20*u_D 
 
 
-u_AE1
+AE1_DisUtil
 
-Minimum_u_AE1 <- u_AE1 - 0.20*u_AE1
-Maximum_u_AE1 <- u_AE1 + 0.20*u_AE1 
-
-
-u_AE2
-
-Minimum_u_AE2 <- u_AE2 - 0.20*u_AE2
-Maximum_u_AE2 <- u_AE2 + 0.20*u_AE2 
+Minimum_AE1_DisUtil <- AE1_DisUtil - 0.20*AE1_DisUtil
+Maximum_AE1_DisUtil <- AE1_DisUtil + 0.20*AE1_DisUtil 
 
 
-u_AE3
+AE2_DisUtil
 
-Minimum_u_AE3 <- u_AE3 - 0.20*u_AE3
-Maximum_u_AE3 <- u_AE3 + 0.20*u_AE3 
+Minimum_AE2_DisUtil <- AE2_DisUtil - 0.20*AE2_DisUtil
+Maximum_AE2_DisUtil <- AE2_DisUtil + 0.20*AE2_DisUtil 
+
+
+AE3_DisUtil
+
+Minimum_AE3_DisUtil <- AE3_DisUtil - 0.20*AE3_DisUtil
+Maximum_AE3_DisUtil <- AE3_DisUtil + 0.20*AE3_DisUtil 
+
+
  
  
 # Discount factor
 # Cost Discount Factor
 # Utility Discount Factor
-
+# I divided these by 365 earlier in the R markdown document, so no need to do that again here:
 
 d_e
 
@@ -3933,12 +3937,10 @@ Maximum_d_c <- d_c + 0.20*d_c
 
 # options(scipen = 999) # disabling scientific notation in R
 
-If I updated utility for AE above, then I'll have to take that into account for u_F below:
-
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "p_PD", "p_FD_SoC", "p_FD_Exp", "p_FA1_SoC", "p_A1F_SoC", "p_A1D_SoC", "p_FA2_SoC", "p_A2F_SoC", "p_A2D_SoC", "p_FA3_SoC", "p_A3F_SoC", "p_A3D_SoC", "c_F_SoC", "c_F_Exp", "c_P","c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "u_AE1", "u_AE2", "u_AE3"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_p_PD, Minimum_p_FD_SoC, Minimum_p_FD_Exp, Minimum_p_FA1_SoC, Minimum_p_A1F_SoC, Minimum_p_A1D_SoC, Minimum_p_FA2_SoC, Minimum_p_A2F_SoC, Minimum_p_A2D_SoC, Minimum_p_FA3_SoC, Minimum_p_A3F_SoC, Minimum_p_A3D_SoC, Minimum_c_F_SoC, Minimum_c_F_Exp, Minimum_c_P, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_u_AE1, Minimum_u_AE2, Minimum_u_AE3),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_p_PD, Maximum_p_FD_SoC, Maximum_p_FD_Exp, Maximum_p_FA1_SoC, Maximum_p_A1F_SoC, Maximum_p_A1D_SoC, Maximum_p_FA2_SoC, Maximum_p_A2F_SoC, Maximum_p_A2D_SoC, Maximum_p_FA3_SoC, Maximum_p_A3F_SoC, Maximum_p_A3D_SoC, Maximum_c_F_SoC, Maximum_c_F_Exp, Maximum_c_P, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_u_AE1, Maximum_u_AE2, Maximum_u_AE3)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "HR_PD_SoC", "HR_PD_Exp", "P_OSD_SoC", "P_OSD_Exp", "p_FA1_STD", "p_FA2_STD", "p_FA3_STD", "p_FA1_EXPR", "p_FA2_EXPR", "p_FA3_EXPR", "administration_cost", "c_PFS_Folfox", "c_PFS_Bevacizumab", "c_OS_Folfiri", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "AE1_DisUtil", "AE2_DisUtil", "AE3_DisUtil"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_P_OSD_SoC, Minimum_P_OSD_Exp, Minimum_p_FA1_STD, Minimum_p_FA2_STD, Minimum_p_FA3_STD, Minimum_p_FA1_EXPR, Minimum_p_FA2_EXPR, Minimum_p_FA3_EXPR, Minimum_administration_cost, Minimum_c_PFS_Folfox, Minimum_c_PFS_Bevacizumab, Minimum_c_OS_Folfiri, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_AE1_DisUtil, Minimum_AE2_DisUtil, Minimum_AE3_DisUtil),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_P_OSD_SoC, Maximum_P_OSD_Exp, Maximum_p_FA1_STD, Maximum_p_FA2_STD, Maximum_p_FA3_STD, Maximum_p_FA1_EXPR, Maximum_p_FA2_EXPR, Maximum_p_FA3_EXPR, Maximum_administration_cost, Maximum_c_PFS_Folfox, Maximum_c_PFS_Bevacizumab, Maximum_c_OS_Folfiri, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_AE1_DisUtil, Maximum_AE2_DisUtil, Maximum_AE3_DisUtil)          # max parameter values
 )
 
 
