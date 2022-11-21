@@ -3489,19 +3489,17 @@ but probably a good idea to ensure this is the case (i.e., change the n_wtp to s
 # A CODE CHUNK WHERE IT IS EASY TO RUN ALL THE CODE IN ONE FILE, WHICH WILL BE TAKEN AND ADDED TO THE ACTUAL TORNADO CODE CHUNKS LOWER DOWN.
 
 
-BEFORE I CAN RUN THE SENSITIVITY ANALYSIS, I'LL NEED TO MAKE MY ADDITIONS ABOVE TO THE FUNCTION FOR SENSTIVIITY ANALYIS.
+If I updated utility above re: adverse events, then Ill need to take this into account for u_F below:
 
-If I updated utility above re: adverse events, then I'll need to take this into account for u_F below:
+#p_PD  <- 0.05
+#p_FD  <- 0.02      
+#u_F <- 0.5
+#p_FD_SoC  <- 0.05
+#p_FD_Exp  <- 0.05
 
-p_PD  <- 0.05
-p_FD  <- 0.02      
-u_F <- 0.5
-p_FD_SoC  <- 0.05
-p_FD_Exp  <- 0.05
-
-p_FA1_SoC  <- p_FA1_STD
-p_FA2_SoC  <- p_FA2_STD
-p_FA3_SoC  <- p_FA3_STD
+#p_FA1_SoC  <- p_FA1_STD
+#p_FA2_SoC  <- p_FA2_STD
+#p_FA3_SoC  <- p_FA3_STD
 
 # Because of how p_FA1_SoC is made, [i.e., p_FA1_SoC  <- (p_PFS_SoC) * p_FA1_STD means that I will get a different value of p_FA1_SoC for each cycle based on multiplying a static value of p_FA1_STD by the varying value of p_PFS_SoC] I will get the following error if I include it as it was created. I can address this just like the hazard ratio problem, but at the moment I havent thought about probabilities and the whole (p_PFS_SoC) * p_FA1_STD part too deeply, so instead, I decide to make it non-varying by including just the static value that is multiplied by the changing p_PFS_SoC value as above. This all also holds for p_FA2_SoC and p_FA3_SoC.
 
@@ -3593,58 +3591,43 @@ source(file = "oncologySemiMarkov_function.R")
 
 # Now I update this list with the variables I have:
 
-If I updated utility for AE above, then I'll have to take that into account for u_F below:
+# If I updated utility for AE above, then I'll have to take that into account for u_F below:
 
 l_params_all <- list(
-  coef_weibull_shape_SoC = coef_weibull_shape_SoC,
-  coef_weibull_scale_SoC = coef_weibull_scale_SoC,
-  
-  coef_TTD_weibull_shape_SoC = coef_TTD_weibull_shape_SoC,
-  coef_TTD_weibull_scale_SoC = coef_TTD_weibull_scale_SoC,
-  
-  
-  
-  HR_FP_Exp = HR_FP_Exp,
-  HR_FP_SoC = HR_FP_SoC,
-  HR_PD_Exp = HR_PD_Exp,
-  HR_PD_SoC = HR_PD_SoC,
-  p_FD      = p_FD,      
-  p_PD      = p_PD,
-  p_FA1_STD = p_FA1_STD
-  p_FA2_STD = p_FA2_STD
-  p_FA3_STD = p_FA3_STD
-  p_FA1_EXPR = p_FA1_EXPR
-  p_FA2_EXPR = p_FA2_EXPR
-  p_FA3_EXPR = p_FA3_EXPR
-  p_A1F_SoC = p_A1F_SoC,
-  p_A1D_SoC = p_A1D_SoC,
-  p_A2F_SoC = p_A2F_SoC,
-  p_A2D_SoC = p_A2D_SoC,
-  p_A3F_SoC = p_A3F_SoC,
-  p_A3D_SoC = p_A3D_SoC,
-  p_FD_SoC  = p_FD_SoC,
-  p_FD_Exp  = p_FD_Exp,
-  p_PFSD_SoC = p_PFSD_SoC,
-  p_PFSD_Exp = p_PFSD_Exp,
-  p_FA1_SoC = p_FA1_SoC,
-  p_FA2_SoC = p_FA2_SoC,
-  p_FA3_SoC = p_FA3_SoC,
-  administration_cost = administration_cost,
-  c_PFS_Folfox = c_PFS_Folfox,
-  c_PFS_Bevacizumab = c_PFS_Bevacizumab,
-  c_OS_Folfiri = c_OS_Folfiri,
-  c_D       = c_D,    
-  c_AE1 = c_AE1,
-  c_AE2 = c_AE2,
-  c_AE3 = c_AE3,
-  u_F = u_F,   ITS FINE TO INCLUDE U_F BUT DON'T INCLUDE U_F_SoC, BECAUSE WE ARE CHANGING WHAT BUILDS U_F_SoC WTH U_F AND AE1_DisUtil SO WE DON'T WANT TO CHANGE IT AGAIN HERE ONCE WE'VE CHANGED WHAT BUILDS IT
-  u_P = u_P,   
-  u_D = u_D,  
-  AE1_DisUtil = AE1_DisUtil,
-  AE2_DisUtil = AE2_DisUtil,
-  AE3_DisUtil = AE3_DisUtil,
-  d_e       = d_e,  
-  d_c       = d_c,
+  # coef_weibull_shape_SoC = coef_weibull_shape_SoC,
+  # coef_weibull_scale_SoC = coef_weibull_scale_SoC,
+  # coef_TTD_weibull_shape_SoC = coef_TTD_weibull_shape_SoC,
+  # coef_TTD_weibull_scale_SoC = coef_TTD_weibull_scale_SoC,
+  !HR_FP_Exp = HR_FP_Exp,
+  !HR_FP_SoC = HR_FP_SoC,
+  !HR_PD_Exp = HR_PD_Exp,
+  !HR_PD_SoC = HR_PD_SoC,
+  !P_OSD_SoC = P_OSD_SoC,      
+  !P_OSD_Exp = P_OSD_Exp,
+  !p_FA1_STD = p_FA1_STD,
+  !p_FA2_STD = p_FA2_STD,
+  !p_FA3_STD = p_FA3_STD,
+  !p_FA1_EXPR = p_FA1_EXPR,
+  !p_FA2_EXPR = p_FA2_EXPR,
+  !p_FA3_EXPR = p_FA3_EXPR,
+  !administration_cost = administration_cost,
+    #ITS FINE TO INCLUDE THE INGRIDENIENTS THAT MAKE UP c_F_SoC, c_F_Exp, c_P, but don't include c_F_SoC, c_F_Exp, c_P themsleves, BECAUSE WE ARE CHANGING WHAT BUILDS THESE COSTS WITH THE INGRIEDIENTS, SO WE DON'T WANT TO CHANGE IT AGAIN HERE ONCE WE'VE CHANGED WHAT BUILDS IT
+  !c_PFS_Folfox = c_PFS_Folfox,
+  !c_PFS_Bevacizumab = c_PFS_Bevacizumab,
+  !c_OS_Folfiri = c_OS_Folfiri,
+  !c_D       = c_D,    
+  !c_AE1 = c_AE1,
+  !c_AE2 = c_AE2,
+  !c_AE3 = c_AE3,
+  !u_F = u_F,   
+  #ITS FINE TO INCLUDE U_F BUT DON'T INCLUDE U_F_SoC, BECAUSE WE ARE CHANGING WHAT BUILDS U_F_SoC WTH U_F AND AE1_DisUtil SO WE DON'T WANT TO CHANGE IT AGAIN HERE ONCE WE'VE CHANGED WHAT BUILDS IT
+  !u_P = u_P,   
+  !u_D = u_D,  
+  !AE1_DisUtil = AE1_DisUtil,
+  !AE2_DisUtil = AE2_DisUtil,
+  !AE3_DisUtil = AE3_DisUtil,
+  !d_e       = d_e,  
+  !d_c       = d_c,
   n_cycle   = n_cycle,
   t_cycle   = t_cycle
 )
@@ -3774,6 +3757,8 @@ Minimum_p_PD <- p_PD - 0.20*p_PD
 Maximum_p_PD <- p_PD + 0.20*p_PD
 
 # Under the assumption that everyone will get the same second line therapy, I give them all the same probability of going from progessed (i.e., OS) to dead, and thus only need to include p_PD here once - because it is applied in oncologySemiMarkov_function.R for both SoC and Exp.
+
+ACTUALLY I THINK IT SHOULD BE PD_EXP PD_SOC BOTH INCLUDED.
 
 
 # Probability of going from PFS to Death states under the standard of care treatment and the experimental treatment:
