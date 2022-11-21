@@ -876,12 +876,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     # Here we create the net monetary benefit as the utilities times the willingness to pay minus the costs.
     
     
-    # (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
-    #                               effect     = c(tu_d_SoC, tu_d_Exp),
-    #                               strategies = v_names_strats))
-    # df_DSAcea
-    # 
-    # DSA_ICER    <- c(df_DSAcea[2,6])
+    (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
+                                   effect     = c(tu_d_SoC, tu_d_Exp),
+                                   strategies = v_names_strats))
+    df_DSAcea
+     
+    DSA_ICER    <- c(df_DSAcea[2,6])
     
     # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
     
@@ -889,9 +889,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     df_ce <- data.frame(Strategy = v_names_strats,
                         Cost     = v_tc_d,
                         Effect   = v_tu_d,
+                        DSAICER  = DSA_ICER,
                         NMB      = v_nmb_d)
 
-    return(df_ce)
+#   return(df_ce)
+    return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER))
+  
+    
     
 #   If I was creating an ICER tornado plot I would add the below to the df_ce above:  
 #    DSAICER  = DSA_ICER,
