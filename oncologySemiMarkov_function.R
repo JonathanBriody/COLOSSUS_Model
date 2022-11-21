@@ -889,13 +889,15 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     df_ce <- data.frame(Strategy = v_names_strats,
                         Cost     = v_tc_d,
                         Effect   = v_tu_d,
-                        DSAICER  = DSA_ICER,
-                        NMB      = v_nmb_d)
+                        DSAICER  = DSA_ICER)
 
-#   return(df_ce)
-    return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER))
+   return(df_ce)
+#    return(c(v_names_strats, DSA_ICER))
   
+    # I'm not using NMB so I remove this from the above dataframe and put the DSAICER in it's spot
     
+    # ,
+    # NMB      = v_nmb_d)    
     
 #   If I was creating an ICER tornado plot I would add the below to the df_ce above:  
 #    DSAICER  = DSA_ICER,

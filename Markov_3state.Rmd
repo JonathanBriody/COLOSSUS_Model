@@ -3963,7 +3963,7 @@ df_params_OWSA <- data.frame(
 
 # This function runs a deterministic one-way sensitivity analysis (OWSA) on a given function that produces outcomes. rdrr.io/github/DARTH-git/dampack/src/R/run_dsa.R
 
-OWSA_NMB  <- run_owsa_det(
+DSAICER  <- run_owsa_det(
 
 # run_owsa_det: https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html
   
@@ -4014,7 +4014,7 @@ OWSA_NMB  <- run_owsa_det(
 # string vector with the outcomes of interest from FUN produced by nsamp
 # This basically tells run_owsa_det what the name of the outcome of interest from the function we fed it is. Here our function had NMB, i.e., the net monetary benefit.
 
-#  outcomes         = c("DSAICER"),           # output to do the OWSA on
+#  outcomes         = c("NMB"),           # output to do the OWSA on
 
 # outcomes	
 
@@ -4063,7 +4063,7 @@ OWSA_NMB  <- run_owsa_det(
 
 # https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
-owsa_tornado(owsa = OWSA_NMB, txtsize = 11)
+owsa_tornado(owsa = DSAICER, txtsize = 11)
 
 # Plotting the outcomes of the OWSA in a tornado plot
 # - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
