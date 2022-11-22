@@ -1761,6 +1761,8 @@ p_PFSD_Exp
 P_OSD_SoC   <- 0.17 # Probability of dying when in OS.
 P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
+# Base-Case: 0.17 Min: 0.12 Max:0.22 According to: Wen, F., Zheng, H., Wu, Y., Wheeler, J., Zeng, X., Fu, P., & Li, Q. (2016). Cost-effectiveness Analysis of Fluorouracil, Leucovorin, and Irinotecan versus Epirubicin, Cisplatin, and Capecitabine in Patients with Advanced Gastric Adenocarcinoma. Scientific reports, 6(1), 1-8. https://sci-hub.ru/10.1038/srep36060
+
 # When digitising a progression-free survival curve everyone on that curve is on PFS, and if they leave that curve it is because their disease has progressed (so they've gone from progression free to progression, or from PFS to OS) or they've died:
 
 # "Progression-free survival (PFS) is defined as the time from random assignment in a clinical trial to disease progression or death from any cause." https://www.ncbi.nlm.nih.gov/books/NBK137763/
@@ -4629,8 +4631,8 @@ head(m_coef_weibull_OS_SoC)
 
 # I create the SD to include in the sensitivity analysis applied to the hazard ratio below, as I need to create it outside the data.frame for the PSA:
 
-UpperCI <- 0.89
-LowerCI <- 0.54
+UpperCI <- 0.87
+LowerCI <- 0.53
 SD <- (log(UpperCI) - log(LowerCI)) / 3.92
 
 MEAN_HR_FP_Exp <- HR_FP_Exp
@@ -4753,7 +4755,7 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 # IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
 # When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1. If you do, then change it to be 0 or 1, as appropriate, i.e., rather than 1.02, make it 1.
 
-
+CHECK THINGS ARE BETWEEN 0 AND 1!
 # When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
 
 # i.e., when alpha values are all the times things happened, while  beta values are all the times they didnt, how do you apply 
@@ -4863,22 +4865,17 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 
 # I don't describe generating random draws when the probabilities don't have an SE above, however, I can do this in the same way that I figured out how to do this for the utility beta distributions below. If they are reported with a range, he section on utility below also advises how to handle this.
 
-  p_FD      = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_PD      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_A1F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_A1D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_A2F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_A2D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_A3F_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_A3D_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FD_SoC  = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_FD_Exp  = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_PFSD_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_PFSD_Exp = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FA1_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_FA2_SoC = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FA3_SoC = rbeta(n_runs, shape1 = 16, shape2 = 767),
+I HAVE NOT FILLED IN PROBABILTIES YET!
 
+  P_OSD_SoC      = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  P_OSD_Exp      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FA1_STD = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_FA2_STD = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FA3_STD = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_FA1_EXPR = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  p_FA2_EXPR = rbeta(n_runs, shape1 = 16, shape2 = 767),
+  p_FA3_EXPR = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+  
 
 # If I was going with my initial plan of applying the PSA to the original COLOSSUS limited sample size, I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
 
@@ -5141,14 +5138,16 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 # This 20% approach is also taken by Lesley tilson and cited in her study and other studies here: https://trello.com/c/m653JBWV/48-20-cost-sensitivity
 
 
-  c_F_SoC   = rgamma(n_runs, shape = 16, scale = 25), 
-  c_F_Exp   = rgamma(n_runs, shape = 16, scale = 50), 
-  c_P       = rgamma(n_runs, shape = 100, scale = 10), 
-  c_D       = 0,
+  administration_cost   = rgamma(n_runs, shape = 16, scale = 25), 
+  c_PFS_Folfox   = rgamma(n_runs, shape = 16, scale = 50), 
+  c_PFS_Bevacizumab       = rgamma(n_runs, shape = 100, scale = 10), 
+  c_OS_Folfiri       = 0,
 # The cost of being dead doesnt vary, it always costs the same to treat a dead person, which is 0 because we don't give any of our chemo, etc., to a dead body.
+  c_D = 0,
   c_AE1 = rgamma(n_runs, shape = 16, scale = 25), 
   c_AE2 = rgamma(n_runs, shape = 16, scale = 50),
   c_AE3 = rgamma(n_runs, shape = 100, scale = 10),
+
 
 
   # Utility vectors with length n_runs 
@@ -5924,9 +5923,9 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 #  d_c       = 0.04,
 #  d_e       = 0.04,
 # If I wanted constant values for the discount rates I would have set them as above.
-  
-  d_c    = runif(n_runs,  min = 0, max = 0.08),
-  d_e    = runif(n_runs,  min = 0, max = 0.08),
+  THINK ABOUT THE DIVIDING BY 365 RULE HERE.
+  d_c    = runif(n_runs,  min = 0, max = 0.08/365),
+  d_e    = runif(n_runs,  min = 0, max = 0.08/365),
 
   n_cycle   = n_cycle,
   t_cycle   = t_cycle
