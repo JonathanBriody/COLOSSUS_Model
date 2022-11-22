@@ -3966,8 +3966,9 @@ df_params_OWSA <- data.frame(
 DSAICER  <- run_owsa_det(
 
 # run_owsa_det: https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html
-  
-  
+
+  # We need to make sure we consistently use "DSAICER" throughout, or else the function will present with an error saying "DSAICER" not found.  
+   
 # Arguments:
   
   params_range     = df_params_OWSA,     # dataframe with parameters for OWSA
@@ -4012,7 +4013,7 @@ DSAICER  <- run_owsa_det(
  outcomes         = c("DSAICER"),           # output to do the OWSA on
 
 # string vector with the outcomes of interest from FUN produced by nsamp
-# This basically tells run_owsa_det what the name of the outcome of interest from the function we fed it is. Here our function had NMB, i.e., the net monetary benefit.
+# This basically tells run_owsa_det what the name of the outcome of interest from the function we fed it is. Here our function previously had NMB, i.e., the net monetary benefit.
 
 #  outcomes         = c("NMB"),           # output to do the OWSA on
 
@@ -4049,7 +4050,7 @@ DSAICER  <- run_owsa_det(
 
 # OWSA_NMB
 
-
+# Or just DSAICER for DSAICER.
 
 # Resources on this available here:
 
@@ -4075,12 +4076,21 @@ owsa_tornado(owsa = DSAICER, txtsize = 11)
 # min_rel_diff = 0.05)
 
 # For owsa objects that contain many parameters that have minimal effect on the parameter of interest, you may want to consider producing a plot that highlights only the most influential parameters. Using the min_rel_diff argument, you can instruct owsa_tornado to exclude all parameters that fail to produce a relative change in the outcome below a specific fraction.
+
+
+# Maybe use the below to change the formatting of the above:
+# TornadoPlot(main_title = "Tornado Plot", Parms = paramNames, Outcomes = m.tor, 
+#             outcomeName = "Incremental Cost-Effectiveness Ratio (ICER)", 
+#             xlab = "ICER", 
+#             ylab = "Parameters", 
+#             col1="#3182bd", col2="#6baed6")
+
 ```
 
 ## 08.3.1 Plot OWSA
 
 ```{r}
-plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4, 
+plot(DSAICER, txtsize = 10, n_x_ticks = 4, 
      facet_scales = "free") +
   theme(legend.position = "bottom") 
 
@@ -4107,6 +4117,11 @@ plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4,
 
 # and here: https://cran.r-project.org/web/packages/dampack/vignettes/psa_analysis.html
 
+
+# Because I'm using ICERs, there's only one value, whereas for NMB, there's a value under each treatment strategy, but ICERs are ratios comparing the costs of one treatment strategy to another, and the outcomes of one treatment strategy to another. So, where when I was using NMB as my outcome I would have a curve for "SoC" and "Experimental Treatment", because each would get an NMB, now I only have the one curve, to show how the ICER value changes. So, before I could have how the net monetary benefit changed under each treatment strategy as the cost of treatment A went up, or the rate of changing from healthy to dead went up, per the "# Plot outcome of each strategy over each parameter range" on: https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html, now I only have the ICER, so I see how the ICER changes as the cost of parameters, etc., change.
+
+# Because only one ICER value is created, but it's created for both SoC and Exp, I imagine that the exp line and SoC line are created, but sit on top of eachother in the diagram below:
+
 ```
 
 ## 08.3.2 Optimal strategy with OWSA
@@ -4125,7 +4140,7 @@ plot(OWSA_NMB, txtsize = 10, n_x_ticks = 4,
 
 # Then include params = v_owsa_opt_strat, in the below and get rid of plot_const = FALSE
 
-owsa_opt_strat(owsa = OWSA_NMB, txtsize = 10, plot_const = FALSE)
+owsa_opt_strat(owsa = DSAICER, txtsize = 10, plot_const = FALSE)
 
 
 # plot_const = FALSE
@@ -4246,7 +4261,7 @@ df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
 # The TWSA is performed using the run_twsa_det function
 
 
-TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with parameters for TWSA
+TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with parameters for TWSA
                          params_basecase = l_params_all,      # list with all parameters, the "pars" chosen in the data.frame to be analysed here must be a subset of these.
                          
                          nsamp           = 40,                # number of parameter values. If NULL, 40 parameter values are used
@@ -4270,7 +4285,7 @@ TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with p
 
 # https://rdrr.io/cran/dampack/man/run_twsa_det.html
 
-                         outcomes        = c("NMB"),             # output to do the TWSA on
+                         outcomes        = c("DSAICER"),             # output to do the TWSA on
                          strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
                          progress        = TRUE, #Progress bar like before
 
@@ -4278,7 +4293,7 @@ TWSA_NMB <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with p
 )
 # Plot TWSA
 
-plot(TWSA_NMB)
+plot(TWSA_DSAICER)
 
 
 # Sometimes you see "maximise" written in people's TWSA code, why is that:

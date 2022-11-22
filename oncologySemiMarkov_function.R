@@ -898,7 +898,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = 45000) {
     
     # ,
     # NMB      = v_nmb_d)    
+
+    # Previously where DSAICER was, there was the above.
     
+        
 #   If I was creating an ICER tornado plot I would add the below to the df_ce above:  
 #    DSAICER  = DSA_ICER,
     
