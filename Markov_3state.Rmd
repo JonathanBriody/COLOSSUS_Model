@@ -4211,6 +4211,8 @@ owsa_opt_strat(owsa = DSAICER, txtsize = 10, plot_const = FALSE)
 
 # https://www.quantargo.com/help/r/latest/packages/dampack/1.0.1/owsa_opt_strat
 
+# Again, this is something that doesnt work too well with ICERs, with a NMB it is easy to see what the optimal strategy is, with am ICER it's not so easy unless you are telling your code what the willingness to pay threshold is, and it's doing the ICER calculation and then comparing this to the WTP threshold to see which approach is most cost-effective. But I think this code is really set up for NMB and telling you what parameter values give you higher NMB values and which treatment strategies these NMB's belong to. 
+
 ```
 
 ## 
