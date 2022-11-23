@@ -6286,8 +6286,8 @@ u_P_beta <- beta,
 
 
 
-mean<-   u_AE1,
-Maximum <- Maximum_u_AE1,
+mean<-   AE1_DisUtil,
+Maximum <- Maximum_AE1_DisUtil,
 Maximum,
 se <- ((Maximum) - (mean)) / 2,
 se,  
@@ -6298,14 +6298,14 @@ beta <- alpha*(1-mean)/mean, ## beta(b)
 alpha,
 beta,
 
-u_AE1        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+AE1_DisUtil        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
 
 alpha_u_AE1 <- alpha,
 beta_u_AE1 <- beta,
 
 
-mean<-   u_AE2,
-Maximum <- Maximum_u_AE2,
+mean<-   AE2_DisUtil,
+Maximum <- Maximum_AE2_DisUtil,
 Maximum,
 se <- ((Maximum) - (mean)) / 2,
 se,  
@@ -6316,14 +6316,14 @@ beta <- alpha*(1-mean)/mean, ## beta(b)
 alpha,
 beta,
 
-u_AE2        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+AE2_DisUtil        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
 
 alpha_u_AE2 <- alpha,
 beta_u_AE2 <- beta,
 
 
-mean<-   u_AE3,
-Maximum <- Maximum_u_AE3,
+mean<-   AE3_DisUtil,
+Maximum <- Maximum_AE3_DisUtil,
 Maximum,
 se <- ((Maximum) - (mean)) / 2,
 se,  
@@ -6334,7 +6334,7 @@ beta <- alpha*(1-mean)/mean, ## beta(b)
 alpha,
 beta,
 
-u_AE3        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+AE3_DisUtil        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
 
 alpha_u_AE3 <- alpha,
 beta_u_AE3 <- beta,
