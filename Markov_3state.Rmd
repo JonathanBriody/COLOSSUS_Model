@@ -5137,17 +5137,186 @@ I HAVE NOT FILLED IN PROBABILTIES YET!
 
 # This 20% approach is also taken by Lesley tilson and cited in her study and other studies here: https://trello.com/c/m653JBWV/48-20-cost-sensitivity
 
+# administration_cost
+Maximum <- Maximum_administration_cost,
+Mean <- administration_cost,
 
-  administration_cost   = rgamma(n_runs, shape = 16, scale = 25), 
-  c_PFS_Folfox   = rgamma(n_runs, shape = 16, scale = 50), 
-  c_PFS_Bevacizumab       = rgamma(n_runs, shape = 100, scale = 10), 
-  c_OS_Folfiri       = 0,
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+administration_cost   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_administration_cost <-a.cIntervention,
+b.cIntervention_administration_cost <-b.cIntervention, 
+
+
+# c_PFS_Folfox
+
+Maximum <- Maximum_c_PFS_Folfox,
+Mean <- c_PFS_Folfox,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_PFS_Folfox   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_PFS_Folfox <-a.cIntervention,
+b.cIntervention_c_PFS_Folfox <-b.cIntervention, 
+
+# c_PFS_Bevacizumab
+
+Maximum <- Maximum_c_PFS_Bevacizumab,
+Mean <- c_PFS_Bevacizumab,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_PFS_Bevacizumab   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_PFS_Bevacizumab <-a.cIntervention,
+b.cIntervention_c_PFS_Bevacizumab <-b.cIntervention, 
+
+
+#  c_OS_Folfiri
+
+Maximum <- Maximum_c_OS_Folfiri,
+Mean <- c_OS_Folfiri,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_OS_Folfiri   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_OS_Folfiri <-a.cIntervention,
+b.cIntervention_c_OS_Folfiri <-b.cIntervention, 
+
 # The cost of being dead doesnt vary, it always costs the same to treat a dead person, which is 0 because we don't give any of our chemo, etc., to a dead body.
   c_D = 0,
-  c_AE1 = rgamma(n_runs, shape = 16, scale = 25), 
-  c_AE2 = rgamma(n_runs, shape = 16, scale = 50),
-  c_AE3 = rgamma(n_runs, shape = 100, scale = 10),
 
+#  c_AE1
+
+Maximum <- Maximum_c_AE1,
+Mean <- c_AE1,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_AE1   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_AE1 <-a.cIntervention,
+b.cIntervention_c_AE1 <-b.cIntervention, 
+
+
+#  c_AE2
+
+Maximum <- Maximum_c_AE2,
+Mean <- c_AE2,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_AE2   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_AE2 <-a.cIntervention,
+b.cIntervention_c_AE2 <-b.cIntervention, 
+
+
+#  c_AE3
+
+Maximum <- Maximum_c_AE3,
+Mean <- c_AE3,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+c_AE3   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_c_AE3 <-a.cIntervention,
+b.cIntervention_c_AE3 <-b.cIntervention, 
 
 
   # Utility vectors with length n_runs 
