@@ -4865,10 +4865,56 @@ CHECK THINGS ARE BETWEEN 0 AND 1!
 
 # I don't describe generating random draws when the probabilities don't have an SE above, however, I can do this in the same way that I figured out how to do this for the utility beta distributions below. If they are reported with a range, he section on utility below also advises how to handle this.
 
-I HAVE NOT FILLED IN PROBABILTIES YET!
 
-  P_OSD_SoC      = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  P_OSD_Exp      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+
+
+# Brigs code to generate the SE for a parameter with a range perfectly centered around the mean (briggsse), and then repeated but for the situations where the range isnt PERFECTLY centered around the mean (altbriggsse), i.e., the min is further away from the mean than the max, or vice versa (even a little):
+
+max <- 0.22,
+min <- 0.12,  
+mean <- P_OSD_SoC,
+
+briggsse <- ((max)-(mean))/1.96,
+# altbriggsse <- (max-min)/(2*1.96),
+
+## Generating the alpha and beta:
+
+std.error <- briggsse, ## briggsse OR altbriggsse - as appropriate
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha.plus.beta,
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+ 
+P_OSD_SoC       = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
+mean(P_OSD_SoC),
+P_OSD_SoC_alpha <- alpha,
+P_OSD_SoC_beta <- beta,
+
+
+
+max <- 0.22,
+min <- 0.12,  
+mean <- P_OSD_Exp,
+
+briggsse <- ((max)-(mean))/1.96,
+# altbriggsse <- (max-min)/(2*1.96),
+
+## Generating the alpha and beta:
+
+std.error <- briggsse, ## briggsse OR altbriggsse - as appropriate
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha.plus.beta,
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+P_OSD_Exp       = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
+mean(P_OSD_Exp),
+P_OSD_Exp_alpha <- alpha,
+P_OSD_Exp_beta <- beta,
 
 
 
@@ -6172,8 +6218,58 @@ b.cIntervention_c_AE3 <-b.cIntervention,
 ######################## SECTION ON INCORRECT SOLUTIONS ENDS ###################
 
 
-  u_F       = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
-  u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
+# Brigs code to generate the SE for a parameter with a range perfectly centered around the mean (briggsse), and then repeated but for the situations where the range isnt PERFECTLY centered around the mean (altbriggsse), i.e., the min is further away from the mean than the max, or vice versa (even a little):
+
+max <- 1.00,
+min <- 0.68,  
+mean <- u_F,
+
+# briggsse <- ((max)-(mean))/1.96,
+altbriggsse <- (max-min)/(2*1.96),
+
+## Generating the alpha and beta:
+
+std.error <- altbriggsse, ## briggsse OR altbriggsse - as appropriate
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha.plus.beta,
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+u_F       = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
+mean(u_F),
+u_F_alpha <- alpha,
+u_F_beta <- beta,
+
+
+
+
+# Brigs code to generate the SE for a parameter with a range perfectly centered around the mean (briggsse), and then repeated but for the situations where the range isnt PERFECTLY centered around the mean (altbriggsse), i.e., the min is further away from the mean than the max, or vice versa (even a little):
+
+max <- 0.78,
+min <- 0.52,  
+mean <- u_P,
+
+briggsse <- ((max)-(mean))/1.96,
+# altbriggsse <- (max-min)/(2*1.96),
+
+## Generating the alpha and beta:
+
+std.error <- briggsse, ## briggsse OR altbriggsse - as appropriate
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha.plus.beta,
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+u_P       = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
+mean(u_P),
+u_P_alpha <- alpha,
+u_P_beta <- beta,
+
+
   u_D       = 0,
 # The utility of being dead doesnt vary, it always is the same utility to be a dead person, which is 0 because we don't have any quality of life, as we are no longer alive. I could have also just set u_D       = u_D, because when you set something equal to itself in here, that also means it's constant.
 
