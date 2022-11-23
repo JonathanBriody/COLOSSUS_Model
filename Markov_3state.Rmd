@@ -4869,12 +4869,127 @@ I HAVE NOT FILLED IN PROBABILTIES YET!
 
   P_OSD_SoC      = rbeta(n_runs, shape1 = 16, shape2 = 767),
   P_OSD_Exp      = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FA1_STD = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_FA2_STD = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FA3_STD = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_FA1_EXPR = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
-  p_FA2_EXPR = rbeta(n_runs, shape1 = 16, shape2 = 767),
-  p_FA3_EXPR = rbeta(n_runs, shape1 = 22.4, shape2 = 201.6),
+
+
+
+
+mean<-   p_FA1_STD,
+Maximum <- Maximum_p_FA1_STD,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA1_STD        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA1_STD <- alpha,
+beta_p_FA1_STD <- beta,
+
+
+
+mean<-   p_FA2_STD,
+Maximum <- Maximum_p_FA2_STD,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA2_STD        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA2_STD <- alpha,
+beta_p_FA2_STD <- beta,
+
+
+
+mean<-   p_FA3_STD,
+Maximum <- Maximum_p_FA3_STD,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA3_STD        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA3_STD <- alpha,
+beta_p_FA3_STD <- beta,
+
+
+
+mean<-   p_FA1_EXPR,
+Maximum <- Maximum_p_FA1_EXPR,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA1_EXPR        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA1_EXPR <- alpha,
+beta_p_FA1_EXPR <- beta,
+
+
+
+mean<-   p_FA2_EXPR,
+Maximum <- Maximum_p_FA2_EXPR,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA2_EXPR        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA2_EXPR <- alpha,
+beta_p_FA2_EXPR <- beta,
+
+
+
+mean<-   p_FA3_EXPR,
+Maximum <- Maximum_p_FA3_EXPR,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_FA3_EXPR        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_FA3_EXPR <- alpha,
+beta_p_FA3_EXPR <- beta,
+
+
+
+
+
+
   
 
 # If I was going with my initial plan of applying the PSA to the original COLOSSUS limited sample size, I could say, the uncertainty in this limited sample size is propogated through the model by applying a dirichlet and beta distribution to a fully probabilistic analysis of the data.
@@ -6061,10 +6176,64 @@ b.cIntervention_c_AE3 <-b.cIntervention,
   u_P       = rbeta(n_runs, shape1 = 49.5, shape2 = 49.5), 
   u_D       = 0,
 # The utility of being dead doesnt vary, it always is the same utility to be a dead person, which is 0 because we don't have any quality of life, as we are no longer alive. I could have also just set u_D       = u_D, because when you set something equal to itself in here, that also means it's constant.
-  u_AE1     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
-  u_AE2     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
-  u_AE3     = rbeta(n_runs, shape1 =  50.4, shape2 = 12.6), 
 
+
+
+
+
+
+mean<-   u_AE1,
+Maximum <- Maximum_u_AE1,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+u_AE1        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_u_AE1 <- alpha,
+beta_u_AE1 <- beta,
+
+
+mean<-   u_AE2,
+Maximum <- Maximum_u_AE2,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+u_AE2        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_u_AE2 <- alpha,
+beta_u_AE2 <- beta,
+
+
+mean<-   u_AE3,
+Maximum <- Maximum_u_AE3,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+u_AE3        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_u_AE3 <- alpha,
+beta_u_AE3 <- beta,
 
 
 
