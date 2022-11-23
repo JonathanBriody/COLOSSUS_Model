@@ -3730,8 +3730,10 @@ Minimum_HR_PD_SoC <- HR_PD_SoC - 0.20*HR_PD_SoC
 Maximum_HR_PD_SoC <- HR_PD_SoC + 0.20*HR_PD_SoC
 
 
-
-
+OS_UpperCI <- 0.86
+OS_LowerCI <- 0.49
+  
+  
 HR_PD_Exp
     
 Minimum_HR_PD_Exp <- OS_LowerCI
@@ -4763,7 +4765,6 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 # IMPORTANT, THIS VALUE IS BOUNDED BY 1 OR 0:
 # When calculating se from point estimates, remember that utility and probability values cannot be less than 0 or greater than 1, so don't calculate a min or max that is less than 0 or greater than 1. If you do, then change it to be 0 or 1, as appropriate, i.e., rather than 1.02, make it 1.
 
-CHECK THINGS ARE BETWEEN 0 AND 1!
 # When, as in slide 12 of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf you can have many transitions from one state into others [i.e. in A you can stay in State A or you can go into State B, State C or State D rather than just going from state C into State D] it's not clear how you can do this in the beta code.
 
 # i.e., when alpha values are all the times things happened, while  beta values are all the times they didnt, how do you apply 
@@ -6638,7 +6639,7 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 # Cost-effectiveness acceptability curve (CEAC):
 
 # We first generate a vector of willingness to pay values (thresholds) to define for which values the CEAC is made:
-v_wtp <- seq(0, 50000, by = 100)
+v_wtp <- seq(0, 500000, by = 10000)
 # This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 50,000 euro, increasing by 100 euro each time, so start with 0 euro, go to 100 euro, go to 200 euro, and so on until you hit 50,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 30000, by = 1000)
 CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 
