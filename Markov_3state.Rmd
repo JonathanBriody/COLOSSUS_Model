@@ -6355,10 +6355,11 @@ beta_u_AE3 <- beta,
 # as informed by: https://pubs.wsb.wisc.edu/academics/analytics-using-r-2019/uniform-continuous-version.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\3.5 Uniform (Continuous Version) _ Analytics Using R.pdf
 
 
-#  d_c       = 0.04,
-#  d_e       = 0.04,
+#  d_c       = 0.04/365,
+#  d_e       = 0.04/365,
 # If I wanted constant values for the discount rates I would have set them as above.
-  THINK ABOUT THE DIVIDING BY 365 RULE HERE.
+# Earlier I divided 0.04 by 365, so now I divide the upper value by 365 also.
+
   d_c    = runif(n_runs,  min = 0, max = 0.08/365),
   d_e    = runif(n_runs,  min = 0, max = 0.08/365),
 
