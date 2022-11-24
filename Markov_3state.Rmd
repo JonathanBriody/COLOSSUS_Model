@@ -1,5 +1,5 @@
 ---
-title: 'Exploratory Cost-Effectiveness Analysis of Treatment Based on New Diagnostic Tests vs Standard of Care in Microsatellite Stable RAS Mutant Metastatic Colorectal Cancer Patients'
+title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instability: An Cost-Effectiveness Analysis across the COLOSSUS Partner Countries'
 author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
 output:
   html_document: default
@@ -15,7 +15,7 @@ bibliography: references.bib
 
 **Co-authors:**
 
-*Annette feels Rodrigo should be on this paper as he suggested considering the Angiopredict study. Annette said that as Matias Ebert, a gastroenterologist in Germany, is on both COLOSSUS and Angiopredict, he should be on the paper. This collaboration may also help us to get some of the cost data that we've been waiting on from Germany.*
+*Annette feels Rodrigo should be on this paper as he suggested considering the Angiopredict study. Annette said that as Matias Ebert, a gastroenterologist in Germany, is on both COLOSSUS and Angiopredict, he should be on the paper. This collaboration may also help us to get some of the cost data that we've been waiting on from Germany (in the end it didnt).*
 
 *Annette feels that all the PIs on Angiopredict should be co-authors on this paper Matthias Ebert as mentioned above, Jochen Prehn and Bauke Ylstra. I would probably like to add Qiushi Chen, dependent on how helpful his thoughts on parametric survival analysis actually turn out to be.*
 
@@ -80,27 +80,34 @@ Copy number load predicts outcome of metastatic colorectal cancer patients recei
 > **[TICK HERE:]**
 
 **Background:** Colorectal cancer is the third most common cancer in Europe.
-Microsatellite stable RAS mutant metastatic colorectal cancer (MSS RAS mt mCRC) [some details about this specific cancer]....
-**Objectives:** The objective of this study was to compare the cost-effectiveness of a personalised medicine approach (evaluation of predictive biomarkers for targeted therapy) with standard of care treatment FOLFOX (5-FU, leucovorin, and oxaliplatin) in patients with MSS RAS mt mCRC in Germany, Ireland and Spain.
+Bevacizumab, a monoclonal antibody that functions as an angiogenesis inhibitor, was approved for the first-line treatment of metastatic colorectal cancer (mCRC) in 2004.
+However, the addition of Bevacizumab to first-line chemotherapy in mCRC consistently fails to be cost-effective due to moderate response in patients.
+Recently, copy number load has identified a subtype of patients with improved outcomes following Bevacizumab combination therapy.
+The objective of this study was to compare the cost-effectiveness of adding Bevacizumab to first-line treatment chemotherapy, in comparison to chemotherapy alone, for such patients.
 
-**Materials and Methods:** We developed a three-state Markov model with monthly cycles to estimate the incremental cost-effectiveness ratio (ICER) of biomarkers for targeted therapies versus FOLFOX for patients with MSS RAS mt mCRC from a healthcare payer perspective in the countries under study (Germany, Ireland and Spain).
-Progression risks, cause-specific mortality and probabilities of adverse events were taken from the literature.
-Costs for treatment administration and management of adverse events were derived from published data and survey of consortium hospitals in the participating countries.
-Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature [I may want to return to this to update this with the country specific utility plan myself and Kathleen made].
-To test the robustness of the results one-way sensitivity analysis and probabilistic sensitivity analysis was applied.
-To test the robustness of the results, parameter values were varied individually to assess the sensitivity of the model to individual parameters or specific sets of parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions.
+**Materials and Methods:** We developed a three-state Markov model with fortnightly cycles to estimate the incremental cost-effectiveness ratio (ICER) of Bevacizumab plus FOLFOX (5-FU, leucovorin, and oxaliplatin) versus FOLFOX alone.
+Progression risks and cause-specific mortality were informed by progression-free survival and overall-survival data from the ANGIOPREDICT study on this newly identified subtype of patient with improved responsiveness to Bevacizumab.
+Probabilities of adverse events were taken from the literature on Bevacizumab combination therapy.
+Costs for treatment administration and management of adverse events were derived from surveys of consortium hospitals in the participating countries.
+Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature.
+The perspective was that of a healthcare payer in the countries of the COLOSSUS translational study (Germany, Ireland and Spain).
+To test the robustness of the results, parameter values were varied individually to assess the model's sensitivity to individual parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions to represent uncertainty in model parameters.
 
-**Results:** Predictive biomarkers with targeted therapy provided X QALYS at a cost of €X,000 compared with standard of care (FOLFOX without testing).
-Compared to standard of care, the ICER of predictive biomarkers with targeted therapy provided was EUR X,000/QALY from a European health care perspective, which was above the threshold used to define cost-effectiveness in the countries studied, which provided X QALYS at a cost of €X,000.
-The incremental cost-effectiveness ratio (ICER) was €X,000 per QALY.
-The ICER was below the cost-effectiveness threshold (\<€X,000 per QALY) in all univariate and multivariate sensitivity analyses.
-One-way sensitivity analysis demonstrated that the initial results were generally robust.
-Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis show that the probability that predictive biomarkers with targeted therapy was cost-effective was 100% when the threshold was \<€X,000 per QALY.
+**Results:** In Ireland, Germany and Spain, the addition of Bevacizumab to therapy provided X QALYS at a cost of €X,000, X QALYS at a cost of €X,000, and X QALYS at a cost of €X,000 respectively, compared with standard of care (FOLFOX without Bevacizumab).
+Deterministic results indicate that the highest ICER was in Ireland (€,000/QALY), while the lowest was in Spain (€,000/QALY).
+In Germany, the ICER was €,000 per QALY.
+Compared to standard of care, the addition of Bevacizumab provided an ICER well above the threshold used to define cost-effectiveness from a European healthcare perspective in every country studied.
+All univariate and multivariate sensitivity analyses demonstrated that the initial results were generally robust.
+Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis showed that adding Bevacizumab to therapy was only cost-effective when willingness to pay thresholds were multiple times larger than currently used cut-offs.
 
-**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold.
+[*Likewise, in the probabilistic sensitivity analysis, Bevacizumab was never identified as being cost-effective in any country at local willingness to pay thresholds.*]{.underline}
+
+**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold.
 However, because of the exploratory nature of this analysis, the cost effectiveness profile of these biomarkers should be evaluated in further comparative studies.
+Even for recently identified patients with improved outcomes following Bevacizumab combination therapy, adding Bevacizumab to first-line chemotherapy for mCRC invariably is not cost-effective.
+This result remains unchanged across variability in pricing, healthcare costs, willingness to pay thresholds and multiple international payers.
 
-**Keywords:** Colorectal neoplasms, cost effectiveness analysis, Quality-adjusted life years, Markov model, mCRC, precision medicine, biomarkers, assays,
+**Keywords:** Colorectal neoplasms, cost effectiveness analysis, Quality-adjusted life years, Markov model, mCRC,
 
 JEL CLASSIFICATION CODES
 
@@ -108,15 +115,24 @@ I19, I1, I, I11, I1, I,
 
 [*Possible Journal Homes:*]{.underline}
 
-Value in Health: BEST POSSIBLE HOME, HIGHEST RATED JOURNAL, FOCUSED ON CEA, ETC.,
+The Oncologist: Published a study on this in 2017:
+
+Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., \...
+& Hall, P. S.
+(2017).
+Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis.
+*The Oncologist*, *22*(6), 694-699.
+
 
 Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
 
 Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
 
-Studies in Health Technology andInformatics
+Value in Health: FOCUSED ON CEA, ETC.,
 
-Search "New Journal: Oxford Open Economics" in my gmail, it's a new Journal and thus may be interested in this work.
+Studies in Health Technology and Informatics
+
+"New Journal: Oxford Open Economics" I have an email on this in my gmail, it's a new Journal and thus may be interested in this work.
 
 We can increase our publication numbers by publishing a short summary of our study in: PharmacoEconomics & Outcomes News - per the description "Stay up to date with the exciting world of health economics. Solve the problem of reading and monitoring the vast volumes of literature necessary to stay informed on the latest issues in pharmacoeconomics and outcomes research by reading our concise news summaries, compiled in an easy-to-read format." <https://www.springer.com/journal/40274>
 
@@ -392,6 +408,9 @@ Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* =
 
 Transition from first to second line treatment in each cycle was calculated based on the [@wang2020] [USE THIS PAPER TO DESCRIBE THE PARAMETRIC SURVIVAL ANALYSIS] formulation: 1−exp(\$*λ*[t−1]\^{γ}\$ − \$*λ*t\^{γ}\$), where the current stage in the model is t, and *λ* and *γ* are the estimated scale and shape parameters respectively.
 The transition probability of second-line treatment into death is as informed by [@wen2016].
+
+Per [@goldstein2017] probability of transitions, adverse events, and quality of life under treatment were assumed to be generalizable, consequently shared values were applied to all countries under study.
+Country-specific cost data was gathered via direct survey of consortium hospitals in the participating countries.
 
 # 00 Set up general state of play
 
@@ -3174,7 +3193,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
@@ -6477,7 +6496,7 @@ for(i_run in 1:n_runs){
 
     # Evaluate the model and store the outcomes
   l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 45000)
-# The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 20,000.
+# The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 45,000.
   df_c[i_run, ] <- l_out_temp$Cost
   df_e[i_run, ] <- l_out_temp$Effect
 # The above says, for the costs and effectiveness data.frames, store the value of costs and effects for each run that we are on in a row that reflects that run (remembering that [ROW,COLUMN], we are putting each cost and effect in a row that relates to the number of the run we are on, so if we are on run 1, i_run = 1 and we store the costs and effects for that run 1 in row 1. Remembering that our oncologySemiMarkov makes the "Cost" and "Effect" parameters at the end of the function, after applying the Markov cost-effectiveness model to all our input data for the cost-effectiveness model (so, things like, cost, utility and probability), so we are just pulling the ouputted Cost and Effect values calculated from a Markov cost-effectiveness model applied to our input data after the input data has been randomly drawn from a PSA (per the PSA input dataframe)).  
@@ -6607,7 +6626,7 @@ British journal of cancer, 106(5), 805-816.
 # Incremental cost-effectiveness plane
 plot(l_PA)
 
-# plot(l_PA, xlim = c(9.5, 22.5))
+#plot(l_PA, xlim = c(9.5, 22.5))
 # In the DARTH package R code they use the additional bits above, I can see how they look in my own model, and if I'd like to use them.
 ```
 
@@ -6640,7 +6659,7 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 # We first generate a vector of willingness to pay values (thresholds) to define for which values the CEAC is made:
 v_wtp <- seq(0, 500000, by = 10000)
-# This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 50,000 euro, increasing by 100 euro each time, so start with 0 euro, go to 100 euro, go to 200 euro, and so on until you hit 50,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 30000, by = 1000)
+# This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 500,000 euro, increasing by 10,000 euro each time, so start with 0 euro, go to 10,000 euro, go to 20,000 euro, and so on until you hit 500,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 30000, by = 1000)
 CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 
 
@@ -6706,6 +6725,7 @@ There may be information more generally in the R files found in: C:\\Users\\Jona
 To build a Table describing parameters, you click on the Table button at the top, and design it in there.
 Then to include the parameter values automatically as they are updated you fill in the parameter name you want, highlight it in the cell and click \</\> from above to put it in a code block.
 You do the same for gamma, etc., put this in code blocks also.
+<https://rpruim.github.io/s341/S19/from-class/MathinRmd.html#:~:text=Math%20inside%20RMarkdown,10n%3D1n2.>
 
 Per: [Putting the value of a variable into a table in R Markdown, rather than it's name - Stack Overflow](https://stackoverflow.com/questions/72902548/putting-the-value-of-a-variable-into-a-table-in-r-markdown-rather-than-its-nam)
 
