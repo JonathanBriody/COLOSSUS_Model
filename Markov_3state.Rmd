@@ -160,6 +160,7 @@ Numerous targeted therapies for colorectal cancer have successfully come to mark
 As the first clinically applied angiogenesis inhibitor in any disease, Bevacizumab, [*a monoclonal antibody that functions as an angiogenesis inhibitor,*]{.underline} may be the most successful of these [@shih2006].
 
 Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
+This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010].
 
 Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
 
