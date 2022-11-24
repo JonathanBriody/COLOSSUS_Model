@@ -151,71 +151,24 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Introduction
 
-We used the World Health Organization's Choosing Interventions that are Cost--Effective (WHO-CHOICE) suggestion that "interventions for a given country or region that cost less than three times average per capita income per disability-adjusted life-year (DALY) averted are considered costeffective; and those that exceed this level are considered not cost-effective" (estimation from CAPMAS)29.
-The three times GDP per capita in Egypt in 2017 was EGP106,000, which corresponds to an incremental cost-effectiveness ratio (ICER) threshold of USD 41,372 (2017)30.
-Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-(2019).
-Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-Journal of Medical Economics, 22(2), 163-168.
-<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
-
-"The WTP threshold was set as three times the GDP per capita in 2017, which was \$10,800/QALY in Indonesia."
-
-Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S.
-(2021).
-Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia.
-*Asian Pacific Journal of Cancer Prevention: APJCP*, *22*(6), 1921.
-
-<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf>
-
-three times the GDP per capita of China Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743
-
-Maybe for \*\*Germany\*\*, where they don't appear to have a cost-effectiveness threshold, I can use the GDP per capita approach I've read about (somewhere) or some range of this.
-Rough description of this here: Marseille, E., Larson, B., Kazi, D. S., Kahn, J. G., & Rosen, S.
-(2014).
-Thresholds for the cost--effectiveness of interventions: alternative approaches.
-Bulletin of the World Health Organization, 93, 118-124.
-<https://www.who.int/bulletin/volumes/93/2/14-138206/en/> Health Opportunity cost may also factor into this: Ochalek, J., Lomas, J., & Claxton, K.
-(2018).
-Estimating health opportunity costs in low-income and middle-income countries: a novel approach and evidence from cross-country data.
-BMJ Global Health, 3(6).
-<https://gh.bmj.com/content/3/6/e000964>
-
-This study also didnt have thresholds, much like Germany doesnt: Franken, M. D., Van Rooijen, E. M., May, A. M., Koffijberg, H., van Tinteren, H., Mol, L., ... & van Oijen, M. G. H.
-(2017).
-Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer.
-European Journal of Cancer, 75, 204-212.
-<https://sci-hub.ru/10.1016/j.ejca.2017.01.019>
-
 With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
 Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
 
-As one of the most commonly mutated oncogenes in cancer, RAS mutations appear in around half of mCRC patients, and in microsatellite stable (MSS) mCRC are associated with more aggressive tumor biology and poorer prognosis [@patelli2021].
-Current front-line treatment for mCRC does not differ significantly from colorectal cancer regardless of mutational status, comprising of 5-fluoruracil (5-FU)-based standard of care chemotherapy (e.g. FOLFOX, FOLFIRI, FOLFOXFIRI) in combination with bevacizumab.
-However, there is emerging evidence that targeted therapy may prolong overall survival for mCRC patients, as previously seen in non-metastatic colorectal cancer [@xie2020].
-
 Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
 Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
-Beginning with Cetuximab in 2004, numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades (Bevacizumab, Panitumumab, Ziv-aflibercept, Regorafenib, Ramucirumab, Pembrolizumab, Bivolumabm Ipilimumab, etc.,).
-The number of pathways offering possible opportunities for targeted therapy is similarly extensive, including epidermal growth factor receptor (EGFR), vascular endothelial growth factor/vascular endothelial growth factor receptor (VEGF/VEGFR), and hepatocyte growth factor/mesenchymal--epithelial transition factor (HGF/c-MET), among others [@xie2020].
+Numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades.
+As the first clinically applied angiogenesis inhibitor in any disease, Bevacizumab, [*a monoclonal antibody that functions as an angiogenesis inhibitor,*]{.underline} may be the most successful of these [@shih2006].
 
-*DRUG X* is a *DETAILS ABOUT DRUG X HERE* that *HOW DRUG X WORKS HERE* [citation to support this].
-This experimentally identified targeted agent is in preclinical status or in phase I trials, but has been proven to be efficient in clinical studies [amend if this isnt the case], and ... [citations to support this].
-The results of X demonstrate a median overall survival (OS) benefit of X months (Y months vs. Z months) and a median progression-free survival (PFS) benefit of X months for DRUG X when compared with placebo (X months vs. X months).
-
-> Fruquintinib is a VEGFR inhibitor that blocks new blood vessel growth associated with tumor proliferation5 .
-> In 2018, it was approved to treat Chinese patients with mCRC who had experienced failure of second-line treatment.
-> The results of the FRESCO trial demonstrated a median overall survival (OS) benefit of 2.7 months (9.3 months vs. 6.6 months) and a median progression-free survival (PFS) benefit of 1.9 months for fruquintinib when compared with placebo (3.7 months vs. 1.8 months)6.
->
-> \- Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
+Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
 
 Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
 
 Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
 We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
+
+Variability in pricing, healthcare costs, willingness to pay thresholds and multiple international payer perspectives are such that cost-effectiveness may be expected to differ across countries.
+The COLOSSUS consortium comprises many of the same investigators for the ANGIOPREDICT study, and .
+Consequently, we can establish the cost-effectiveness of bevacizumab in mCRC in the consortium countries of Ireland, Germany and Spain.
 
 # Materials and Methods
 
@@ -411,6 +364,44 @@ The transition probability of second-line treatment into death is as informed by
 
 Per [@goldstein2017] probability of transitions, adverse events, and quality of life under treatment were assumed to be generalizable, consequently shared values were applied to all countries under study.
 Country-specific cost data was gathered via direct survey of consortium hospitals in the participating countries.
+
+> **3 TIMES GDP THRESHOLD:**
+>
+> We used the World Health Organization's Choosing Interventions that are Cost--Effective (WHO-CHOICE) suggestion that "interventions for a given country or region that cost less than three times average per capita income per disability-adjusted life-year (DALY) averted are considered costeffective; and those that exceed this level are considered not cost-effective" (estimation from CAPMAS)29.
+> The three times GDP per capita in Egypt in 2017 was EGP106,000, which corresponds to an incremental cost-effectiveness ratio (ICER) threshold of USD 41,372 (2017)30.
+> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
+> (2019).
+> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
+> Journal of Medical Economics, 22(2), 163-168.
+> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
+>
+> "The WTP threshold was set as three times the GDP per capita in 2017, which was \$10,800/QALY in Indonesia."
+>
+> Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S.
+> (2021).
+> Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia.
+> *Asian Pacific Journal of Cancer Prevention: APJCP*, *22*(6), 1921.
+>
+> <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf>
+>
+> three times the GDP per capita of China Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743
+>
+> Maybe for \*\*Germany\*\*, where they don't appear to have a cost-effectiveness threshold, I can use the GDP per capita approach I've read about (somewhere) or some range of this.
+> Rough description of this here: Marseille, E., Larson, B., Kazi, D. S., Kahn, J. G., & Rosen, S.
+> (2014).
+> Thresholds for the cost--effectiveness of interventions: alternative approaches.
+> Bulletin of the World Health Organization, 93, 118-124.
+> <https://www.who.int/bulletin/volumes/93/2/14-138206/en/> Health Opportunity cost may also factor into this: Ochalek, J., Lomas, J., & Claxton, K.
+> (2018).
+> Estimating health opportunity costs in low-income and middle-income countries: a novel approach and evidence from cross-country data.
+> BMJ Global Health, 3(6).
+> <https://gh.bmj.com/content/3/6/e000964>
+>
+> This study also didnt have thresholds, much like Germany doesnt: Franken, M. D., Van Rooijen, E. M., May, A. M., Koffijberg, H., van Tinteren, H., Mol, L., ... & van Oijen, M. G. H.
+> (2017).
+> Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer.
+> European Journal of Cancer, 75, 204-212.
+> <https://sci-hub.ru/10.1016/j.ejca.2017.01.019>
 
 # 00 Set up general state of play
 
