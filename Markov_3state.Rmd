@@ -81,7 +81,7 @@ Copy number load predicts outcome of metastatic colorectal cancer patients recei
 
 **Background:** Colorectal cancer is the third most common cancer in Europe.
 Bevacizumab, a monoclonal antibody that functions as an angiogenesis inhibitor, was approved for the first-line treatment of metastatic colorectal cancer (mCRC) in 2004.
-However, the addition of Bevacizumab to first-line chemotherapy in mCRC consistently fails to be cost-effective due to moderate response in patients.
+However, the addition of Bevacizumab to first-line chemotherapy in mCRC consistently fails to be cost-effective due to moderate/modest response in patients.
 Recently, copy number load has identified a subtype of patients with improved outcomes following Bevacizumab combination therapy.
 The objective of this study was to compare the cost-effectiveness of adding Bevacizumab to first-line treatment chemotherapy, in comparison to chemotherapy alone, for such patients.
 
@@ -161,6 +161,15 @@ As the first clinically applied angiogenesis inhibitor in any disease, Bevacizum
 
 Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
 This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010].
+
+However, there is emerging evidence that for a subtype of mCRC patients, the effect of Bevacizumab is beyond what has previously been seen in mCRC.
+The ANGIOPREDICT study investigated responsiveness to Bevacizumab per degree of chromosomal instability, identifying a subgroup of mCRC patients with improved outcomes following addition to chemotherapy treatment [\@betge2016].
+
+ANGIOPREDICT patients treated demonstrated significantly improved PFS (HR = 0.68, P = 0.00249, CI 0.53--0.87) and OS (HR = 0.65, P = 0.00227, CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
+Importantly, such improvements were also therapeutically relevant, with a more prolonged median survival of X days compared to chemotherapy alone [\@smeets2018].
+
+We hypothesised that such improvements in effectiveness might translate into improvements in the cost-effectiveness of Bevacizumab treatment for mCRC patients with chromosomal instability, providing greater support for clinical use [\@jamison2006].
+Consequently, we conducted a health economic analysis of treatment in this emergent high chromosomal instability group.
 
 Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
 
