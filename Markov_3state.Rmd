@@ -82,23 +82,23 @@ Copy number load predicts outcome of metastatic colorectal cancer patients recei
 **Background:** Colorectal cancer is the third most common cancer in Europe.
 Bevacizumab, a monoclonal antibody that functions as an angiogenesis inhibitor, was approved for the first-line treatment of metastatic colorectal cancer (mCRC) in 2004.
 However, the addition of Bevacizumab to first-line chemotherapy in mCRC consistently fails to be cost-effective due to moderate/modest response in patients.
-Recently, copy number load has identified a subtype of patients with improved outcomes following Bevacizumab combination therapy.
+Recently, copy number load has identified a [*sub*]{.underline}type of patients with improved outcomes following Bevacizumab combination therapy.
 The objective of this study was to compare the cost-effectiveness of adding Bevacizumab to first-line treatment chemotherapy, in comparison to chemotherapy alone, for such patients.
 
-**Materials and Methods:** We developed a three-state Markov model with fortnightly cycles to estimate the incremental cost-effectiveness ratio (ICER) of Bevacizumab plus FOLFOX (5-FU, leucovorin, and oxaliplatin) versus FOLFOX alone.
+**Materials and Methods:** We developed a three-state Markov model with fortnightly cycles to estimate the incremental cost-effectiveness ratio (ICER) of Bevacizumab (Avastin) plus FOLFOX (5-FU, leucovorin, and oxaliplatin) versus FOLFOX alone.
 Progression risks and cause-specific mortality were informed by progression-free survival and overall-survival data from the ANGIOPREDICT study on this newly identified subtype of patient with improved responsiveness to Bevacizumab.
 Probabilities of adverse events were taken from the literature on Bevacizumab combination therapy.
 Costs for treatment administration and management of adverse events were derived from surveys of consortium hospitals in the participating countries.
 Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature.
-The perspective was that of a healthcare payer in the countries of the COLOSSUS translational study (Germany, Ireland and Spain).
-To test the robustness of the results, parameter values were varied individually to assess the model's sensitivity to individual parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions to represent uncertainty in model parameters.
+The perspective was that of a healthcare payer in the countries of the COLOSSUS translational study (Germany, Ireland and Spain), where the cost-effectiveness build was built.
+To test the robustness of results, parameter values were varied individually to assess the model's sensitivity to individual parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions to represent uncertainty in model parameters.
 
 **Results:** In Ireland, Germany and Spain, the addition of Bevacizumab to therapy provided X QALYS at a cost of €X,000, X QALYS at a cost of €X,000, and X QALYS at a cost of €X,000 respectively, compared with standard of care (FOLFOX without Bevacizumab).
 Deterministic results indicate that the highest ICER was in Ireland (€,000/QALY), while the lowest was in Spain (€,000/QALY).
 In Germany, the ICER was €,000 per QALY.
 Compared to standard of care, the addition of Bevacizumab provided an ICER well above the threshold used to define cost-effectiveness from a European healthcare perspective in every country studied.
 All univariate and multivariate sensitivity analyses demonstrated that the initial results were generally robust.
-Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis showed that adding Bevacizumab to therapy was only cost-effective when willingness to pay thresholds were multiple times larger than currently used cut-offs.
+Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis showed that adding Bevacizumab to therapy was only cost-effective when willingness to pay thresholds were multiple times larger than currently accepted cut-offs.
 
 [*Likewise, in the probabilistic sensitivity analysis, Bevacizumab was never identified as being cost-effective in any country at local willingness to pay thresholds.*]{.underline}
 
@@ -161,28 +161,20 @@ As the first clinically applied angiogenesis inhibitor in any disease, Bevacizum
 
 Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
 This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010].
-
 However, there is emerging evidence that for a subtype of mCRC patients, the effect of Bevacizumab is beyond what has previously been seen in mCRC.
 The ANGIOPREDICT study investigated responsiveness to Bevacizumab per degree of chromosomal instability, identifying a subgroup of mCRC patients with improved outcomes following addition to chemotherapy treatment [\@betge2016].
 
-ANGIOPREDICT patients treated demonstrated significantly improved PFS (HR = 0.68, P = 0.00249, CI 0.53--0.87) and OS (HR = 0.65, P = 0.00227, CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
+ANGIOPREDICT patients demonstrated significantly improved PFS (HR = 0.68, P = 0.00249, CI 0.53--0.87) and OS (HR = 0.65, P = 0.00227, CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
 Importantly, such improvements were also therapeutically relevant, with a more prolonged median survival of X days compared to chemotherapy alone [\@smeets2018].
-
 We hypothesised that such improvements in effectiveness might translate into improvements in the cost-effectiveness of Bevacizumab treatment for mCRC patients with chromosomal instability, providing greater support for clinical use [\@jamison2006].
-Consequently, we conducted a health economic analysis of treatment in this emergent high chromosomal instability group.
-
-Because targeted therapy is most associated with prolonged survival, rather than cure, the cost--effectiveness of such therapy must be understood when compared to current standard of care chemotherapy, which is assumed to be significantly less costly than producing targeted agents and testing necessary genetic markers, particularly under the provision of multiple targeted agents [@dekker2019].
-
-Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
-We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
-
-Variability in pricing, healthcare costs, willingness to pay thresholds and multiple international payer perspectives are such that cost-effectiveness may be expected to differ across countries.
-The COLOSSUS consortium comprises many of the same investigators for the ANGIOPREDICT study, and .
-Consequently, we can establish the cost-effectiveness of bevacizumab in mCRC in the consortium countries of Ireland, Germany and Spain.
+Consequently, we conducted a health economic analysis of treatment in this emergent group.
 
 # Materials and Methods
 
 #### Model Structure
+
+Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
+We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
 
 We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy.
 As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death.
