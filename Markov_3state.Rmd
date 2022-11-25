@@ -160,16 +160,18 @@ Numerous targeted therapies for colorectal cancer have successfully come to mark
 As the first clinically applied angiogenesis inhibitor in any disease, Bevacizumab, [*a monoclonal antibody that functions as an angiogenesis inhibitor,*]{.underline} may be the most successful of these [@shih2006].
 
 Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
-This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010].
+This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010] [@goldstein2015c].
 However, there is emerging evidence that for a subtype of mCRC patients, the effect of Bevacizumab is beyond what has previously been seen in mCRC.
 The ANGIOPREDICT study investigated responsiveness to Bevacizumab per degree of chromosomal instability, identifying a subgroup of mCRC patients with improved outcomes following addition to chemotherapy treatment [\@betge2016].
 
-ANGIOPREDICT patients demonstrated significantly improved PFS (HR = 0.68, P = 0.00249, CI 0.53--0.87) and OS (HR = 0.65, P = 0.00227, CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
+ANGIOPREDICT patients demonstrated significantly improved PFS (HR = 0.68; P = 0.00249; 95% CI 0.53--0.87) and OS (HR = 0.65; P = 0.00227; 95% CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
 Importantly, such improvements were also therapeutically relevant, with a more prolonged median survival of X days compared to chemotherapy alone [\@smeets2018].
 We hypothesised that such improvements in effectiveness might translate into improvements in the cost-effectiveness of Bevacizumab treatment for mCRC patients with chromosomal instability, providing greater support for clinical use [\@jamison2006].
-Consequently, we conducted a health economic analysis of treatment in this emergent group.
+Consequently, the objective of the present study was to conduct a health economic analysis of treatment in this emergent group.
 
 # Materials and Methods
+
+an
 
 #### Model Structure
 
@@ -215,6 +217,11 @@ In the absence of a randomised controlled trial making direct comparisons betwee
 We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014].
 The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
 The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
+
+The current front-line standard of care for mCRC is FOLFOX, given with Bevacizumab.
+Patients who progress on first-line therapy typically receive second-line treatment with 5-FU, leucovorin, and irinotecan (FOLFIRI) [\@tournigand2004].
+
+smeet
 
 > The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
 >
@@ -363,9 +370,6 @@ Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* =
 
 Transition from first to second line treatment in each cycle was calculated based on the [@wang2020] [USE THIS PAPER TO DESCRIBE THE PARAMETRIC SURVIVAL ANALYSIS] formulation: 1−exp(\$*λ*[t−1]\^{γ}\$ − \$*λ*t\^{γ}\$), where the current stage in the model is t, and *λ* and *γ* are the estimated scale and shape parameters respectively.
 The transition probability of second-line treatment into death is as informed by [@wen2016].
-
-Per [@goldstein2017] probability of transitions, adverse events, and quality of life under treatment were assumed to be generalizable, consequently shared values were applied to all countries under study.
-Country-specific cost data was gathered via direct survey of consortium hospitals in the participating countries.
 
 > **3 TIMES GDP THRESHOLD:**
 >
