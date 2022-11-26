@@ -123,7 +123,6 @@ Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., \..
 Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis.
 *The Oncologist*, *22*(6), 694-699.
 
-
 Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
 
 Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
@@ -1091,6 +1090,12 @@ Duration-adjusted disutility was subtracted from the baseline utility to calcula
 [*https://sci-hub.se/10.3390/vaccines9020111*](https://sci-hub.se/10.3390/vaccines9020111){.uri}
 
 ###### [*Adverse Events Occurring:*]{.underline}
+
+If I'm made to include adverse events for second line therapy, which I don't think is necessary as second line therapy is the same for everyone, information on the incidence of adverse events is here for Folfiri on it's own, or in combination with Bevacizumab: Wong, W. W., Zargar, M., Berry, S. R., Ko, Y. J., Riesco-Martínez, M., & Chan, K. K. W.
+(2019).
+Cost-effectiveness analysis of selective first-line use of biologics for unresectable RAS wild-type left-sided metastatic colorectal cancer.
+Current Oncology, 26(5), 597-609.
+<file:///C:/Users/Jonathan/Dropbox/Grammarly%20files/curroncol-26-04843.pdf>
 
 > [*Have a look at my emails to Kathleen and Daniel re: Adverse events, utilities during adverse events, etc.,*]{.underline}
 >
@@ -3190,7 +3195,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
