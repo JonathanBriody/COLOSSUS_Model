@@ -1,5 +1,5 @@
 ---
-title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instability: An Cost-Effectiveness Analysis across the COLOSSUS Partner Countries'
+title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instability: An Cost-Effectiveness Analysis of a Novel Subtype across the COLOSSUS Partner Countries'
 author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
 output:
   html_document: default
