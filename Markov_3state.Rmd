@@ -1965,10 +1965,10 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # Costs
 
-c_PFS_Folfox <-285.54 
-c_PFS_Bevacizumab <-1325.87 
-c_OS_Folfiri <-139.58 
-administration_cost <- 314.94 
+c_PFS_Folfox <-1276.66 
+c_PFS_Bevacizumab <-2952.24  
+c_OS_Folfiri <-1309.64  
+administration_cost <- 1794.40  
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
@@ -2785,9 +2785,9 @@ p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 4885.95
-c_AE2 <- 507.36
-c_AE3 <- 95.03
+c_AE1 <- 3837
+c_AE2 <- 1816.37
+c_AE3 <- 526.70 
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
 
@@ -3668,7 +3668,7 @@ l_params_all <- list(
 
 # Test whether the function works (and generates the same results)
 
-oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 30000)
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 78871)
 
 
 
@@ -4143,7 +4143,7 @@ DSAICER  <- run_owsa_det(
 # cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
 
-  n_wtp            = 30000               # extra argument to pass to FUN to specify the willingness to pay
+  n_wtp            = 78871               # extra argument to pass to FUN to specify the willingness to pay
 )
 
 # Value
@@ -4400,7 +4400,7 @@ TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe wi
                          strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
                          progress        = TRUE, #Progress bar like before
 
-                         n_wtp           = 30000               # extra argument to pass to FUN to specify the willingness to pay
+                         n_wtp           = 78871               # extra argument to pass to FUN to specify the willingness to pay
 )
 # Plot TWSA
 
@@ -6499,7 +6499,7 @@ head(df_e)
 for(i_run in 1:n_runs){
 
     # Evaluate the model and store the outcomes
-  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 30000)
+  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 78871)
 # The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 45,000.
   df_c[i_run, ] <- l_out_temp$Cost
   df_e[i_run, ] <- l_out_temp$Effect
@@ -6663,7 +6663,7 @@ C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\
 
 # We first generate a vector of willingness to pay values (thresholds) to define for which values the CEAC is made:
 v_wtp <- seq(0, 500000, by = 10000)
-# This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 500,000 euro, increasing by 10,000 euro each time, so start with 0 euro, go to 10,000 euro, go to 20,000 euro, and so on until you hit 500,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 30000, by = 1000)
+# This basically gives you a sequence of willingness to pay thresholds from 0 all the way up to 500,000 euro, increasing by 10,000 euro each time, so start with 0 euro, go to 10,000 euro, go to 20,000 euro, and so on until you hit 500,000. You can chose any max value you like and any increment value you like, for example, in the DARTH material they use the following: v_wtp <- seq(0, 78871, by = 1000)
 CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 
 
