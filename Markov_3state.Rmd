@@ -1965,10 +1965,10 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 
 # Costs
 
-c_PFS_Folfox <-307.81
-c_PFS_Bevacizumab <-2580.38
-c_OS_Folfiri <-326.02
-administration_cost <- 365.00
+c_PFS_Folfox <-285.54 
+c_PFS_Bevacizumab <-1325.87 
+c_OS_Folfiri <-139.58 
+administration_cost <- 314.94 
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
@@ -2785,9 +2785,9 @@ p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03
+c_AE1 <- 4885.95
+c_AE2 <- 507.36
+c_AE3 <- 95.03
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
 
@@ -3668,7 +3668,7 @@ l_params_all <- list(
 
 # Test whether the function works (and generates the same results)
 
-oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 45000)
+oncologySemiMarkov(l_params_all = l_params_all, n_wtp = 30000)
 
 
 
@@ -4143,7 +4143,7 @@ DSAICER  <- run_owsa_det(
 # cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
 
 
-  n_wtp            = 45000               # extra argument to pass to FUN to specify the willingness to pay
+  n_wtp            = 30000               # extra argument to pass to FUN to specify the willingness to pay
 )
 
 # Value
@@ -4400,7 +4400,7 @@ TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe wi
                          strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
                          progress        = TRUE, #Progress bar like before
 
-                         n_wtp           = 45000               # extra argument to pass to FUN to specify the willingness to pay
+                         n_wtp           = 30000               # extra argument to pass to FUN to specify the willingness to pay
 )
 # Plot TWSA
 
@@ -6499,7 +6499,7 @@ head(df_e)
 for(i_run in 1:n_runs){
 
     # Evaluate the model and store the outcomes
-  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 45000)
+  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 30000)
 # The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 45,000.
   df_c[i_run, ] <- l_out_temp$Cost
   df_e[i_run, ] <- l_out_temp$Effect
@@ -6746,7 +6746,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
+|-----------|-----------|-----------|-----------|-----------|------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
