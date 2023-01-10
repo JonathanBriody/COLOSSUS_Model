@@ -24,102 +24,6 @@ bibliography: references.bib
 Authors (final list TBD): Jonathan Briody,  Ian Miller, Rodrigo Dienstmann, Lesley Tilson, Matthias Ebert, Jochen Prehn, Bauke Ylstra, Annette Byrne,  Kathleen Bennett. 
 \
 
-\
-
-IF THIS BECOMES THE BEVACIZUMAB STUDY WE CAN INCOPORATE SOME OF THE BELOW:
-
-<https://www.angiopredict.com/go/about_us>
-
-Smeets, D., Miller, I. S., O'Connor, D. P., Das, S., Moran, B., Boeckx, B., ... & Byrne, A. T.
-(2018).
-Copy number load predicts outcome of metastatic colorectal cancer patients receiving bevacizumab combination therapy.
-*Nature communications*, *9*(1), 1-16.
-
-# **Abstract \# For your write-up on Bevacizumab, and particularly for the part indicating it's not cost effective, you should use these 3 studies: Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S. (2021). Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia. Asian Pacific Journal of Cancer Prevention: APJCP, 22(6), 1921. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8418847/pdf/APJCP-22-1921.pdf> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., El-Rayes, B. F., & Flowers, C. R. (2015). First-and second-line bevacizumab in addition to chemotherapy for metastatic colorectal cancer: a United States--based cost-effectiveness analysis. Journal of Clinical Oncology, 33(10), 1112. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4881313/pdf/zlj1112.pdf> Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., ... & Hall, P. S. (2017). Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis. The Oncologist, 22(6), 694-699. <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5469597/pdf/onco12164.pdf>:**
-
-> I'll initially draft this as informed by:
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> Clinical colorectal cancer, 13(4), 219-225.
-> <https://www.sciencedirect.com/science/article/abs/pii/S1533002814000978>
->
-> **[TICK HERE:]**
->
-> and:
->
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> Journal of Medical Economics, 24(1), 339-344.
-> <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
->
-> **[TICK HERE:]**
->
-> and:
->
-> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
->
-> **[TICK HERE:]**
->
-> and here:
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
-> (2015).
-> Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
-> JAMA oncology, 1(9), 1293-1300.
->
-> Paper saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/13%20Goldstein.pdf> and supplementary material saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/Neci%20supplemental%20material%20071815.pdf>
->
-> **[TICK HERE:]**
->
-> and not forgetting I have some relevant stuff in Grammarly
->
-> **[TICK HERE:]**
->
-> Then I'll have a look at the other open journal articles in my browser windows
->
-> **[TICK HERE:]**
-
-**Background:** Colorectal cancer is the third most common cancer in Europe.
-Bevacizumab, a monoclonal antibody that functions as an angiogenesis inhibitor, was approved for the first-line treatment of metastatic colorectal cancer (mCRC) in 2004.
-However, the addition of Bevacizumab to first-line chemotherapy in mCRC consistently fails to be cost-effective due to moderate/modest response in patients.
-Recently, copy number load has identified a [*sub*]{.underline}type of patients with improved outcomes following Bevacizumab combination therapy.
-The objective of this study was to compare the cost-effectiveness of adding Bevacizumab to first-line treatment chemotherapy, in comparison to chemotherapy alone, for such patients.
-
-**Materials and Methods:** We developed a three-state Markov model with fortnightly cycles to estimate the incremental cost-effectiveness ratio (ICER) of Bevacizumab (Avastin) plus FOLFOX (5-FU, leucovorin, and oxaliplatin) versus FOLFOX alone.
-Progression risks and cause-specific mortality were informed by progression-free survival and overall-survival data from the ANGIOPREDICT study on this newly identified subtype of patient with improved responsiveness to Bevacizumab.
-Probabilities of adverse events were taken from the literature on Bevacizumab combination therapy.
-Costs for treatment administration and management of adverse events were derived from surveys of consortium hospitals in the participating countries.
-Utilities applied to calculate the quality-adjusted life years (QALYs) were obtained from a review of the literature.
-The perspective was that of a healthcare payer in the countries of the COLOSSUS translational study (Germany, Ireland and Spain), where the cost-effectiveness build was built.
-To test the robustness of results, parameter values were varied individually to assess the model's sensitivity to individual parameters, and simultaneously, sampling multiple sets of parameter values from a priori--defined probability distributions to represent uncertainty in model parameters.
-
-**Results:** In Ireland, Germany and Spain, the addition of Bevacizumab to therapy provided X QALYS at a cost of €X,000, X QALYS at a cost of €X,000, and X QALYS at a cost of €X,000 respectively, compared with standard of care (FOLFOX without Bevacizumab).
-Deterministic results indicate that the highest ICER was in Ireland (€,000/QALY), while the lowest was in Spain (€,000/QALY).
-In Germany, the ICER was €,000 per QALY.
-Compared to standard of care, the addition of Bevacizumab provided an ICER well above the threshold used to define cost-effectiveness from a European healthcare perspective in every country studied.
-All univariate and multivariate sensitivity analyses demonstrated that the initial results were generally robust.
-Cost-effectiveness acceptability curves from the probabilistic sensitivity analysis showed that adding Bevacizumab to therapy was only cost-effective when willingness to pay thresholds were multiple times larger than currently accepted cut-offs.
-
-[*Likewise, in the probabilistic sensitivity analysis, Bevacizumab was never identified as being cost-effective in any country at local willingness to pay thresholds.*]{.underline}
-
-**Conclusion:** When compared to standard of care, predictive biomarkers with targeted therapy is cost effective for patients with MSS RAS mt mCRC in Germany, Ireland and Spain at a €X,000 per QALY threshold.
-However, because of the exploratory nature of this analysis, the cost effectiveness profile of these biomarkers should be evaluated in further comparative studies.
-Even for recently identified patients with improved outcomes following Bevacizumab combination therapy, adding Bevacizumab to first-line chemotherapy for mCRC invariably is not cost-effective.
-This result remains unchanged across variability in pricing, healthcare costs, willingness to pay thresholds and multiple international payers.
-
-**Keywords:** Colorectal neoplasms, cost effectiveness analysis, Quality-adjusted life years, Markov model, mCRC,
-
-JEL CLASSIFICATION CODES
-
-I19, I1, I, I11, I1, I,
-
 [*Possible Journal Homes:*]{.underline}
 
 The Oncologist: Published a study on this in 2017:
@@ -159,263 +63,15 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Introduction
 
-With almost 2 million new cases diagnosed annually, colorectal cancer is the third most commonly diagnosed cancer in men, the second most commonly diagnosed in women [@vabi2021], and the second leading cause of cancer deaths worldwide [@nwaokorie2021].
-Following advances in primary and adjuvant treatments, survival time continues to improve in colorectal cancer, with a 5-year survival rate of 64%, however, this is not reflected in metastatic colorectal cancer (mCRC), which has a dramatically lower 5-year survival rate of just 12% [@siegel2019].
-
-Cancerous cells may be addressed by targeted therapy which directly inhibits cell proliferation, differentiation, and migration.
-Similarly, the micro-environment of the tumor, including it's local blood vessels and immune cells, may be modified in order to disrupt growth and to improve immune surveillance and response [@tiwari2018].
-Numerous targeted therapies for colorectal cancer have successfully come to market in the last two decades.
-As the first clinically applied angiogenesis inhibitor in any disease, Bevacizumab, [*a monoclonal antibody that functions as an angiogenesis inhibitor,*]{.underline} may be the most successful of these [@shih2006].
-
-Although widely used as an addition to the chemotherapeutic regimen in the first-line treatment of metastatic colorectal cancer (mCRC), Bevacizumab is typically not considered cost-effective [@kristin2021][@goldstein2015b][@franken2017].
-This may correspond to a limited overall benefit of Bevacizumab in the clinic [\@potti2010] [@goldstein2015c].
-However, there is emerging evidence that for a subtype of mCRC patients, the effect of Bevacizumab is beyond what has previously been seen in mCRC.
-The ANGIOPREDICT study investigated responsiveness to Bevacizumab per degree of chromosomal instability, identifying a subgroup of mCRC patients with improved outcomes following addition to chemotherapy treatment [\@betge2016].
-
-ANGIOPREDICT patients demonstrated significantly improved PFS (HR = 0.68; P = 0.00249; 95% CI 0.53--0.87) and OS (HR = 0.65; P = 0.00227; 95% CI 0.49−0.86) after adding Bevacizumab to treatment compared to chemotherapy alone.
-Importantly, such improvements were also therapeutically relevant, with a more prolonged median survival of X days compared to chemotherapy alone [\@smeets2018].
-We hypothesised that such improvements in effectiveness might translate into improvements in the cost-effectiveness of Bevacizumab treatment for mCRC patients with chromosomal instability, providing greater support for clinical use [\@jamison2006].
-Consequently, the objective of the present study was to conduct a health economic analysis of treatment in this emergent group.
-
 # Materials and Methods
-
-an
 
 #### Model Structure
 
-Limited data exist regarding these novel therapies, with no research comparing the cost-effectiveness of these targeted therapies with standard of care, thus, we developed a general decision-analytic framework applied to mCRC to model the cost-effectiveness of biomarkers for targeted therapies in mCRC.
-We constructed a Markov model using a hypothetical cohort of patients with mCRC to conduct an exploratory cost-effectiveness analysis of targeted treatment based on new diagnostic tests vs standard of care in MSS RAS mt mCRC patients.
-
-We constructed Markov models to calculate the lifetime costs and outcomes of each treatment strategy.
-As per Figure 1, in this model we established the following health states: (1) first line treatment prior to progression; (2) second line treatment following progression; (3) death.
-We applied published estimates of costs associated with each health state in the countries studied [CITE].
-All cost estimates were in 2022 Euros [maybe discuss how you converted to this?
-HIQA has something on this I think].
-To apply country-specific state utility values we...DETAIL HERE THE APPROACH WE TOOK AS DISCUSSED WITH KATHLEEN [CITE].
-The model was programmed in R 4.1.2 using RStudio 2021.09.2+382 and was informed by the state-transition model framework developed by the Decision Analysis in R for Technologies in Health (DARTH) workgroup [@alarid-escudero2021] [@jalal2017] [@krijkamp2018] [@krijkamp2020].
-The Markov model simulated the health state transitions following a diagnosis of metastatic cancer.
-A cycle length of 1 month was chosen, per the time between administration of chemotherapy doses.
-A 5-year time horizon was also chosen, this was appropriate to estimate life expectancy in this patient population [CITE].
-For standard of care, we considered 2 lines of treatment, first line (FOLFOX) and second line (FOLFIRI).
-For the comparator we also considered 2 lines of treatment (NEW THERAPY), then (FOLFIRI).
-In both instances we made use of treatment-specific utility values.
-At the end of each cycle, patients remained in their current health state, or transitioned to a more progressive state.
-To reflect that transitions between states may occur at any point within each cycle, we applied a half-cycle correction to calculating life-years (LYs) {I AM DEFINITELY NOT GOING TO DO THIS, I JUST PUT IT IN HERE AS SOMETHING TO THINK ABOUT, CYCLES ARE ONLY A MONTH SO A CORRECTION OF 2 WEEKS IS PRETTY STUPID}.
-Within cycle correction here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\R\\Functions.R
-
-> [A three-state Markov model (Figure 1) with monthly cycle could also have been used to represent the progression of mCRC, including PFS, progressive disease (PD), and death.
-> All patients entered the model either receiving FOLFOX therapy or NOVEL therapy.
-> After treatment discontinuation due to progession, best supportive care (BSC) was modeled.
-> \*\*--\> So, here even doing that they still got a treatment that needs to be modelled in PFS].\*\*
->
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
-
-The intention-to-treat (ITT) population we modeled in this study is MSS RAS mt mCRC patients in Germany, Ireland and Spain, from a healthcare payer perspective in these countries.
-Subsequently the analysis only included direct medical costs.
-Effectiveness is reflected in life-years (LYs) and quality adjusted life years (QALYS).
-Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [citation here].
-The primary outcome of the model was the total direct costs, LYs, QALYS, and the incremental cost-effectiveness ratio (ICER).
-
 #### Patients and Treatment Regimens
-
-In the absence of a randomised controlled trial making direct comparisons between standard of care and the proposed novel therapy, it was necessary to perform an indirect comparison using the data from two published studies [CITE].
-We made use of published results from one study to estimate the clinical course for patients treated under standard of care and another to estimate outcomes for patients under novel therapy [@goldstein2014].
-The standard of care arm was based on a study be ..et al., {FILL IN THE BLANKS HERE ON THE STUDY YOU BASED THIS ON} who compared...[cite].
-The novel therapy arm was based on a X, Y, Z, study by ....et al., While these 2 studies did not have identical target populations...
-
-The current front-line standard of care for mCRC is FOLFOX, given with Bevacizumab.
-Patients who progress on first-line therapy typically receive second-line treatment with 5-FU, leucovorin, and irinotecan (FOLFIRI) [\@tournigand2004].
-
-smeet
-
-> The PK arm was based on a phase II nonrandomized study by Capitain et al., who compared PK FOLFOX with BSA FOLFOX.9 The BSA arm was based on a phase III randomized study by Tournigand et al.14 Although the 2 studies did not have identical target populations, the survival outcomes of the baseline BSA arm of the 2 studies are comparable (Table 1).9,14,15 Moreover, the median PFS and OS were also similar to the FOLFOX arm in a similar study.15
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
->
-> Given that there was no single RCT with all treatment arms, it was necessary to perform an indirect comparison using the data from the FRESCO trial and the CONCUR trial6, 11.
-> The baseline treatment for the indirect comparison was BSC taken from the FRESCO trial.
-> The clinical effectiveness in patients in the BSC arm was also available from the CONCUR trial.
-> This, however, was not considered appropriate for the baseline treatment because the survival curves reported by the CONCUR trial were distorted in the paper and were not suitable for recreating individual patient data.
-> However, the hazard ratios (HRs) calculated by original data would not be affected by the distorted figures.
-> The implicit assumption underlying the indirect comparison was that the baseline patient characteristics in the two studies were reasonably similar, which was shown to be true (Appendix Table 1).
-
-[I THINK WE CAN TAKE THEIR APPROACH IN OUR MODEL, DO DIGITISING AND PARAMETRIC SURVIVAL ANALYSIS FOR STANDARD OF CARE, THEN TAKE A HAZARD RATIO FROM ANNETTE AND THE COLOSSUS STUDY FOR THE NEW INTERVENTION, THERE'S A LITTLE MORE ON HR'S BELOW and the following R code applies hazard ratios after doing parametric survival analysis, similar to what I plan to do: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R\\ISPOR_webinar_R-master\\ISPOR_webinar_R-master\\oncologySemiMarkov_illustration.R].
-
-> The FRESCO trial was used to model the probabilities of remaining in the PFS state or experiencing disease progression in the fruquintinib arm.
-> This research recreating individual patients data (IPD) from Kaplan--Meier (KM) survival curves in FRESCO by the method published by Guyot et al.12.
-> To predict the events of death and progression beyond the observation period, several parametric models were fit in different distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
-> After comparing the goodness-of-fit of different parametric models by the Akaike information criterion (AIC) and the Bayesian information criterion (BIC) (Appendix Table 2), assessing the conformities of parametric models to the original KM survival curves in the FRESCO trial and considering about proportional hazard model used for the indirect comparison, the Weibull distribution model was chosen for the base case analysis (Appendix Figure 1 and Appendix Figure 2).
->
-> We used the PFS curves to estimate the transition probability from PFS state to PFS state and the transition probability from PFS state to another states (PD and death) and used the OS curve to estimate the overall mortality.
-> The model assumed the transition probability from PFS state to death was estimated by the background mortality obtained from Chinese government data, which based on actuarial estimates of mortality among the general population in China.
-> According to the background mortality and the transition probability from PFS state to another states (PD and death), we calculated the transition probability from PFS state and PD.
-> Moreover, the transition probability from PD state to PD state could calculated by overall mortality and background mortality.
->
-> We also calculated the transition probabilities in the BSC arm by a Weibull-distribution hazard function using the survival data from the FRESCO trial.
-> The model assumed that the survival curves of BSC both in FRESCO and CONCUR would be identical if the patients in BSC arm was identical, and the HR of regorafenib versus BSC would not change even if the patients receiving BSC in CONCUR became exactly same as the patients receiving BSC in FRESCO.
-> Hence,we adjusted the transition probabilities of the regorafenib arm using the transition probabilities of the BSC arm modeled from the FRESCO trial and the HR of regorafenib versus BSC taken from the CONCUR trial.
->
-> Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
-
-> There is a discussion on indirect comparisons and how best to do these in this short piece: Martin-Broto, J.
-> (2015).
-> Indirect comparisons in cost-effectiveness analysis: are we being naïve?.
-> Clinical and Translational Oncology, 17(1), 85-86.
-> <https://sci-hub.se/10.1007/s12094-014-1256-9>
->
-> This also talks about indirect comparisons Hollmann, S., Alloul, K., Attard, C., & Kavan, P. (2014).
-> An Indirect Treatment Comparison and Cost-Effectiveness Analysis Comparing Folfirinox with Nab-Paclitaxel Plus Gemcitabine for First-Line Treatment for Patients with Metastatic Pancreatic Cancer.
-> Annals of Oncology, 25, ii11.
-> <https://sci-hub.se/10.1093/annonc/mdu164.18>
->
-> This applies an indirect comparison in more detail: Tamoschus, D., Draexler, K., Chang, J., Ngai, C., Madin-Warburton, M., & Pitcher, A.
-> (2017).
-> Cost-effectiveness analysis of regorafenib for gastrointestinal stromal tumour (GIST) in Germany.
-> Clinical Drug Investigation, 37(6), 525-533.
-> <https://sci-hub.se/10.1007/s40261-017-0514-3>
->
-> I'm not even sure if I would classify what we are doing as an indirect comparison, as we don't have data for the novel therapy at all (that I know of), but I'll read the above articles and then make a call on that.
-> Likely I'll make the call to follow the approach of: Guan, X., Li, H., Xiong, X., Peng, C., Wang, N., Ma, X., & Ma, A.
-> (2021).
-> Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China.
-> *Journal of Medical Economics*, *24*(1), 339-344.
-> and use a HR, but I'll see.
->
-> The following also shows how to do the above: Purmonen, T., Martikainen, J. A., Soini, E. J., Kataja, V., Vuorinen, R. L., & Kellokumpu-Lehtinen, P. L.
-> (2008).
-> Economic evaluation of sunitinib malate in second-line treatment of metastatic renal cell carcinoma in Finland.
-> Clinical therapeutics, 30(2), 382-392.
-> - <https://sci-hub.se/10.1016/j.clinthera.2008.02.013>
->
-> ***Or we could try:***
->
-> The transition probabilities were derived from the median time to radiologic progression and median OS obtained from previously published studies18,20 following recommended methods21.
-> - Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
->
-> I think the below also takes transition probabilities just from the literature, although I'd have to read it and see:
->
-> Pierse, T., O'Neill, S., Dinneen, S. F., & O'Neill, C.
-> (2021).
-> A simulation study of the economic and health impact of a diabetes prevention programme in Ireland.
-> *Diabetic Medicine*, *38*(6), e14540.
 
 #### Transition Probabilities
 
-> ##### Life Tables:
->
-> Following significant review of the literature on CEA of mCRC it's pretty clear that it's extremely uncommon for published studies to make use of life tables, most likely because of the short life-span of mCRC patients.
-> However, if I did need to make use of Life Tables for this model, I would utilise the following:
->
-> WRITING:
->
-> Non mCRC death was captured as a competing risk in the model.
-> We use life tables in each country studied to estimate the background mortality, these data were derived from [CITE WHERE YOU GOT THE LIFE TABLES] for GIVE THE YEAR. The starting age of the cohort was X years, which is the median age of incident mCRC diagnosis, as reported by [SOME TRUST WORTHY CANCER REGISTRATION BODY].
->
-> CODE:
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.3 Practical exercise R
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\\August_24\\4_cSTM - time-dependent models_material
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\\August_25\\3_cSTM - history dependence_material
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.3 Practical exercise R
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A3_Presenting Simulation Results\\A3.3 Practical exercise R
-
 # Parametric Survival Analysis:
-
-Some more R code on parametric survival analysis here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Applied Cost Effectiveness Modeling with R\\rcea-rscripts\\05-psm
-
-This study: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Ramalingam, S. S., ... & Flowers, C. R.
-(2015).
-Necitumumab in metastatic squamous cell lung cancer: establishing a value-based cost.
-JAMA oncology, 1(9), 1293-1300.
-saved here: C:/Users/Jonathan/Dropbox/PC/Downloads/coi150070.pdf and particulary it's supplementary material, saved here: <file:///C:/Users/Jonathan/Dropbox/PC/Downloads/supplementary%20materials.pdf> explains how to use PFS and OS curves to generate transition probabilities from the first state into the second and from the first state into death, so, it tells you how to create both by taking the PFS probabilities and OS probabilities from eachother to get the progressing probability and using the OS probability to get the death probability, it also talks about AIC, BIC, etc.,
-
-Something to consider in this is the following point:
-
-"Model Validation We performed internal model validations demonstrating that the overall survival curves generated by the Markov model simulation closely approximated those presented in the SQUIRE trial14 and the fitted survivalmodels (see eFigure 3 and eFigure 4 in the Supplement)."
-
-And I talked to **Qiushi Chen** about this in detail in email (I also described to Kathleen in email), so look to that conversation on how he approached this to make sure I am not making any mistakes.
-
-This talks about AIC as well: Briggs, A., Sculpher, M., Dawson, J., Fitzpatrick, R., Murray, D., & Malchau, H.
-(2003).
-Modelling the cost-effectiveness of primary hip replacement: how cost-effective is the Spectron compared to the Charnley prosthesis.
-CHE Technical Paper Series, 28.
-<file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Training%20Resources/Decision%20Modelling%20-%20Advanced%20Course/A2_Making%20Models%20Probabilistic/A2.1.2%20Distributions%20for%20parameters/gammadist/interquartile%20range.pdf>
-
-A GREAT EXPLANATION OF PARAMETRIC SURVIVAL ANALYSIS, MATHEMATICAL NOTATION AND CODE CAN BE FOUND HERE: <https://rpubs.com/mbounthavong/survival_analysis_in_r> ALSO SAVED HERE: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\GitHub\\COLOSSUS_Model\\rpubs-com-mbounthavong-survival_analysis_in_r
-
-Info here too: <https://devinincerti.com/2019/06/18/parametric_survival.html>
-
-Survival Curves in R: <https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html> <https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_survival/BS704_Survival_print.html>
-
-Progression and mortality probabilities were derived from the PFS and OS curves of the X study [CITE].
-Data points were extracted from survival plots using Engauge Digitizer software, version 12.2, and these data points were used to fit parametric survival models [@mitchell2022].
-
-To produce estimates of progression and mortality outside of the follow-up time in X study several parametric models were fit to a number of distributions, including exponential, Weibull, Gompertz, generalized gamma log-normal and log-logistic.
-Statistical analyses demonstrated a good fit was provided for both curves by Weibull models, according to the Akaike information criterion (AIC), the Bayesian information criterion (BIC), Schwarz Bayesian criterion and visual inspection of the relative conformity of parametric models to the original Kaplan-Meier survival curves (Table A1 in the appendix, Figure A1 in the appendix).
-Weibull models have been demonstrated to be more suitable for modeling events occurring in mCRC [@goldstein2014a], and support the application of proportional hazard models [@guan2021] such that the Weibull distribution model was chosen for the base case analysis.
-Therefore, we estimated the transition probabilities for each cycle based on the fitted Weibull survival models.
-
-The cycle length studied was 2 weeks, corresponding to the time between chemotherapy administrations.
-Because PFS curves capture patients under progression and death, we estimate the progression risks, that is the transition probability from first to second line treatment, by subtracting the mortality risks \$r\_{i}\$ from these transition probabilities \$p\_{i}\$.
-Thus, the probability of progression is = max(\$p\_{i}\$ - \$r\_{i}\$, 0), *i* = 1,2,\\cdots, per [@goldstein2015a].
-
-Transition from first to second line treatment in each cycle was calculated based on the [@wang2020] [USE THIS PAPER TO DESCRIBE THE PARAMETRIC SURVIVAL ANALYSIS] formulation: 1−exp(\$*λ*[t−1]\^{γ}\$ − \$*λ*t\^{γ}\$), where the current stage in the model is t, and *λ* and *γ* are the estimated scale and shape parameters respectively.
-The transition probability of second-line treatment into death is as informed by [@wen2016].
-
-> **3 TIMES GDP THRESHOLD:**
->
-> We used the World Health Organization's Choosing Interventions that are Cost--Effective (WHO-CHOICE) suggestion that "interventions for a given country or region that cost less than three times average per capita income per disability-adjusted life-year (DALY) averted are considered costeffective; and those that exceed this level are considered not cost-effective" (estimation from CAPMAS)29.
-> The three times GDP per capita in Egypt in 2017 was EGP106,000, which corresponds to an incremental cost-effectiveness ratio (ICER) threshold of USD 41,372 (2017)30.
-> Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> <https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432>
->
-> "The WTP threshold was set as three times the GDP per capita in 2017, which was \$10,800/QALY in Indonesia."
->
-> Kristin, E., Endarti, D., Khoe, L. C., Taroeno-Hariadi, K. W., Trijayanti, C., Armansyah, A., & Sastroasmoro, S.
-> (2021).
-> Economic evaluation of adding bevacizumab to chemotherapy for metastatic colorectal cancer (mCRC) patients in Indonesia.
-> *Asian Pacific Journal of Cancer Prevention: APJCP*, *22*(6), 1921.
->
-> <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Evidence%20Synthesis/Economic%20Models/Kristin%20et%20al_2021_Economic%20Evaluation%20of%20Adding%20Bevacizumab%20to%20Chemotherapy%20for%20Metastatic.pdf>
->
-> three times the GDP per capita of China Cost-effectiveness analysis of fruquintinib versus regorafenib as the third-line therapy for metastatic colorectal cancer in China tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743
->
-> Maybe for \*\*Germany\*\*, where they don't appear to have a cost-effectiveness threshold, I can use the GDP per capita approach I've read about (somewhere) or some range of this.
-> Rough description of this here: Marseille, E., Larson, B., Kazi, D. S., Kahn, J. G., & Rosen, S.
-> (2014).
-> Thresholds for the cost--effectiveness of interventions: alternative approaches.
-> Bulletin of the World Health Organization, 93, 118-124.
-> <https://www.who.int/bulletin/volumes/93/2/14-138206/en/> Health Opportunity cost may also factor into this: Ochalek, J., Lomas, J., & Claxton, K.
-> (2018).
-> Estimating health opportunity costs in low-income and middle-income countries: a novel approach and evidence from cross-country data.
-> BMJ Global Health, 3(6).
-> <https://gh.bmj.com/content/3/6/e000964>
->
-> This study also didnt have thresholds, much like Germany doesnt: Franken, M. D., Van Rooijen, E. M., May, A. M., Koffijberg, H., van Tinteren, H., Mol, L., ... & van Oijen, M. G. H.
-> (2017).
-> Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer.
-> European Journal of Cancer, 75, 204-212.
-> <https://sci-hub.ru/10.1016/j.ejca.2017.01.019>
 
 # 00 Set up general state of play
 
@@ -468,17 +124,28 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 ```{r}
 
-# Check whether the required packages are installed and, if not, install the missing packages
+# Previous code to check whether the required packages are installed and, if not, install the missing packages
 # # - the 'pacman' package is used to conveniently install other packages
 # if (!require("pacman")) install.packages("pacman"); library(pacman)
 # p_load("flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram")   
 # p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
+
+
+# {r} # if (!require('pacman')) install.packages('pacman'); library(pacman)  # # use this package to conveniently install other packages # # load (install if required) packages from CRAN # p_load("diagram", "dampack", "reshape2") # # library(devtools) # devtools is necessary to install from github. # # install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version # p_load_gh("DARTH-git/darthtools")
+```
+
+# 01.5 Load functions
+
+```{r}
+# all functions are in the darthtools package
+
+# There is a functions RMD for the PSA stuff below, instead of loading it lower down, I could just place it here, and place all the necessary packages above and then I would only ever need 1 R Markdown document for the entire study. Will think about doing this.
 ```
 
 # 02 Individual Data for Parametric Code
 
 ```{r}
-# Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves
+# Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
 
 # df_TTP <- read.csv(file='PFS.csv', header=TRUE)
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTP.RData")
@@ -486,15 +153,13 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTD.RData")
 
 load(file = "df_TTP.RData")
-# Load the individual patient data for the time-to-death (TTD) that you recovered by digitising published survival curves
+# Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
 load(file = "df_TTD.RData")
-# At the moment I don't have time-to-death (TTD) data, and creating a fake dataset by duplicating time-to-progression (TTP) won't work as R will recognise the duplication and refuse to load the data, but when I DO have time-to-death (TTD) data I'll load it in here.
+# I have time-to-death (TTD) data, I'll load it in here.
 
 # Here's how to remove the BVZ rows from the excel files we have: https://techcommunity.microsoft.com/t5/excel/deleting-rows-that-contain-specific-content/m-p/2084473
 
-# At the moment this is just nonsense data and needs to be replaced when I have figured out the issues described at the end of this section.
-
-# When I do have data, the data needs to be set up to include a column for the time (in the example this is time in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0),
+# The data needs to be set up to include a column for the time (in the example this is time in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0),
 
 # "What is Censoring? Censoring in a study is when there is incomplete information about a study participant, observation or value of a measurement. In clinical trials, it's when the event doesn't happen while the subject is being monitored or because they drop out of the trial." - https://www.statisticshowto.com/censoring/#:~:text=What%20is%20Censoring%3F,drop%20out%20of%20the%20trial.
 
@@ -524,13 +189,17 @@ load(file = "df_TTD.RData")
 
 ```{r}
 
-# We will implement a semi-Markov model with time-dependent transition probabilities, via a parametric survival model fitted to some individual patient data for the time-to-progression (TTP) and time-to-death (TTD) for standard of care.
+# We will implement a Markov model with time-dependent transition probabilities, via a parametric survival model fitted to some individual patient data for the time-to-progression (TTP) and time-to-death (TTD) for standard of care.
 
 # A hazard ratio for the new intervention therapy vs. the standard of care will then be applied to obtain transition probabilities for the new experimental strategy.
 
 # Let's first review the survival curves and see if they match the study:
 
-# Simple survival curves:
+# My understanding of survival curves is supported by: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+
+# A really good intro to survival curves is here: https://shariq-mohammed.github.io/files/cbsa2019/1-intro-to-survival.html
+
+# Some early and simple survival curves:
 
 # km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
 # plot(km_fit_PFS)
@@ -538,7 +207,7 @@ load(file = "df_TTD.RData")
 # km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
 # plot(km_fit_OS)
 
-# My understanding of survival curves is supported by: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
+# Before I used Joshua's awesome package management code above, I installed packages as below:
 
 #install.packages(c("survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk"))
 #remotes::install_github("zabore/condsurv")
@@ -556,9 +225,6 @@ load(file = "df_TTD.RData")
 
 
 # We want to make sure the data we're feeding in matches the data from the publication in Table 4d and Supplementary Table 10d
-
-
-# A really good intro to survival curves is here: https://shariq-mohammed.github.io/files/cbsa2019/1-intro-to-survival.html
 
 
 survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
@@ -587,9 +253,12 @@ summary(km_fit_OS, times = c(0,300,600,900,1200,1500,1800,1810,1820,1830,1840,18
 
 # The PFS and OS curves I create, match those from the publication, so we know the data we are feeding in is correct.
 
-# So, the problem must be in how I am generating probabilities in my model.
 
 
+
+# Now lets aks ourselves, do the Weibull probabilities we create match the probabilities created directly by the Kaplan-Meier (probably best to read this with the PDF of the Angiopredict study open on the survival curves (PFS and OS) for Figure 4d in the paper, and Figure 10d in the supplement (which represents the patient time to event data that is used in this study)):
+
+# Seeing that the PFS and OS curves I create, match those from the publication, the problem I was having in matching these must be in how I am generating probabilities in my model.
 
 # I calculate the probability of not progressing at the different time periods in the data from the publication, to contrast this to the probabilities I create of not progressing at different time periods once I've created probabilities in the R code, the probability of survival at each time period will be reported under the "survival" heading, per: https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html 
 
@@ -640,9 +309,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1350)
 summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 
 
-
-
-
 # Do the Weibull probabilities match the probabilities created directly by the Kaplan-Meier:
 
 # Here's how I checked if the Weibull probabilities match the probabilities created directly by the Kaplan-Meier, basically, I take the Kaplan-Meier probabilities at a few different cycles directly from the data as below, the probability of survival at each time period will be reported under the "survival" heading:
@@ -668,7 +334,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # summary(survfit(Surv(time, status) ~ 1, data = df_TTP), times = 112)
 
 
-
 # Then, I calculate the probability of staying in the PFS state, which is what the above gives me. To do this, I create all the other probabilities as zero because I just want to look at whats going on with my Weibull probabilities for the PFS curve, I also put it in the first slot, as the way it works is that it needs to be multiplied by 1, and m_M_SoC has a cohort trace with 1 in in the first slot, ready to be matrix multiplied by m_P_SoC with it's probabilities. It's 1- because the probabilities created above from the PFS curve are probabilities of staying in PFS, not the probabilities of moving from PFS to OS.
 
 # m_P_SoC["PFS", "PFS",]<- (1 -p_PFSOS_SoC)
@@ -683,7 +348,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # # Setting the transition probabilities from Dead
 # m_P_SoC["Dead", "Dead", ] <- 0
 
-
 # So here I once again create the Markov cohort trace by looping over all cycles
 # - note that the trace can easily be obtained using matrix multiplications
 # - note that now the right probabilities for the cycle need to be selected, like I explained above. (this is all just the comments written from where I actually do the analysis).
@@ -691,7 +355,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 #   m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
 #   m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
 # }
-
 
 # head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 # head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
@@ -749,7 +412,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # 
 # summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 308)
 
-
 # Here, like above, I put the p_PFSD_SoC bit into the first part of the probability matrix, even though it concerns people going from first line treatment or PFS to dead, because it needs to be multiplied by the 1 that exists in the cohort:
 
 # 
@@ -764,7 +426,6 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # 
 # # Setting the transition probabilities from Dead
 # m_P_SoC["Dead", "Dead", ] <- 0
-
 
 # So here I once again create the Markov cohort trace by looping over all cycles
 # - note that the trace can easily be obtained using matrix multiplications
@@ -781,15 +442,7 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # #m_M_SoC
 # m_M_SoC
 
-# This also answers the question of how exactly probabilities are created, the m_P_SoC is something that, when multiplied by 1, (when at the start 100% of our cohort are in the PFS state) gives us the first probability from that 100%, and the next part or row of that m_P_SoC probability is then multiplied by the proportion who are in the different states in the next row for the cohort (given their movements last time having been multiplied by m_P_SoC) which gives us the second probability multiplied by the proportion of that 1 (or 100%) in each state, and so on, and so forth, for each wave.
-
-
-
-
-
-
-
-
+# This also answers the question of how exactly probabilities are created in my code, the m_P_SoC is something that, when multiplied by 1, (when at the start 100% of our cohort are in the PFS state) gives us the first probability from that 100%, and the next part or row of that m_P_SoC probability is then multiplied by the proportion who are in the different states in the next row for the cohort (given their movements last time having been multiplied by m_P_SoC) which gives us the second probability multiplied by the proportion of that 1 (or 100%) in each state, and so on, and so forth, for each wave.
 ```
 
 # Time-to-Progression (TTP):
@@ -800,10 +453,10 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 
 # We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
 
-# The data needs to be set up to include a column for the time (in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
+# The data needs to be set up to include a column for the time (in days, weeks, years, etc.,) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
 
 
-# It looks like Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
+# It looks like in the example, Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
 
 head(df_TTP)
 
@@ -840,9 +493,7 @@ legend("right",
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
 
-# The time is in years which makes sense, the data you are drawing from is in years so that's what you want to make comparisons to.
-
-
+# For Koen the time is in years which makes sense, the data he is drawing from is in years so that's what you want to make comparisons to.
 ```
 
 ```{r}
@@ -858,9 +509,6 @@ legend("right",
 ))
 
 # Weibull has the best visual and numerical fit
-
-# I will have to learn what a good value of AIC is, and, because flexsurvreg provides AIC I will have to see what other numerical measures, such as BIC, it provides.
-
 ```
 
 # 06 Saving the survival parameters for use in the model:
@@ -889,16 +537,13 @@ coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
 
 ```{r}
 
+# I repeat the things I said for TTP here:
+
 # We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
 
-# The data needs to be set up to include a column for the time (in years) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
-
+# The data needs to be set up to include a column for the time (in days, weeks, years, etc.,) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
 
 # It looks like Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
-
-# I duplicate the time to progression data frame as time to dead here, I'll REALLY need to make sure to delete this line when I have actual time to dead data or else I'll be running my analysis on the time to progression data twice and thinking I'm running it on time to dead:
-
-# df_TTD <- df_TTP
 
 head(df_TTD)
 
@@ -934,8 +579,7 @@ legend("right",
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
 
-# The time is in years which makes sense, the data you are drawing from is in years so that's what you want to make comparisons to.
-
+# For Koen the time is in years which makes sense, the data he is drawing from is in years so that's what you want to make comparisons to.
 ```
 
 ```{r}
@@ -951,9 +595,6 @@ legend("right",
 ))
 
 # Weibull has the best visual and numerical fit
-
-# I will have to learn what a good value of AIC is, and, because flexsurvreg provides AIC I will have to see what other numerical measures, such as BIC, it provides.
-
 ```
 
 # 09 Saving the survival parameters for use in the model:
@@ -975,262 +616,11 @@ coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
 
-[**How to extrapolate the parametric models beyond the KM curve**]{.underline}
-
-1 How to deal with time in parametric survival analysis, that is, when I digitise for a certain period of time, how do I convert it to the time period I want to look at in my own analysis?
-[there may be a clue to this by how they handle time here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\R Code\\Parametric Survival Analysis\\flexsurv\\THE FLEXSURV EXAMPLE CODE EXPLAINED.txt OS_TimeYears\<-AVAL\*(1/12) it looks like they wanted overal survival time in years, and so converted AVAL by 1/12]
-
-2 How to extrapolate the parameteric models beyond the KM curve they came from.
-
-3 What does the flexsurvreg code mean?
-
-Use the below (and above quote section) for digitising, engauge, parametric survival modelling, etc., There is helpful R code on doing this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\ISPOR WEBINAR Health Economic Modelling in R and I think I should go through all the R code I have with a fine toothcomb to look for further resources in R on how to do this.
-Because this R code specificaly has: "\# 2. SURVIVAL ANALYSIS survival analysis of individual patient data"
-
-> Read the below in tangent with:
->
-> Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>
->
-> and also this article: Peng, Z., Hou, X., Huang, Y., Xie, T., & Hua, X.
-> (2020).
-> Cost-effectiveness analysis of fruquintinib for metastatic colorectal cancer third-line treatment in China.
-> BMC cancer, 20(1), 1-8.
-> <https://link.springer.com/article/10.1186/s12885-020-07486-w>
->
-> and:
->
-> Ewara, E. M., Zaric, G. S., Welch, S., & Sarma, S.
-> (2014).
-> Cost-effectiveness of first-line treatments for patients with KRAS wild-type metastatic colorectal cancer.
-> Current Oncology, 21(4), 541-550.
-> <https://sci-hub.st/10.3747/co.21.1837>
->
-> Progression Risk and Mortality Progression risks and cause-specific mortalities for each arm were derived from the PFS and OS curves of the corresponding study.
-> Engauge Digitizer16 was used to extract the data points from each PFS and OS plot, and then used to fit parametric survival models.
-> Statistical analyses demonstrated that Weibull and log-logistic models provided a good fit for all curves according to the Akaike information criterion, Schwarz Bayesian criterion,17 and visual inspection (Supplemental Table 1 in the online version).
-> Weibull models permit the hazard rate to increase over time and are thus more suitable for modeling events occurring early during follow-up periods.
-> We therefore selected the Weibull model for all survival curves in this analysis.
-> Next, we estimated the risk for each cycle based on the fitted survival models.
-> In particular, because OS is defined as the period between the start of treatment and death, we computed the cause-specific mortality rates, p1(t), at cycle t based on the fitted Weibull OS model, OS(t), using the formula:
->
-> p1ðtÞ ¼ Pðt T t þ 1Þ PðT tÞ ¼ ðOSðtÞ  OSðt  1ÞÞ OSðtÞ : (1)
->
-> PFS is the period between the start and progression of disease or death.
-> We computed the combined risks p2(t) based on the Weibull PFS model using Formula 1 and computed p2(t)  p1(t) as the estimate of the progression risks.
-> Estimates of mortality and progression risk beyond the follow-up time in the clinical trials were extrapolated based on the fitted survival models.
-> The overall mortality was defined according to the maximum value of cause-specific mortality and the background mortality.
-> We use the US life tables to estimate the background mortality for each age group separately.18 **In each run of the model simulation, the initial age was sampled from the distribution of age at diagnosis for mCRC in the Surveillance, Epidemiology, and End Results database since the year 2000. [So, rather than picking a starting age, it looks like they randomly sampled an age for competing background mortality].**
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
->
-> I discussed parametric survival analysis with Andy here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.3 Practical exercise R
-
-**[So, I think my takeway is that I need to do digitising and maybe parametric survival analysis on some existing published data - per C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Parametric Survival Analysis and the rest of my York training material THEN I'll need to include Age specific all cause mortality per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH because I don't have my own clinical data, these are both good sources to consider seeing as they also didnt have their own data, I'll also have to think about the age of the cohort if I include competing mortality, as below:].**
-
-> **All done below:**
->
-> [*"Starting age of the cohort was 60 years, which is the median age of incident breast cancer cases as reported by The Netherlands Cancer Registration [28]." per: Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445. C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf*]{.underline}
->
-> [*"Nonbreast cancer death was captured as a competing risk in the model. These data were derived from The Netherlands Cancer Registration and based on Dutch female life tables for 2007--2009 [28,33]. Kip, M., Monteban, H., & Steuten, L. (2015). Long-term cost--effectiveness of Oncotype DX® versus current clinical practice from a Dutch cost perspective. Journal of comparative effectiveness research, 4(5), 433-445." [file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf](file:///C:/Users/Jonathan/Dropbox/PC/Downloads/kip2015%20(1).pdf)*]{.underline}
->
-> [*Patients had a starting age of 56 years Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.*]{.underline}
-
 #### Utility Estimates
-
-To present health outcomes in terms of QALYS, we adjusted survival time by quality of life using a Health Related Quality of Life (HR-QOL) score on a 0-1 utility scale.
-The quality of life utilities of a cycle spent in each of the model health states has been estimated to be 0.85 for the first line health state, and 0.65 for the second line health state in the published literature on quality of life utility of patients with mCRC without complications [@ramsey2000] FIND NEW UTILITIES ELSEWHERE [We want to be clear, per Craig, D., McDaid, C., Fonseca, T., Stock, C., Duffy, S., & Woolacott, N.
-(2009).
-Are adverse effects incorporated in economic models?
-An initial review of current practice.
-*Health Technology Assessment (Winchester, England)*, *13*(62), 1-71., that our utilities come from patients without adverse events, otherwise the disutilty of these adverse events have already been counted, so we want utility before any adverse events occur, and then we can decrease this with disutility for these adverse events per the studies AND MAYBE EXPLAIN MY PLAN WITH KATHLEEN HERE TO GET COUNTRY SPECIFIC UTILITY VALUES].
-We assumed in the model that utility was only related to health state, and not to therapy.
 
 #### Probability of Adverse events:
 
-> We established the probability of Grade 3 and 4 adverse events (AEs) from the trials used for the models.15,20 Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
->
-> To do this, they basically went to the studies by:
->
-> Capitain et al, 2012
->
-> Hochster et al, 2008
->
-> Bennouna et al, 2013
->
-> And went to the tables on "Incidence of Grade X and Grade Y Adverse Events", and took the percentages reported in these studies to use in their own table under "Adverse Event Incidence"
->
-> Then, according to: [[https://en.wikipedia.org/wiki/Incidence\_(epidemiology](https://en.wikipedia.org/wiki/Incidence\_(epidemiology))](https://en.wikipedia.org/wiki/Incidence_(epidemiology)) because we have explicitly an "incidence" we are allowed use this as a probability in our analysis, so, having filled in the "Adverse Event Incidence" section in our Table on model parameters like they do, we can then use these "incidence" values as probabilities.
->
-> Remember that Leukopenia = Febrile Neutropenia.
-
-Adverse events were added as a health state in the Markov model, per [@nebuloni2013] [@goulart2011a].
-The probability, and disutility, of Grade 3/4 adverse events (AEs) was informed by the literature [@hochster2008] [@aballéa2007].
-[PROBABBILITY:Leukopenia = 0.040 Diarrhea = 0.310 Vomiting = 0.310, --\> POTENTIALLY I SHOULD TAKE THE PROBABILITIES UNDER BVZ FOR AE'S FROM HERE TOO AND USE THEM IN THE MODEL. DISUTILITY:Leukopenia = 45% LOWER PFS UTILITY Diarrhea = 36% LOWER PFS UTILITY Vomiting = 19% LOWER PFS UTILITY].
-Duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state, we assumed the duration of each adverse event was 7 days, and that treatment-induced complications are mutually exclusive [@goldstein2015] [@refaat2014].
-
-[*AEs can reduce patients' utility so we applied disutility estimates for these temporary health states to each major AE based on data from Aballea at al.21 These included febrile neutropenia, vomiting, and diarrhea. We assumed the duration of each AE was 5 days. For each AE, the average disutility was weighted by the incidence reported in the clinical study.*]{.underline}
-
-[*Disutilities associated with adverse events (AEs), including fatigue, hand-foot syndrome, diarrhea, and hypertension, were obtained from published data in the literature13. The duration of AEs was estimated based on Expert Consultation. From the opinions of many doctors in China, regardless of patients in the arm of fruquintinib or regorafenib, hand-foot syndrome would last for 14 days and the disutility was 0.116. Hypertension would last for five days and the disutility was 0. Diarrhea would last for five days and the disutility was 0.1038 . The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.*]{.underline}
-
-> [Baseline quality of life utility of Chinese patients with T2D without complications was 0.876 [[**19**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B19)] and BMI-related disutility applied per BMI point increase was 0.0061 [[**20**](https://www.futuremedicine.com/reader/content/17e4aa15614/10.2217/cer-2020-0284/format/epub/EPUB/xhtml/index.xhtml#B20)]. For acute events, a disutility was subtracted from the base utility, leading to a final utility score recorded for the patient experiencing the event. In case, a patient suffered different multiple events (e.g., a myocardial infarction [MI] and a stroke), the model followed the minimum approach, recording the utility value of the health state with the lowest individual score, while still applying a disutility related to adverse events. The full list of utilities and disutilities can be retrieved from [**Supplementary Table 2**](https://www.futuremedicine.com/doi/suppl/10.2217/cer-2020-0284).]{.underline}
->
-> [Salem, A., Men, P., Ramos, M., Zhang, Y. J., Ustyugova, A., & Lamotte, M. (2021). Cost--effectiveness analysis of empagliflozin compared with glimepiride in patients with Type 2 diabetes in China. Journal of Comparative Effectiveness Research, 10(6), 469-480.]{.underline}
->
-> [*If a patient suffered multiple adverse events, I think they just applied the disutility that was the worst to their baseline utility, rather than trying to combine disutilities - which would probably be messy.*]{.underline}
->
-> [*We assumed that treatment-induced complications---grade 3 or 4---are mutually exclusive---a patient can have only 1 complication at a time*]{.underline}
->
-> [*Refaat, T., Choi, M., Gaber, G., Kiel, K., Mehta, M., Gradishar, W., & Small Jr, W. (2014). Markov model and cost-effectiveness analysis of bevacizumab in HER2-negative metastatic breast cancer. American journal of clinical oncology, 37(5), 480-485. <https://sci-hub.se/10.1097/COC.0b013e31827e4e9a>*]{.underline}
->
-> [*This is an alternative approach that may be cleaner, assume patients can only have one adverse event per cycle, and that way you don't have to find out which is worse and apply that one.*]{.underline}
-
-[*Lots of adverse events in studies to consider here:*]{.underline}
-
-[*"The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."*]{.underline}
-
-[*- Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.*]{.underline}
-
-[*https://sci-hub.se/10.3390/vaccines9020111*](https://sci-hub.se/10.3390/vaccines9020111){.uri}
-
-###### [*Adverse Events Occurring:*]{.underline}
-
-If I'm made to include adverse events for second line therapy, which I don't think is necessary as second line therapy is the same for everyone, information on the incidence of adverse events is here for Folfiri on it's own, or in combination with Bevacizumab: Wong, W. W., Zargar, M., Berry, S. R., Ko, Y. J., Riesco-Martínez, M., & Chan, K. K. W.
-(2019).
-Cost-effectiveness analysis of selective first-line use of biologics for unresectable RAS wild-type left-sided metastatic colorectal cancer.
-Current Oncology, 26(5), 597-609.
-<file:///C:/Users/Jonathan/Dropbox/Grammarly%20files/curroncol-26-04843.pdf>
-
-> [*Have a look at my emails to Kathleen and Daniel re: Adverse events, utilities during adverse events, etc.,*]{.underline}
->
-> [*"The frequencies of occurrence of AEFIs were expressed through probabilities, incidence, rates, or relative risk mentioned in 35 of the included studies [27--34,36,38-- 46,49,51,52,55--57,59,61,63,64,68,72,73,75--78]."*]{.underline}
->
-> [*- Per:*]{.underline}
->
-> [*Fens, T., de Boer, P. T., van Puijenbroek, E. P., & Postma, M. J. (2021). Inclusion of Safety-Related Issues in Economic Evaluations for Seasonal Influenza Vaccines: A Systematic Review. Vaccines 2021, 9, 111.*]{.underline}
->
-> [*https://sci-hub.se/10.3390/vaccines9020111*](https://sci-hub.se/10.3390/vaccines9020111){.uri}
->
-> To convert reported incidence rates to probabilities read:
->
-> <https://sphweb.bumc.bu.edu/otlt/mph-modules/ep/ep713_diseasefrequency/EP713_DiseaseFrequency5.html>
->
-> Also saved here:
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.1.3 Key concepts in time-dependent transition probabilities\\Relationship of Incidence Rate to Cumulative Incidence (Risk).pdf
->
-> The HERC Material here:
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\HERC Cost Effectiveness Analysis Course\\Estimating Transition Probabilities
->
-> Probability converting is here per the York course:
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A1_Advanced Markov Modelling\\A1.1.3 Key concepts in time-dependent transition probabilities\\notes
->
-> This may also be helpful
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Foundation Course\\F2_Decision Trees\\F2.1.2 Probabilities & conditioning\\Probabilities and Conditioning Notes
-
-[*These guys add adverse events as a State in the Markov model, so I could probably just do that:*]{.underline}
-
-[*Nebuloni, D. R., Mak, M. P., Souza, F. H., Saragiotto, D. F., Júlio, T., De Castro Jr, G., ... & Hoff, P. M. (2013). Modified FLOX as first-line chemotherapy for metastatic colorectal cancer patients in the public health system in Brazil: Effectiveness and cost-utility analysis. Molecular and Clinical Oncology, 1(1), 175-179. <https://sci-hub.st/10.3892/mco.2012.12>*]{.underline}
-
-[*Goulart, B., & Ramsey, S. (2011). A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer. Value in Health, 14(6), 836-845. [\<https://sci-hub.se/10.1016/j.jval.2011.04.004\>](https://sci-hub.se/10.1016/j.jval.2011.04.004){.uri}*]{.underline}
-
-> [*The duration-adjusted disutility was subtracted from the baseline utility to calculate the overall utility of each health state.*]{.underline}
->
-> [*Cost-Effectiveness Analysis of Regorafenib for Metastatic Colorectal Cancer Daniel A. Goldstein, Bilal B. Ahmad, Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, Bassel F. El-Rayes, and Christopher R. Flowers <https://sci-hub.se/10.1200/JCO.2015.61.9569>*]{.underline}
->
-> [*Progression Risk and Mortality Progression risks and cause-specific mortalitie*]{.underline}
-
-###### Range around things:
-
-> The below, and most of Table 4 in Goldstein, Daniel A., Qiushi Chen, Turgay Ayer, David H. Howard, Joseph Lipscomb, R. Donald Harvey, Bassel F. El-Rayes, and Christopher R. Flowers.
-> 2014.
-> "Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer." Clinical Colorectal Cancer 13 (4): 219--25.
-> [\<https://doi.org/10.1016/j.clcc.2014.09.007.\>](https://doi.org/10.1016/j.clcc.2014.09.007.){.uri}
->
-> seems to suggest I can determine my upper and lower limit simply as 20% of my point estimate, most, if not all, of the time.
-> Also, Goldstein take the 20% approach and apply this to the Beta distribution for utilities, so it must be possible to apply to both the Beta distribution and the normal distribution application I saw in the study from Eygpt.
->
-> "All model inputs were varied 20% below and above the base case for costs, and confidence intervals or standard errors extracted from published sources were used for the probabilities, adverse events, and utilities (Table 1)."
->
-> The transition probabilities had a max of 20% over the point estimate, a min of 20% under the point estimate, and a Gamma distribution for transition probabilities.
->
-> \- Per: Hamdy Elsisi, G., Nada, Y., Rashad, N., & Carapinha, J.
-> (2019).
-> Cost-effectiveness of sorafenib versus best supportive care in advanced hepatocellular carcinoma in Egypt.
-> Journal of Medical Economics, 22(2), 163-168.
-> [\<https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432\>](https://www-tandfonline-com.proxy.library.rcsi.ie/doi/pdf/10.1080/13696998.2018.1552432){.uri}
->
-> The below takes the max and min as 20% of the mean for costs, utility, applying a gamma and beta distribution respectively (negative beta for disutilities that were negative percentages).
-> For the discount factor it looks like they just took a minimum of no discount factor and a maximum of 5% and applied a uniform distribution.
->
-> Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., Harvey, R. D., ... & Flowers, C. R.
-> (2014).
-> Cost effectiveness analysis of pharmacokinetically-guided 5-fluorouracil in FOLFOX chemotherapy for metastatic colorectal cancer.
-> *Clinical colorectal cancer*, *13*(4), 219-225.
->
-> ***I like that Goldstein et al., report the actual distribution they derived from their Value, Minimum and Maximum, I think I'll review the other papers by Goldstein and co-authors to see if they repeat that elsewhere, as it supports checking your methods against their own.***
->
-> Transition probabilities used in the analysis
->
-> The transition probabilities, had a min 20% below the base case value and a max 20% above this.
->
-> Wu, Q., Wang, X., Zhang, M., Liao, W., Wang, F., & Li, Q.
-> (2020).
-> Cost-effectiveness analysis of bevacizumab plus paclitaxel versus bevacizumab plus capecitabine for HER2-negative locally recurrent or metastatic breast cancer.
-> Oncology Research and Treatment, 43(4), 153-159.
-> [\<https://www.karger.com/Article/Pdf/505932\>](https://www.karger.com/Article/Pdf/505932){.uri}
->
-> 20% costs variation here: Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H.
-> (2012).
-> Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy.
-> British journal of cancer, 106(5), 805-816.
-> <https://www.nature.com/articles/bjc2011580.pdf>
->
-> 20% costs variability Goulart, B., & Ramsey, S.
-> (2011).
-> A trial-based assessment of the cost-utility of bevacizumab and chemotherapy versus chemotherapy alone for advanced non-small cell lung cancer.
-> *Value in Health*, *14*(6), 836-845.
->
-> **Costing Data in Spain:**
-
-Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
-(2017).
-Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
-Journal of Medical Economics, 20(6), 574-584.
-<https://sci-hub.st/10.1080/13696998.2017.1285780>
-
 #### Sensitivity Analysis
-
-I should do this in tangent with the two papers using 20%.
-
-`` {# {r setup, include=FALSE} # knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T) # # To knit this document every time it is run, you can change `eval` to `TRUE` in the above. ``
-
-```{r}
-# rm(list = ls())  
-# clear memory (removes all the variables from the work space)
-```
-
-# 01 Load packages
-
-`{# {r} # if (!require('pacman')) install.packages('pacman'); library(pacman)  # # use this package to conveniently install other packages # # load (install if required) packages from CRAN # p_load("diagram", "dampack", "reshape2") # # library(devtools) # devtools is necessary to install from github. # # install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version # p_load_gh("DARTH-git/darthtools")`
-
-# 02 Load functions
-
-```{r}
-# all functions are in the darthtools package
-
-# There is a functions RMD for the PSA stuff below, instead of calling it in: ## 08.2 Load PFS-PFSer Markov model function, I could just place it here, and place all the necessary packages above and then I would only ever need 1 R Markdown document for the entire study. Will think about doing this.
-
-
-```
 
 # To use dampack, review this before you start:
 
@@ -3204,7 +2594,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 
