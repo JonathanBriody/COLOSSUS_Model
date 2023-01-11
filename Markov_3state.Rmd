@@ -1140,10 +1140,10 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 # Germany[2]
 #Spain[3]
 
-c_PFS_Folfox <-c(307.81) 
-c_PFS_Bevacizumab <-c(2580.38)  
-c_OS_Folfiri <-c(326.02)  
-administration_cost <- c(365.00)  
+c_PFS_Folfox <- 307.81 
+c_PFS_Bevacizumab <- 2580.38  
+c_OS_Folfiri <- 326.02  
+administration_cost <- 365.00  
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
