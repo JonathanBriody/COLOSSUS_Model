@@ -2004,7 +2004,7 @@ u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
 
 # I 
 
-m_M_SoC
+m_M_SoC <- c(m_M_SoC, m_M_SoC, m_M_SoC)
 
 concat_c_F_SoC <- m_M_SoC %*% c(c_F_SoC)
 concat_c_P <- m_M_SoC %*% c(c_P)
@@ -2018,7 +2018,14 @@ v_tc_SoC
 
 m_M_Exp
 
-concat_c_F_Exp <- m_M_Exp %*% c(c_F_Exp)
+c_F_Exp_Ireland <- m_M_Exp %*% 3640.802 
+c_F_Exp_Germany <- m_M_Exp %*% 6410.912
+c_F_Exp_Spain <- m_M_Exp %*% 2313.962
+
+
+concat_c_P <- c(c_F_Exp_Ireland, c_F_Exp_Germany, c_F_Exp_Spain)
+
+
 concat_c_P <- m_M_Exp %*% c(c_P)
 concat_c_D <- m_M_Exp * c(c_D)
 # c_D isnt a vector because it's just 0 (the cost of treating the dead is 0 because they are dead, so we use * here instead of %*% or else we get the error: Error in m_M_SoC %*% (c_D) : non-conformable arguments)
@@ -2233,8 +2240,14 @@ v_dwe <- 1 / ((1 + d_e) ^ ((0:(n_cycle-1)) * t_cycle))
 # tc_d_trtA <-  t(v_tc_trtA) %*% v_dwc
 # tc_d_trtB <-  t(v_tc_trtB) %*% v_dwc
 
-tc_d_SoC <-  t(v_tc_SoC) %*% v_dwc 
-tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
+# To avoid getting the following error: Error in t(v_tc_SoC) %*% v_dwc : non-conformable arguments, because of the concatanated v_tc_SoC and v_tc_Exp
+# I concatanated v_dwc
+
+concat_v_dwc <- c(v_dwc, v_dwc, v_dwc)
+
+
+tc_d_SoC <-  t(v_tc_SoC) %*% concat_v_dwc 
+tc_d_Exp <-  t(v_tc_Exp) %*% concat_v_dwc
 
 
 # So, now we have the average cost per person for treatment with standard of care, and the experimental treatment. 
