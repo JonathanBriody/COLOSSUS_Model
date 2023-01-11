@@ -1,0 +1,21 @@
+---
+title: "clean"
+author: "jrcalabrese"
+date: "12/30/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(haven)
+```
+
+```{r}
+data(cars)
+cars <- cars %>%
+  mutate(newvar = speed + dist)
+```
+
+```{r}
+plot(pressure)
+```

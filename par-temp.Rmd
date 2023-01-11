@@ -1,0 +1,33 @@
+---
+title: "Iris *`r params$species`* are rather cute..."
+params:
+  species: setosa
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    latex_engine: pdflatex
+tables: yes
+---
+
+```{r init, echo = F, message = F}
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+
+src <- iris %>%
+  filter(Species == params$species) %>%
+  mutate(Species = as.character(Species)) %>% # from factor to character, so that summary row works
+  select(Species, Sepal.Length) %>% # just two columns for the sake of clarity...
+  slice(1:5) # first five rows only, so that page space is not an issue
+
+src <- rbind(src, # add summary row 
+             c("Grand total", sum(src$Sepal.Length)))
+
+kable(src,
+      format = 'latex',
+      booktabs = T,
+      align = c('l','r')) %>%
+      row_spec(nrow(src), bold = T) # make the last (summary) row bold
+
+```

@@ -103,7 +103,7 @@ options(scipen=999)
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr")
+packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata")
 
 # Install packages not yet installed
 
@@ -1140,10 +1140,10 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 # Germany[2]
 #Spain[3]
 
-c_PFS_Folfox <- 307.81 
-c_PFS_Bevacizumab <- 2580.38  
-c_OS_Folfiri <- 326.02  
-administration_cost <- 365.00  
+c_PFS_Folfox <- c_PFS_Folfox 
+c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
+c_OS_Folfiri <- c_OS_Folfiri  
+administration_cost <- administration_cost  
 
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
@@ -2372,7 +2372,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 

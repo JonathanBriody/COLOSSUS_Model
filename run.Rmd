@@ -1,0 +1,79 @@
+---
+title: "run"
+author: "DrBriody"
+date: "12/01/2023"
+---
+
+```{r}
+source_rmd = function(file, ...) {
+  tmp_file = tempfile(fileext=".R")
+  on.exit(unlink(tmp_file), add = TRUE)
+  knitr::purl(file, output=tmp_file)
+  source(file = tmp_file, ...)
+}
+
+# This is a function (based on the below link) that grabs a file we give it in the next code chunk below, temporarily makes it an R file rather than an Rmarkdown file using purl and then sources this file for us (i.e., runs everything).
+
+# I apply the source_rmd function to source an R markdown document of my choice.
+
+# https://stackoverflow.com/questions/70535350/run-rmarkdown-rmd-from-inside-another-rmd-without-creating-html-output
+# Also saved here: r - Run RMarkdown (.rmd) from inside another .rmd without creating HTML output - Stack Overflow.pdf
+
+```
+
+```{r}
+
+# A warning that the below will take a bit of time to calculate for all 3 countries (maybe 20 minutes in total to finish the report), so be ready to wait a little.
+
+# Basically, what I have is 1 Rmarkdown document with appropriate CEA code, but 3 countries I want to apply separately this code to, because costs (and willingness to pay thresholds) are different in each of these 3 countries.
+
+# To do this, I feed in the cost data from each country for parameters that differ across countries:
+
+
+country_name <- "Ireland"
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 307.81 
+c_PFS_Bevacizumab <- 2580.38  
+c_OS_Folfiri <- 326.02  
+administration_cost <- 365.00 
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03 
+
+# 3. Willingness to pay threshold
+n_wtp = 45000
+
+
+
+# I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
+
+source_rmd("Markov_3state.rmd")
+
+
+# I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+
+
+keep(v, w, x, sure = TRUE)
+# I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
+
+# I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
+
+
+# Then, I repeat all of this exactly for the other countries I am studying:
+
+
+
+
+
+
+
+
+# Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
+```
+
+```{r}
+
+```
