@@ -645,6 +645,50 @@ coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 # 03 Input model parameters
 
 ```{r}
+#  This is just a block of text reminding myself why ordering, V_names_states v_tc_SoC, v_tc_Exp,  v_tu_SoC and v_tu_Exp matters, feel free to skip over this:
+
+# The ordering of V_names_states has an influence on the tornado diagram and the reported cost-effectiveness results.
+
+# So, I need to ensure I correctly order V_names_states all the way through from the start.
+
+# m_P_Exp and m_P_SoC both use v_names_states to set up the names of the rows and columns of their matrices. 
+
+# As does m_M_SoC and m_M_Exp.
+
+# Then m_M_SoC and  m_M_Exp use the row column names to fill in the 100% of the cohort (or 1) in PFS and the 0% of the cohort in OS and DEAD in wave 1. m_P_Exp and m_P_SoC also both use the row and column names to fill in the transition probabilities between PFS and OS, etc.,
+
+# Then m_M_SoC and m_M_Exp are matrix multiplied by m_P_Exp and m_P_SoC:
+
+# for(i_cycle in 1:(n_cycle-1)) {
+#  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
+#  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
+# }
+
+# The way this matrix multiplication works is that the value in box 1 for m_M_SoC is multiplied by the value in box 1 for m_P_SoC and so on. If box 1 for m_M_SoC and m_P_SoC is the 1 (i.e. 100% of people in the PFS state when this all starts), multiplied by the PFS state probabilities, i.e., the probability of going from the PFS state into other states like so:
+
+#          PFS       AE1       AE2       AE3          OS        Dead
+
+# PFS  0.974925 0.0194985 0.0194985 0.0194985 0.005074995 0.020000000
+
+# (Ignore the AE health states, this layout is a holdover from when AE's were going to have their own health states in the Markov model).
+
+# Then things will multiply correctly and we're multiplying PFS transition probabilities by the 100% of the cohort in the PFS state. 
+
+# Even, if ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   is not in the order as above, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") , then the m_M_SoC will have 0, 0, 0, 0, 1, 0, because everyone still starts in the PFS state, and m_P_SoC will have  "OS", "AE1", "AE2", "AE3", "PFS", "Dead", with the right probabilities put in the right spots, so when you matrix multiply it things will multiply out fine.
+
+# However, this is not the case for ordering costs and utilities:
+
+# v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
+# v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
+# v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+# v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
+
+# As you can see, in both cases the ordering is set manually by how we enter things in the concatenated brackets, so in the case above where ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead") is ordered differently, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") when we matrix multiply costs and utilities by m_M_SoC  and m_M_Exp above we will be multiplying the utility of being in the progression free state u_F by the matrix of individuals in the OS state, which will clearly be a smaller number of individuals in the first few waves, and multiplying the utility of the OS state (u_P) by the larger number of individuals actually in the PFS state <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead"). We'll be doing the same thing with costs. What this will mean is more people getting the OS costs and OS utility and fewer people getting the PFS costs and the PFS utility, which will in turn have consequences for the cost-effectiveness analysis results with more OS costs and more OS utility being considered in the equation that compares costs and utilities.
+
+# I've confirmed all of the things I say about by changing the ordering first of v_names_states, and then of the cost and utility concatenations. Changing the ordering of v_names_states did nothing to the CEA results or Tornado diagram provided I changed the ordering of utilities and costs to match this, changing the ordering of utilities and costs changed both unless I changed them to be in an order that matched the changed ordering of v_names_states.
+```
+
+```{r}
 ## General setup
 
 # Here, I think about how time from individual patient data may be changed to match the time of our cycles.
@@ -823,7 +867,7 @@ head(cbind(t, NU_S_FP_SoC, NUnu_H_FP_SoC))
 
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
 
-# Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
+# Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, i.e. the OS state.
  
 p_PFSOS_SoC <- p_PFSOS_Exp <- rep(NA, n_cycle)
 
@@ -837,10 +881,13 @@ for(i in 1:n_cycle) {
 
 
 
-# If I ever wanted to round my probabilities to 2 decimal places, I can do this as below, but Koen's code actually makes probabilities that sum perfectly to 1, so there's no longer any need to do this.
+# If I ever wanted to round my probabilities to 2 decimal places, I can do this as below, but this code actually makes probabilities that sum perfectly to 1, so there's no need to do this.
 
 # round(p_PFSOS_SoC, digits=2)
 # round(p_PFSOS_Exp, digits=2)
+
+
+
 
 # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
 
@@ -873,6 +920,10 @@ p_PFSOS_Exp
 
 
 
+
+
+
+
 # TRANSITION PROBABILITIES: Time-To-Dead TTD
 
 # [[I basically re-tread what I did for TTP so feel free just to skim this]]
@@ -880,21 +931,20 @@ p_PFSOS_Exp
 # REALISE HERE THEAT P_PD ISNT THE PROBABILITY OF PROGRESSION TO DEAD, BUT OF PFS TO DEAD, OF FIRST LINE TO DEAD, BECAUSE OUR ANGIOPREDICT CURVES ONLY EVER DESCRIBE FIRST LINE TREATMENT, BE THAT FIRST LINE SOC TREATMENT OR FIRST LINE EXP TREATMENT.
 
 
-# To make sure that my PFS probabilities only reflect going from PFS to progression, I create the probability of going from PFS to DEAD under standard of care and the experimental, and decrease my PFS to progression probability created above by the probability of going into the dead state, such that I am only capturing people going into progression, and not people going into death as well. 
+# To make sure that my PFS probabilities only reflect going from PFS to progression, I create the probability of going from PFS to DEAD under standard of care and the experimental, and decrease my PFS to progression probability created above by the probability of going into the dead state, such that I am only capturing people going into progression, and not people going into death as well.
+
 # So, first I create the transition probabilities of progression free into dead for SoC and Exp, then I convert all the probabilities (i.e. those for PFS and those for OS) into rates, minus them from eachother, turn them back into probabilities, and make sure none are negative (and where they are replace these with 0).
 
 # Actually, I don't do the rates thing, I just I take all the probabilities (i.e. those for PFS and those for OS), minus them from eachother.
 
-
-
-# (I'm leaving this here for now, but ultimately I decided against doing any of this, given a comment made by Joshua in email).
+# (ACTUALLY, I'm leaving this here for now, but ultimately I decided against doing any of the above, given a comment made by Joshua in email).
 
 
 
 # Time-dependent transition probabilities are obtained in four steps
 # 1) Defining the cycle times [we already did this above]
 # 2) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for SoC
-# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio if we think we will be applying a hazard ratio in the OS -> Death setting. Probably not, probably what we'll be doing is saying that once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC. - Actually, I create transition probabilities from treatment to death under SoC and the Exp treatment here such that I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
+# 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Exp based on a hazard ratio
 # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. overall survival) probabilities
 
 # 1) Defining the cycle times
@@ -916,7 +966,7 @@ head(cbind(t, S_PD_SoC))
 
 
 
-# Having the above header shows that this is probability for surviving in the P->D state, i.e., staying in this state, because you should see in time 0 0% of people are in this state, meaning 100% of people hadnt gone into the progressed state and were in PFS, which make sense in this model, the model starts with everyone in PFS, no-one starts the model in OS, and it takes a while for people to reach the OS state.
+# Having the above header shows that this is probability for surviving in the PFS->D state, i.e., staying in this state, because you should see in time 0 0% of people are in this state, meaning 100% of people hadnt gone into the dead state and were in PFS, which make sense in this model, the model starts with everyone in PFS, no-one starts the model in dead, and it takes a while for people to reach the dead state.
 
 
 # 3) Obtaining the event-free (i.e. overall survival) probabilities for the cycle times for Experimental treatment (aka the novel therapy) based on a hazard ratio.
@@ -936,22 +986,6 @@ H_PD_Exp  <- H_PD_SoC * HR_PD_Exp
 S_PD_Exp  <- exp(-H_PD_Exp)
 
 head(cbind(t, S_PD_SoC, H_PD_SoC, H_PD_Exp, S_PD_Exp))
-
-
-# If I decide that, as I said,  once you get into the OS state under the experimental strategy, you recieve the same second-line treatment as standard of care again and thus your event-free (i.e. overall survival) probabilities for the cycle times are the same as for SoC, then I can use the following coding - which is just repeating what I did for standard of care but this time giving it to the experimental stratgey:
-# 
-# S_PD_Exp <- pweibull(
-#   q     = t, 
-#   shape = exp(coef_TTD_weibull_shape_SoC), 
-#   scale = exp(coef_TTD_weibull_scale_SoC), 
-#   lower.tail = FALSE
-# )
-# 
-# head(cbind(t, S_PD_Exp))
-
-# I've coded in both options here and I can make a decision when applying this.
-
-# I very much decided against this.
 
 
 # I want to vary my probabilities for the one-way sensitivity analysis, particularly for the tornado       plot of the deterministic sensitivity analysis. 
@@ -1028,7 +1062,7 @@ for(i in 1:n_cycle) {
 
 # round(p_PFSD_SoC, digits=2)
 # round(p_PFSD_Exp, digits=2)
-
+# If I wanted to round I could apply the above, but my code already rounds my numbers.
 
 # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively. [If we decide not to apply a hazard ratio for the experimental strategy going from progression to dead then neither may have a hazard ratio applied to them].
 
@@ -1039,7 +1073,7 @@ p_PFSD_SoC
 
 p_PFSD_Exp
 
-# Finally, now that I create transition probabilities from treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
+# Finally, now that I create transition probabilities from first-line treatment to death under SoC and the Exp treatment I can take them from the transition probabilities from first-line treatment to progression for SoC and Exp treatment, because the OS here from Angiopredict is transitioning from the first line treatment to dead, not from second line treatment to death, and once we get rid of the people who were leaving first line treatment to die in PFS, all we have left is people leaving first line treatment to progress. And then we can keep the first line treatment to death probabilities we've created from the OS curves to capture people who have left first line treatment to transition into death rather than second line treatment.
 
 # p_PFSOS_SoC
 # p_PFSD_SoC
@@ -1076,8 +1110,7 @@ p_PFSD_Exp
 
 # You can see conversions from probabilities to rates here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Model Calibration in R\UNZIP to Working Directory_Calibration Participant Materials\ISPOR Calibration Participant Materials\SickSicker_MarkovModel_Function.R
 
-# As will the 50 minute mark of: Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH - Live Session August 25th WITH CHAT
-
+# As will: Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH - Live Session August 25th WITH CHAT
 
 # The above also describes how to convert probabilities for different time scales, i.e., convert a probability for 5 years to 1 year, etc., and how to convert data that exists as a rate to a probability for use in a Markov model.
 
@@ -1087,7 +1120,7 @@ p_PFSD_Exp
 
 
 
- # The below reflects the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability under exp and under SoC to go from the second line therapy into dead.
+ # The below reflects the probability of going to death in the second line treatment, and I make the assumption that everyone gets the same second line treatment and give them the same probability after being under exp and under SoC to go from the second line therapy into dead.
 
 P_OSD_SoC   <- 0.17 # Probability of dying when in OS.
 P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
@@ -1110,6 +1143,12 @@ P_OSD_Exp   <- 0.17 # Probability of dying when in OS.
 # Germany[2]
 #Spain[3]
 
+
+
+# I pursued this avenue and it was too complicated, so instead I just define the parameters that vary in the Rmarkdown file that calls this file.
+
+# Basically, what I do is set these parameters equal to the costs for the country I am interested in, in the Markdown file that calls this file, and then run this current file with the parameter names from the Rmarkdown file subbed in for costs and other country-specific values. Then I repeat this for each country I am interested in. 
+
 c_PFS_Folfox <- c_PFS_Folfox 
 c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
 c_OS_Folfiri <- c_OS_Folfiri  
@@ -1118,20 +1157,12 @@ administration_cost <- administration_cost
 
 c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
 c_F_Exp       <- administration_cost + c_PFS_Folfox + c_PFS_Bevacizumab # cost of one cycle in PFS state under the experimental treatment 
-#c_F_Ex_trtA       <- 1000  # cost of one cycle in PFS state under the experimental treatment A 
-#c_F_Ex_trtB       <- 1000  # cost of one cycle in PFS state under the experimental treatment
 c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
 c_D       <- 0     # cost of one cycle in dead state
 
 
 
 # Above is the cost for each state, PFS, OS and dead,
-
-# c_trtA    <- 800   # cost of EPI Assay in PFS state (ONCE OFF COST)
-# c_trtB    <- 1500  # cost of HDX Assay in PFS state (ONCE OFF COST)
-# 
-# # We make the cost of the assays above so that when we have treatment strategies we can add this cost of treatment to anyone whose being treated when they receive the treatment.
-
 
 # Then we define the utilities per health states.
 
@@ -1140,25 +1171,18 @@ u_F       <- 0.850     # utility when PFS
 u_P       <- 0.650   # utility when OS
 u_D       <- 0     # utility when dead
 
-
-
-
 # Discounting factors
 d_c             <- 0.04                          
 # discount rate for costs (per year)
 d_e             <- 0.04                          
 # discount rate for QALYs (per year)
 
-# discount rate per cycle equal discount of costs and QALYs by 4%
-
-# Discount weight (equal discounting is assumed for costs and effects)
-
-# Actually I've updated this and do this later on now
+# Discount weight (equal discounting is assumed for costs and effects):
 
 # v_dwc <- 1 / (1 + d_c) ^ (0:n_cycle) 
 # v_dwe <- 1 / (1 + d_e) ^ (0:n_cycle) 
 
-# So, we create a discount weight vector above, to understand the way this works I'll have to return to my York notes on discounting
+# This was my initial discount weight vector, but, I've updated this and do this later on now 
 
 p_PFSD_SoC
 p_PFSD_Exp
@@ -1167,50 +1191,24 @@ p_PFSOS_SoC
 p_PFSOS_Exp
 ```
 
-Discount rate for costs and utilities I need to return to it more generally with the notes I wrote from York on discounting.
-Also I set up 3 strategies, i.e. standard of care, EPI Assay and HDX Assay, to reflect the two assays under study, but it would be very easy to change this to just 2 strategies above.
-
-I also want to add in the costing per the York model, as this broke costs down before adding them, although I can compare this to the York approach to costing in their published article, i.e. are costs in that article combined before they are added to the model or afterwards?
-
-There are some things that I would like to appear in the code chunks, but not in the knitted document.
-To do this I can go to:
-
-<https://stackoverflow.com/questions/47710427/how-to-show-code-but-hide-output-in-rmarkdown>
-
-and
-
-<https://stackoverflow.com/questions/48286722/rmarkdown-how-to-show-partial-output-from-chunk?rq=1>
-
-Although I can probably just use:
-
-knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
-
-But set echo = false
-
-Or even better, click the gear on each code chunk and decide if I would like that code chunk to show things or not.
-
-If I was interested in how to add adverse events to the model, Eva describes how to create an additional state that is Sick+AdverseEvent here:
-
-C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
-
 ## Draw the state-transition cohort model
 
 ```{r}
-# 
-# diag_names_states  <- c("PFS", "OS", "Dead")  
-# 
-# m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
-# 
-# m_P_diag["PFS", "PFS" ]  = ""
-# m_P_diag["PFS", "OS" ]     = "" 
-# m_P_diag["PFS", "Dead" ]     = ""
-# m_P_diag["OS", "OS" ]     = ""
-# m_P_diag["OS", "Dead" ]     = ""
-# m_P_diag["Dead", "Dead" ]     = ""
-# layout.fig <- c(1, 3, 2) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
-# plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,  
-#         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9, 
-#         cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+
+diag_names_states  <- c("PFS", "OS", "Dead")
+
+m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+
+m_P_diag["PFS", "PFS" ]  = ""
+m_P_diag["PFS", "OS" ]     = ""
+m_P_diag["PFS", "Dead" ]     = ""
+m_P_diag["OS", "OS" ]     = ""
+m_P_diag["OS", "Dead" ]     = ""
+m_P_diag["Dead", "Dead" ]     = ""
+layout.fig <- c(1, 3, 2) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,
+        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
+        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
 ```
 
 # 04 Define and initialize matrices and vectors
@@ -2342,7 +2340,7 @@ I've put detailed notes in:
 
 C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_27\\3_SA_material\markov\_sick-sicker_SA_solutions
 
-Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2\_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
+Which should be read in tangent with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt
 
 when doing the sensitivity analysis below:
 

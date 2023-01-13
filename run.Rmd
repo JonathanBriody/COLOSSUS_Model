@@ -53,6 +53,13 @@ n_wtp = 45000
 source_rmd("Markov_3state.rmd")
 
 
+# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table:
+
+
+
+
+
+
 # I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
 
 
@@ -115,3 +122,19 @@ v_AIC_TTD
 
 
 ```
+
+There are some things that I would like to appear in the code chunks, but not in the knitted document. To do this I can go to:
+
+<https://stackoverflow.com/questions/47710427/how-to-show-code-but-hide-output-in-rmarkdown>
+
+and
+
+<https://stackoverflow.com/questions/48286722/rmarkdown-how-to-show-partial-output-from-chunk?rq=1>
+
+Although I can probably just use:
+
+knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+
+But set echo = false
+
+Or even better, click the gear on each code chunk and decide if I would like that code chunk to show things or not.
