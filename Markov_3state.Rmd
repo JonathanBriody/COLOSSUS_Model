@@ -73,9 +73,11 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Parametric Survival Analysis:
 
-# 00 Set up general state of play
+# 
 
 ```{r setup, include=FALSE}
+#00 Set up general state of play
+
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 # To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
 
@@ -96,9 +98,9 @@ options(scipen=999)
 # options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
 ```
 
-# 01 Load all packages
-
 ```{r}
+#01 Load all packages
+
 # Joshua's Package Manager:
 
 # Package names
@@ -134,17 +136,22 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # {r} # if (!require('pacman')) install.packages('pacman'); library(pacman)  # # use this package to conveniently install other packages # # load (install if required) packages from CRAN # p_load("diagram", "dampack", "reshape2") # # library(devtools) # devtools is necessary to install from github. # # install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version # p_load_gh("DARTH-git/darthtools")
 ```
 
-# 01.5 Load functions
+# 
 
 ```{r}
+#01.5 Load functions
+
 # all functions are in the darthtools package
 
 # There is a functions RMD for the PSA stuff below, instead of loading it lower down, I could just place it here, and place all the necessary packages above and then I would only ever need 1 R Markdown document for the entire study. Will think about doing this.
 ```
 
-# 02 Individual Data for Parametric Code
+# 
 
 ```{r}
+
+#02 Individual Data for Parametric Code
+
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
 
 # df_TTP <- read.csv(file='PFS.csv', header=TRUE)
@@ -185,9 +192,11 @@ load(file = "df_TTD.RData")
 # So, above Koen wanted to run the model for 15 years, but his cycles were in 3 months, or each cycle was a quarter of a year, so 60 quarters, or 60 3 month cycles, is 15 years.
 ```
 
-# 03 Parametric Survival Analysis Model Plan
+# 
 
 ```{r}
+
+#03 Parametric Survival Analysis Model Plan
 
 # We will implement a Markov model with time-dependent transition probabilities, via a parametric survival model fitted to some individual patient data for the time-to-progression (TTP) and time-to-death (TTD) for standard of care.
 
@@ -445,11 +454,11 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # This also answers the question of how exactly probabilities are created in my code, the m_P_SoC is something that, when multiplied by 1, (when at the start 100% of our cohort are in the PFS state) gives us the first probability from that 100%, and the next part or row of that m_P_SoC probability is then multiplied by the proportion who are in the different states in the next row for the cohort (given their movements last time having been multiplied by m_P_SoC) which gives us the second probability multiplied by the proportion of that 1 (or 100%) in each state, and so on, and so forth, for each wave.
 ```
 
-# Time-to-Progression (TTP):
-
-# 04 Parametric Survival Analysis itself:
+# 
 
 ```{r}
+# Time-to-Progression (TTP):
+#04 Parametric Survival Analysis itself:
 
 # We use the 'flexsurv' package to fit several commonly used parametric survival distributions.
 
@@ -470,9 +479,11 @@ l_TTP_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 ```
 
-# 05 Inspecting the fits:
+# 
 
 ```{r}
+
+#05 Inspecting the fits:
 
 # And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
 
@@ -531,9 +542,11 @@ legend("right",
 
 ```
 
-# 06 Saving the survival parameters for use in the model:
+# 
 
 ```{r}
+
+#06 Saving the survival parameters for use in the model:
 
 # Saving the survival parameters ----
 
@@ -551,11 +564,10 @@ coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
 
 ```
 
-# Time-to-Dead (TTD):
-
-# 07 Parametric Survival Analysis itself:
-
 ```{r}
+#Time-to-Dead (TTD):
+
+#07 Parametric Survival Analysis itself:
 
 # I repeat the things I said for TTP here:
 
@@ -576,9 +588,10 @@ l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 ```
 
-# 08 Inspecting the fits:
+# 
 
 ```{r}
+#08 Inspecting the fits:
 
 # And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. going to dead.
 
@@ -617,9 +630,10 @@ legend("right",
 # Weibull has the best visual and numerical fit
 ```
 
-# 09 Saving the survival parameters for use in the model:
+# 
 
 ```{r}
+#09 Saving the survival parameters for use in the model:
 
 # Saving the survival parameters ----
 
@@ -642,9 +656,10 @@ coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 
 #### Sensitivity Analysis
 
-# 03 Input model parameters
+# 
 
 ```{r}
+#03 Input model parameters
 #  This is just a block of text reminding myself why ordering, V_names_states v_tc_SoC, v_tc_Exp,  v_tu_SoC and v_tu_Exp matters, feel free to skip over this:
 
 # The ordering of V_names_states has an influence on the tornado diagram and the reported cost-effectiveness results.
@@ -1189,11 +1204,12 @@ p_PFSD_Exp
 
 p_PFSOS_SoC
 p_PFSOS_Exp
+
+
 ```
 
-## Draw the state-transition cohort model
-
 ```{r}
+#Draw the state-transition cohort model
 
 diag_names_states  <- c("PFS", "OS", "Dead")
 
@@ -1205,26 +1221,24 @@ m_P_diag["PFS", "Dead" ]     = ""
 m_P_diag["OS", "OS" ]     = ""
 m_P_diag["OS", "Dead" ]     = ""
 m_P_diag["Dead", "Dead" ]     = ""
-layout.fig <- c(1, 3, 2) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
-plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.64,
+layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
-        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1"); plot5 <- recordPlot()
 ```
-
-# 04 Define and initialize matrices and vectors
-
-After setting up our parameters above, we initialise our structure below.
-
-This is where we will store all of the model output, and all the things that we need to track over time as we are simulating the progression of this cohort through this disease process.
-
-## 04.1 Cohort trace
 
 ```{r}
 
+#04 Define and initialize matrices and vectors
 
-# WHEN COMING BACK TO COMPARE: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R\ISPOR_webinar_R-master\ISPOR_webinar_R-master\oncologySemiMarkov_illustration to this Rmarkdown document, a big difference is that this document creates a cycle 0 - whereas the comparison from the ISPOR_webinar_R uses -1 to get into cycle 0 where necessary. I have decided to follow the ISPOR way, because I am interested in duplicating their parametric analysis, so I need to bear this difference in mind as I go through this document.
+#04.1 Cohort trace
 
-# Also, continue from Verbose in this and in Koens file
+
+# After setting up our parameters above, we initialise our structure below.
+
+# This is where we will store all of the model output, and all the things that we need to track over time as we are simulating the progression of this cohort through this disease process.
+
+# WHEN COMING BACK TO COMPARE: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R\ISPOR_webinar_R-master\ISPOR_webinar_R-master\oncologySemiMarkov_illustration to the DARTH Rmarkdown document, a big difference is that DARTH creates a cycle 0 - whereas the comparison from the ISPOR_webinar_R uses -1 to get into cycle 0 where necessary. I have decided to follow the ISPOR way, because I am interested in learning from their parametric analysis, so I need to bear this difference in mind as I go through this document.
 
 # Markov cohort trace matrix ----
 
@@ -1246,7 +1260,7 @@ m_M_SoC <- m_M_Exp  <-  matrix(
 # There are cases where you can have an initial illness prevalence, so you would start some people in the sick state and some people in the healthy state, but above we're looking at people with mCRC, so we'll start everyone in PFS.
 
 
-## Initialize cohort trace for cSTM (cohort state transition model) for all strategies (the strategies are the treatment strategies SOC, treatment A and Treatment B).
+## Initialize cohort trace for cSTM (cohort state transition model) for all strategies (the strategies are the treatment strategies SOC and Exp).
 # So, basically we are creating a matrix to trace how the cohort is distributed across the health states, over time. 
 
 # A matrix is necessary because there are basically two dimensions to this, the number of time cycles, which will be our rows, and then the number of states - to know which proportion of our cohort is in each state at each time:
@@ -1254,17 +1268,16 @@ m_M_SoC <- m_M_Exp  <-  matrix(
 # m_M_SoC <- matrix(0, 
 #                   nrow = (n_cycles + 1), ncol = n_states, 
 #                   dimnames = list(v_names_cycles, v_names_states))
-# Above instead of having to bother with -1 throughout the analysis they create a cycle 0.
-
-# Store the initial state vector in the first row of the cohort trace
+# In the above code from DARTH instead of having to bother with -1 throughout the analysis they create a cycle 0.
+# Then they store the initial state vector in the first row of the cohort trace
 # m_M_SoC[1, ] <- v_s_init
 ## Initialize cohort traces
-## So, above I made the cohort trace for standard of care, because in my analysis all my patients start in the PFS state, I can duplicate that below to create the cohort trace for treatment A and treatment B.
-# m_M_trtA <- m_M_trtB <- m_M_SoC # structure and initial states remain the same
+## So, above they make the cohort trace for standard of care
+# This gives them a matrix to can fill in with the simulations of how patients transitions between health states under treatment.
 
-# This gives us three matrices, m_M_trtA, m_M_trtB and m_M_SoC, that we can fill in with our simulations of how patients transitions between health states under each treatment strategy.
 
-# In the first row of the markov matrix [1, ] put the value at the far end, i.e. "<-1" and "<-0" under the colum "PFS" [ , "PFS"], repeating this for "OS", "AE1", "AE2" "AE3" and "Dead".
+
+# Back to my code, in the first row of the markov matrix [1, ] put the value at the far end, i.e. "<-1" and "<-0" under the colum "PFS" [ , "PFS"], repeating this for "OS", and "Dead":
 
 
 # Specifying the initial state for the cohorts (all patients start in PFS)
@@ -1275,12 +1288,12 @@ m_M_SoC[1, "Dead"]<- m_M_Exp[1, "Dead"]  <- 0
 # Inspect whether properly defined
 head(m_M_SoC)
 head(m_M_Exp)
-#head(m_M_Exp_trtB)
 ```
 
-## 04.2 Transition probability matrix
+## 
 
 ```{r}
+# 04.2 Transition probability matrix
 
 ## If there were time varying transition probabilities, i.e. the longer you are in the model there are changes in your transition probability into death as you get older, etc., you would build a transition probability array, rather than a transition probability matrix, per: 
 
@@ -1288,7 +1301,7 @@ head(m_M_Exp)
 
 # "C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modeling for Public Health_DARTH\5_Nov_29\4_Cohort state-transition models (cSTM) - time-dependent models_material\Markov_3state_time"
 
-# with the 1hour: 02minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
+# with: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session
 
 
 ## Initialize transition probability matrix, [i.e. build the framework or empty scaffolding of the transition probability matrix]
@@ -1296,14 +1309,14 @@ head(m_M_Exp)
 # - starting with standard of care
 # - note that these are now 3-dimensional matrices because we are including time.
  
-
+# The DARTH approach would be something like:
 # m_P_SoC  <- matrix(0,
 #                    nrow = n_states, ncol = n_states,
 #                    dimnames = list(v_names_states, v_names_states)) # define row and column names
 # m_P_SoC
 
 
-# Initialize matrices for the transition probabilities
+# Our approach to initialize matrices for the transition probabilities
 # - note that these are now 3-dimensional matrices (so, above we originally included dim = nrow and ncol, but now we also include n_cycle - i.e. the number of cycles).
 # - starting with standard of care
 m_P_SoC <- array(
@@ -1331,24 +1344,11 @@ head(m_P_Exp)
 
 ```
 
-## 04.3 Fill in the transition probability matrix:
+## 
 
 ```{r}
 
-# It looks like I will need to decide if I have to go back to the start of putting everything in the model and put stuff in for not just the experimental strategy, but for experimental strategy 1 AND experimental strategy 2 individually.
-
-# 
-# AE1MARK     <- p_FA1_STD* (1 - p_FA2_STD)* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-# AE2MARK     <- (1 - p_FA1_STD)* p_FA2_STD* (1 - p_FA3_STD)* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-# AE3MARK   <- (1 - p_FA1_STD)* (1 - p_FA2_STD)* p_FA3_STD* (1 - p_FP_SoC) * (1 - p_PFSD_SoC)
-
-# If I really struggle with the transition probabilities below, I could build them from here alternatively: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Applied Cost Effectiveness Modeling with R\rcea-rscripts\01-markov-cohort
-
-# A better way to fill this may be here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Model Calibration in R\UNZIP to Working Directory_Calibration Participant Materials\ISPOR Calibration Participant Materials\SickSicker_MarkovModel_Function.R
-
-# This also gives advice on filling this in: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\manuscript\Appendix_code_walkthrough_Markov_Tutorial_Part2
-
-# Andy gave me advice on how to add adverse event disutility and costs, but I could also think about the strategy taken here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\R\Functions_cSTM_time_dep_simulation
+# 04.3 Fill in the transition probability matrix:
 
 # Setting the transition probabilities from PFS based on the model parameters
   # So, when individuals are in PFS what are their probabilities of going into the other states that they can enter from PFS?
@@ -1356,15 +1356,6 @@ head(m_P_Exp)
 m_P_SoC["PFS", "PFS",]<- (1 -p_PFSOS_SoC) * (1 - p_PFSD_SoC)
 m_P_SoC["PFS", "OS",]<- p_PFSOS_SoC*(1 - p_PFSD_SoC)
 m_P_SoC["PFS", "Dead",]<-p_PFSD_SoC
-
-# m_P_SoC["PFS", "PFS", ] <-   1 - (p_PFSD_SoC + p_FP_SoC)
-# m_P_SoC["PFS", "OS", ]     <-  1 - (1-p_FP_SoC + p_PFSD_SoC)
-# m_P_SoC["PFS", "Dead", ]            <-  1 - (p_FP_SoC + 1 - p_PFSD_SoC)
-
-
-#m_P_SoC["PFS", "PFS", ] <-   1 - (p_PFSD_SoC + p_FP_SoC)
-#m_P_SoC["PFS", "OS", ]     <- p_FP_SoC* (1 - p_PFSD_SoC)
-#m_P_SoC["PFS", "Dead", ]            <-  (1 - p_FP_SoC) * (p_PFSD_SoC)
 
 # Setting the transition probabilities from OS
 m_P_SoC["OS", "OS", ] <- 1 - P_OSD_SoC
@@ -1374,40 +1365,11 @@ m_P_SoC["OS", "Dead", ]        <- P_OSD_SoC
 # Setting the transition probabilities from Dead
 m_P_SoC["Dead", "Dead", ] <- 1
 
-# 
-# # Setting the transition probabilities from AE1
-# m_P_SoC["AE1", "PFS", ] <- p_A1F_SoC
-# m_P_SoC["AE1", "Dead", ] <- p_A1D_SoC
-# 
-# # Setting the transition probabilities from AE2
-# m_P_SoC["AE2", "PFS", ] <- p_A2F_SoC
-# m_P_SoC["AE2", "Dead", ] <- p_A2D_SoC
-# 
-# # Setting the transition probabilities from AE3
-# m_P_SoC["AE3", "PFS", ] <- p_A3F_SoC
-# m_P_SoC["AE3", "Dead", ] <- p_A3D_SoC
-
 
 m_P_SoC
 
-# Using the transition probabilities for standard of care as basis, update the transition probabilities that are different for the experimental strategy
+# Using the transition probabilities for standard of care as basis, I update the transition probabilities that are different for the experimental strategy
 
-# 
-# m_P_Exp["PFS", "PFS", ] <- p_PFS_Exp
-# m_P_Exp["PFS", "AE1", ]     <- p_FA1_Exp
-# m_P_Exp["PFS", "AE2", ]     <- p_FA2_Exp
-# m_P_Exp["PFS", "AE3", ]     <- p_FA3_Exp
-# m_P_Exp["PFS", "OS", ]     <- p_PFS_OS_Exp
-# m_P_Exp["PFS", "Dead", ]            <- p_PFSD_Exp
-# 
-# 
-# # Setting the transition probabilities from OS
-# m_P_Exp["OS", "OS", ] <- 1 - P_OSD_Exp
-# m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
-# 
-# # Setting the transition probabilities from Dead
-# m_P_Exp["Dead", "Dead", ] <- 1
-# 
 
 # Setting the transition probabilities the experimental strategy
 m_P_Exp["PFS", "PFS",]<- (1 -p_PFSOS_Exp) * (1 - p_PFSD_Exp)
@@ -1421,132 +1383,19 @@ m_P_Exp["OS", "Dead", ]        <- P_OSD_Exp
 # Setting the transition probabilities from Dead
 m_P_Exp["Dead", "Dead", ] <- 1
 
-
-
-
-
-
-# # Setting the transition probabilities from AE1
-# m_P_Exp["AE1", "PFS", ] <- p_A1F_Exp
-# m_P_Exp["AE1", "Dead", ] <- p_A1D_Exp
-# 
-# # Setting the transition probabilities from AE2
-# m_P_Exp["AE2", "PFS", ] <- p_A2F_Exp
-# m_P_Exp["AE2", "Dead", ] <- p_A2D_Exp
-# 
-# # Setting the transition probabilities from AE3
-# m_P_Exp["AE3", "PFS", ] <- p_A3F_Exp
-# m_P_Exp["AE3", "Dead", ] <- p_A3D_Exp
-# 
 m_P_Exp
 
 
 # If I wanted to round my transition matrix so things sum exactly to 1, instead of 0.99999999 (in cases where this was happening):
 #round(m_P_SoC, digits=2) 
-#m_P_SoC
-
-
+#But, things actually sum well so I don't need to this
 ```
 
 ```{r}
+#04.4 Check if transition probability matrices are valid.
 
-# An explanation of conditional probabilities:
-
-## Standard of Care
-# from PFS
-# m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
-
-# It's 1- p_HD, because if you're not going from healthy to dead then you're staying in healthy (i.e. you're not going from PFS to Dead, so you're staying in PFS) so this captures all the people leftover in PFS after those going to dead, and again for 1- p_HS_SoC, if you're not going from healthy to sick, the only other way out of healthy per the transition probability matrix, then you're staying in PFS, so 1- p_HS_SoC takes away all the people who went from healthy to sick, and leaves behind all the people who stayed in healthy (or takes away all the people who went to OS and leaves behind all the people that went to PFS per my model).
-
-# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
-
-# This is because, when setting up the input parameters we didn't have a value for staying in progression free survival, so we have to calculate it, i.e. above we have to get the probability for going from PFS to OS, by getting all the people left in PFS after the people who went to death were gone, and then we multiply this probability by the probability of going from healthy to sick, or PFS to OS, because it's the probability conditional on being alive, the probability conditional on being left in the PFS state after the other people who went to the death state are gone, so the probability of going from PFS to OS, conditional on surviving.
-
-
-
-# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) *      p_HS_SoC
-
-# p_HS_SoC is the probability of transitioning from healthy to sick, conditional on surviving, so it's defined as a conditional probability. So, what the Markov model wants is : m_P_SoC["PFS", "OS"] what's the overall probability of transitioning from PFS to OS, and so that is actually not a conditional probability, which is why we multiply the probability of surviving (1 - p_HD) *      p_HS_SoC by the probability of going to OS conditional on surviving, because the transition in the model should be the marginal not the conditional, i.e. you want to have the end probability.
-
-
-#So, because you took a probability that was conditional from the literature, or digitised a PFS curve to get a transition probability - and those probabilities come from people who were necessarily still in the PFS state when you digitise a PFS curve, so those are transition probabilities conditional on being in the PFS (or healthy) state - you need to do the multiplication to give you a probability you can put in your transition matrix that reflects that the probability you are working with is conditional.
-
-
-# Adverse event transition probabilities have all been conditional, this is to reflect that probabilities on transitioning from adverse event to death will necessarily be conditional probabilities - as they come from individuals who were studied in the adverse event group - so they are necessarily probabilities conditional on experiencing the adverse event. Likewise, the probability of experiencing the adverse event when under treatment is conditional on being in PFS for the treatment in the first place, because it will come from reports of adverse events in studies of the treatments given that we look at. 
-
-
-# Which means conditional probabilities kind of don't matter too much, because the probability won't be applied to anyone who isnt in the state it doesnt necessarily need to be conditional after all. And I guess it would have never been applied to anyone who wasnt in the state, because probabilities are only applied to people who are in the state when the transition probability matrix is multiplied by the cohort trace of people in the state.
-
-
-
-
-# m_P_SoC["PFS", "Dead"]    <-      p_HD
-
-# Your probability of going from healthy to dead is not conditional on surviving, per the input parameters section.
-
-
-# from OS
-# m_P_SoC["OS", "OS"] <- 1 - p_SD
-# m_P_SoC["OS", "Dead"] <-     p_SD
-
-# Per the input parameters, your probability of going from sick to dead is also not conditional on surviving, so we dont need to multiply our probability conditional on surviving by the number of survivors as above.
-
-# That's why though, our PFS to OS probability calculated through multiplication above is so close to the 0.05 in the input parameters, i.e. it's 0.0495, because we multiply it by 1 - p_HD or 1-0.01, which is basically multiplying it by a number very close to 1, so the probability remains very close to where it started off. The probability is conditional on the numbers of people in the alive state, we calculate that to be nearly 100% of people, so the probability remains the same. 
-
-
-# m_P_SoC["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_SoC)
-# And the first one (commented out above) is the same, it's the probability of going from healthy to healthy which, because it's a conditional probability, is the number of individuals left in healthy multiplied by the probability of going from healthy to health conditional on surviving to be in healthy (so, to get a conditional probability we multiply the numbers who have survived by the probability -> here we don't have a probability for healthy to healthy, but we do have a probability for health to sick, so taking 1 - this gives us the probability of not going into sick, i.e. of staying in healthy instead). 
-
-# from Dead
-# m_P_SoC["Dead", "Dead"] <- 1
-
-# Once you're in dead you stay in dead, you can't come back to life.
-
-
-# For handiness, we just take the treatment matrix that already exists for standard of care above, copy it as treatment A and treatment B, and then copy over it with new values specific to treatment A and treatment B, assuming that the probability of going from PFS to dead and staying in OS and going from OS to dead are the same as for standard of care (dead to dead is definitely the same as no one leaves dead) that's likely a reasonable assumption for our model, as once people progress we can assume they all go on to the same next treatment, standard of care progression treatment with the same likelihood of staying in OS and of going to the dead state, regardless of the novel therapy they were on:
-
-# ## EPI Assay
-# m_P_trtA <- m_P_SoC
-# m_P_trtA["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtA)
-# m_P_trtA["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtA
-# 
-# ## HDX Assay
-# m_P_trtB <- m_P_SoC
-# m_P_trtB["PFS", "PFS"] <- (1 - p_HD) * (1 - p_HS_trtB)
-# m_P_trtB["PFS", "OS"]    <- (1 - p_HD) *      p_HS_trtB
-
-
-
-# You can also think of it, per the 1hour: 05minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_24\Live Session Recording\Live Session Recording August 24th.mp4
-
-
-# m_P_SoC["PFS", "OS"]    <- (1 - p_HD) [<- if you don't die] *      p_HS_SoC [then you have a risk of getting sick]
-
-# It wont always be necessary to do this, i.e., to include conditional probabilities, it will depend on the data used and how things were estimated.
-
-# This approach is taken for conditional probabilities, it's probably more relevant for modelling people to really, really old ages, where their mortality gets really high (so this is particularly relevant when you have age specific mortality), where you still have this high mortality of getting sick, you can end up in problems with the probabilities where the probability of leaving the state gets too high, because you haven't properly adjusted for these really high mortality rates, as people get really old.
-
-# So, what this is doing is saying, if you don't die, then it's the remaining people who experience the probability of getting sick, so you're not adding probabilities together, which can be problematic, because sometimes you can have probabilities come to greater than one (i.e., larger than 100%).
-
-# It's always worth considering, if you're extrapolating this risk of illness that's pretty high, on top of a cohort that also has a high risk of death, maybe that's not the right extrapolation, but this is another kind of fail safe to avoid that.
-
-# Depending on how the data is estimated, this a correct interpretation of the probability estimate of going from one state to another (p_HS_SoC, or healthy to sick, or PFS to OS). 
-
-
-# Using conditional probabilities more generally is also discussed around the 1:04 hour mark of:
-
-# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
-
-
-
-```
-
-I may want to get rid of the conditional probabilities above, replacing them with standard transition probabilities per my York training.
-
-## 04.4 Check if transition probability matrices are valid.
-
-```{r}
 # This is a check in the DARTH tools package that all the transition probabilities are in [0, 1], i.e., no probabilities are greater than 100%.
+
 # This works as follows, according to line 205 of: https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/analysis/cSTM_time_indep.R
 # 
 # ## Check if transition probability matrices are valid ----
@@ -1563,51 +1412,28 @@ I may want to get rid of the conditional probabilities above, replacing them wit
 # check_sum_of_transition_array(m_P_strAB, n_states = n_states, n_cycles = n_cycles, verbose = TRUE) # rowSums(m_P_strAB) == 1
 # 
 
-
-
-
-# UNCOMMENT THIS! 
 check_transition_probability(m_P_SoC,  verbose = TRUE)
-# UNCOMMENT THIS! 
 check_transition_probability(m_P_Exp,  verbose = TRUE)
-#check_transition_probability(m_P_trtA, verbose = TRUE)
-#check_transition_probability(m_P_trtB, verbose = TRUE)
+
 # Check that all rows sum in each matrix sum to 1 -> which we know is a necessary condition for transition probability matrices.
-# UNCOMMENT THIS! 
 check_sum_of_transition_array(m_P_SoC,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-# UNCOMMENT THIS! 
 check_sum_of_transition_array(m_P_Exp,  n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-#check_sum_of_transition_array(m_P_trtA, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
-#check_sum_of_transition_array(m_P_trtB, n_states = n_states, n_cycles = n_cycle, verbose = TRUE)
 
 # This error message:
-#   
+   
 #   Error in check_sum_of_transition_array(m_P_SoC, n_states = n_states, n_cycles = n_cycle,  : 
 #   This is not a valid transition array 
-# 
-# Probably reflects that: 
-#   
+ 
+# Reflects when something like this happens: 
+
 #   > m_P_SoC
 # , , Cycle1
-# 
+ 
 #           PFS          OS        Dead       AE1       AE2       AE3
 # PFS  0.974925 0.005074995 0.020000000 0.0194985 0.0194985 0.0194985
 # [1] 1.058495
-# 
+ 
 # That is, that I've put just any old probability value in at the moment and they are summing to be larger than one, when I've changed this to the actual probabilities I'm sure it'll be OK.
-# 
-# Same with:
-# 
-#   , , Cycle28
-# 
-#            PFS        OS     Dead        AE1        AE2        AE3
-# PFS  0.5804491 0.3995509 0.020000 0.01160898 0.01160898 0.01160898
-# OS   0.0000000 0.5922950 0.407705 0.00000000 0.00000000 0.00000000
-# Dead 0.0000000 0.0000000 1.000000 0.00000000 0.00000000 0.00000000
-# AE1  0.9990000 0.0000000 0.001000 0.00000000 0.00000000 0.00000000  
-#   
-#   > 0.5804491 + 0.3995509 + 0.020000 + 0.01160898 + 0.01160898 + 0.01160898
-# [1] 1.034827
 
 # Inspect whether properly defined
 # - note that we inspect for the first two cycles
@@ -1618,41 +1444,29 @@ m_P_Exp[ , , 1:2]
 
 ```
 
-# 05 Run Markov model
-
-Looking in the below where more than 100% can be in a health state (1.02 in PFS in cycle 4), it seems likely that it's the transitions from adverse events into PFS that could be causing the problems with my probabilities not summing to 1 as per verbose, as the only way to get into PFS is through one of the AE's.
-I'll focus on this possibility when repairing the transition probabilities.
-
-PFS AE1 AE2 AE3 OS Dead
-
-Cycle 4 1.0233086 0.01933076 0.01933076 0.01933076 0.031888685 0.06024724
-
 ```{r}
+#05 Run Markov model
 # for (t in 1:n_cycles){  # Use a for loop to loop through the number of cycles, basically we'll calculate the cohort distribution at the next cycle [t+1] based on the matrix of where they were at time t, matrix multiplied by the transition probability matrix for the current cycle (constant for us as we use a constant transition probability matrix, rather than a transition probability array).
-# We do this for each treatment, as they all have different transition probability matrices. 
-#  m_M_SoC [t + 1, ] <- m_M_SoC [t, ] %*% m_P_SoC   # estimate the state vector for the next cycle (t + 1)
-#  m_M_trtA[t + 1, ] <- m_M_trtA[t, ] %*% m_P_trtA  # estimate the state vector for the next cycle (t + 1)
-#  m_M_trtB[t + 1, ] <- m_M_trtB[t, ] %*% m_P_trtB  # estimate the state vector for the next cycle (t + 1)
-# }
-# head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
 
+# We do this for each treatment, as they all have different transition probability matrices. 
+
+#  m_M_SoC [t + 1, ] <- m_M_SoC [t, ] %*% m_P_SoC   # estimate the state vector for the next cycle (t + 1)
 
 # Above I was originally using a transition probability matrix, because I was using a time constant transition probability. But now, because my transition probabilities come from the survival curves, and thus change over time, I am using a transition probability array. 
 
 # Thus, I adapt the above to reflect that my transition probability selected has to come from a certain cycle, i.e. from a certain time, and then be multiplied by the number of people in the matrix, the amount of the cohort in the matrix, at that cycle, i.e. at that time. Thats why below I pick the third dimension of the array, not row, not column, but time: R,C,T i.e.   ->  , ,i_cycle
 
-
-
 # So here I once again create the Markov cohort trace by looping over all cycles
 # - note that the trace can easily be obtained using matrix multiplications
 # - note that now the right probabilities for the cycle need to be selected, like I explained above.
+
 for(i_cycle in 1:(n_cycle-1)) {
   m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
   m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
 }
 
-
 head(m_M_SoC)  # print the first few lines of the matrix for standard of care (m_M_SoC)
+
 head(m_M_Exp)  # print the first few lines of the matrix for experimental treatment(m_M_Exp)
 
 #m_M_SoC
@@ -1662,15 +1476,17 @@ m_M_Exp
 
 ```
 
-# 06 Compute and Plot Epidemiological Outcomes
-
-## 06.1 Cohort trace
-
 ```{r}
+
+#06 Compute and Plot Epidemiological Outcomes
+
+#06.1 Cohort trace
 
 # So, we'll plot the above Markov model for standard of care (m_M_SoC) to show our cohort distribution over time, i.e. the proportion of our cohort in the different health states over time.
 
-# If I wanted to do the same for Treatment A and Treatment B, I would just copy this code chunk and replace m_M_SoC with m_M_trtA and m_M_trtB
+# If I wanted to do the same for exp, I would just copy this code chunk and replace m_M_SoC with m_M_Exp
+
+# Here is the simplest code that would give me what I want:
 
 # matplot(m_M_SoC, type = 'l', 
         # ylab = "Probability of state occupancy",
@@ -1679,11 +1495,7 @@ m_M_Exp
 # legend("right", v_names_states, col = c("black", "red", "green"), 
        # lty = 1:3, bty = "n")  # add a legend to the graph
 
-# plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
-# abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
-# The vertical line shows you when your sick (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion sick is the highest and putting a vertical line there).
-
-# So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
+# But I would like to add more:
 
 # Plotting the Markov cohort traces
 matplot(m_M_SoC, 
@@ -1701,53 +1513,25 @@ matplot(m_M_Exp,
 legend("right", 
        legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
        col    = rep(c("black", "red", "green"), 2), 
-       lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 12 times here because we have 6 lines under standard of care (6 full lines) and 6 lines under experimental treatment (6 dashed lines)
+       lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
        lwd    = 3,
-       bty    = "n")
+       bty    = "n"); plot6 <- recordPlot()
 
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
-abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
-abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
-# The vertical line shows you when your sick (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion sick is the highest and putting a vertical line there).
-
+#abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
+#abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
+# The vertical line shows you when your progressed (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion progressed is the highest and putting a vertical line there).
 # (It's probably not necessary for my own analysis and I can comment these two lines out if I'm not going to use it).
 
 # So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
-
-
-# There is a lot going on with this plot, and that gives me two options for when I do it with the actual data:
-
-# 1. Do two separate plots for soc and exp, like in the plot I commented out at the start of this chunk.
-
-# 2. copy your soc and exp matrixes but get rid of the adverse event states in the copy in order to simplify things, i.e. reasssign all the people in the "adverse event" states to be in the PFS state, because we know that only people from PFS were allowed to be in an adverse event.
-
-
-
-
-# 
-# 
-# 
-#      matplot(m_M_SoC, type = 'l', 
-#                ylab = "Probability of state occupancy",
-#                xlab = "Cycle",
-#                main = "Cohort Trace", lwd = 3)  # create a plot of the data
-#        legend("right", v_names_states, col = c("black", "red", "green"), 
-#               lty = 1:3, bty = "n")  # add a legend to the graph
-
-
-
-
-
-
-
-
 ```
 
-## 06.2 Overall Survival (OS)
-
-Although in the context of my analysis this would be PFS + OS because it is drawn from the DARTH model where healthy and sick make up OS, while dead means not OS (obviously).
-
 ```{r}
+
+#06.2 Overall Survival (OS)
+
+# Although in the context of my analysis this would be PFS + OS because it is drawn from the DARTH model where healthy and sick make up OS, while dead means not OS (obviously).
+
 # v_os <- 1 - m_M_SoC[, "Dead"]    # calculate the overall survival (OS) probability
 # v_os <- rowSums(m_M_SoC[, 1:2])  # alternative way of calculating the OS probability
 
@@ -1755,7 +1539,7 @@ Although in the context of my analysis this would be PFS + OS because it is draw
 
 # i.e. v_os <- (m_M_SoC[, 1])
 
-# best practice would be to rename v_os if I am looking at something that isnt os, i.e. v_pfs and to of course update the table legend, bearing in mind that yet again this is all for standard of care, and that if I wanted to know this for treatment a and/or treatment b I would need to replace the Markov model matrix above.
+# best practice would be to rename v_os if I am looking at something that isnt os, i.e. v_pfs and to of course update the table legend, bearing in mind that yet again this is all for standard of care, and that if I wanted to know this for exp treatment I would need to replace the Markov model matrix above.
 
 
 # plot(v_os, type = 'l', 
@@ -1788,41 +1572,33 @@ legend("right",
        lwd    = 3,
        bty    = "n")
 
-# add grid - completely optional, see if it looks nicer to leave this code in or out:
+# add grid - completely optional, see if it looks nicer to leave this code in or output:
 grid(nx = n_cycle, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"), 
      equilogs = TRUE) 
 
+# I don't end up using this, because I feel plotting the cohort trace is more descriptive, with PFS, OS and D included in it, but there still are some interesting things you could do with this in the future:
 
-
-
-
-
-
-
-
-
-
-
-
-# Per 1:12 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
+# Per C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_25\Live Session 
 
 # Often you have a survival curve as input to your model [I guess from a published study], and having that survival curve you need to parameterise your model so that you match that survival curve, and that would be a process of, potentially of calibration, if you can't use the parameters directly in your model.
 
-# So, you could produce your survival curve and compare it to curves from trials, etc., to calibrate your model. So. we'll probably do this and have it in an appendix section.
+# So, you could produce your survival curve and compare it to curves from trials, etc., to calibrate your model.
 
 # For calibration purposes, you want to make sure that your model is outputting something that's comparable to the publications out there on actual data on the same type of patients.
 
 # Part of being comparable to the real world is that if there is a censoring process in actual patient data, then you could incorporate this process into the model to reflect that in your model and to ensure that your own model is comparable to the existing models which may be losing people due to censoring, etc., and which you'll then need to incorporate into your model to be comparable. 
-
 
 # Another interesting thing you can do is, plot this to ask is that reasonable, does that make sense that this many people are alive after this amount of time? Is the OS what I would expect it to be?
 
 
 ```
 
-## 06.2.1 Life Expectancy (LE)
+## 
 
 ```{r}
+
+#06.2.1 Life Expectancy (LE)
+
 v_le <- sum(v_OS_SoC)  # summing probability of OS over time  (i.e. life expectancy)
 
 # Basically we are summing all the alive states over time through over all the cycles, so 
@@ -1831,57 +1607,51 @@ v_le <- sum(v_OS_SoC)  # summing probability of OS over time  (i.e. life expecta
 
 # Is basically the PFS and OS added together.
 
-# Also bear in mind that this is life expectancy under standard of care, and not under either of the new treatments, per: # v_os <- rowSums(m_M_SoC[, 1:2]) above.
+# Also bear in mind that this is life expectancy under standard of care, and not under the new treatments, per: # v_os <- rowSums(m_M_SoC[, 1:2]) above.
 
 v_le
-
 
 v_le_exp <- sum(v_OS_Exp)  # summing probability of OS over time  (i.e. life expectancy)
 
 v_le_exp
 
-
-
-# So, if this gives a value of [1] 20.70332, that is [1] 20.70332 cycles, where in the context of our model, cycles are fortnights, so the life expectancy for our population of patients is 20.70332 fortnights or, in days:
-
+# So, if this gives a value of [1] 20.70332, that is [1] 20.70332 cycles, where in the context of our model, cycles are fortnights, so the life expectancy for our population of patients is 20.70332 fortnights or 289.84648, in days:
 
 daily_v_le <- v_le * 14
 daily_v_le
 daily_v_le_exp <- v_le_exp * 14
 daily_v_le_exp
 
-
-
 # When I calculate LE I calculate it in cycles. Note that my code gives a LE of 20.7 cycles for the SoC group which is approx. 290 days or 0.8 years.  Caculating the LE for the Exp group I calculated the corresponding figures as: 25.9 cycles = 363 days = 1 year (approx.). So a LE gain of about 0.2 life-years.
 
 
+life_years_days_gained <- round(daily_v_le_exp - daily_v_le, digits=0)
+# The number of days gained.
 
+life_years_soc <- round(daily_v_le/365, digits=2)
+# The proportion of a year you get under each treatment
 
-
-
-
-
+life_years_exp <- round(daily_v_le_exp/365, digits=2)
+# The proportion of a year you get under each treatment
 
 
 # Discounted life expectancy:
 
 # If you wanted discounted life expectancy, if you were using life years and you wanted them discounted for your health economic outcomes, you could apply the discount rates - the discount factors - to the vector for overall survival [v_os] and then take it's sum [add it up] as above to get life expectancy that is discounted.
 
-# As the 1:12 hour mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session Recording\Live Session Recording August 25th WITH CHAT.mkv
-
-
+# As per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop _ DARTH\August_25\Live Session 
 
 ```
 
-## 06.3 Disease prevalence
-
 ```{r}
-
+#06.3 Disease prevalence
 # Disease prevalence is the proportion who are sick divided by the proportion who are alive, so it's necessary to account for the fact that some of the cohort have died, so you only calculate prevalence among people who are alive,in the diagram you can see it plateauing over time, even though the number of people in the OS (or "progressed") state have gone up and come down over time and this is because this is prevalence as a proportion of those who are alive, and there are few people who are still alive by cycle 60.
 
 # Probably looks a bit funny dividing OS by v_os below, but it's necessary to remember that v_os is PFS + OS, because it's anyone who is not dead.
 
-# So, I guess in our context you can think of this as progression prevalence over time:
+# So, I guess in our context you can think of this as progression prevalence (i.e. being in second line treatment) over time.
+
+# I ultimately dont end up using this in my analysis:
 
 v_prev <- m_M_SoC[, "OS"]/v_OS_SoC
 plot(v_prev,
@@ -1891,29 +1661,22 @@ plot(v_prev,
      main = "Disease prevalence")
 ```
 
-# 07 Compute Cost-Effectiveness Outcomes
-
-Good mathematical notation here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Applied Cost Effectiveness Modeling with R\\rcea-master\\rcea-master\\vignettes
-
-## 07.1 Including ADVERSE EVENTS in Mean Costs and QALYs for each strategy
-
 ```{r}
+#07 Compute Cost-Effectiveness Outcomes
 
+#07.1 Including ADVERSE EVENTS in Mean Costs and QALYs for each strategy
 
 # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility vectors for the different states
 
 # per cycle
 # calculate expected costs by multiplying cohort trace with the cost vector for the different health states
 
-# Basically, you take the cohort trace over time for each strategy [m_M_SoC] and multiply this by a vector of our costs for each state: [c(c_H, c_S, c_D)] -> So, basically the number of people in each state at each cycle multiplied by the cost of being in that state [cost of healthy, cost of sick and cost of dead] for each strategy that we look at (standard of care, treatment A and treatment B).
+# Basically, you take the cohort trace over time for each strategy [m_M_SoC] and multiply this by a vector of our costs for each state: [c(c_H, c_S, c_D)] -> So, basically the number of people in each state at each cycle multiplied by the cost of being in that state [cost of healthy, cost of sick and cost of dead] for each strategy that we look at (standard of care, experimental).
 
 # Bear in mind we are doing matrix multiplication [%*%], because what this does is for each cycle [row in the matrix], take the vector of costs, and multiply it by the distribution in that cycle [breakdown of proportions in the states in that row] and add it all together, to get the total costs for that cycle [row]. This gives us a vector of the costs accrued in this cohort of individuals ending up in these different states for each cycle on a per person basis, because it's a cohort distribution (it always sums to 1).
 
-# So, in cycle 1 everyone is in the OS state, so they only incur the OS cost, as more and more time passes and more and more people get sick, the costs increases due to more people being in the PFS state, but over time this falls again as more and more people go into the dead state, which has no costs as we don't treat corpses.
-
-# v_tc_SoC  <- m_M_SoC  %*% c(c_H, c_S, c_D)  
-# v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
-# v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)  
+# So, in cycle 1 everyone is in the PFS state, so they only incur the PFS cost, as more and more time passes and more and more people get sick, the costs increases due to more people being in the OS state, but over time this falls again as more and more people go into the dead state, which has no costs as we don't treat corpses.
+  
 
 # 1. Probability of adverse events 1,2 3 in the PFS state under standard of care and exp care:
 
@@ -1972,8 +1735,11 @@ v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
 v_tc_SoC
 v_tc_Exp
 
+# The below is how I would probably add a once off treatment cost in if I had to:
 
-
+# v_tc_SoC  <- m_M_SoC  %*% c(c_H, c_S, c_D)  
+# v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
+# v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)
 
 
 
@@ -1981,11 +1747,10 @@ v_tc_Exp
 
 # calculate expected QALYs by multiplying cohort trace with the utilities for the different health states 
 
-# The three vectors of utilities are basically built in the exact same way as the three vectors of costs above:
+# The vector of utilities is basically built in the exact same way as the vector of costs above:
 
 # v_tu_SoC  <- m_M_SoC  %*% c(u_H, u_S, u_D)  
-# v_tu_trtA <- m_M_trtA %*% c(u_H, u_S, u_D) 
-# v_tu_trtB <- m_M_trtB %*% c(u_H, u_S, u_D) 
+
 
 # The file I am mirroring has the following qoute:
 
@@ -2085,7 +1850,7 @@ sum(v_tu_Exp)
 v_tu_SoC <- v_tu_SoC/26.0714
 v_tu_Exp <- v_tu_Exp/26.0714
 
-# So, these are per-cycle utility values, but, our cycles aren't years, they are fortnights, so these are per fortnight values, if we want this value to reflect the per year value, so that we have a quality adjusted life year, or QALY, then we need to adjust this utility value by how many of these fortnights there are in a year (26.0714), that is divide by how many fortnights there are in a year to bring the per fortnight value to a per year value
+# So, these are initially per-cycle utility values, but, our cycles aren't years, they are fortnights, so these are per fortnight values, if we want this value to reflect the per year value, so that we have a quality adjusted life year, or QALY, then we need to adjust this utility value by how many of these fortnights there are in a year (26.0714), that is divide by how many fortnights there are in a year to bring the per fortnight value to a per year value
 
 
 # James, I'd like your thoughts on what I've done here and whether this seems reasonable.
@@ -2124,23 +1889,11 @@ sum(v_tc_Exp)
 
 ```
 
-```{r}
-
-# There's probably a more elegant way to do this, but if I wanted to add in the once off cost of the COSLOSSUS test, I could do something like the below:
-
-# v_tc_trtA <-  v_tc_trtA+10
-# v_tc_trtB <-  v_tc_trtB+100
-
-# I just need to think about this and does it make sense, because it's adding to the cost each cycle, so probably the best indicator would be whether the cost outputted in 07.2 is only higher by the cost of the test when we do this, or if it is higher by a number of other costs, so I can check that below when adding costs in.
-
-# Page 17 of An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example https://arxiv.org/pdf/2001.07824.pdf suggests that these are total costs expected per individual, and with testing being a one off cost, maybe you could just add it onto the costs you have at the end? Table 4: Total expected discounted QALYs and costs per average individual in the cohort of the Sick-Sicker model by strategy accounting for within-cycle correction. Costs QALYs Standard of care $151,580 20.711 Strategy A $284,805 21.499 Strategy B $259,100 22.184 Strategy AB $378,875 23.137 The total expected discounted QALYs and costs for the Sick-Sicker model under the four strategies accounting for within-cycle correction are shown in Table 4.
-
-
-```
-
-## 07.2 Discounted Mean Costs and QALYs
+## 
 
 ```{r}
+
+#07.2 Discounted Mean Costs and QALYs
 
 # Finally, we'll aggregate these costs and utilities into overall discounted mean (average) costs and utilities.
 
@@ -2180,10 +1933,6 @@ tc_d_Exp <-  t(v_tc_Exp) %*% v_dwc
 
 
 # Discount QALYS by multiplying the QALYs vector with discount weights (v_dwe) [probably utilities would have been a better term here, if I hadnt of updated it from fortnightly health state quality of life, to yearly health state quality of life]
-# tu_d_SoC  <-  t(v_tu_SoC)  %*% v_dwe
-# tu_d_trtA <-  t(v_tu_trtA) %*% v_dwe
-# tu_d_trtB <-  t(v_tu_trtB) %*% v_dwe
-
 
 tu_d_SoC <-  t(v_tu_SoC) %*% v_dwe
 tu_d_Exp <-  t(v_tu_Exp) %*% v_dwe
@@ -2221,30 +1970,9 @@ sum(Discounted_Qalys_gained)
 # df_ce
 ```
 
-## 07.3 Compute ICERs of the Markov model
-
-This study also found that Bevacizumab wasnt a cost-effective addition to care in a number of studies, so I should follow their manner of discussing this: Goldstein, Daniel A., et al. "Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis." The Oncologist 22.6 (2017): 694-699.
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5469597/pdf/onco12164.pdf>
-
-I think somewhere in all my example files there must be some example code on generating life years, etc., and reporting them as part of your results table.
-I basically want to be able to report the following per page 5 of Cost Effectiveness Analysis of Pharmacokinetically-Guided 5-Fluorouracil in FOLFOX Chemotherapy for Metastatic Colorectal Cancer <file:///C:/Users/jonathanbriody/Downloads/goldstein2014.pdf>:
-
-Results In the base case analysis, effectiveness and costs were compared between the PK and BSA group.
-PK FOLFOX provided 2.03 QALYs at a cost of \$50,177 compared with BSA FOLFOX with 1.46 QALYs at a cost of \$37,173.
-The ICER for PK FOLFOX was \$22,695 per QALY.
-In terms of LYs, PK FOLFOX provided 2.60 LYs compared with BSA FOLFOX with 1.99 LYs.
-The ICER of PK 5-FU was \$21,423 per LY.
-All numerical results are summarized in Table 5.
-
-The code to do this is here to add costs, QALYS, NMBs and Life Years to your leauge table:
-
-cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
-
-(If I wanted to take a Net Monetary Benefit (NMB) approach instead, I could go to the 35 minute mark of: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Cost-Effectiveness and Decision Modeling using R Workshop \_ DARTH\August\_24\Live Session Recording\Live Session Recording August 24th.mp4)
-
-DOMINATED STRATEGIES EXPLAINED: <https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
-
 ```{r}
+
+#07.3 Compute ICERs of the Markov model
 
 # The discounted costs and QALYs can be summarized and visualized using functions from the 'dampack' package
 (df_cea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),

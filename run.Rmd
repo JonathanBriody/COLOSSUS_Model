@@ -47,7 +47,6 @@ c_AE3 <- 409.03
 n_wtp = 45000
 
 
-
 # I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
 
 source_rmd("Markov_3state.rmd")
@@ -55,10 +54,16 @@ source_rmd("Markov_3state.rmd")
 
 # For building the Table in the paper, I create country specific versions of the parameters to be included in the Table:
 
+may be able to use something like  this for pasting names
 
 
+Ireland_c_PFS_Folfox <- c_PFS_Folfox 
+Ireland_c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
+Ireland_c_OS_Folfiri <- c_OS_Folfiri  
+Ireland_administration_cost <- administration_cost 
 
-
+tc_d_Exp
+Ireland_tc_d_SoC
 
 # I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
 
@@ -116,7 +121,12 @@ v_AIC_TTD
 
 
 
-# I don't save these two values using "keep" as they'll be leftover from running the code, and should always come out the same as they are from the ANGIOPREDICT data on peoples survival and not dependent on the country we are studying, so the last country studied should have them saved on the final run of the model.
+
+
+# I don't save these values using "keep" as they'll be leftover from running the code, and should always come out the same as they are from the ANGIOPREDICT data on peoples survival and not dependent on the country we are studying, so the last country studied should have them saved on the final run of the model.
+
+# Similarly for life_years_days_gained life_years_soc, life_years_exp
+
 
 
 
