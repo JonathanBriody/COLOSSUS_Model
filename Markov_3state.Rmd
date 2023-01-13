@@ -26,7 +26,7 @@ Authors (final list TBD): Jonathan Briody,  Ian Miller, Rodrigo Dienstmann, Les
 
 [*Possible Journal Homes:*]{.underline}
 
-The Oncologist: Published a study on this in 2017:
+The Oncologist (<https://academic.oup.com/oncolo/pages/general-instructions>): Published a study on this in 2017:
 
 Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., \...
 & Hall, P. S.
@@ -103,7 +103,7 @@ options(scipen=999)
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata")
+packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here")
 
 # Install packages not yet installed
 
@@ -232,7 +232,7 @@ survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
     x = "Days",
     y = "Progression Free survival probability"
   ) + 
-  add_risktable()
+  add_risktable(); plot1 <- recordPlot()
 
 
 km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
@@ -244,7 +244,7 @@ survfit2(Surv(time, status) ~ 1, data = df_TTD) %>% ggsurvfit() +
     x = "Days",
     y = "Overall survival probability"
   ) + 
-  add_risktable()
+  add_risktable(); plot2 <- recordPlot()
 
 
 km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
@@ -488,8 +488,16 @@ legend("right",
        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
        col    = colors,
        lty    = 1,
-       bty    = "n")
+       bty    = "n"); plot3 <- recordPlot()
 
+
+# Saving plots is as described here: https://stackoverflow.com/questions/70879324/storing-plots-as-variables-in-r
+
+# By simply adding "; plot1 <- recordPlot()" to the end of the plot, I have the plot saved in the environment to enter into the console or as a piece of code in the Rmarkdown document whenever I like (using the name plot1) whenever I like. 
+
+# I just need to remember to keep it when deleting items in the Rmarkdown file that calls this document.
+
+# If I run into trouble with this approach when I call this rmarkdown file from another rmarkdown file I can put the png("mtcars.png") above the plot and the following print(plot) dev.off() below the plot and save in that way, as per: https://ggplot2.tidyverse.org/reference/ggsave.html and here: https://stackoverflow.com/questions/58989775/how-to-using-code-to-save-plots-in-rstudio
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
 
@@ -499,7 +507,7 @@ legend("right",
 ```{r}
 
 # Compare the fit numerically based on the AIC
-(v_AIC <- c(
+(v_AIC_TTP <- c(
   exp      = l_TTP_SoC_exp$AIC,
   gamma    = l_TTP_SoC_gamma$AIC,
   gompertz = l_TTP_SoC_gompertz$AIC,
@@ -508,7 +516,19 @@ legend("right",
   weibull  = l_TTP_SoC_weibull$AIC
 ))
 
+
+#v_AIC_TTP <- tibble::enframe(v_AIC_TTP)
+
+
 # Weibull has the best visual and numerical fit
+
+
+# tab_df(,
+# title = "AIC Values", #always give
+# #your tables
+# #titles
+# file = "v_AIC_TTP.doc")
+
 ```
 
 # 06 Saving the survival parameters for use in the model:
@@ -543,7 +563,7 @@ coef_weibull_scale_SoC <- l_TTP_SoC_weibull$coefficients["scale"]
 
 # The data needs to be set up to include a column for the time (in days, weeks, years, etc.,) and a status indicator whether the time corresponds to an event, i.e. progression (status = 1), or to the last time of follow up, i.e. censoring (status = 0).
 
-# It looks like Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
+# It looks like in his example, Koen is applying the flexsurvreg formula to individuals who experience progression (i.e. ~1):
 
 head(df_TTD)
 
@@ -560,7 +580,7 @@ l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 ```{r}
 
-# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
+# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. going to dead.
 
 # Inspect fit based on visual fit
 colors <- rainbow(6)
@@ -574,7 +594,7 @@ legend("right",
        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
        col    = colors,
        lty    = 1,
-       bty    = "n")
+       bty    = "n"); plot4 <- recordPlot()
 
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
@@ -585,7 +605,7 @@ legend("right",
 ```{r}
 
 # Compare the fit numerically based on the AIC
-(v_AIC <- c(
+(v_AIC_TTD <- c(
   exp      = l_TTD_SoC_exp$AIC,
   gamma    = l_TTD_SoC_gamma$AIC,
   gompertz = l_TTD_SoC_gompertz$AIC,
@@ -627,57 +647,7 @@ coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```{r}
 ## General setup
 
-
-# Why ordering, V_names_states v_tc_SoC, v_tc_Exp,  v_tu_SoC and v_tu_Exp matters:
-
-# The ordering of V_names_states has an influence on the tornado diagram and the reported cost-effectiveness results.
-
-# So, I need to ensure I correctly order V_names_states all the way through from the start.
-
-# m_P_Exp and m_P_SoC both use v_names_states to set up the names of the rows and columns of their matrices. 
-
-# As does m_M_SoC and m_M_Exp.
-
-# Then m_M_SoC and  m_M_Exp use the row column names to fill in the 100% of the cohort (or 1) in PFS and the 0% of the cohort in OS and DEAD in wave 1. m_P_Exp and m_P_SoC also both use the row and column names to fill in the transition probabilities between PFS and OS, etc.,
-
-# Then m_M_SoC and m_M_Exp are matrix multiplied by m_P_Exp and m_P_SoC:
-
-# for(i_cycle in 1:(n_cycle-1)) {
-#  m_M_SoC[i_cycle + 1, ] <- m_M_SoC[i_cycle, ] %*% m_P_SoC[ , , i_cycle]
-#  m_M_Exp[i_cycle + 1, ] <- m_M_Exp[i_cycle, ] %*% m_P_Exp[ , , i_cycle]
-# }
-
-# The way this matrix multiplication works is that the value in box 1 for m_M_SoC is multiplied by the value in box 1 for m_P_SoC and so on. If box 1 for m_M_SoC and m_P_SoC is the 1 (i.e. 100% of people in the PFS state when this all starts), multiplied by the PFS state probabilities, i.e., the probability of going from the PFS state into other states like so:
-
-#          PFS       AE1       AE2       AE3          OS        Dead
-# PFS  0.974925 0.0194985 0.0194985 0.0194985 0.005074995 0.020000000
-
-# (Ignore the AE health states, this layout is a holdover from when AE's were going to have their own health states in the Markov model).
-
-
-# Then things will multiply correctly and we're multiplying PFS transition probabilities by the 100% of the cohort in the PFS state. 
-
-# Even, if ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead")   is not in the order as above, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") , then the m_M_SoC will have 0, 0, 0, 0, 1, 0, because everyone still starts in the PFS state, and m_P_SoC will have  "OS", "AE1", "AE2", "AE3", "PFS", "Dead", with the right probabilities put in the right spots, so when you matrix multiply it things will multiply out fine.
-
-# However, this is not the case for ordering costs and utilities:  
-
-# v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_AE1, c_AE2, c_AE3, c_P, c_D)
-# v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_AE1, c_AE2, c_AE3, c_P, c_D)
-
-
-# v_tu_SoC <- m_M_SoC %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
-# v_tu_Exp <- m_M_Exp %*% c(u_F, u_AE1, u_AE2, u_AE3, u_P, u_D)
-
-# As you can see, in both cases the ordering is set manually by how we enter things in the concatenated brackets, so in the case above where ordering v_names_states  <- c("PFS", "AE1", "AE2", "AE3", "OS", "Dead") is ordered differently, i.e., v_names_states  <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead") when we matrix multiply costs and utilities by m_M_SoC  and m_M_Exp above we will be multiplying the utility of being in the progression free state u_F by the matrix of individuals in the OS state, which will clearly be a smaller number of individuals in the first few waves, and multiplying the utility of the OS state (u_P) by the larger number of individuals actually in the PFS state <- c("OS", "AE1", "AE2", "AE3", "PFS", "Dead"). We'll be doing the same thing with costs. What this will mean is more people getting the OS costs and OS utility and fewer people getting the PFS costs and the PFS utility, which will in turn have consequences for the cost-effectiveness analysis results with more OS costs and more OS utility being considered in the equation that compares costs and utilities.
-
-# I've confirmed all of the things I say about by changing the ordering first of v_names_states, and then of the cost and utility concatenations. Changing the ordering of v_names_states did nothing to the CEA results or Tornado diagram provided I changed the ordering of utilities and costs to match this, changing the ordering of utilities and costs changed both unless I changed them to be in an order that matched the changed ordering of v_names_states.
-
-
-
-
-
-
-# At the bottom of the parametric survival code I think about how time from individual patient data may be changed to match the time of our cycles.
+# Here, I think about how time from individual patient data may be changed to match the time of our cycles.
 
 # I think the digitiser (if I am using one) will give me the time in the context of the survival curves I am digitising, i.e., time in weeks, or time in months or time in years. Otherwise if I get the data directly from Ian it will also have time in the context of the existing survival curves.
 
@@ -731,7 +701,7 @@ n_str           <- length(v_names_strats)
 # 1) Defining the cycle times
 (t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1))
 
-# I think here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in days, so we have 0 in cycle 0, 14 (or two weeks) in cycle 1, and so on.
+# Here we're saying, at each cycle how many of the time periods our individual patient data is measured at have passed? Here our individual patient data is in days, so we have 0 in cycle 0, 14 (or two weeks) in cycle 1, and so on.
 
 # Having established that allows us to obtain the transition probabilities for the time we are interested in for our cycles from this different period individual patient data, so where the individual patient data is in days and our cycles are in fortnight or half months, this allows us to obtain transition probabilities for these fortnights.
 

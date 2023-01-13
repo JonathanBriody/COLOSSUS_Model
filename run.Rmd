@@ -56,7 +56,7 @@ source_rmd("Markov_3state.rmd")
 # I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
 
 
-keep(v, w, x, sure = TRUE)
+keep(plot1, plot2, plot3, sure = TRUE)
 # I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
 
 # I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
@@ -75,5 +75,43 @@ keep(v, w, x, sure = TRUE)
 ```
 
 ```{r}
+
+# Bits for the paper:
+
+
+
+
+# Appendix:
+
+
+# Compare the fit of the different distributions to the survival data numerically based on the AIC
+
+v_AIC_TTP
+(v_AIC_TTP <- c(
+  exp      = l_TTP_SoC_exp$AIC,
+  gamma    = l_TTP_SoC_gamma$AIC,
+  gompertz = l_TTP_SoC_gompertz$AIC,
+  llogis   = l_TTP_SoC_llogis$AIC,
+  lnorm    = l_TTP_SoC_lnorm$AIC,
+  weibull  = l_TTP_SoC_weibull$AIC
+))
+
+
+v_AIC_TTD
+(v_AIC_TTD <- c(
+  exp      = l_TTP_SoC_exp$AIC,
+  gamma    = l_TTP_SoC_gamma$AIC,
+  gompertz = l_TTP_SoC_gompertz$AIC,
+  llogis   = l_TTP_SoC_llogis$AIC,
+  lnorm    = l_TTP_SoC_lnorm$AIC,
+  weibull  = l_TTP_SoC_weibull$AIC
+))
+
+
+
+# I don't save these two values using "keep" as they'll be leftover from running the code, and should always come out the same as they are from the ANGIOPREDICT data on peoples survival and not dependent on the country we are studying, so the last country studied should have them saved on the final run of the model.
+
+
+
 
 ```

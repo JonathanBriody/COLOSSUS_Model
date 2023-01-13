@@ -1,68 +1,16 @@
 ---
-title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instability:
-  An Cost-Effectiveness Analysis of a Novel Subtype across the COLOSSUS Partner Countries'
-author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
-output:
-  html_document: default
-  pdf_document: default
-  word_document: default
-editor_options:
-  markdown:
-    wrap: sentence
-bibliography: references.bib
+title: "Untitled"
+output: html_document
+date: "2023-01-11"
 ---
 
-Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-National Centre for Pharmacoeconomics, St James Hospital, Dublin 8, Ireland
+## R Render
 
-Co-authors:
+```{r pressure, echo=TRUE}
+rmarkdown::render("test1.Rmd")
+```
 
-Annette feels Rodrigo should be on this paper as he suggested considering the Angiopredict study.
-Annette said that as Matias Ebert, a gastroenterologist in Germany, is on both COLOSSUS and Angiopredict, he should be on the paper.
-This collaboration may also help us to get some of the cost data that we've been waiting on from Germany (in the end it didnt).
-
-Annette feels that all the PIs on Angiopredict should be co-authors on this paper Matthias Ebert as mentioned above, Jochen Prehn and Bauke Ylstra.
-I would probably like to add Qiushi Chen, dependent on how helpful his thoughts on parametric survival analysis actually turn out to be.
-
-Authors (final list TBD): Jonathan Briody, Ian Miller, Rodrigo Dienstmann, Lesley Tilson, Matthias Ebert, Jochen Prehn, Bauke Ylstra, Annette Byrne, Kathleen Bennett.
-
-Possible Journal Homes:
-
-The Oncologist: Published a study on this in 2017:
-
-Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., ... & Hall, P. S.
-(2017).
-Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis.
-The Oncologist, 22(6), 694-699.
-
-Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
-
-Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
-
-Value in Health: FOCUSED ON CEA, ETC.,
-
-Studies in Health Technology and Informatics
-
-"New Journal: Oxford Open Economics" I have an email on this in my gmail, it's a new Journal and thus may be interested in this work.
-
-We can increase our publication numbers by publishing a short summary of our study in: PharmacoEconomics & Outcomes News - per the description "Stay up to date with the exciting world of health economics. Solve the problem of reading and monitoring the vast volumes of literature necessary to stay informed on the latest issues in pharmacoeconomics and outcomes research by reading our concise news summaries, compiled in an easy-to-read format." <https://www.springer.com/journal/40274>
-
-<https://www.clinical-colorectal-cancer.com/>
-
-Correspondence:
-
-Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
-Email: [jonathanbriody\@rcsi.ie](mailto:jonathanbriody@rcsi.ie){.email}
-
-Funding Information:
-
-This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 754923.
-The material presented and views expressed here are the responsibility of the author(s) only.
-The EU Commission takes no responsibility for any use made of the information set out.
-
-\newpage
-
-Introduction Materials and Methods Model Structure Patients and Treatment Regimens Transition Probabilities Parametric Survival Analysis: 00 Set up general state of play Modify Chunk OptionsRun Current Chunk \# turns scientific notation off
-
-Modify Chunk OptionsRun All Chunks AboveRun Current Chunk 01 Load all packages
