@@ -52,16 +52,22 @@ n_wtp = 45000
 source_rmd("Markov_3state.rmd")
 
 
-# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table:
+# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
 
 may be able to use something like  this for pasting names
 
+# also
+
+# I can add the following to the above: 
+
+# + ggtitle("Expected Value of Perfect Information")
+#txtsize - base text size
 
 Ireland_c_PFS_Folfox <- c_PFS_Folfox 
 Ireland_c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
 Ireland_c_OS_Folfiri <- c_OS_Folfiri  
 Ireland_administration_cost <- administration_cost 
-
+n_wtp <-
 tc_d_Exp
 Ireland_tc_d_SoC
 
