@@ -2006,6 +2006,20 @@ df_cea
 table_cea <- format_table_cea(df_cea) # Function included in "R/Functions.R"; depends on the `scales` package
 table_cea
 
+# I create a parameter "ICER" to pull the ICER value straight out of the table, I select ($) ICER from df_cea and then pick the 2nd entry in this ICER parameter, so that I'm getting the number rather than the NA, i.e.:
+
+# > df_cea$ICER
+# [1]       NA 173845.8
+
+# Below I create Incremental_Cost, Incremental_Effect and ICER to include in the leauge table in the paper. I take the incremental cost and ICER from the table_cea because that applies a nice format with a comma for the thousands, etc., I also use "noqoute" to take the qoute marks away when this is made. I use df_cea because I want to round Incremental_Effect and then do round to 3 digits.
+
+Incremental_Cost<- noquote(table_cea$"Incremental Costs"[2])
+Incremental_Effect<- round(df_cea$Inc_Effect[2], digits=3)
+ICER<- noquote(table_cea$"ICER"[2])
+
+
+
+
 ```
 
 ## Results
