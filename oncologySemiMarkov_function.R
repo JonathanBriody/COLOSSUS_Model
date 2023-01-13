@@ -1,4 +1,4 @@
-# This script is used in the Markov_3state.R script to define the function that evaluates the three-state semi-Markov model for a specific set of parameter values.
+# This script is used in the Markov_3state.Rmd script to define the function that evaluates the three-state semi-Markov model for a specific set of parameter values.
 
 # This "function" is basically just repeating the code from the Markov_3state.R script again.
 
