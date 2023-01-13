@@ -4134,8 +4134,8 @@ head(df_e)
 for(i_run in 1:n_runs){
 
     # Evaluate the model and store the outcomes
-  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = 45000)
-# The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is 45,000.
+  l_out_temp    <- oncologySemiMarkov(l_params_all = df_PA_input[i_run, ], n_wtp = n_wtp)
+# The above is basically saying, apply the oncologySemiMarkov_function, where l_params_all in the function (i.e. the list of parameters the function is to be applied to) is equal to the parameters from the PSA data.frame for the run we are in, and the willingness to pay threshold is n_wtp.
   df_c[i_run, ] <- l_out_temp$Cost
   df_e[i_run, ] <- l_out_temp$Effect
 # The above says, for the costs and effectiveness data.frames, store the value of costs and effects for each run that we are on in a row that reflects that run (remembering that [ROW,COLUMN], we are putting each cost and effect in a row that relates to the number of the run we are on, so if we are on run 1, i_run = 1 and we store the costs and effects for that run 1 in row 1. Remembering that our oncologySemiMarkov makes the "Cost" and "Effect" parameters at the end of the function, after applying the Markov cost-effectiveness model to all our input data for the cost-effectiveness model (so, things like, cost, utility and probability), so we are just pulling the ouputted Cost and Effect values calculated from a Markov cost-effectiveness model applied to our input data after the input data has been randomly drawn from a PSA (per the PSA input dataframe)).  
@@ -4148,9 +4148,12 @@ for(i_run in 1:n_runs){
 }
 ```
 
-## 09.2 Create PSA object for dampack
+## 
 
 ```{r}
+
+#09.2 Create PSA object for dampack
+
 # Dampack has a number of functions to summarise and visualise the results of a probabilistic sensitivity analysis. However, the data needs to be in a specific structure before we can use those functions. 
 
 # The 'dampack' package contains multiple useful functions that summarize and visualize the results of a
@@ -4163,24 +4166,18 @@ l_PA <- make_psa_obj(cost          = df_c,
 # So, basically we make a psa object for Dampack where df_c is the dataframe of costs from the Markov model being applied to the PSA data, and df_e is the data.frame of effectiveness from the Markov model being applied to the PSA dataset, the parameters that are included are those from the PSA analysis, which we fed into df_PA_input above (df_PA_input<-) and the two strategies are SoC and Exp.
 ```
 
-## 09.2.1 Save PSA objects
-
 ```{r}
+
+#09.2.1 Save PSA objects
+
 # If we wanted to save the PSA objects once they have been created above, we could do this as follows (v_names_strats is just another way of including the strategies part from above):
 # save(df_PA_input, df_c, df_e, v_names_strats, n_str, l_PA,
 #     file = "markov_3state_PSA_dataset.RData")
 ```
 
-## 09.3.1 Conduct CEA with probabilistic output
-
-In the PSA we computed model outcomes (total discounted costs and QALYs) for the experimental strategy and standard of care for each sampled set of parameter values.
-Results were remarkably similar to the deterministic analysis, per the probabilistic league table below [or else I could say, eith ICER of X, incremental costs of Y and incremental effectiveness of Y, i.e. describe the league table, but describe it in words, i.e., a mean incremental cost of xx,xxx (95% CI xx,xxx - xx,xxx) with a mean incremental benefit of x.xx QALYs (95% CI x.xx - x.xx), resulted in a mean ICER of xxx,xxx per QALY (95% CI xxx,xxx - xxx,xxx).], demonstrating the robustness of the model.
-
-The values estimated using means from the PSA (costs, QALYs and ICER) reflect those estimated in the deterministic analysis.
-
-:
-
 ```{r}
+
+#09.3.1 Conduct CEA with probabilistic output
 
 # First we take the mean outcome estimates, that is, we summarise the expected costs and effects for each strategy from the PSA:
 (df_out_ce_PA <- summary(l_PA))
@@ -4210,89 +4207,19 @@ table_cea_PA <- format_table_cea(df_cea_PA) # Function included in "R/Functions.
 table_cea_PA
 ```
 
-## 09.3.2 Cost-Effectiveness Scatter plot
-
-This indicates that what I am displaying here is not the cost-effectiveness plane, but a cost-effectiveness scatter plot: <https://yhec.co.uk/glossary/cost-effectiveness-plane/>
-
-Devin does the traditional cost-effectiveness plane (but DARTH may also offer this in Dampack, and I should dig in there first if I want to draw a more traditional cost-effectiveness plane) <https://hesim-dev.github.io/hesim/articles/cea.html>
-
-Figure 3 here shows the same scatterplt as I make, but parts of it cross the axis, I suspect that my scatterplot would cross the axis if necessary and thus reflect the above planes: Cost-effectiveness of capecitabine and bevacizumab maintenance treatment after first-line induction treatment in metastatic colorectal cancer sci-hub.ru/10.1016/j.ejca.2017.01.019 Actually.
-That would never happen.
-The axis needs an origin point.
-Typically ,the origin point is the SoC's cost and effect, than we can say, look, does Exp fall below this cost (so our points for cost are lower on the graph, below the origin point) or above (so our costs are above this point on the graph, higher up above the origin point) and how does are utility look, higher than the SoC, so further to the right where effectiveness is the numberline along the bottom on the x-axis, or worse than SoC, so to the left of the SoC origin point, so a lower utility as we get further down the numberline and away from the SoC origin point for utility.
-It's easiest to understand this while looking at Figure 3 below, where C is the origin point, because it A) reflects what I am saying above, and B) Shows that even the SoC maybe can be made of random draws too (although I'm not super sure on that, because if that value keeps changing then the comparative value of the ExP would be different always, so probably we need to still take the SoC value for the origin point we started with from the deterministic CEA so that we have something to compare our probabilistic ExP values to, but then we show the variability in SoC values around this from the PSA draws for SoC).
-Realistically, it's probably best to produce a scatterplot as provided by dampack, and if a reviewer then wants the cost-effectiveness plane, to look into how this can be done in dampack.
-
-This is supported by Figure 3 of: Probabilistic Analysis of Cost-Effectiveness Models: Choosing between Treatment Strategies for Gastroesophageal Reflux Disease Andrew H. Briggs, DPhil, Ron Goeree, MA, Gord Blackhouse, MBA, Bernie J. O'Brien, PhD med.mcgill.ca/epidemiology/courses/EPIB654/Summer2010/EF/example%20PPI.pdf
-
-The cost-effectiveness plane illustrates the distribution of costs and effects for SoC and Exp.
-
-Incremental costs and QALYs with their respective ICERs.
-
-These values are illustrated in a cost-effectiveness plane of incremental costs in the y axis and incremental QALYs in the x axis.
-
-We randomly sampled from each specified parameter distribution in the probabilistic analysis, calculating the expected costs and effects of that combination of parameter values.
-This reflects a single replication of model results, in total, 10,000 replications were completed to determine the possible distribution of the resulting ICERs for both SoC and the experimental treatment.
-In Figure X we plot the results of this probabilistic sensitivity analysis for these 10,000 replications from the model.
-
-In Figure X we plot a probabilistic sensitivity analysis for 10,000 samples.
-
-[**Legend Underneath:** Fig.
-X. Probabilistic Sensitivity Analysis (n = 10,000).
-Each dot represents an incremental cost-effectiveness ratio, ellipse represent the 95% confidence incidence.]
-
-Well explained here: *An Introductory Tutorial on Cohort State-Transition Models in R Using a Cost-Effectiveness Analysis Example <https://arxiv.org/pdf/2001.07824.pdf>*
-
-3.2.
-Cost-effectiveness analysis The cost-effectiveness outcomes obtained from the DT-STM and the DES model are presented in the incremental cost-effectiveness planes of Fig.
-4.
-The incremental effectiveness estimates, including their 95% confidence intervals (CI), for CAP-B maintenance therapy compared to the observation strategy are 0.21 (CI: 0.015; 0.430) and 0.18 (CI: 0.006; 0.374) QALYs, and the incremental costs are €35,536 (CI: 19,945; 54,629) and €30,053, (CI: 17,047; 46,132) for the DT-STM and DES model, respectively.
-The mean ICERs are €172,443 and €168,383 per QALY gained for the DT-STM and DES model, respectively.
-The PSA for both models only demonstrated a small difference in the amount of uncertainty surrounding the mean ICER point-estimates (Fig. 4).
-This is illustrated by the magnitude of the 95%-confidence ellipses surrounding these estimates, being slightly smaller for the DES model.
-However, as both mean ICER point-estimates and corresponding confidence ellipses are located rather similarly compared to the willingness- to-pay (WTP) threshold, the CEACs for both models are similar (Fig. 5).
-per: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\Matching the model with the evidence Koen
-
-Also see here for write up:
-
-Sharp, L., Tilson, L., Whyte, S., O'Ceilleachair, A., Walsh, C., Usher, C., ... & Comber, H.
-(2012).
-Cost-effectiveness of population-based screening for colorectal cancer: a comparison of guaiac-based faecal occult blood testing, faecal immunochemical testing and flexible sigmoidoscopy.
-British journal of cancer, 106(5), 805-816.
-<https://www.nature.com/articles/bjc2011580.pdf>
-
 ```{r}
+#09.3.2 Cost-Effectiveness Scatter plot
+
 # Incremental cost-effectiveness plane
-plot(l_PA)
+plot(l_PA); plot8 <- recordPlot()
 
 #plot(l_PA, xlim = c(9.5, 22.5))
 # In the DARTH package R code they use the additional bits above, I can see how they look in my own model, and if I'd like to use them.
 ```
 
-## 09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
-
-Cost-effectiveness acceptability curves describe the probability of cost-effectiveness (i.e. that the ICER is below the WTP value) for each treatment option.
-
-We calculated the probability the novel strategy would be cost-effective under several willingness to pay thresholds and illustrated this with a cost-effectiveness acceptability curve.
-
-We derived cost-effectiveness acceptability curves (CEACs) from the probabilistic sensitivity analysis.
-The results are shown in CEACs in Figure X. This describes the probability that the addition of Bevacizumab was cost-effective across increasing willingness-to-pay (WTP) values.
-Results demonstrate a 100% probability that this strategy was more cost-effective when the threshold was X, and a xx.xx% probability of cost-effectiveness when the threshold was Y.
-These results indicate that base case analysis produces robust results.
-
-Borrowing from: A Cost-Effectiveness Analysis of Currently Approved Treatments for HBeAg-Positive Chronic Hepatitis B <https://sci-hub.ru/10.2165/00019053-200826110-00006> I can say:
-
-The results of the probabilistic sensitivity analysis indicate that treatment X is preferred at cost-effectiveness thresholds less than approximately \$X,000 per QALY, and treatment Y had the highest probability of being optimal above this willingness to pay threshold.
-
-Understand this plot here:
-
-<https://cran.r-project.org/web/packages/dampack/vignettes/basic_cea.html>
-
-Also saved here:
-
-C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\sensitivity analysis help files\\Basic Cost Effectiveness Analysis.pdf
-
 ```{r}
+
+#09.4.2 Cost-effectiveness acceptability curves (CEACs) and frontier (CEAF)
 
 # Cost-effectiveness acceptability curve (CEAC):
 
@@ -4306,58 +4233,44 @@ CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 summary(CEAC_obj)
 
 # CEAC and cost-effectiveness acceptability frontier (CEAF) plot
-plot(CEAC_obj)
+plot(CEAC_obj); plot9 <- recordPlot()
 ```
 
-## 09.4.3 Plot cost-effectiveness frontier
-
 ```{r}
-plot(df_cea_PA)
+#09.4.3 Plot cost-effectiveness frontier
+# plot(df_cea_PA)
+# I don't use this plot in my paper anymore
 ```
 
-## 09.4.4 Expected Loss Curves (ELCs)
-
-The expected loss is the the quantification of the foregone benefits when choosing a suboptimal strategy given current evidence.
-
 ```{r}
+#09.4.4 Expected Loss Curves (ELCs)
+#The expected loss is the the quantification of the foregone benefits when choosing a suboptimal strategy given current evidence.
 elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_PA)
 elc_obj
 # ELC plot
-plot(elc_obj, log_y = FALSE)
+#plot(elc_obj, log_y = FALSE)
+# I don't use this plot anymore
 ```
-
-## 09.4.4 Expected value of perfect information (EVPI)
-
-A value-of-information analysis estimates the expected value of perfect information (EVPI), that is,
-
-Value of information is discussed in the York course and below:
-
-C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC\_Exclusive_Decision Modeling for Public Health_DARTH
-
-<https://cran.r-project.org/web/packages/dampack/vignettes/voi.html>
-
-There's also a paper on this here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Decision Modelling - Advanced Course\\A2_Making Models Probabilistic\\A2.1.2 Distributions for parameters\\Betadist utility\\EVSI.doc
 
 ```{r}
+#09.4.4 Expected value of perfect information (EVPI)
 # Expected value of perfect information (EVPI)
+
+#A value-of-information analysis estimates the expected value of perfect information (EVPI), that is,
+
+#Value of information is discussed in the York course and below:
+
+#C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\CDC_Exclusive_Decision Modeling for Public Health_DARTH
+
+#https://cran.r-project.org/web/packages/dampack/vignettes/voi.html
+
+#There's also a paper on this here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\EVSI.doc
+
 EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
 # EVPI plot
-plot(EVPI_obj, effect_units = "QALY")
+#plot(EVPI_obj, effect_units = "QALY")
+# I don't plot this anymore.
 ```
-
-## 09.4.5 Alternative plotting approaches:
-
-You can find alternative plotting approaches here:
-
-C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\analysis\\cSTM_time_dep_simulation.R
-
-C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\cSTM_Tutorial_TimeDep.Rmd
-
-C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\cSTM_Tutorial_TimeDep.R
-
-C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\manuscript\\Appendix_code_walkthrough_Markov_Tutorial_Part2.Rmd
-
-There may be information more generally in the R files found in: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\\September-Workshop-main\\September-Workshop-main\\
 
 ## 08.3.3 Table Describing Parameters
 
@@ -4417,49 +4330,8 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 
 : Table X Model Parameters Values: Baseline, Ranges and Distributions for Sensitivity Analysis
 
-## 09.4.6 Scenario Analysis
+## 
 
-> The below study includes scenario analysis at the end:
->
-> Rivera, F., Valladares, M., Gea, S., & López-Martínez, N.
-> (2017).
-> Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer.
-> Journal of Medical Economics, 20(6), 574-584.
-> <https://sci-hub.st/10.1080/13696998.2017.1285780> also saved here: C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Evidence Synthesis\\Economic Models\\Rivera et al_2017_Cost-effectiveness analysis in the Spanish setting of the PEAK trial of.pdf
-
-Scenario Analysis: "Often, uncertainty in a parameter may be represented by several discrete values, instead of a continuous range, sometimes called scenario analyses (e.g., evidence from clinical studies, utility surveys, or cost data sets may lead to different values). It is acceptable to report alternative outcomes under each of these discrete assumptions to complement other uncertainty analysis." - Per: Model Parameter Estimation and Uncertainty Analysis C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf
-
-## 09.4.7 Calibration
-
-> The following has a calibration section: Lawrence, D., Maschio, M., Leahy, K. J., Yunger, S., Easaw, J. C., & Weinstein, M. C.
-> (2013).
-> Economic analysis of bevacizumab, cetuximab, and panitumumab with fluoropyrimidine-based chemotherapy in the first-line treatment of KRAS wild-type metastatic colorectal cancer (mCRC).
-> Journal of medical economics, 16(12), 1387-1398.
-> <https://www.tandfonline.com/doi/pdf/10.3111/13696998.2013.852097?needAccess=true>
->
-> C:\\Users\\Jonathan\\OneDrive - Royal College of Surgeons in Ireland\\COLOSSUS\\Training Resources\\Model Calibration in R
+## 
 
 ## References:
-
-Generated automatically when the document is knitted.
-
-Useful Darth publications to cite when using this code:
-
--   Jalal H, Pechlivanoglou P, Krijkamp E, Alarid-Escudero F, Enns E, Hunink MG. An Overview of R in Health Decision Sciences.
-    Med Decis Making.
-    2017; 37(3): 735-746.
-    <https://journals.sagepub.com/doi/abs/10.1177/0272989X16686559>
-
--   Alarid-Escudero F, Krijkamp EM, Enns EA, Yang A, Hunink MGM Pechlivanoglou P, Jalal H. Cohort State-Transition Models in R: A Tutorial.
-    arXiv:200107824v2.
-    2020:1-48.
-    <http://arxiv.org/abs/2001.07824>
-
--   Krijkamp EM, Alarid-Escudero F, Enns EA, Jalal HJ, Hunink MGM, Pechlivanoglou P. Microsimulation modeling for health decision sciences using R: A tutorial.
-    Med Decis Making.
-    2018;38(3):400--22.
-    <https://journals.sagepub.com/doi/abs/10.1177/0272989X18754513>
-
--   Krijkamp EM, Alarid-Escudero F, Enns E, Pechlivanoglou P, Hunink MM, Jalal H. A Multidimensional Array Representation of State-Transition Model Dynamics.
-    Med Decis Making.
-    Online First <https://doi.org/10.1177/0272989X19893973>

@@ -75,6 +75,11 @@ Incremental_Cost<- noquote(table_cea$"Incremental Costs"[2])
 Incremental_Effect<- round(df_cea$Inc_Effect[2], digits=3)
 ICER<- noquote(table_cea$"ICER"[2])
 
+# PSA Version of the above:
+
+PSA_Incremental_Cost<- noquote(table_cea_PA$"Incremental Costs"[2])
+PSA_Incremental_Effect<- round(df_cea_PA$Inc_Effect[2], digits=3)
+PSA_ICER<- noquote(table_cea_PA$"ICER"[2])
 
 
 # I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
@@ -160,3 +165,5 @@ knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 But set echo = false
 
 Or even better, click the gear on each code chunk and decide if I would like that code chunk to show things or not.
+
+## References:
