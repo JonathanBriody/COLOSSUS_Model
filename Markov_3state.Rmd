@@ -105,7 +105,7 @@ options(scipen=999)
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here")
+packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
 
 # Install packages not yet installed
 
@@ -235,14 +235,15 @@ load(file = "df_TTD.RData")
 
 # We want to make sure the data we're feeding in matches the data from the publication in Table 4d and Supplementary Table 10d
 
-
 survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
   labs(
     x = "Days",
     y = "Progression Free survival probability"
   ) + 
   add_risktable(); plot1 <- recordPlot()
-
+png(paste("Baseline_PFS_Curves", ".png"))
+plot1
+dev.off()
 
 km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
 summary(km_fit_PFS, times = c(0,150,300,450, 600, 750, 900, 1050, 1200, 1350)) # This will stop just before the last patient is censored in the data, also, n.event means number of events that happened at this time.
@@ -254,7 +255,9 @@ survfit2(Surv(time, status) ~ 1, data = df_TTD) %>% ggsurvfit() +
     y = "Overall survival probability"
   ) + 
   add_risktable(); plot2 <- recordPlot()
-
+png(paste("Baseline_OS_Curves", ".png"))
+plot2
+dev.off()
 
 km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
 summary(km_fit_OS, times = c(0,300,600,900,1200,1500,1800,1810,1820,1830,1840,1850,1860,1870,1880,1890,1891,1892,1893,1894,1895,1896,1897,1898,1899,1900,1901,2000,2010))
@@ -500,7 +503,9 @@ legend("right",
        col    = colors,
        lty    = 1,
        bty    = "n"); plot3 <- recordPlot()
-
+png(paste("Inspecting_Fits_PFS", ".png"))
+plot3
+dev.off()
 
 # Saving plots is as described here: https://stackoverflow.com/questions/70879324/storing-plots-as-variables-in-r
 
@@ -608,7 +613,9 @@ legend("right",
        col    = colors,
        lty    = 1,
        bty    = "n"); plot4 <- recordPlot()
-
+png(paste("Inspecting_Fits_OS", ".png"))
+plot4
+dev.off()
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
 
@@ -1225,6 +1232,9 @@ layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout,
 plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
         cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1"); plot5 <- recordPlot()
+png(paste("Markov_Model_Diagram", ".png"))
+plot5
+dev.off()
 ```
 
 ```{r}
@@ -1516,6 +1526,9 @@ legend("right",
        lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
        lwd    = 3,
        bty    = "n"); plot6 <- recordPlot()
+png(paste("Markov_Cohort_Traces", ".png"))
+plot6
+dev.off()
 
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
 #abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
@@ -2525,6 +2538,10 @@ DSAICER  <- run_owsa_det(
 # https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
 owsa_tornado(owsa = DSAICER, txtsize = 11); plot7 <- recordPlot()
+
+png(paste("Tornado_Diagram_", country_name[i], ".png", sep = ""))
+plot7
+dev.off()
 
 # Plotting the outcomes of the OWSA in a tornado plot
 # - note that other plots can also be generated using the plot() and owsa_opt_strat() functions
@@ -4213,6 +4230,10 @@ table_cea_PA
 # Incremental cost-effectiveness plane
 plot(l_PA); plot8 <- recordPlot()
 
+png(paste("CE_Scatter_Plot_", country_name[i], ".png", sep = ""))
+plot8
+dev.off()
+
 #plot(l_PA, xlim = c(9.5, 22.5))
 # In the DARTH package R code they use the additional bits above, I can see how they look in my own model, and if I'd like to use them.
 ```
@@ -4234,6 +4255,10 @@ summary(CEAC_obj)
 
 # CEAC and cost-effectiveness acceptability frontier (CEAF) plot
 plot(CEAC_obj); plot9 <- recordPlot()
+
+png(paste("CEAC_", country_name[i], ".png", sep = ""))
+plot9
+dev.off()
 ```
 
 ```{r}
@@ -4333,32 +4358,10 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 ## 
 
 ```{r}
-## ------------------------- ##
-## An Example of ##
-## Automating Plot Output ##
-## ------------------------- ##
 
-names = LETTERS[1:26] ## Gives a sequence of the letters of the alphabet
-
-beta1 = rnorm(26, 5, 2) ## A vector of slopes (one for each letter)
-beta0 = 10 ## A common intercept
-
-for(i in 1:26){
- x = rnorm(500, 105, 10)
- y = beta0 + beta1[i]*x + 15*rnorm(500)
-
- mypath <- file.path(path,paste("myplot_", names[i], ".jpg", sep = ""))
-
-}
+kk <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, n_wtp)
+      
 
 
- 
-```
-
-## 
-
-```{r}
-png(paste("myplot_", country_name[i], ".png", sep = ""))
-plot9
-dev.off()
+paste("Ireland", colnames(kk), sep="_") %=% kk
 ```

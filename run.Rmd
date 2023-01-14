@@ -104,7 +104,9 @@ kk <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_c
 
 # kk
 
-colnames(kk) <- paste("Ireland", kk, sep="_")
+#colnames(kk) <- paste("Ireland", kk, sep="_")
+
+colnames(kk) <- paste("Ireland", colnames(kk), sep="_")
 
 kk
 
@@ -122,7 +124,13 @@ plot9
 ```
 
 ```{r}
-plot(Cars93)
+plot(mtcars$mpg~mtcars$disp)
+```
+
+```{r}
+png(paste("myplot_", country_name[i], ".png", sep = ""))
+plot9
+dev.off()
 ```
 
 ```{# also}
