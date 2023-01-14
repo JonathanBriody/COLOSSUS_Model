@@ -4332,6 +4332,33 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 
 ## 
 
-## 
+```{r}
+## ------------------------- ##
+## An Example of ##
+## Automating Plot Output ##
+## ------------------------- ##
+
+names = LETTERS[1:26] ## Gives a sequence of the letters of the alphabet
+
+beta1 = rnorm(26, 5, 2) ## A vector of slopes (one for each letter)
+beta0 = 10 ## A common intercept
+
+for(i in 1:26){
+ x = rnorm(500, 105, 10)
+ y = beta0 + beta1[i]*x + 15*rnorm(500)
+
+ mypath <- file.path(path,paste("myplot_", names[i], ".jpg", sep = ""))
+
+}
+
+
+ 
+```
 
 ## 
+
+```{r}
+png(paste("myplot_", country_name[i], ".png", sep = ""))
+plot9
+dev.off()
+```

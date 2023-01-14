@@ -30,7 +30,8 @@ source_rmd = function(file, ...) {
 # To do this, I feed in the cost data from each country for parameters that differ across countries:
 
 
-country_name <- "Ireland"
+# Ireland:
+
 
 # 1. Cost of treatment in this country
 c_PFS_Folfox <- 307.81 
@@ -54,14 +55,6 @@ source_rmd("Markov_3state.rmd")
 
 # For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
 
-may be able to use something like  this for pasting names
-
-# also
-
-# I can add the following to the above: 
-
-# + ggtitle("Expected Value of Perfect Information")
-#txtsize - base text size
 
 Ireland_c_PFS_Folfox <- c_PFS_Folfox 
 Ireland_c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
@@ -101,6 +94,43 @@ keep(plot1, plot2, plot3, sure = TRUE)
 
 
 # Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
+```
+
+```{r}
+kk <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, n_wtp)
+                 
+
+# kk <- paste("Ireland", kk, sep="_")
+
+# kk
+
+colnames(kk) <- paste("Ireland", kk, sep="_")
+
+kk
+
+```
+
+```{r echo=TRUE}
+plot9
+```
+
+```{plot(cars)}
+```
+
+```{r}
+(`r knitr::fig_chunk('cars-plot', 'png')`)
+```
+
+```{r}
+plot(Cars93)
+```
+
+```{# also}
+
+# I can add the following to the above: 
+
+# + ggtitle("Expected Value of Perfect Information")
+#txtsize - base text size
 ```
 
 ```{r}
