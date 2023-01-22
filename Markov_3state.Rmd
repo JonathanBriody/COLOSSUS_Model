@@ -244,10 +244,16 @@ survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
     x = "Days",
     y = "Progression Free survival probability"
   ) + 
-  add_risktable(); plot1 <- recordPlot()
+  add_risktable()
 png(paste("Baseline_PFS_Curves", ".png"))
-plot1
 dev.off()
+
+
+
+
+
+
+
 
 km_fit_PFS <- survfit(Surv(time, status) ~ 1, data=df_TTP)
 summary(km_fit_PFS, times = c(0,150,300,450, 600, 750, 900, 1050, 1200, 1350)) # This will stop just before the last patient is censored in the data, also, n.event means number of events that happened at this time.
@@ -258,9 +264,8 @@ survfit2(Surv(time, status) ~ 1, data = df_TTD) %>% ggsurvfit() +
     x = "Days",
     y = "Overall survival probability"
   ) + 
-  add_risktable(); plot2 <- recordPlot()
+  add_risktable()
 png(paste("Baseline_OS_Curves", ".png"))
-plot2
 dev.off()
 
 km_fit_OS <- survfit(Surv(time, status) ~ 1, data=df_TTD)
@@ -506,9 +511,8 @@ legend("right",
        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
        col    = colors,
        lty    = 1,
-       bty    = "n"); plot3 <- recordPlot()
+       bty    = "n")
 png(paste("Inspecting_Fits_PFS", ".png"))
-plot3
 dev.off()
 
 # Saving plots is as described here: https://stackoverflow.com/questions/70879324/storing-plots-as-variables-in-r
@@ -517,7 +521,7 @@ dev.off()
 
 # I just need to remember to keep it when deleting items in the Rmarkdown file that calls this document.
 
-# If I run into trouble with this approach when I call this rmarkdown file from another rmarkdown file I can put the png("mtcars.png") above the plot and the following print(plot) dev.off() below the plot and save in that way, as per: https://ggplot2.tidyverse.org/reference/ggsave.html and here: https://stackoverflow.com/questions/58989775/how-to-using-code-to-save-plots-in-rstudio
+# I run into trouble with this approach when I call this rmarkdown file from another rmarkdown file, so I can put the png("mtcars.png") above the plot and the following print(plot) dev.off() below the plot and save in that way, as per: https://ggplot2.tidyverse.org/reference/ggsave.html and here: https://stackoverflow.com/questions/58989775/how-to-using-code-to-save-plots-in-rstudio
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
 
@@ -616,9 +620,8 @@ legend("right",
        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
        col    = colors,
        lty    = 1,
-       bty    = "n"); plot4 <- recordPlot()
+       bty    = "n")
 png(paste("Inspecting_Fits_OS", ".png"))
-plot4
 dev.off()
 
 # Koen says "# Weibull has the best visual and numerical fit" but I don't see what it's visually being compared to in this graph, I will have to learn about this in the C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\flexsurv folder.
@@ -1229,9 +1232,8 @@ m_P_diag["Dead", "Dead" ]     = ""
 layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
 plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
-        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1"); plot5 <- recordPlot()
+        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
 png(paste("Markov_Model_Diagram", ".png"))
-plot5
 dev.off()
 ```
 
@@ -1523,9 +1525,8 @@ legend("right",
        col    = rep(c("black", "red", "green"), 2), 
        lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
        lwd    = 3,
-       bty    = "n"); plot6 <- recordPlot()
+       bty    = "n")
 png(paste("Markov_Cohort_Traces", ".png"))
-plot6
 dev.off()
 
 # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
@@ -2036,7 +2037,9 @@ ICER<- noquote(table_cea$"ICER"[2])
 ```{r}
 #07.4 Plot frontier of the Markov model
 
-plot(df_cea, effect_units = "QALYs", label = "all"); plot6 <- recordPlot()
+plot(df_cea, effect_units = "QALYs", label = "all")
+png(paste("Markov_Cohort_Traces", ".png"))
+dev.off()
 
 # plot(df_cea, effect_units = "QALYs")
 
@@ -2535,10 +2538,8 @@ DSAICER  <- run_owsa_det(
 
 # https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
-owsa_tornado(owsa = DSAICER, txtsize = 11); plot7 <- recordPlot()
-
-png(paste("Tornado_Diagram_", country_name[i], ".png", sep = ""))
-plot7
+owsa_tornado(owsa = DSAICER, txtsize = 11)
+png(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""))
 dev.off()
 
 # Plotting the outcomes of the OWSA in a tornado plot
@@ -4226,10 +4227,8 @@ table_cea_PA
 #09.3.2 Cost-Effectiveness Scatter plot
 
 # Incremental cost-effectiveness plane
-plot(l_PA); plot8 <- recordPlot()
-
-png(paste("CE_Scatter_Plot_", country_name[i], ".png", sep = ""))
-plot8
+plot(l_PA)
+png(paste("CE_Scatter_Plot_", country_name[1], ".png", sep = ""))
 dev.off()
 
 #plot(l_PA, xlim = c(9.5, 22.5))
@@ -4252,10 +4251,8 @@ CEAC_obj <- ceac(wtp = v_wtp, psa = l_PA)
 summary(CEAC_obj)
 
 # CEAC and cost-effectiveness acceptability frontier (CEAF) plot
-plot(CEAC_obj); plot9 <- recordPlot()
-
-png(paste("CEAC_", country_name[i], ".png", sep = ""))
-plot9
+plot(CEAC_obj)
+png(paste("CEAC_", country_name[1], ".png", sep = ""))
 dev.off()
 ```
 
@@ -4317,7 +4314,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
+|------------|------------|------------|------------|------------|------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |

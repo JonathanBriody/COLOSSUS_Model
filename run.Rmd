@@ -179,25 +179,7 @@ keep(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot
 # Then, I repeat all of this exactly for the other countries I am studying:
 
 
-
-
-
-
-
-
-
-
-
-
 # Spain:
-
-
-
-
-
-
-
-
 
 country_name <- "Spain"
 
@@ -239,31 +221,6 @@ keep(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot
 
 
 # Then, I repeat all of this exactly for the other countries I am studying:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
 ```
@@ -344,27 +301,16 @@ Or even better, click the gear on each code chunk and decide if I would like tha
 
 # Introduction
 
-We constructed a Markov model to
-calculate the lifetime costs and outcomes of each treatment strategy in mCRC.
+We constructed a Markov model to calculate the lifetime costs and outcomes of each treatment strategy in mCRC.
 
-The intention-to-treat (ITT) population we modelled in this study is mCRC
-patients in Germany, Ireland and Spain from a healthcare payer perspective in
-these countries.
+The intention-to-treat (ITT) population we modelled in this study is mCRC patients in Germany, Ireland and Spain from a healthcare payer perspective in these countries.
 Subsequently, the analysis included direct medical costs.
 
 Effectiveness is reflected in quality-adjusted life years (QALYS).
-Per the
-countries studied, a discount rate of 4% per annum was applied to cost input
-and health output parameters [\@Williams2022].
-All model inputs are described in
-Table 1.
-The primary outcomes of the model were the total costs, QALYS, and the
-incremental cost-effectiveness ratio (ICER).
-Per [\@goldstein2017] probability
-of transitions, adverse events, and quality of life under treatment was assumed
-to be generalisable; consequently, shared values were applied to all countries
-under study in the interest of concision.
-Country specific differences in cost were
-included.
+Per the countries studied, a discount rate of 4% per annum was applied to cost input and health output parameters [\@Williams2022].
+All model inputs are described in Table 1.
+The primary outcomes of the model were the total costs, QALYS, and the incremental cost-effectiveness ratio (ICER).
+Per [\@goldstein2017] probability of transitions, adverse events, and quality of life under treatment was assumed to be generalisable; consequently, shared values were applied to all countries under study in the interest of concision.
+Country specific differences in cost were included.
 
 ## References:
