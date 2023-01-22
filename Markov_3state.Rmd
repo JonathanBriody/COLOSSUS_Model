@@ -79,6 +79,10 @@ The EU Commission takes no responsibility for any use made of the information se
 #00 Set up general state of play
 
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
+
+options(knitr.duplicate.label = "allow")
+# per: https://bookdown.org/yihui/rmarkdown-cookbook/duplicate-label.html
+
 # To knit this document every time it is run, you can change `eval` to `TRUE` in the above.
 
 # If you wanted to compare two R files and see what the differences are between them, you can do so with this:
@@ -91,8 +95,8 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 ```
 
 ```{r}
-rm(list = ls())  
-# clear memory (removes all the variables from the work space)
+#rm(list = ls())  
+# clear memory (removes all the variables from the work space) - I turn this off on the understanding that the markdown doc that calls this file will clear memory.
 options(scipen=999) 
 # turns scientific notation off
 # options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
@@ -657,13 +661,7 @@ coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
 
-#### Utility Estimates
-
-#### Probability of Adverse events:
-
-#### Sensitivity Analysis
-
-# 
+#### 
 
 ```{r}
 #03 Input model parameters
@@ -4319,7 +4317,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------|------------|------------|------------|------------|------------|
+|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
@@ -4356,12 +4354,3 @@ Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM 
 : Table X Model Parameters Values: Baseline, Ranges and Distributions for Sensitivity Analysis
 
 ## 
-
-```{r}
-
-kk <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, n_wtp)
-      
-
-
-paste("Ireland", colnames(kk), sep="_") %=% kk
-```

@@ -1,8 +1,64 @@
 ---
-title: "run"
-author: "DrBriody"
-date: "12/01/2023"
+title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instability:
+  An Cost-Effectiveness Analysis of a Novel Subtype across the COLOSSUS Partner Countries'
+author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+editor_options:
+  markdown:
+    wrap: sentence
+bibliography: references.bib
 ---
+
+(1) Data Science Centre, RCSI University of Medicine and Health Sciences, Dublin, Ireland
+(2) National Centre for Pharmacoeconomics, St James Hospital, Dublin 8, Ireland
+
+**Co-authors:**
+
+*Annette feels Rodrigo should be on this paper as he suggested considering the Angiopredict study. Annette said that as Matias Ebert, a gastroenterologist in Germany, is on both COLOSSUS and Angiopredict, he should be on the paper. This collaboration may also help us to get some of the cost data that we've been waiting on from Germany (in the end it didnt).*
+
+*Annette feels that all the PIs on Angiopredict should be co-authors on this paper Matthias Ebert as mentioned above, Jochen Prehn and Bauke Ylstra. I would probably like to add Qiushi Chen, dependent on how helpful his thoughts on parametric survival analysis actually turn out to be.*
+
+Authors (final list TBD): Jonathan Briody,  Ian Miller, Rodrigo Dienstmann, Lesley Tilson, Matthias Ebert, Jochen Prehn, Bauke Ylstra, Annette Byrne,  Kathleen Bennett. 
+
+[*Possible Journal Homes:*]{.underline}
+
+The Oncologist (<https://academic.oup.com/oncolo/pages/general-instructions>): Published a study on this in 2017:
+
+Goldstein, D. A., Chen, Q., Ayer, T., Chan, K. K., Virik, K., Hammerman, A., \...
+& Hall, P. S.
+(2017).
+Bevacizumab for Metastatic Colorectal Cancer: A Global Cost‐Effectiveness Analysis.
+*The Oncologist*, *22*(6), 694-699.
+
+Journal of Medical Economics <https://www.tandfonline.com/doi/pdf/10.1080/13696998.2021.1888743>
+
+Clinical Colorectal Cancer <https://www-sciencedirect-com.proxy.library.rcsi.ie/science/article/pii/S1533002814000978>
+
+Value in Health: FOCUSED ON CEA, ETC.,
+
+Studies in Health Technology and Informatics
+
+"New Journal: Oxford Open Economics" I have an email on this in my gmail, it's a new Journal and thus may be interested in this work.
+
+We can increase our publication numbers by publishing a short summary of our study in: PharmacoEconomics & Outcomes News - per the description "Stay up to date with the exciting world of health economics. Solve the problem of reading and monitoring the vast volumes of literature necessary to stay informed on the latest issues in pharmacoeconomics and outcomes research by reading our concise news summaries, compiled in an easy-to-read format." <https://www.springer.com/journal/40274>
+
+<https://www.clinical-colorectal-cancer.com/>
+
+**Correspondence:**
+
+Jonathan Briody, PhD, RCSI University of Medicine and Health Sciences, Beaux Lane House, Lower Mercer St, Dublin 2, Ireland.
+Email: [jonathanbriody\@rcsi.ie](mailto:jonathanbriody@rcsi.ie){.email}
+
+**Funding Information:**
+
+This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 754923.
+The material presented and views expressed here are the responsibility of the author(s) only.
+The EU Commission takes no responsibility for any use made of the information set out.
+
+\newpage
 
 ```{r}
 source_rmd = function(file, ...) {
@@ -32,6 +88,8 @@ source_rmd = function(file, ...) {
 
 # Ireland:
 
+country_name <- "Ireland"
+
 
 # 1. Cost of treatment in this country
 c_PFS_Folfox <- 307.81 
@@ -55,30 +113,64 @@ source_rmd("Markov_3state.rmd")
 
 # For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
 
-
-Ireland_c_PFS_Folfox <- c_PFS_Folfox 
-Ireland_c_PFS_Bevacizumab <- c_PFS_Bevacizumab  
-Ireland_c_OS_Folfiri <- c_OS_Folfiri  
-Ireland_administration_cost <- administration_cost 
-n_wtp <-
-tc_d_Exp
-Ireland_tc_d_SoC
-
-Incremental_Cost<- noquote(table_cea$"Incremental Costs"[2])
-Incremental_Effect<- round(df_cea$Inc_Effect[2], digits=3)
-ICER<- noquote(table_cea$"ICER"[2])
-
-# PSA Version of the above:
-
-PSA_Incremental_Cost<- noquote(table_cea_PA$"Incremental Costs"[2])
-PSA_Incremental_Effect<- round(df_cea_PA$Inc_Effect[2], digits=3)
-PSA_ICER<- noquote(table_cea_PA$"ICER"[2])
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+      
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
 
 
-# I remove everything [rm( )] everything except the specific objects I include in the wrute-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+# I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
 
 
-keep(plot1, plot2, plot3, sure = TRUE)
+keep(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, Ireland_c_PFS_Folfox,  Ireland_c_PFS_Bevacizumab,  Ireland_c_OS_Folfiri,  Ireland_administration_cost,  Ireland_c_AE1,  Ireland_c_AE2,  Ireland_c_AE3,  Ireland_Minimum_c_PFS_Folfox,  Ireland_Maximum_c_PFS_Folfox,  Ireland_Minimum_c_OS_Folfiri,  Ireland_Maximum_c_OS_Folfiri,  Ireland_Minimum_c_PFS_Bevacizumab,  Ireland_Maximum_c_PFS_Bevacizumab,  Ireland_Minimum_administration_cost,  Ireland_Maximum_administration_cost,  Ireland_Minimum_c_AE1,  Ireland_Maximum_c_AE1,  Ireland_Minimum_c_AE2,  Ireland_Maximum_c_AE2,  Ireland_Minimum_c_AE3,  Ireland_Maximum_c_AE3,  Ireland_n_wtp,  Ireland_Incremental_Cost,  Ireland_Incremental_Effect,  Ireland_ICER,  Ireland_tc_d_Exp,  Ireland_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, sure = TRUE)
+# I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
+
+# I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
+
+
+# Then, I repeat all of this exactly for the other countries I am studying:
+
+
+
+
+
+# Germany:
+
+
+
+country_name <- "Germany"
+
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 1276.66 
+c_PFS_Bevacizumab <- 1325.87  
+c_OS_Folfiri <- 1309.64  
+administration_cost <- 1794.40 
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 3837
+c_AE2 <- 1816.37
+c_AE3 <- 526.70 
+
+# 3. Willingness to pay threshold
+n_wtp = 78871   
+
+
+# I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
+
+source_rmd("Markov_3state.rmd")
+
+
+# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
+
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+
+# I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+
+
+keep(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, Germany_c_PFS_Folfox,  Germany_c_PFS_Bevacizumab,  Germany_c_OS_Folfiri,  Germany_administration_cost,  Germany_c_AE1,  Germany_c_AE2,  Germany_c_AE3,  Germany_Minimum_c_PFS_Folfox,  Germany_Maximum_c_PFS_Folfox,  Germany_Minimum_c_OS_Folfiri,  Germany_Maximum_c_OS_Folfiri,  Germany_Minimum_c_PFS_Bevacizumab,  Germany_Maximum_c_PFS_Bevacizumab,  Germany_Minimum_administration_cost,  Germany_Maximum_administration_cost,  Germany_Minimum_c_AE1,  Germany_Maximum_c_AE1,  Germany_Minimum_c_AE2,  Germany_Maximum_c_AE2,  Germany_Minimum_c_AE3,  Germany_Maximum_c_AE3,  Germany_n_wtp,  Germany_Incremental_Cost,  Germany_Incremental_Effect,  Germany_ICER,  Germany_tc_d_Exp,  Germany_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, sure = TRUE)
 # I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
 
 # I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
@@ -93,47 +185,92 @@ keep(plot1, plot2, plot3, sure = TRUE)
 
 
 
+
+
+
+
+# Spain:
+
+
+
+
+
+
+
+
+
+country_name <- "Spain"
+
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 285.54 
+c_PFS_Bevacizumab <- 1325.87  
+c_OS_Folfiri <- 139.58  
+administration_cost <- 314.94 
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 4885.95
+c_AE2 <- 507.36
+c_AE3 <- 95.03 
+
+# 3. Willingness to pay threshold
+n_wtp = 30000   
+
+
+# I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
+
+source_rmd("Markov_3state.rmd")
+
+
+# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
+
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+
+# I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+
+
+keep(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10, plot11, Spain_c_PFS_Folfox,  Spain_c_PFS_Bevacizumab,  Spain_c_OS_Folfiri,  Spain_administration_cost,  Spain_c_AE1,  Spain_c_AE2,  Spain_c_AE3,  Spain_Minimum_c_PFS_Folfox,  Spain_Maximum_c_PFS_Folfox,  Spain_Minimum_c_OS_Folfiri,  Spain_Maximum_c_OS_Folfiri,  Spain_Minimum_c_PFS_Bevacizumab,  Spain_Maximum_c_PFS_Bevacizumab,  Spain_Minimum_administration_cost,  Spain_Maximum_administration_cost,  Spain_Minimum_c_AE1,  Spain_Maximum_c_AE1,  Spain_Minimum_c_AE2,  Spain_Maximum_c_AE2,  Spain_Minimum_c_AE3,  Spain_Maximum_c_AE3,  Spain_n_wtp,  Spain_Incremental_Cost,  Spain_Incremental_Effect,  Spain_ICER,  Spain_tc_d_Exp,  Spain_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, sure = TRUE)
+# I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
+
+# I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
+
+
+# Then, I repeat all of this exactly for the other countries I am studying:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
 ```
 
 ```{r}
-kk <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, n_wtp)
-                 
 
-# kk <- paste("Ireland", kk, sep="_")
-
-# kk
-
-#colnames(kk) <- paste("Ireland", kk, sep="_")
-
-colnames(kk) <- paste("Ireland", colnames(kk), sep="_")
-
-kk
-
-```
-
-```{r echo=TRUE}
-plot9
-```
-
-```{plot(cars)}
-```
-
-```{r}
-(`r knitr::fig_chunk('cars-plot', 'png')`)
-```
-
-```{r}
-plot(mtcars$mpg~mtcars$disp)
-```
-
-```{r}
-png(paste("myplot_", country_name[i], ".png", sep = ""))
-plot9
-dev.off()
-```
-
-```{# also}
+# also
 
 # I can add the following to the above: 
 
@@ -188,7 +325,8 @@ v_AIC_TTD
 
 ```
 
-There are some things that I would like to appear in the code chunks, but not in the knitted document. To do this I can go to:
+There are some things that I would like to appear in the code chunks, but not in the knitted document.
+To do this I can go to:
 
 <https://stackoverflow.com/questions/47710427/how-to-show-code-but-hide-output-in-rmarkdown>
 
@@ -203,5 +341,30 @@ knitr::opts_chunk\$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
 But set echo = false
 
 Or even better, click the gear on each code chunk and decide if I would like that code chunk to show things or not.
+
+# Introduction
+
+We constructed a Markov model to
+calculate the lifetime costs and outcomes of each treatment strategy in mCRC.
+
+The intention-to-treat (ITT) population we modelled in this study is mCRC
+patients in Germany, Ireland and Spain from a healthcare payer perspective in
+these countries.
+Subsequently, the analysis included direct medical costs.
+
+Effectiveness is reflected in quality-adjusted life years (QALYS).
+Per the
+countries studied, a discount rate of 4% per annum was applied to cost input
+and health output parameters [\@Williams2022].
+All model inputs are described in
+Table 1.
+The primary outcomes of the model were the total costs, QALYS, and the
+incremental cost-effectiveness ratio (ICER).
+Per [\@goldstein2017] probability
+of transitions, adverse events, and quality of life under treatment was assumed
+to be generalisable; consequently, shared values were applied to all countries
+under study in the interest of concision.
+Country specific differences in cost were
+included.
 
 ## References:
