@@ -14,3 +14,134 @@ knitr::opts_chunk$set(echo = TRUE)
 rmarkdown::render("test1.Rmd")
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+
+# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
+
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+
+# Then I name these parameters after the country I am studying:
+
+list2env(setNames(vars_2_keep, paste0(country_name[1], "_", sep = "", names(vars_2_keep))), .GlobalEnv)
+
+# As informed by:
+
+# https://stackoverflow.com/questions/75115247/how-can-i-copy-and-rename-a-bunch-of-variables-at-once/75115552?noredirect=1#comment132555463_75115552
+
+# Then I save these 
+
+x <- 10
+
+vars_2_keep <- data.frame(x)
+
+country_name <- "Ireland"
+
+dataframename <- country_name
+
+save(vars_2_keep, file=paste("my_data_", country_name[1], ".rda", sep = ""))
+
+
+
+
+save(vars_2_keep, file='my_data_.rda')
+
+  assign(paste("New data",i,sep=""), data.frame(vars_2_keep))) %>% mutate(colthree=(colone+coltwo)*i) %>% select(colthree)
+
+
+rm()
+
+load(file='dataframename.rda')
+
+
+
+
+
+mv(from = "vars_2_keep", to = country_name[1])
+
+
+save(country_name, file=paste("my_data_", country_name[1], ".rda", sep = ""))
+
+
+load(file='my_data_Ireland.rda')
+
+
+
+
+
+assign("new.name",old.name)
+
+      
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+# I create a country specific Rdata file to store all these country specific values:
+
+
+paste0("x_", country_name[1], "_", sep = "") <- data.frame(x=rnorm(100))
+
+
+
+
+paste("perf.a", country_name[1], sep="") <- data.frame(x)
+
+country_name <- "Ireland"
+
+save(vars_2_keep, file=paste("my_data_", country_name[1], ".rda", sep = ""))
+
+
+
+keep(country_name[1], sure = TRUE)
+
+
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+
+
+keep(vars_2_keep$x, sure = TRUE)
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
