@@ -115,24 +115,31 @@ n_wtp = 45000
 
 # I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
 
-source_rmd("Markov_3state.rmd")
+#source_rmd("Markov_3state.rmd")
+rmarkdown::render("Markov_3state.Rmd", clean = FALSE)
 
-```
+#keep(source_rmd, country_name, sure = TRUE)
 
-```{r}
 
-# For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
+# For building the Table in the paper, and for referring to parameter values in the paper, I saved the parameters I created in the RMarkdown file I source above in an RDA file named after the country I am studying:
+
+# now I load that RDA datafile for each country:
+
+#load(file='my_data_Ireland.rda')
+
+# I create a data frame of all the parameters in that file:
 
 vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
-      
+
+# And I name them after the country in question:
+
 paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
 
 
 # I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
 
 
-keep(Ireland_c_PFS_Folfox,  Ireland_c_PFS_Bevacizumab,  Ireland_c_OS_Folfiri,  Ireland_administration_cost,  Ireland_c_AE1,  Ireland_c_AE2,  Ireland_c_AE3,  Ireland_Minimum_c_PFS_Folfox,  Ireland_Maximum_c_PFS_Folfox,  Ireland_Minimum_c_OS_Folfiri,  Ireland_Maximum_c_OS_Folfiri,  Ireland_Minimum_c_PFS_Bevacizumab,  Ireland_Maximum_c_PFS_Bevacizumab,  Ireland_Minimum_administration_cost,  Ireland_Maximum_administration_cost,  Ireland_Minimum_c_AE1,  Ireland_Maximum_c_AE1,  Ireland_Minimum_c_AE2,  Ireland_Maximum_c_AE2,  Ireland_Minimum_c_AE3,  Ireland_Maximum_c_AE3,  Ireland_n_wtp,  Ireland_Incremental_Cost,  Ireland_Incremental_Effect,  Ireland_ICER,  Ireland_tc_d_Exp,  Ireland_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, source_rmd, sure = TRUE)
-# I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
+keep(Ireland_c_PFS_Folfox,  Ireland_c_PFS_Bevacizumab,  Ireland_c_OS_Folfiri,  Ireland_administration_cost,  Ireland_c_AE1,  Ireland_c_AE2,  Ireland_c_AE3,  Ireland_Minimum_c_PFS_Folfox,  Ireland_Maximum_c_PFS_Folfox,  Ireland_Minimum_c_OS_Folfiri,  Ireland_Maximum_c_OS_Folfiri,  Ireland_Minimum_c_PFS_Bevacizumab,  Ireland_Maximum_c_PFS_Bevacizumab,  Ireland_Minimum_administration_cost,  Ireland_Maximum_administration_cost,  Ireland_Minimum_c_AE1,  Ireland_Maximum_c_AE1,  Ireland_Minimum_c_AE2,  Ireland_Maximum_c_AE2,  Ireland_Minimum_c_AE3,  Ireland_Maximum_c_AE3,  Ireland_n_wtp,  Ireland_Incremental_Cost,  Ireland_Incremental_Effect,  Ireland_ICER,  Ireland_tc_d_Exp,  Ireland_tc_d_SoC, sure = TRUE)
 
 # I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
 
@@ -140,99 +147,113 @@ keep(Ireland_c_PFS_Folfox,  Ireland_c_PFS_Bevacizumab,  Ireland_c_OS_Folfiri,  I
 # Then, I repeat all of this exactly for the other countries I am studying:
 
 
-# 
-# 
-# 
-# # Germany:
-# 
-# 
-# 
-# country_name <- "Germany"
-# 
-# 
-# # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 1276.66 
-# c_PFS_Bevacizumab <- 1325.87  
-# c_OS_Folfiri <- 1309.64  
-# administration_cost <- 1794.40 
-# 
-# # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3837
-# c_AE2 <- 1816.37
-# c_AE3 <- 526.70 
-# 
-# # 3. Willingness to pay threshold
-# n_wtp = 78871   
-# 
-# 
-# # I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
-# 
-# source_rmd("Markov_3state.rmd")
-# 
-# 
-# # For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
-# 
-# vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
-# 
-# paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
-# 
-# 
-# # I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
-# 
-# 
-# keep(Germany_c_PFS_Folfox,  Germany_c_PFS_Bevacizumab,  Germany_c_OS_Folfiri,  Germany_administration_cost,  Germany_c_AE1,  Germany_c_AE2,  Germany_c_AE3,  Germany_Minimum_c_PFS_Folfox,  Germany_Maximum_c_PFS_Folfox,  Germany_Minimum_c_OS_Folfiri,  Germany_Maximum_c_OS_Folfiri,  Germany_Minimum_c_PFS_Bevacizumab,  Germany_Maximum_c_PFS_Bevacizumab,  Germany_Minimum_administration_cost,  Germany_Maximum_administration_cost,  Germany_Minimum_c_AE1,  Germany_Maximum_c_AE1,  Germany_Minimum_c_AE2,  Germany_Maximum_c_AE2,  Germany_Minimum_c_AE3,  Germany_Maximum_c_AE3,  Germany_n_wtp,  Germany_Incremental_Cost,  Germany_Incremental_Effect,  Germany_ICER,  Germany_tc_d_Exp,  Germany_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, source_rmd, sure = TRUE)
-# # I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
-# 
-# # I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
-# 
-# 
-# # Then, I repeat all of this exactly for the other countries I am studying:
-# 
-# 
-# # Spain:
-# 
-# country_name <- "Spain"
-# 
-# 
-# # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 285.54 
-# c_PFS_Bevacizumab <- 1325.87  
-# c_OS_Folfiri <- 139.58  
-# administration_cost <- 314.94 
-# 
-# # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 4885.95
-# c_AE2 <- 507.36
-# c_AE3 <- 95.03 
-# 
-# # 3. Willingness to pay threshold
-# n_wtp = 30000   
-# 
-# 
-# # I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
-# 
-# source_rmd("Markov_3state.rmd")
-# 
-# 
-# # For building the Table in the paper, I create country specific versions of the parameters to be included in the Table, as informed by the parameter names in the table:
-# 
-# vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
-# 
-# paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
-# 
-# 
-# # I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
-# 
-# 
-# keep(Spain_c_PFS_Folfox,  Spain_c_PFS_Bevacizumab,  Spain_c_OS_Folfiri,  Spain_administration_cost,  Spain_c_AE1,  Spain_c_AE2,  Spain_c_AE3,  Spain_Minimum_c_PFS_Folfox,  Spain_Maximum_c_PFS_Folfox,  Spain_Minimum_c_OS_Folfiri,  Spain_Maximum_c_OS_Folfiri,  Spain_Minimum_c_PFS_Bevacizumab,  Spain_Maximum_c_PFS_Bevacizumab,  Spain_Minimum_administration_cost,  Spain_Maximum_administration_cost,  Spain_Minimum_c_AE1,  Spain_Maximum_c_AE1,  Spain_Minimum_c_AE2,  Spain_Maximum_c_AE2,  Spain_Minimum_c_AE3,  Spain_Maximum_c_AE3,  Spain_n_wtp,  Spain_Incremental_Cost,  Spain_Incremental_Effect,  Spain_ICER,  Spain_tc_d_Exp,  Spain_tc_d_SoC, v_AIC_TTP, v_AIC_TTD, source_rmd, sure = TRUE)
-# # I need to think about how this fits with the rm(list = ls()) currently in my Rmarkdown file.
-# 
-# # I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
-# 
-# 
-# # Then, I repeat all of this exactly for the other countries I am studying:
-# 
-# # Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
+
+
+# Germany:
+
+country_name <- "Germany"
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 1276.66
+c_PFS_Bevacizumab <- 1325.87
+c_OS_Folfiri <- 1309.64
+administration_cost <- 1794.40
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 3837
+c_AE2 <- 1816.37
+c_AE3 <- 526.70
+
+# 3. Willingness to pay threshold
+n_wtp = 78871
+
+
+# I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
+
+#source_rmd("Markov_3state.rmd")
+
+rmarkdown::render("Markov_3state.Rmd", clean = FALSE)
+
+#keep(source_rmd, country_name, sure = TRUE)
+
+
+# For building the Table in the paper, and for referring to parameter values in the paper, I saved the parameters I created in the RMarkdown file I sourced above in an RDA file named after the country I am studying:
+
+# now I load that RDA datafile for each country:
+
+#load(file='my_data_Germany.rda')
+
+# I create a data frame of all the parameters in that file:
+
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+
+# And I name them after the country in question:
+
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+
+# I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+
+
+keep(Germany_c_PFS_Folfox,  Germany_c_PFS_Bevacizumab,  Germany_c_OS_Folfiri,  Germany_administration_cost,  Germany_c_AE1,  Germany_c_AE2,  Germany_c_AE3,  Germany_Minimum_c_PFS_Folfox,  Germany_Maximum_c_PFS_Folfox,  Germany_Minimum_c_OS_Folfiri,  Germany_Maximum_c_OS_Folfiri,  Germany_Minimum_c_PFS_Bevacizumab,  Germany_Maximum_c_PFS_Bevacizumab,  Germany_Minimum_administration_cost,  Germany_Maximum_administration_cost,  Germany_Minimum_c_AE1,  Germany_Maximum_c_AE1,  Germany_Minimum_c_AE2,  Germany_Maximum_c_AE2,  Germany_Minimum_c_AE3,  Germany_Maximum_c_AE3,  Germany_n_wtp,  Germany_Incremental_Cost,  Germany_Incremental_Effect,  Germany_ICER,  Germany_tc_d_Exp,  Germany_tc_d_SoC, sure = TRUE)
+
+# I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
+
+
+
+# Spain:
+
+country_name <- "Spain"
+
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 285.54
+c_PFS_Bevacizumab <- 1325.87
+c_OS_Folfiri <- 139.58
+administration_cost <- 314.94
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 4885.95
+c_AE2 <- 507.36
+c_AE3 <- 95.03
+
+# 3. Willingness to pay threshold
+n_wtp = 30000
+
+
+# I apply the source_rmd function to source the core R markdown CEA document when costs are specific to the country of choice.
+
+#source_rmd("Markov_3state.rmd")
+rmarkdown::render("Markov_3state.Rmd", clean = FALSE)
+
+#keep(source_rmd, country_name, sure = TRUE)
+
+
+# For building the Table in the paper, and for referring to parameter values in the paper, I saved the parameters I created in the RMarkdown file I sourced above in an RDA file named after the country I am studying:
+
+# now I load that RDA datafile for each country:
+
+#load(file='my_data_Spain.rda')
+
+# I create a data frame of all the parameters in that file:
+
+vars_2_keep <- data.frame(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC)
+
+# And I name them after the country in question:
+
+paste(country_name, colnames(vars_2_keep), sep="_") %=% vars_2_keep
+
+
+# I remove everything [rm( )] everything except the specific objects I include in the write-up analysis, to create each parameter from scratch, this ensures that there arent situations where a variable is created once when the rmarkdown file is first run, and then iterated on and increased or changed in some way from this starting point in the second and third run.
+
+
+keep(Spain_c_PFS_Folfox,  Spain_c_PFS_Bevacizumab,  Spain_c_OS_Folfiri,  Spain_administration_cost,  Spain_c_AE1,  Spain_c_AE2,  Spain_c_AE3,  Spain_Minimum_c_PFS_Folfox,  Spain_Maximum_c_PFS_Folfox,  Spain_Minimum_c_OS_Folfiri,  Spain_Maximum_c_OS_Folfiri,  Spain_Minimum_c_PFS_Bevacizumab,  Spain_Maximum_c_PFS_Bevacizumab,  Spain_Minimum_administration_cost,  Spain_Maximum_administration_cost,  Spain_Minimum_c_AE1,  Spain_Maximum_c_AE1,  Spain_Minimum_c_AE2,  Spain_Maximum_c_AE2,  Spain_Minimum_c_AE3,  Spain_Maximum_c_AE3,  Spain_n_wtp,  Spain_Incremental_Cost,  Spain_Incremental_Effect,  Spain_ICER,  Spain_tc_d_Exp,  Spain_tc_d_SoC, sure = TRUE)
+
+# I use the keep function from the gdata package as described here: https://stackoverflow.com/questions/6190051/how-can-i-remove-all-objects-but-one-from-the-workspace-in-r/7205040#7205040
+
+
+
+# Now I can look at the ICERs and graphs, etc., from each of these countries and apply them in the appropriate places in this R Markdown document for the academic report.
 ```
 
 ```{r}
@@ -245,173 +266,173 @@ keep(Ireland_c_PFS_Folfox,  Ireland_c_PFS_Bevacizumab,  Ireland_c_OS_Folfiri,  I
 #txtsize - base text size
 ```
 
-```{r, child="Markov_3state.Rmd", include=FALSE}
+```{r}
 
-# Bits for the paper:
-
-# Appendix:
-
-
-
-
-# Compare the fit of the different distributions to the survival data numerically based on the AIC
-
-v_AIC_TTP
-(v_AIC_TTP <- c(
-  exp      = l_TTP_SoC_exp$AIC,
-  gamma    = l_TTP_SoC_gamma$AIC,
-  gompertz = l_TTP_SoC_gompertz$AIC,
-  llogis   = l_TTP_SoC_llogis$AIC,
-  lnorm    = l_TTP_SoC_lnorm$AIC,
-  weibull  = l_TTP_SoC_weibull$AIC
-))
-
-
-v_AIC_TTD
-(v_AIC_TTD <- c(
-  exp      = l_TTP_SoC_exp$AIC,
-  gamma    = l_TTP_SoC_gamma$AIC,
-  gompertz = l_TTP_SoC_gompertz$AIC,
-  llogis   = l_TTP_SoC_llogis$AIC,
-  lnorm    = l_TTP_SoC_lnorm$AIC,
-  weibull  = l_TTP_SoC_weibull$AIC
-))
-
-
-# I also need to run plot(l_TTP_SoC_exp,  and plot(l_TTD_SoC_exp, here with the same logic as why I run these, that is, the data is available here, so I run these here.
-
-
-#05 Inspecting the fits:
-
-# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
-
-# Inspect fit based on visual fit
-colors <- rainbow(6)
-plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
-lines(l_TTP_SoC_gamma,    col = colors[2], ci = FALSE)
-lines(l_TTP_SoC_gompertz, col = colors[3], ci = FALSE)
-lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
-lines(l_TTP_SoC_lnorm,    col = colors[5], ci = FALSE)
-lines(l_TTP_SoC_weibull,  col = colors[6], ci = FALSE)
-legend("right",
-       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
-       col    = colors,
-       lty    = 1,
-       bty    = "n")
-
-
-
-#08 Inspecting the fits:
-
-# And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. going to dead.
-
-# Inspect fit based on visual fit
-colors <- rainbow(6)
-plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
-lines(l_TTD_SoC_gamma,    col = colors[2], ci = FALSE)
-lines(l_TTD_SoC_gompertz, col = colors[3], ci = FALSE)
-lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
-lines(l_TTD_SoC_lnorm,    col = colors[5], ci = FALSE)
-lines(l_TTD_SoC_weibull,  col = colors[6], ci = FALSE)
-legend("right",
-       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
-       col    = colors,
-       lty    = 1,
-       bty    = "n")
-#ggsave("Inspecting_Fits_OS.png", width = 4, height = 4, dpi=300)
-#while (!is.null(dev.list()))  dev.off()
-#png(paste("Inspecting_Fits_OS", ".png"))
-#dev.off()
-
-
-
-
-#Draw the state-transition cohort model
-
-diag_names_states  <- c("PFS", "OS", "Dead")
-
-m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
-
-m_P_diag["PFS", "PFS" ]  = ""
-m_P_diag["PFS", "OS" ]     = ""
-m_P_diag["PFS", "Dead" ]     = ""
-m_P_diag["OS", "OS" ]     = ""
-m_P_diag["OS", "Dead" ]     = ""
-m_P_diag["Dead", "Dead" ]     = ""
-layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
-plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
-        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
-        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
-#ggsave("Markov_Model_Diagram.png", width = 4, height = 4, dpi=300)
-#while (!is.null(dev.list()))  dev.off()
-#png(paste("Markov_Model_Diagram", ".png"))
-#dev.off()
-
-
-
-#06 Compute and Plot Epidemiological Outcomes
-
-#06.1 Cohort trace
-
-# So, we'll plot the above Markov model for standard of care (m_M_SoC) to show our cohort distribution over time, i.e. the proportion of our cohort in the different health states over time.
-
-# If I wanted to do the same for exp, I would just copy this code chunk and replace m_M_SoC with m_M_Exp
-
-# Here is the simplest code that would give me what I want:
-
-# matplot(m_M_SoC, type = 'l', 
-        # ylab = "Probability of state occupancy",
-        # xlab = "Cycle",
-        # main = "Cohort Trace", lwd = 3)  # create a plot of the data
-# legend("right", v_names_states, col = c("black", "red", "green"), 
-       # lty = 1:3, bty = "n")  # add a legend to the graph
-
-# But I would like to add more:
-
-# Plotting the Markov cohort traces
-matplot(m_M_SoC, 
-        type = "l", 
-        ylab = "Probability of state occupancy",
-        xlab = "Cycle",
-        main = "Makrov Cohort Traces",
-        lwd  = 3,
-        lty  = 1) # create a plot of the data
-matplot(m_M_Exp, 
-        type = "l", 
-        lwd  = 3,
-        lty  = 3,
-        add  = TRUE) # add a plot of the experimental data ontop of the above plot
-legend("right", 
-       legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
-       col    = rep(c("black", "red", "green"), 2), 
-       lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
-       lwd    = 3,
-       bty    = "n")
-#ggsave("Markov_Cohort_Traces.png", width = 4, height = 4, dpi=300)
-#while (!is.null(dev.list()))  dev.off()
-# png(paste("Markov_Cohort_Traces", ".png"))
-# dev.off()
-
-# plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
-#abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
-#abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
-# The vertical line shows you when your progressed (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion progressed is the highest and putting a vertical line there).
-# (It's probably not necessary for my own analysis and I can comment these two lines out if I'm not going to use it).
-
-# So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
-
-
-
-
-
-
-
-
-# I don't save these values using "keep" as they'll be leftover from running the code, and should always come out the same as they are from the ANGIOPREDICT data on peoples survival and not dependent on the country we are studying, so the last country studied should have them saved on the final run of the model.
-
-# Similarly for life_years_days_gained life_years_soc, life_years_exp
-
-
+# # Bits for the paper:
+# 
+# # Appendix:
+# 
+# 
+# 
+# 
+# # Compare the fit of the different distributions to the survival data numerically based on the AIC
+# 
+# v_AIC_TTP
+# (v_AIC_TTP <- c(
+#   exp      = l_TTP_SoC_exp$AIC,
+#   gamma    = l_TTP_SoC_gamma$AIC,
+#   gompertz = l_TTP_SoC_gompertz$AIC,
+#   llogis   = l_TTP_SoC_llogis$AIC,
+#   lnorm    = l_TTP_SoC_lnorm$AIC,
+#   weibull  = l_TTP_SoC_weibull$AIC
+# ))
+# 
+# 
+# v_AIC_TTD
+# (v_AIC_TTD <- c(
+#   exp      = l_TTP_SoC_exp$AIC,
+#   gamma    = l_TTP_SoC_gamma$AIC,
+#   gompertz = l_TTP_SoC_gompertz$AIC,
+#   llogis   = l_TTP_SoC_llogis$AIC,
+#   lnorm    = l_TTP_SoC_lnorm$AIC,
+#   weibull  = l_TTP_SoC_weibull$AIC
+# ))
+# 
+# 
+# # I also need to run plot(l_TTP_SoC_exp,  and plot(l_TTD_SoC_exp, here with the same logic as why I run these, that is, the data is available here, so I run these here.
+# 
+# 
+# #05 Inspecting the fits:
+# 
+# # And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. progression.
+# 
+# # Inspect fit based on visual fit
+# colors <- rainbow(6)
+# plot(l_TTP_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
+# lines(l_TTP_SoC_gamma,    col = colors[2], ci = FALSE)
+# lines(l_TTP_SoC_gompertz, col = colors[3], ci = FALSE)
+# lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
+# lines(l_TTP_SoC_lnorm,    col = colors[5], ci = FALSE)
+# lines(l_TTP_SoC_weibull,  col = colors[6], ci = FALSE)
+# legend("right",
+#        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+#        col    = colors,
+#        lty    = 1,
+#        bty    = "n")
+# 
+# 
+# 
+# #08 Inspecting the fits:
+# 
+# # And this would make sense per the below diagram - which looks at the proportion of individuals who have the event, i.e. going to dead.
+# 
+# # Inspect fit based on visual fit
+# colors <- rainbow(6)
+# plot(l_TTD_SoC_exp,       col = colors[1], ci = FALSE, ylab = "Event-free proportion", xlab = "Time in days", las = 1)
+# lines(l_TTD_SoC_gamma,    col = colors[2], ci = FALSE)
+# lines(l_TTD_SoC_gompertz, col = colors[3], ci = FALSE)
+# lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
+# lines(l_TTD_SoC_lnorm,    col = colors[5], ci = FALSE)
+# lines(l_TTD_SoC_weibull,  col = colors[6], ci = FALSE)
+# legend("right",
+#        legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+#        col    = colors,
+#        lty    = 1,
+#        bty    = "n")
+# #ggsave("Inspecting_Fits_OS.png", width = 4, height = 4, dpi=300)
+# #while (!is.null(dev.list()))  dev.off()
+# #png(paste("Inspecting_Fits_OS", ".png"))
+# #dev.off()
+# 
+# 
+# 
+# 
+# #Draw the state-transition cohort model
+# 
+# diag_names_states  <- c("PFS", "OS", "Dead")
+# 
+# m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+# 
+# m_P_diag["PFS", "PFS" ]  = ""
+# m_P_diag["PFS", "OS" ]     = ""
+# m_P_diag["PFS", "Dead" ]     = ""
+# m_P_diag["OS", "OS" ]     = ""
+# m_P_diag["OS", "Dead" ]     = ""
+# m_P_diag["Dead", "Dead" ]     = ""
+# layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+# plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
+#         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
+#         cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+# #ggsave("Markov_Model_Diagram.png", width = 4, height = 4, dpi=300)
+# #while (!is.null(dev.list()))  dev.off()
+# #png(paste("Markov_Model_Diagram", ".png"))
+# #dev.off()
+# 
+# 
+# 
+# #06 Compute and Plot Epidemiological Outcomes
+# 
+# #06.1 Cohort trace
+# 
+# # So, we'll plot the above Markov model for standard of care (m_M_SoC) to show our cohort distribution over time, i.e. the proportion of our cohort in the different health states over time.
+# 
+# # If I wanted to do the same for exp, I would just copy this code chunk and replace m_M_SoC with m_M_Exp
+# 
+# # Here is the simplest code that would give me what I want:
+# 
+# # matplot(m_M_SoC, type = 'l', 
+#         # ylab = "Probability of state occupancy",
+#         # xlab = "Cycle",
+#         # main = "Cohort Trace", lwd = 3)  # create a plot of the data
+# # legend("right", v_names_states, col = c("black", "red", "green"), 
+#        # lty = 1:3, bty = "n")  # add a legend to the graph
+# 
+# # But I would like to add more:
+# 
+# # Plotting the Markov cohort traces
+# matplot(m_M_SoC, 
+#         type = "l", 
+#         ylab = "Probability of state occupancy",
+#         xlab = "Cycle",
+#         main = "Makrov Cohort Traces",
+#         lwd  = 3,
+#         lty  = 1) # create a plot of the data
+# matplot(m_M_Exp, 
+#         type = "l", 
+#         lwd  = 3,
+#         lty  = 3,
+#         add  = TRUE) # add a plot of the experimental data ontop of the above plot
+# legend("right", 
+#        legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
+#        col    = rep(c("black", "red", "green"), 2), 
+#        lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
+#        lwd    = 3,
+#        bty    = "n")
+# #ggsave("Markov_Cohort_Traces.png", width = 4, height = 4, dpi=300)
+# #while (!is.null(dev.list()))  dev.off()
+# # png(paste("Markov_Cohort_Traces", ".png"))
+# # dev.off()
+# 
+# # plot a vertical line that helps identifying at which cycle the prevalence of OS is highest
+# #abline(v = which.max(m_M_SoC[, "OS"]), col = "gray")
+# #abline(v = which.max(m_M_Exp[, "OS"]), col = "black")
+# # The vertical line shows you when your progressed (OS) population is the greatest that it will ever be, but it can be changed from which.max to other things (so it is finding which cycle the proportion progressed is the highest and putting a vertical line there).
+# # (It's probably not necessary for my own analysis and I can comment these two lines out if I'm not going to use it).
+# 
+# # So, you can see in the graph everyone starts in the PFS state, but that this falls over time as people progress and leave this state, then you see OS start to peak up but then fall again as people leave this state to go into the dead state, which is an absorbing state and by the end will include everyone.
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# 
+# # I don't save these values using "keep" as they'll be leftover from running the code, and should always come out the same as they are from the ANGIOPREDICT data on peoples survival and not dependent on the country we are studying, so the last country studied should have them saved on the final run of the model.
+# 
+# # Similarly for life_years_days_gained life_years_soc, life_years_exp
+# 
+# 
 
 
 
