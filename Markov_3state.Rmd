@@ -3,7 +3,8 @@ title: 'Bevacizumab for Metastatic Colorectal Cancer with Chromosomal Instabilit
   An Cost-Effectiveness Analysis of a Novel Subtype across the COLOSSUS Partner Countries'
 author: "Jonathan Briody (1) | Kathleen Bennett (1) | Lesley Tilson (2)"
 output:
-  html_document: default
+  html_document: 
+    keep_md: yes
   pdf_document: default
   word_document: default
 editor_options:
@@ -78,8 +79,12 @@ The EU Commission takes no responsibility for any use made of the information se
 ```{r setup, include=FALSE}
 #00 Set up general state of play
 
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, eval = T)
-
+knitr::opts_chunk$set(
+	eval = T,
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
 options(knitr.duplicate.label = "allow")
 # per: https://bookdown.org/yihui/rmarkdown-cookbook/duplicate-label.html
 
@@ -97,7 +102,7 @@ options(knitr.duplicate.label = "allow")
 ```{r}
 #rm(list = ls())  
 # clear memory (removes all the variables from the work space) - I turn this off on the understanding that the markdown doc that calls this file will clear memory.
-options(scipen=999) 
+#options(scipen=999) 
 # turns scientific notation off
 # options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
 ```
@@ -140,8 +145,6 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # {r} # if (!require('pacman')) install.packages('pacman'); library(pacman)  # # use this package to conveniently install other packages # # load (install if required) packages from CRAN # p_load("diagram", "dampack", "reshape2") # # library(devtools) # devtools is necessary to install from github. # # install_github("DARTH-git/darthtools", force = TRUE) # Uncomment if there is a newer version # p_load_gh("DARTH-git/darthtools")
 ```
 
-# 
-
 ```{r}
 #01.5 Load functions
 
@@ -150,7 +153,81 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # There is a functions RMD for the PSA stuff below, instead of loading it lower down, I could just place it here, and place all the necessary packages above and then I would only ever need 1 R Markdown document for the entire study. Will think about doing this.
 ```
 
-# 
+```{r}
+
+# Country-specific cost data:
+
+
+# Basically, what I have is 1 Rmarkdown document with appropriate CEA code, but 3 countries I want to separately apply this code to, because costs (and willingness to pay thresholds) are different in each of these 3 countries.
+
+# To do this, I feed in the cost data from each country for parameters that differ across countries, just uncomment the country you want to run this code for:
+
+
+# Ireland:
+
+country_name <- "Ireland"
+
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 307.81 
+c_PFS_Bevacizumab <- 2580.38  
+c_OS_Folfiri <- 326.02  
+administration_cost <- 365.00 
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03 
+
+# 3. Willingness to pay threshold
+n_wtp = 45000
+
+
+
+
+# Germany:
+
+# country_name <- "Germany"
+
+# 1. Cost of treatment in this country
+# c_PFS_Folfox <- 1276.66
+# c_PFS_Bevacizumab <- 1325.87
+# c_OS_Folfiri <- 1309.64
+# administration_cost <- 1794.40
+
+# 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 3837
+# c_AE2 <- 1816.37
+# c_AE3 <- 526.70
+
+# 3. Willingness to pay threshold
+# n_wtp = 78871
+
+
+
+# Spain:
+
+#country_name <- "Spain"
+
+
+# 1. Cost of treatment in this country
+#c_PFS_Folfox <- 285.54
+#c_PFS_Bevacizumab <- 1325.87
+#c_OS_Folfiri <- 139.58
+#administration_cost <- 314.94
+
+# 2. Cost of treating the AE conditional on it occurring
+#c_AE1 <- 4885.95
+#c_AE2 <- 507.36
+#c_AE3 <- 95.03
+
+# 3. Willingness to pay threshold
+#n_wtp = 30000
+
+
+
+
+```
 
 ```{r}
 
@@ -468,9 +545,60 @@ summary(survfit(Surv(time, status) ~ 1, data = df_TTD), times = 1500)
 # m_M_SoC
 
 # This also answers the question of how exactly probabilities are created in my code, the m_P_SoC is something that, when multiplied by 1, (when at the start 100% of our cohort are in the PFS state) gives us the first probability from that 100%, and the next part or row of that m_P_SoC probability is then multiplied by the proportion who are in the different states in the next row for the cohort (given their movements last time having been multiplied by m_P_SoC) which gives us the second probability multiplied by the proportion of that 1 (or 100%) in each state, and so on, and so forth, for each wave.
-```
 
-# 
+
+
+
+
+# Median Survival Time:
+
+# An explanation of how best to estimate median survival time can be found here under "Estimating median survival time" https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\COLOSSUS_Model\Survival Analysis in R.pdf
+
+# We want to calculate the median survival time WITH bevacizumab, i.e., the median PFS and OS with bev to compare it to the median PFS and OS in other studies with bevacizumab but without our chromosomal instability subtypes, so that we can make comparisons.
+
+# So, we make 2 new excel files of data and store them in the same folder from the Angiopredict data Ian gave us and which we used to make our TTP and TTD data.
+
+library(foreign, lib.loc = "C:/Program Files/R/R-4.2.2/library")
+
+OS_WITHBEV <- read_excel("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/AngioPredict/Model Data/OS_WITHBEV.xlsx")
+
+PFS_WITHBEV <- read_excel("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/AngioPredict/Model Data/PFS_WITHBEV.xlsx")
+
+# Then we calculate the median survival time as explained by this tutorial:
+
+survfit(formula = Surv(time, status) ~ 1, data = PFS_WITHBEV)
+survfit(formula = Surv(time, status) ~ 1, data = OS_WITHBEV)
+
+
+# > survfit(formula = Surv(time, status) ~ 1, data = PFS_WITHBEV)
+# Call: survfit(formula = Surv(time, status) ~ 1, data = PFS_WITHBEV)
+
+#        n events median 0.95LCL 0.95UCL
+# [1,] 165    140    325     291     391
+
+# > survfit(formula = Surv(time, status) ~ 1, data = OS_WITHBEV)
+# Call: survfit(formula = Surv(time, status) ~ 1, data = OS_WITHBEV)
+
+#        n events median 0.95LCL 0.95UCL
+# [1,] 165    121    701     617     864
+
+# So, the median survival time for PFS is 325 days and for OS is 701 days, in months this is:
+
+# PFS: 10.6849 months
+# OS: 23.0466 months
+
+# Divide the time value by 30.417 per Google: https://www.google.ie/search?q=701+days+in+months&hl=en&dcr=0&sxsrf=AJOqlzXLCpvJk_MG8EdJn_6CogwX8LL7Ew%3A1678014589926&ei=fXgEZK-eOLCKhbIP2aCkuAI&oq=701+days&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAxgCMgUIABCABDIFCAAQgAQyBggAEBYQHjIGCAAQFhAeMgYIABAWEB4yBggAEBYQHjIGCAAQFhAeMgYIABAWEB4yCAgAEBYQHhAPMggIABAWEB4QDzoECCMQJzoLCC4QgAQQxwEQrwE6BAgAEEM6CQgAEBYQHhDxBEoECEEYAFCPBFicIGDuLWgBcAF4AIABUogB_wOSAQE4mAEAoAECoAEBwAEB&sclient=gws-wiz-serp
+
+
+
+
+
+
+
+
+
+
+```
 
 ```{r}
 # Time-to-Progression (TTP):
@@ -494,8 +622,6 @@ l_TTP_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 
 
 ```
-
-# 
 
 ```{r}
 
@@ -561,8 +687,6 @@ legend("right",
 
 ```
 
-# 
-
 ```{r}
 
 #06 Saving the survival parameters for use in the model:
@@ -606,8 +730,6 @@ l_TTD_SoC_lnorm    <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TT
 l_TTD_SoC_weibull  <- flexsurvreg(formula = Surv(time, status) ~ 1, data = df_TTD, dist = "weibull")
 
 ```
-
-# 
 
 ```{r}
 #08 Inspecting the fits:
@@ -654,8 +776,6 @@ legend("right",
 # Weibull has the best visual and numerical fit
 ```
 
-# 
-
 ```{r}
 #09 Saving the survival parameters for use in the model:
 
@@ -673,8 +793,6 @@ l_TTD_SoC_weibull$coefficients
 coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
-
-#### 
 
 ```{r}
 #03 Input model parameters
@@ -1229,24 +1347,60 @@ p_PFSOS_Exp
 ```{r}
 #Draw the state-transition cohort model
 
-diag_names_states  <- c("PFS", "OS", "Dead")
+diag_names_states  <- c("First Line\nTreatment", "Second Line\nTreatment", "Death")
 
 m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
 
-m_P_diag["PFS", "PFS" ]  = ""
-m_P_diag["PFS", "OS" ]     = ""
-m_P_diag["PFS", "Dead" ]     = ""
-m_P_diag["OS", "OS" ]     = ""
-m_P_diag["OS", "Dead" ]     = ""
-m_P_diag["Dead", "Dead" ]     = ""
+m_P_diag["First Line\nTreatment", "First Line\nTreatment" ]  = ""
+m_P_diag["First Line\nTreatment", "Second Line\nTreatment" ]     = ""
+m_P_diag["First Line\nTreatment", "Death" ]     = ""
+m_P_diag["Second Line\nTreatment", "Second Line\nTreatment" ]     = ""
+m_P_diag["Second Line\nTreatment", "Death" ]     = ""
+m_P_diag["Death", "Death" ]     = ""
 layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
 plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
         latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
-        cex = 0.8, box.cex = 0.7, lwd = 0.6, main = "Figure 1")
+        cex = 0.8, box.cex = 0.7, lwd = 0.6)
+
+
+title("Figure 1", line= -160, cex.main = 1.5, font.main = 1) # I make this line number really high to hide the title.
+
+
+
+```
+
+```{r}
+#Draw the state-transition cohort model
+
+diag_names_states  <- c("First Line\nTreatment", "Second Line\nTreatment", "Death")
+
+m_P_diag <- matrix(0, nrow = n_states, ncol = n_states, dimnames = list(diag_names_states, diag_names_states))
+
+m_P_diag["First Line\nTreatment", "First Line\nTreatment" ]  = ""
+m_P_diag["First Line\nTreatment", "Second Line\nTreatment" ]     = ""
+m_P_diag["First Line\nTreatment", "Death" ]     = ""
+m_P_diag["Second Line\nTreatment", "Second Line\nTreatment" ]     = ""
+m_P_diag["Second Line\nTreatment", "Death" ]     = ""
+m_P_diag["Death", "Death" ]     = ""
+layout.fig <- c(2, 1) # <- changing the numbers here changes the diagram layout, so mess with these until I'm happy. It basically decides how many bubbles will be on each level, so here 1 bubble, followed by 3 bubbles, followed by 2 bubbles, per the diagram for 1, 3, 2.
+plotmat(t(m_P_diag), t(layout.fig), self.cex = 0.5, curve = 0, arr.pos = 0.76,
+        latex = T, arr.type = "curved", relsize = 0.85, box.prop = 0.9,
+        cex = 0.8, box.cex = 0.7, lwd = 0.6)
 #ggsave("Markov_Model_Diagram.png", width = 4, height = 4, dpi=300)
 #while (!is.null(dev.list()))  dev.off()
 #png(paste("Markov_Model_Diagram", ".png"))
 #dev.off()
+
+title("Figure 1", line= -16, cex.main = 1.5, font.main = 1)
+
+# The last line of the code is adding a title to the plot created in the previous line. It sets the text of the main title to "Figure 1" using the title() function. The line argument specifies the position of the title in the y-axis, where negative values place it further away from the plot and positive values closer to it. The cex.main argument sets the size of the main title text, and font.main sets the font of the main title text.
+
+# In R, the font.main argument is used to set the font style for the main title of a plot. Here are all the possible values and their meanings:
+# 
+# 1 - Normal (default value). The font appears in the regular font style.
+# 2 - Bold. The font appears in the bold font style.
+# 3 - Italic. The font appears in the italic font style.
+# 4 - Bold and italic. The font appears in the bold and italic font style.
 ```
 
 ```{r}
@@ -1312,8 +1466,6 @@ head(m_M_SoC)
 head(m_M_Exp)
 ```
 
-## 
-
 ```{r}
 # 04.2 Transition probability matrix
 
@@ -1365,8 +1517,6 @@ head(m_P_Exp)
 
 
 ```
-
-## 
 
 ```{r}
 
@@ -1619,8 +1769,6 @@ grid(nx = n_cycle, ny = 10, col = "lightgray", lty = "dotted", lwd = par("lwd"),
 
 ```
 
-## 
-
 ```{r}
 
 #06.2.1 Life Expectancy (LE)
@@ -1717,9 +1865,9 @@ p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03 
+c_AE1 <- c_AE1
+c_AE2 <- c_AE2
+c_AE3 <- c_AE3 
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
 
@@ -1915,8 +2063,6 @@ sum(v_tc_Exp)
 
 ```
 
-## 
-
 ```{r}
 
 #07.2 Discounted Mean Costs and QALYs
@@ -2066,8 +2212,6 @@ while (!is.null(dev.list()))  dev.off()
 # When we plot it we have 2 strategies it is possible that something would be off the frontier, would be weakly dominated or strongly dominated, with just a few strategies it's not necessarily that impressive, but with lots of strategies then dampack can be helpful.
 
 ```
-
-## 
 
 ```{r}
 
@@ -2713,8 +2857,6 @@ while (!is.null(dev.list()))  dev.off()
 # Again, this is something that doesnt work too well with ICERs, with a NMB it is easy to see what the optimal strategy is, with am ICER it's not so easy unless you are telling your code what the willingness to pay threshold is, and it's doing the ICER calculation and then comparing this to the WTP threshold to see which approach is most cost-effective. But I think this code is really set up for NMB and telling you what parameter values give you higher NMB values and which treatment strategies these NMB's belong to. 
 
 ```
-
-## 
 
 ## 08.4 Two-way sensitivity analysis (TWSA)
 
@@ -4185,8 +4327,6 @@ for(i_run in 1:n_runs){
 }
 ```
 
-## 
-
 ```{r}
 
 #09.2 Create PSA object for dampack
@@ -4318,6 +4458,18 @@ EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
 # I don't plot this anymore.
 ```
 
+```{r}
+
+# For building the Table in the paper, and for referring to parameter values in the paper, I save the parameters I created in an RDA file named after the country I am studying:
+
+#save to rda file
+#save(c_PFS_Folfox, c_PFS_Bevacizumab, c_OS_Folfiri, administration_cost, c_AE1, c_AE2, c_AE3, Minimum_c_PFS_Folfox, Maximum_c_PFS_Folfox, Minimum_c_OS_Folfiri, Maximum_c_OS_Folfiri, Minimum_c_PFS_Bevacizumab, Maximum_c_PFS_Bevacizumab, Minimum_administration_cost, Maximum_administration_cost, Minimum_c_AE1, Maximum_c_AE1, Minimum_c_AE2, Maximum_c_AE2, Minimum_c_AE3, Maximum_c_AE3, n_wtp, Incremental_Cost, Incremental_Effect, ICER, tc_d_Exp, tc_d_SoC, country_name, file=paste("my_data_", country_name[1], ".rda", sep = ""))
+
+# This creates an RDA file with all the parameters I created in this file in it.
+
+# Next, in my Markdown file that calls this file, I will read in these parameters and name each of them after the country I am studying, to give me country specific values in my analysis.
+```
+
 ## 08.3.3 Table Describing Parameters
 
 To build a Table describing parameters, you click on the Table button at the top, and design it in there.
@@ -4329,8 +4481,6 @@ Per: [Putting the value of a variable into a table in R Markdown, rather than it
 
 Line 320 of this: <https://github.com/DARTH-git/cohort-modeling-tutorial-intro/blob/main/manuscript/cSTM_Tutorial_Intro.Rmd> is informative when viewing the final document on page 7 here: <https://arxiv.org/pdf/2001.07824.pdf>
 
-This also includes within-cycle correction (WCC) using Simpson's 1/3 rule, which I probably don't want to bother applying, but at least I know it's an option.
-
 Some helpful tips on using math notation in R Markdown.
 
 <https://rpruim.github.io/s341/S19/from-class/MathinRmd.html>
@@ -4340,7 +4490,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
+|------------|------------|------------|------------|------------|------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
