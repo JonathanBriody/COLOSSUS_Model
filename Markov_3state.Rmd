@@ -2049,6 +2049,100 @@ v_tu_Exp <- v_tu_Exp/26.0714
 
 # James, I'd like your thoughts on what I've done here and whether this seems reasonable.
 
+#I've figured it out for utility, lets say my utility value is 10, in my code I've adjusted by dividing by 26.0714, so a utility of 10/26.0714 gives 0.3835621, however, when you ask New Bing What percentage of a year is 14 days it provides the following response: To calculate the percentage of a year that is 14 days, you can use the formula:
+
+#= YEARFRAC ( DATE ( YEAR ( date),1,1), date)
+
+#This formula returns the fractional years between two dates as a decimal value1. For example, if the date is January 15, 2021, the formula returns 0.0388888888888889, which is 4% when formatted as a percentage.
+
+#To get the percentage of a year that is 14 days, you can use any date that is 14 days after the start of the year. For example, you can use January 15, 2021 as the date and get:
+
+#= YEARFRAC ( DATE (2021,1,1), DATE (2021,1,15))
+
+# This returns 0.0388888888888889, which is 4% when formatted as a percentage.
+
+# Alternatively, you can use an online percentage calculator2 or a days to years converter3 to get the same result. That is, 0.3888889. When you instead MULTIPLY by this value, like he multiplies in the R code, you get 10*0.0388888888888889 = 0.3888889. So, the takeaway is that I was doing the same thing as Koen all along, where he was mulplying his utility values by the percentage of a year they were to scale by cycle length, I was dividing by how many fortnights in a year to scale cycle length. 
+
+# The R code here also multiplies utility by cycle length as informed by the same utility as a proportion of time as described above: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Intermediary R-HTA Modelling\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation 
+
+# State Rewards ----
+## Scale by the cycle length ----
+#* Vector of state utilities under strategy SoC
+# v_u_SoC    <- c(H  = u_H, 
+#                 S1 = u_S1, 
+#                 S2 = u_S2, 
+#                 D  = u_D) * cycle_length
+
+
+# The question is, should I also be adjusting costs? As the R code here scales utility AND costs by cycle length: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Intermediary R-HTA Modelling\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation:
+
+# State Rewards ----
+## Scale by the cycle length ----
+#* Vector of state costs under strategy SoC
+# v_c_SoC    <- c(H  = c_H, 
+#                S1 = c_S1,
+#                S2 = c_S2, 
+#                D  = c_D) * cycle_length
+
+# Although the R code HERE doesnt, while it still adjusts utility, which may be due to the fact that utility is annual, whereas costs are in cycle values: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\GitHub\ISPOR_webinar_R-master\oncologySemiMarkov_illustration:
+
+## 3.5 Health economic outcomes ----
+
+# Calculate the costs and QALYs per cycle by multiplying m_M with the cost/utility vectors for the different states
+# - note that to obtain QALYs, the utility needs to be mutiplied by the cycle length as well
+# v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
+# v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
+
+# v_tu_SoC <- m_M_SoC %*% c(u_F, u_P, u_D) * t_cycle
+# v_tu_Exp <- m_M_Exp %*% c(u_F, u_P, u_D) * t_cycle
+
+
+# This may be due to the simple fact that the costs were a per cycle value when entered into the model:
+
+# Costs  
+# c_F_SoC   <- 400    # cost of one cycle in progression-free state, under the standard of care
+# c_F_Exp   <- 800    # cost of one cycle in progression-free state, under the experimental treatment
+# c_P       <- 1000   # cost of one cycle in progression state
+# c_D       <- 0      # cost of one cycle in dead state
+
+# Health utility values
+# u_F       <- 0.8    # utility when healthy 
+# u_P       <- 0.5    # utility when sick
+# u_D       <- 0      # utility when dead
+
+# Whereas utilities were a per year value that we needed to convert to a per cycle value, as seen by the fact that we multiply by the below:
+
+# t_cycle <- 1/4      # cycle length of 3 months (in years)                        
+
+
+# This R code multiplies utility and costs by cycle length as informed by the same utility as a proportion of time as described above: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Intermediary R-HTA Modelling\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation 
+
+# State Rewards ----
+## Scale by the cycle length ----
+#* Vector of state utilities under strategy SoC
+# v_u_SoC    <- c(H  = u_H, 
+#                 S1 = u_S1, 
+#                 S2 = u_S2, 
+#                 D  = u_D) * cycle_length
+#* Vector of state costs under strategy SoC
+# v_c_SoC    <- c(H  = c_H, 
+#                 S1 = c_S1,
+#                 S2 = c_S2, 
+#                 D  = c_D) * cycle_length
+
+
+# BUT, their costs and utilities are annual values at the start, and their cycle_length is == 1, i.e., it's 1 year.
+
+# cycle_length <- 1 # cycle length equal to one year (use 1/12 for monthly)
+
+# This is also supported by the Markov model on page 119 of Eline's thesis, which has cost and utility values for a year, and thus does not multiply by anything to make any conversions:
+
+# C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Elie Krijkamp Thesis\thesis_eline_krijkamp_digital_version_with_embargo_6294cb948780f.pdf
+
+# Probably if we just converted utilities at the start when we assigned them to different health states we could avoid all of these complications.
+
+
+
 
 
 
@@ -2067,7 +2161,7 @@ sum(Qalys_gained)
 sum(v_tc_SoC)
 sum(v_tc_Exp)
 
-# The question is, should I be making that similar conversion of cycles to years for costs? I could do this as below: 
+# The question is, should I be making that similar conversion of cycles to years for costs? I could do this as below:
 
 # v_tc_SoC <- v_tc_SoC/26.0714
 # v_tc_Exp <- v_tc_Exp/26.0714
@@ -2082,6 +2176,8 @@ sum(v_tc_Exp)
 
 
 # Reviewing the literature, the fact that: Goldstein, D. A., Chen, Q., Ayer, T., Howard, D. H., Lipscomb, J., El-Rayes, B. F., & Flowers, C. R. (2015). First-and second-line bevacizumab in addition to chemotherapy for metastatic colorectal cancer: a United States–based cost-effectiveness analysis. Journal of Clinical Oncology, 33(10), 1112. has similar costs, QALYS and Life Years gained and reports similar ICERs (the $352,734/QALY in the UK, which is similar to my own several hundred thousand per QALY without dividing costs by 26.0714 and dissimilar to my ~18,000 per QALY when I divide costs by 26.0714 makes me think I shouldnt be dividing costs by 26.0714).
+
+# Also, I've now answered this for myself above.
 
 ```
 
