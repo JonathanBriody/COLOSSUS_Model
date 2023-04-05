@@ -2194,7 +2194,7 @@ sum(v_tc_Exp)
 
 # Setting the discount rate back to 4% gives me 1.97 and 1.98 QALYs (which are really QA-cycles).
 
-# Looking at the discounting vector I have defined below, I have converted cycles to days but I need to convert the discount rate to a daily discount. If I don't, the result is that discounting reduces the cycles dramatically which reduces the difference which increases with time.
+# Looking at the discounting vector I have defined below, I have converted cycles to days [I actually havent, but this is explained better at the bottom of the code chunk] but I need to convert the discount rate to a daily discount. If I don't, the result is that discounting reduces the cycles dramatically which reduces the difference which increases with time.
 
 # I can adress this by defining the discount rate as divided by 365 (i.e. the number of days in a year) then the results become 16.4 and 20.6 QA-cycles which of course become 0.63 and 0.79 QALYs respectively, or 0.16 QALYs gained.
 
@@ -2258,6 +2258,70 @@ sum(Discounted_Qalys_gained)
 #                     Cost     = v_tc_d, 
 #                     Effect   = v_tu_d)
 # df_ce
+
+
+
+
+# According to Bing:
+
+
+# Explain this health economics R code: v_dwc <- 1 / ((1 + d_c) ^ ((0:(n_cycle-1)) * t_cycle))
+
+
+# This R code is used to calculate the discount weights for costs in a health economics model. The discount weights are factors that are applied to future costs to reflect their present value. The discount weights depend on the discount rate for costs (d_c), the number of cycles in the model (n_cycle), and the length of each cycle in years (t_cycle).
+
+
+# But my cycles arent in years, but actually in fortnights: t_cycle <- 14      # cycle length of 2 weeks (in [[days]] - this is assuming the survival curves I am digitising will be in [[days]] if they are in another period I will have to represent my cycle length in that period instead).                                 
+
+
+# When t_cycle is a percentage of a year, then multiplying the yearly discount rate we start with (i.e., d_c or d_e) by this percentage of a year brings the discount rate to the right time period for the cycle, i.e., if cycles we study are 3 months, then multipling a years discount of 4% by 0.25 (t_cycle is a quarter of a year) gives a 3 month discount rate of 1%, so a per cycle discount rate calculated from the per year discount rate.
+
+
+# Andy helped me convert my discount rate for costs and my discount rate for effects to days from years, so then I have a cycle length discount rate that matches the cycle length in my study by virtue of my cycle length being 14 days and multiplying a 1 day discount rate by these 14 days to get a 14 day discount rate.
+
+
+# [the above kind of cements that I really should have created my fortnight as a percentage of a year rather than as 14, but we are where we are now, just have to bear that in mind to simplify the next model. Worth realising as well that it may not have been possible to do this given that I made use of transition data in days from ANGIOPREDICT].
+
+
+
+# The code can be explained as follows:
+
+# v_dwc <- assigns the result of the calculation to a variable named v_dwc, which stands for vector of discount weights for costs.
+
+# 1 / divides 1 by the expression in the parentheses, which is the formula for the discount factor for costs.
+
+# (1 + d_c) ^ raises 1 plus the discount rate for costs (d_c) to the power of the expression in the parentheses, which is the formula for the time horizon in years.
+
+# ((0:(n_cycle-1)) * t_cycle) creates a sequence of numbers from 0 to n_cycle-1 and multiplies each number by t_cycle. This gives the time horizon in years for each cycle in the model.
+
+# For example, if d_c = 0.03, n_cycle = 10, and t_cycle = 0.25, then the code will produce a vector of discount weights for costs as follows:
+
+# v_dwc <- 1 / ((1 + 0.03) ^ ((0:9) * 0.25)) v_dwc [1] 1.0000000 0.9925568 0.9851855 0.9778852 0.9706546 [6] 0.9634925 0.9563977 0.9493693 0.9424062 0.9355074
+ 
+# This means that the costs in cycle 1 are not discounted, the costs in cycle 2 are discounted by 0.74%, the costs in cycle 3 are discounted by 1.48%, and so on.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 ```{r}
