@@ -1855,14 +1855,25 @@ plot(v_prev,
 # 1. Probability of adverse events 1,2 3 in the PFS state under standard of care and exp care:
 
 # AE1:Leukopenia = 0.040 AE2:Diarrhea = 0.310 AE3:Vomiting = 0.31
+# 
+# p_FA1_STD     <- 0.040   # probability of 7 days of adverse event 1 in the 14 day treatment cycle period when progression-free under SOC 
+# p_FNOTA1_STD <- 1 - p_FA1_STD # probability that patients will not have 7 days of adverse event 1 in the 14 day treatment cycle period when progression-free under SOC 
+# 
+# p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
+# p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
+# 
+# p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
+# p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
+# p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 
-p_FA1_STD     <- 0.040   # probability of adverse event 1 when progression-free under SOC
-p_FA2_STD     <- 0.310   # probability of adverse event 2 when progression-free under SOC
-p_FA3_STD     <- 0.310   # probability of adverse event 3 when progression-free under SOC
+p_FA1_STD     <- 0.040 # Probability of the adverse event 1 occuring when progression-free under SOC.
+p_FA2_STD     <- 0.310 # Probability of the adverse event 2 occuring when progression-free under SOC.
+p_FA3_STD     <- 0.310 # Probability of the adverse event 3 occuring when progression-free under SOC.
 
 p_FA1_EXPR     <- 0.070   # probability of adverse event 1 when progression-free under EXPR
 p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free under EXPR
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
+
 
 # 2. Cost of treating the AE conditional on it occurring
 c_AE1 <- c_AE1
@@ -1870,17 +1881,28 @@ c_AE2 <- c_AE2
 c_AE3 <- c_AE3 
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
+# AE1_DisUtil <-0.45
+# AE2_DisUtil <-0.19
+# AE3_DisUtil <-0.36
 
-AE1_DisUtil <-0.45
-AE2_DisUtil <-0.19
-AE3_DisUtil <-0.36
 
-daily_utility <- u_F/14
-AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
-AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
-AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
+AE1_DisUtil <-0.45 # The percentage disutility of the adverse event.
+AE2_DisUtil <-0.19 # The percentage disutility of the adverse event.
+AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
 
-# By multiplying by (1-the percent), we are discounting by that percentage.
+
+#daily_utility <- u_F/14
+
+daily_discount_AE_1 <- AE1_DisUtil/14 # I break that disutility into a daily utility so I can apply it just for a portion of my cycle, as the adverse events only last for 7 days.
+daily_discount_AE_2  <- AE2_DisUtil/14 
+daily_discount_AE_3  <- AE3_DisUtil/14 
+
+
+AE1_discounted_daily_utility <- daily_discount_AE_1  * 7 # Creating 7 days of the disutility from 1 day because the adverse event lasts for 7 days each time they occur in a 14 day cycle.
+AE2_discounted_daily_utility <- daily_discount_AE_2  * 7
+AE3_discounted_daily_utility <- daily_discount_AE_3  * 7 
+
+# # ignore this, I now take a different approach: By multiplying by (1-the percent), we are discounting by that percentage.
 # That is, say you wanted to take 10% of 10 -> 10*(1-0.10) = 10*(0.90) = 9, discounting 10 by 10% gives you 9, i.e., 10% of 10 euro is 9 euro.
 
 # u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
@@ -1890,13 +1912,89 @@ AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
 # Above I had also included 7 days of normal utility when generating the u_AE's - now I realise that was wrong and have consequently updated the below.
 
 
-u_AE1 <- AE1_discounted_daily_utility*7
-u_AE2 <- AE2_discounted_daily_utility*7
-u_AE3 <- AE3_discounted_daily_utility*7
+u_AE1 <- AE1_discounted_daily_utility*u_F # I find the proportion of the baseline utility (that is, the utility without beofre an adverse event) that the adverse event would remove if it occured, that is, a 1o percentage disutility of an adverse event would decrease a utility of 0.85 by 0.085. 
+u_AE2 <- AE2_discounted_daily_utility*u_F
+u_AE3 <- AE3_discounted_daily_utility*u_F
+
+u_AE1
+u_AE2
+u_AE3
 
 # I then adjust my state costs and utilities:
 
 # uState<-uState-pAE1*duAE1
+
+
+u_F_SoC<-u_F
+u_F_Exp<-u_F
+
+u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take this decrement from baseline utility - dependent on the probability of this decrement occuring.
+
+u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+
+
+
+
+
+# To show how this works, 
+# I set the probability of the adverse events occuring to 100% (that is, to 1) so that it definitely occurs:
+#p_FA1_STD     <- 1 
+#p_FA2_STD     <- 1 
+#p_FA3_STD     <- 1 
+
+# Then, I set the percentage that is taken away from utility by the adverse event to be 10%:
+#AE1_DisUtil <-0.10 # 
+#AE2_DisUtil <-0.10 # 
+#AE3_DisUtil <-0.10 # 
+
+# I do the below as usual:
+
+#daily_discount_AE_1 <- AE1_DisUtil/14
+#daily_discount_AE_2  <- AE2_DisUtil/14
+#daily_discount_AE_3  <- AE3_DisUtil/14
+
+#AE1_discounted_daily_utility <- daily_discount_AE_1  * 7 
+#AE2_discounted_daily_utility <- daily_discount_AE_2  * 7
+#AE3_discounted_daily_utility <- daily_discount_AE_3  * 7 
+
+#u_AE1 <- AE1_discounted_daily_utility*u_F 
+#u_AE2 <- AE2_discounted_daily_utility*u_F
+#u_AE3 <- AE3_discounted_daily_utility*u_F
+
+# You can see that each time it's 7 days of 10% out of the 14, so 5% of the 0.85 we started with, which is:
+
+#u_AE1
+#[1] 0.0425
+#u_AE2
+#[1] 0.0425
+#u_AE3
+#[1] 0.0425
+
+#u_F
+#[1] 0.85
+#u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take this decrement from baseline utility - dependent on the probability of this decrement occuring.
+
+#u_F_SoC
+#[1] 0.7225
+
+# This indicates that it's half of 10% taken off u_F 3 times to get 15% off, 15% off 0.85 = 0.7225.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
@@ -1908,12 +2006,14 @@ c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
 # So for utility, the utility is the utility of the health state (say U_F_SoC), and then we have some probability "p" of taking away from this utility by how much it might decrease utility to have nausea, vomiting or diarrhoea, for the time that we have those things - so we have the chance to decrease this utility by the disutility of these adverse events.
 
 
-u_F_SoC<-u_F
-u_F_Exp<-u_F
+# They have a probability of "X" of experiencing 7 days of decline in their utility, which will take their 14 days of utility "y" down by some value "z".
 
 
-u_F_SoC<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
-u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
+# So, their 14 days of utility are 0.85, they have a probabulity of p_FA1_STD of experiencing a decrease in this utility of 0.45.
+
+
+
+
 
 
 v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
@@ -4685,7 +4785,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------|------------|------------|------------|------------|------------|
+|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
