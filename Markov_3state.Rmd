@@ -1880,11 +1880,19 @@ AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
 AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
 AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
 
+# By multiplying by (1-the percent), we are discounting by that percentage.
+# That is, say you wanted to take 10% of 10 -> 10*(1-0.10) = 10*(0.90) = 9, discounting 10 by 10% gives you 9, i.e., 10% of 10 euro is 9 euro.
 
-u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
-u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
-u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
+# u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
+# u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
+# u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
 
+# Above I had also included 7 days of normal utility when generating the u_AE's - now I realise that was wrong and have consequently updated the below.
+
+
+u_AE1 <- AE1_discounted_daily_utility*7
+u_AE2 <- AE2_discounted_daily_utility*7
+u_AE3 <- AE3_discounted_daily_utility*7
 
 # I then adjust my state costs and utilities:
 
@@ -1893,6 +1901,11 @@ u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
 
 c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
 c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
+
+
+# I get it, the cost is the cost of treatment (say c_F_SoC), and then we have some probability "p" of adding on to this cost with how much it might cost to have nausea, vomiting or diarrhoea, so we have the chance to increase this cost by the cost of these adverse events. 
+
+# So for utility, the utility is the utility of the health state (say U_F_SoC), and then we have some probability "p" of taking away from this utility by how much it might decrease utility to have nausea, vomiting or diarrhoea, for the time that we have those things - so we have the chance to decrease this utility by the disutility of these adverse events.
 
 
 u_F_SoC<-u_F
