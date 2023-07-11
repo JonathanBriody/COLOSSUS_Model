@@ -1892,7 +1892,7 @@ AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
 
 
 # According to the original study these percentage reductions come from:
-
+ 
 # "We also applied utility reductions for episodes of toxicity" Aballéa, Samuel, et al. "Cost‐effectiveness analysis of oxaliplatin compared with 5‐fluorouracil/leucovorin in adjuvant treatment of stage III colon cancer in the US." Cancer: Interdisciplinary International Journal of the American Cancer Society 109.6 (2007): 1082-1089.   https://acsjournals.onlinelibrary.wiley.com/doi/10.1002/cncr.22512
 
 # In that study events were 5 days, so we can say that these are the decreases in utility for 5 days of these adverse events.
@@ -1911,7 +1911,7 @@ AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
 # daily_discount_AE_3  <- AE3_DisUtil/14 
 # 
 # 
-# AE1_discounted_daily_utility <- daily_discount_AE_1  * 5  # Creating 7 days of the disutility from 1 day because the adverse event lasts for 7 days each time they occur in a 14 day cycle.
+# AE1_discounted_daily_utility <- daily_discount_AE_1  * 5  # Creating 5 days of the disutility from 1 day because the adverse event lasts for 5 days each time they occur in a 14 day cycle.
 # AE2_discounted_daily_utility <- daily_discount_AE_2  * 5
 # AE3_discounted_daily_utility <- daily_discount_AE_3  * 5 
 # 
@@ -2280,6 +2280,8 @@ v_tu_Exp <- v_tu_Exp/26.0714
 # BUT, their costs and utilities are annual values at the start, and their cycle_length is == 1, i.e., it's 1 year.
 
 # cycle_length <- 1 # cycle length equal to one year (use 1/12 for monthly)
+
+# There's a slightly different version of this here: https://rstudio-pubs-static.s3.amazonaws.com/999710_ad47c2b2756e4160bc7ad7a901d8aeb3.html and as a pdf here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Intermediary R-HTA Modelling\September-Workshop-main\September-Workshop-main\analysis\simplified from the web Markov Sick-Sicker model in R.pdf
 
 # This is also supported by the Markov model on page 119 of Eline's thesis, which has cost and utility values for a year, and thus does not multiply by anything to make any conversions:
 
