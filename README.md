@@ -1,6 +1,5 @@
 <h1 align="center">COLOSSUS Open Source Cost-effectiveness Model</h1>
 <h3 align="center">💻🧬 This model represents an exploratory cost-effectiveness analysis of mCRC subtyping and associated treatment.</h3>
-![Header](.github-header-image.png)
 
 <p align="left"> <a href="https://twitter.com/jonathanbriody" target="blank"><img src="https://img.shields.io/twitter/follow/jonathanbriody?logo=twitter&style=for-the-badge" alt="jonathanbriody" /></a> </p>
 
