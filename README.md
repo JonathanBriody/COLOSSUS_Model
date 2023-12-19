@@ -1,4 +1,4 @@
-![Header](./your-header-image-name.png)
+![Header](./github-header-image.png)
 <h1 align="center">COLOSSUS Open Source Cost-effectiveness Model</h1>
 <h3 align="center">💻🧬 This model represents an exploratory cost-effectiveness analysis of mCRC subtyping and associated treatment.</h3>
 
