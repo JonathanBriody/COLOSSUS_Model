@@ -17,3 +17,7 @@
 <p align="left">
 <a href="https://twitter.com/jonathanbriody" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="jonathanbriody" height="30" width="40" /></a>
 </p>
+
+[![DOI](https://zenodo.org/badge/451505013.svg)](https://zenodo.org/doi/10.5281/zenodo.10528538)
+
+
