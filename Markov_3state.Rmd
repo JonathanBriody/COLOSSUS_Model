@@ -251,7 +251,7 @@ load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS
 
 
 # Previously I loaded this simply as the below:
-load(file = "df_TTD.RData")
+#load(file = "df_TTD.RData")
 #However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
 
 
@@ -648,7 +648,7 @@ lines(l_TTP_SoC_llogis,   col = colors[4], ci = FALSE)
 lines(l_TTP_SoC_lnorm,    col = colors[5], ci = FALSE)
 lines(l_TTP_SoC_weibull,  col = colors[6], ci = FALSE)
 legend("right",
-       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "Weibull"),
        col    = colors,
        lty    = 1,
        bty    = "n")
@@ -755,7 +755,7 @@ lines(l_TTD_SoC_llogis,   col = colors[4], ci = FALSE)
 lines(l_TTD_SoC_lnorm,    col = colors[5], ci = FALSE)
 lines(l_TTD_SoC_weibull,  col = colors[6], ci = FALSE)
 legend("right",
-       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "weibull"),
+       legend = c("exp", "gamma", "gompertz", "llogis", "lnorm", "Weibull"),
        col    = colors,
        lty    = 1,
        bty    = "n")
@@ -4837,7 +4837,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
+|-----------|-----------|-----------|-----------|-----------|------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
