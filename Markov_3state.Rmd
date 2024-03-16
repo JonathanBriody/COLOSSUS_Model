@@ -161,64 +161,64 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-country_name <- "Ireland"
+#country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 307.81 
-c_PFS_Bevacizumab <- 2580.38  
-c_OS_Folfiri <- 326.02  
-administration_cost <- 365.00 
+#c_PFS_Folfox <- 307.81 
+#c_PFS_Bevacizumab <- 2580.38  
+#c_OS_Folfiri <- 326.02  
+#administration_cost <- 365.00 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03 
+#c_AE1 <- 2835.89
+#c_AE2 <- 1458.80
+#c_AE3 <- 409.03 
 
 # 3. Willingness to pay threshold
-n_wtp = 45000
+#n_wtp = 45000
 
 
 
 
 # Germany:
 
-# country_name <- "Germany"
+#country_name <- "Germany"
 
 # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 1276.66
-# c_PFS_Bevacizumab <- 1325.87
-# c_OS_Folfiri <- 1309.64
-# administration_cost <- 1794.40
+#c_PFS_Folfox <- 1276.66
+#c_PFS_Bevacizumab <- 1325.87
+#c_OS_Folfiri <- 1309.64
+#administration_cost <- 1794.40
 
 # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3837
-# c_AE2 <- 1816.37
-# c_AE3 <- 526.70
+#c_AE1 <- 3837
+#c_AE2 <- 1816.37
+#c_AE3 <- 526.70
 
 # 3. Willingness to pay threshold
-# n_wtp = 78871
+#n_wtp = 78871
 
 
 
 # Spain:
 
-#country_name <- "Spain"
+country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-#c_PFS_Folfox <- 285.54
-#c_PFS_Bevacizumab <- 1325.87
-#c_OS_Folfiri <- 139.58
-#administration_cost <- 314.94
+c_PFS_Folfox <- 285.54
+c_PFS_Bevacizumab <- 1325.87
+c_OS_Folfiri <- 139.58
+administration_cost <- 314.94
 
 # 2. Cost of treating the AE conditional on it occurring
-#c_AE1 <- 4885.95
-#c_AE2 <- 507.36
-#c_AE3 <- 95.03
+c_AE1 <- 4885.95
+c_AE2 <- 507.36
+c_AE3 <- 95.03
 
 # 3. Willingness to pay threshold
-#n_wtp = 30000
+n_wtp = 30000
 
 
 
@@ -4837,7 +4837,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|-----------|-----------|-----------|-----------|-----------|------------------|
+|------------|------------|------------|------------|------------|------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
