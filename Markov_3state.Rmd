@@ -236,22 +236,22 @@ n_wtp = 30000
 # df_TTD <- read.csv(file='OS.csv', header=TRUE)
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTD.RData")
 
-load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTP.RData")
+#load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTP.RData")
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
 
 # Previously I loaded this simply as the below:
-#load(file = "df_TTP.RData")
+load(file = "df_TTP.RData")
 #However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
 
 
 
 
-load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTD.RData")
+#load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTD.RData")
 # I have time-to-death (TTD) data, I'll load it in here.
 
 
 # Previously I loaded this simply as the below:
-#load(file = "df_TTD.RData")
+load(file = "df_TTD.RData")
 #However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
 
 
