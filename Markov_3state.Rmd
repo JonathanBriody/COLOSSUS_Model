@@ -187,7 +187,7 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # 1. Cost of treatment in this country
 #c_PFS_Folfox <- 1276.66
-#c_PFS_Bevacizumab <- 1325.87
+#c_PFS_Bevacizumab <- 2952.24
 #c_OS_Folfiri <- 1309.64
 #administration_cost <- 1794.40
 
@@ -1682,7 +1682,7 @@ m_M_Exp
 # Plotting the Markov cohort traces
 matplot(m_M_SoC, 
         type = "l", 
-        ylab = "Probability of state occupancy",
+        ylab = "Probability of State Occupancy",
         xlab = "Cycle",
         main = "Makrov Cohort Traces",
         lwd  = 3,
@@ -1693,7 +1693,7 @@ matplot(m_M_Exp,
         lty  = 3,
         add  = TRUE) # add a plot of the experimental data ontop of the above plot
 legend("right", 
-       legend = c(paste(v_names_states, "(SOC)"), paste(v_names_states, "(Exp)")), 
+       legend = c(paste(v_names_states, "(SoC)"), paste(v_names_states, "(Bev)")), 
        col    = rep(c("black", "red", "green"), 2), 
        lty    = c(1, 1, 1, 3, 3, 3), # Line type, full (1) or dashed (3), I have entered this 6 times here because we have 3 lines under standard of care (3 full lines) and  3 lines under experimental treatment (3 dashed lines)
        lwd    = 3,
