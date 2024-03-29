@@ -169,6 +169,8 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 #c_PFS_Bevacizumab <- 2580.38  
 #c_OS_Folfiri <- 326.02  
 #administration_cost <- 365.00 
+#subtyping_test_cost <- 400 
+
 
 # 2. Cost of treating the AE conditional on it occurring
 #c_AE1 <- 2835.89
@@ -190,6 +192,7 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 #c_PFS_Bevacizumab <- 2952.24
 #c_OS_Folfiri <- 1309.64
 #administration_cost <- 1794.40
+#subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
 #c_AE1 <- 3837
@@ -211,6 +214,7 @@ c_PFS_Folfox <- 285.54
 c_PFS_Bevacizumab <- 1325.87
 c_OS_Folfiri <- 139.58
 administration_cost <- 314.94
+subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
 c_AE1 <- 4885.95
