@@ -801,6 +801,12 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     v_tc_SoC
     v_tc_Exp
     
+    v_tc_Exp["Cycle 1", ] <- v_tc_Exp["Cycle 1", ] + subtyping_test_cost
+    
+    # I add the subtyping cost as above.
+    
+    v_tc_Exp
+    
     v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_P, u_D)
     v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_P, u_D)
     
