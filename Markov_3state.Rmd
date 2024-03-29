@@ -2075,6 +2075,91 @@ v_tc_Exp
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)
 
+# I actually take a different strategy, as below:
+
+
+
+
+
+
+# I want to add a one-off cost to the experimental arm of the cost of subtyping individuals with the subtype we are studying. That is, the cost of the test. The cost of the test itself is 200 Euro, but apparently it is necessary to test 2 people to find 1 with our subtype, so I would double this to 400 Euro. Then I would apply it as a one-off cost in the experimental arm. It's a one-off as they are only tested once, then they are treated. I also would like to apply this in the first cycle of the model as they get tested at the start of the intervention and I don't want to discount the test cost when I do discounting later on in the model code as though it happened at a later cycle.
+
+# I added the subtyping cost to the list of costs at the start of the code-base as below:
+# subtyping_test_cost <- 400
+
+# Now I take the costs for the Experimental arm and I increase the first cycles cost by the subtyping cost as below:
+v_tc_Exp["Cycle 1", ] <- v_tc_Exp["Cycle 1", ] + subtyping_test_cost
+
+# Basically, what I'm doing here is selecting "Cycle 1" and adding the value for "subtyping_test_cost" to the value already > v_tc_Exp# As you can see, in v_tc_Exp row one where I want to make the addition is named or labelled Cycle 1.# So, using v_tc_Exp["Cycle 1", ] allows me to access and manipulate the data associated with Cycle 1.
+# [,1]
+# Cycle 1  2330.82820000
+# Cycle 2  2304.75826402
+# Cycle 3  2262.84641547
+
+# I'm fairly happy that I'm on the right track here, as the value assigned to Cycle 1 initially was 2330.82820000.
+
+# Which should be the cost of one person in cycle one:
+# Cost (Per Cycle)
+# FOLFOX	ESP:
+# 285.54
+# Bevacizumab	ESP: 
+# 1325.87
+# Administration Cost	ESP:
+# 314.94
+
+
+# The cost of all of the above is:
+# 285.54+1325.87+314.94 = 1926.35
+
+
+# Then we need to incorporate the following adverse event costs:
+# Adverse Event Cost	
+# Leukopenia	ESP:
+# 4885.95
+# Diarrhea	ESP: 
+# 507.36
+# Nausea	ESP:
+# 95.03
+# However, as below, the adverse events arent guranteed to happen:
+
+# Adverse Event Incidence - With bevacizumab	
+# Leukopenia	0.07
+# Diarrhea	0.11
+# Nausea	0.07
+
+
+# So, we get the probability times the cost as follows:# 4885.95*0.07 = 342.0165
+# 507.36*0.11 = 55.8096
+# 95.03*0.07 = 6.6521
+
+# Giving us:
+# 6.6521+55.8096+342.0165 = 404.4782
+
+# Altogether giving us a cost of:
+# 285.54+1325.87+314.94+404.4782 = 2330.8282
+
+# Which matches what we had above from the model of the cost in cycle 1:
+# And this makes sense, because in cycle 1 (as below) everyone is in the PFS state, so the only costs we need to think about are the costs of being in the PFS state, that is, the FOLFOX, plus Bev plus administration plus any adverse events. But then in cycle 2 onwards people can move into the OS state and then we need to think about the costs I just mentioned plus the cost of FOLFIRI instead of FOLFOX and Bev for those who are in the OS state. So cycle 1 costs from the model should match up with the costs hand calculated from the paper.
+#> m_M_Exp
+#                     PFS             OS        Dead
+# Cycle 1  1.000000000000 0.000000000000 0.000000000
+# Cycle 2  0.986847718283 0.010089265902 0.003063016
+# Cycle 3  0.966063070135 0.024463980960 0.009472949
+# Cycle 4  0.941303760268 0.039547468020 0.019148772
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
