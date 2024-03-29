@@ -70,6 +70,8 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Parametric Survival Analysis:
 
+It's a while since I did it, but I just remember that I think I used the return a data frame with ranges of parameters for which each strategy is optimal in "owsa_tornado" to see how much costs would need to reduce for the biosimilars to bevacizuma to be cost-effective, although I'd have to check that again in the below code and the following url if I wanted to be sure on how I did it: <https://rdrr.io/github/DARTH-git/dampack/man/owsa_tornado.html>
+
 # 
 
 ```{r setup, include=FALSE}
