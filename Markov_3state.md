@@ -70,6 +70,8 @@ The EU Commission takes no responsibility for any use made of the information se
 
 # Parametric Survival Analysis:
 
+It's a while since I did it, but I just remember that I think I used the return a data frame with ranges of parameters for which each strategy is optimal in "owsa_tornado" to see how much costs would need to reduce for the biosimilars to bevacizuma to be cost-effective, although I'd have to check that again in the below code and the following url if I wanted to be sure on how I did it: <https://rdrr.io/github/DARTH-git/dampack/man/owsa_tornado.html>
+
 # 
 
 
@@ -143,22 +145,24 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-#country_name <- "Ireland"
+country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-#c_PFS_Folfox <- 307.81 
-#c_PFS_Bevacizumab <- 2580.38  
-#c_OS_Folfiri <- 326.02  
-#administration_cost <- 365.00 
+c_PFS_Folfox <- 307.81 
+c_PFS_Bevacizumab <- 2580.38  
+c_OS_Folfiri <- 326.02  
+administration_cost <- 365.00 
+subtyping_test_cost <- 400 
+
 
 # 2. Cost of treating the AE conditional on it occurring
-#c_AE1 <- 2835.89
-#c_AE2 <- 1458.80
-#c_AE3 <- 409.03 
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03 
 
 # 3. Willingness to pay threshold
-#n_wtp = 45000
+n_wtp = 45000
 
 
 
@@ -172,6 +176,7 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 #c_PFS_Bevacizumab <- 2952.24
 #c_OS_Folfiri <- 1309.64
 #administration_cost <- 1794.40
+#subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
 #c_AE1 <- 3837
@@ -185,22 +190,23 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Spain:
 
-country_name <- "Spain"
+#country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 285.54
-c_PFS_Bevacizumab <- 1325.87
-c_OS_Folfiri <- 139.58
-administration_cost <- 314.94
+#c_PFS_Folfox <- 285.54
+#c_PFS_Bevacizumab <- 1325.87
+#c_OS_Folfiri <- 139.58
+#administration_cost <- 314.94
+#subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 4885.95
-c_AE2 <- 507.36
-c_AE3 <- 95.03
+#c_AE1 <- 4885.95
+#c_AE2 <- 507.36
+#c_AE3 <- 95.03
 
 # 3. Willingness to pay threshold
-n_wtp = 30000
+#n_wtp = 30000
 ```
 
 
@@ -214,22 +220,22 @@ n_wtp = 30000
 # df_TTD <- read.csv(file='OS.csv', header=TRUE)
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTD.RData")
 
-load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTP.RData")
+#load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTP.RData")
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
 
 # Previously I loaded this simply as the below:
-#load(file = "df_TTP.RData")
+load(file = "df_TTP.RData")
 #However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
 
 
 
 
-load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTD.RData")
+#load("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model_Data/df_TTD.RData")
 # I have time-to-death (TTD) data, I'll load it in here.
 
 
 # Previously I loaded this simply as the below:
-#load(file = "df_TTD.RData")
+load(file = "df_TTD.RData")
 #However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
 
 
@@ -7189,149 +7195,149 @@ v_tc_SoC
 
 ```
 ##                   [,1]
-## Cycle 1   9.826589e+02
-## Cycle 2   9.702276e+02
-## Cycle 3   9.497062e+02
-## Cycle 4   9.241828e+02
-## Cycle 5   8.949222e+02
-## Cycle 6   8.628159e+02
-## Cycle 7   8.285810e+02
-## Cycle 8   7.928233e+02
-## Cycle 9   7.560635e+02
-## Cycle 10  7.187518e+02
-## Cycle 11  6.812766e+02
-## Cycle 12  6.439708e+02
-## Cycle 13  6.071178e+02
-## Cycle 14  5.709557e+02
-## Cycle 15  5.356821e+02
-## Cycle 16  5.014580e+02
-## Cycle 17  4.684117e+02
-## Cycle 18  4.366421e+02
-## Cycle 19  4.062226e+02
-## Cycle 20  3.772035e+02
-## Cycle 21  3.496156e+02
-## Cycle 22  3.234721e+02
-## Cycle 23  2.987720e+02
-## Cycle 24  2.755011e+02
-## Cycle 25  2.536353e+02
-## Cycle 26  2.331415e+02
-## Cycle 27  2.139794e+02
-## Cycle 28  1.961035e+02
-## Cycle 29  1.794636e+02
-## Cycle 30  1.640065e+02
-## Cycle 31  1.496767e+02
-## Cycle 32  1.364176e+02
-## Cycle 33  1.241717e+02
-## Cycle 34  1.128818e+02
-## Cycle 35  1.024910e+02
-## Cycle 36  9.294376e+01
-## Cycle 37  8.418558e+01
-## Cycle 38  7.616381e+01
-## Cycle 39  6.882766e+01
-## Cycle 40  6.212838e+01
-## Cycle 41  5.601945e+01
-## Cycle 42  5.045660e+01
-## Cycle 43  4.539790e+01
-## Cycle 44  4.080375e+01
-## Cycle 45  3.663689e+01
-## Cycle 46  3.286235e+01
-## Cycle 47  2.944742e+01
-## Cycle 48  2.636156e+01
-## Cycle 49  2.357636e+01
-## Cycle 50  2.106545e+01
-## Cycle 51  1.880438e+01
-## Cycle 52  1.677055e+01
-## Cycle 53  1.494313e+01
-## Cycle 54  1.330293e+01
-## Cycle 55  1.183231e+01
-## Cycle 56  1.051512e+01
-## Cycle 57  9.336531e+00
-## Cycle 58  8.283024e+00
-## Cycle 59  7.342245e+00
-## Cycle 60  6.502946e+00
-## Cycle 61  5.754892e+00
-## Cycle 62  5.088788e+00
-## Cycle 63  4.496204e+00
-## Cycle 64  3.969504e+00
-## Cycle 65  3.501782e+00
-## Cycle 66  3.086801e+00
-## Cycle 67  2.718933e+00
-## Cycle 68  2.393110e+00
-## Cycle 69  2.104771e+00
-## Cycle 70  1.849816e+00
-## Cycle 71  1.624565e+00
-## Cycle 72  1.425721e+00
-## Cycle 73  1.250327e+00
-## Cycle 74  1.095741e+00
-## Cycle 75  9.596012e-01
-## Cycle 76  8.397989e-01
-## Cycle 77  7.344539e-01
-## Cycle 78  6.418915e-01
-## Cycle 79  5.606213e-01
-## Cycle 80  4.893182e-01
-## Cycle 81  4.268053e-01
-## Cycle 82  3.720385e-01
-## Cycle 83  3.240919e-01
-## Cycle 84  2.821459e-01
-## Cycle 85  2.454749e-01
-## Cycle 86  2.134376e-01
-## Cycle 87  1.854676e-01
-## Cycle 88  1.610649e-01
-## Cycle 89  1.397886e-01
-## Cycle 90  1.212506e-01
-## Cycle 91  1.051088e-01
-## Cycle 92  9.106258e-02
-## Cycle 93  7.884770e-02
-## Cycle 94  6.823210e-02
-## Cycle 95  5.901213e-02
-## Cycle 96  5.100927e-02
-## Cycle 97  4.406709e-02
-## Cycle 98  3.804868e-02
-## Cycle 99  3.283422e-02
-## Cycle 100 2.831902e-02
-## Cycle 101 2.441159e-02
-## Cycle 102 2.103210e-02
-## Cycle 103 1.811090e-02
-## Cycle 104 1.558727e-02
-## Cycle 105 1.340835e-02
-## Cycle 106 1.152810e-02
-## Cycle 107 9.906476e-03
-## Cycle 108 8.508674e-03
-## Cycle 109 7.304455e-03
-## Cycle 110 6.267568e-03
-## Cycle 111 5.375236e-03
-## Cycle 112 4.607710e-03
-## Cycle 113 3.947881e-03
-## Cycle 114 3.380929e-03
-## Cycle 115 2.894031e-03
-## Cycle 116 2.476095e-03
-## Cycle 117 2.117533e-03
-## Cycle 118 1.810064e-03
-## Cycle 119 1.546537e-03
-## Cycle 120 1.320783e-03
-## Cycle 121 1.127480e-03
-## Cycle 122 9.620430e-04
-## Cycle 123 8.205219e-04
-## Cycle 124 6.995163e-04
-## Cycle 125 5.961001e-04
-## Cycle 126 5.077573e-04
-## Cycle 127 4.323250e-04
-## Cycle 128 3.679457e-04
-## Cycle 129 3.130243e-04
-## Cycle 130 2.661920e-04
-## Cycle 131 2.262749e-04
-## Cycle 132 1.922667e-04
-## Cycle 133 1.633050e-04
-## Cycle 134 1.386516e-04
-## Cycle 135 1.176742e-04
-## Cycle 136 9.983233e-05
-## Cycle 137 8.466344e-05
-## Cycle 138 7.177236e-05
-## Cycle 139 6.082146e-05
-## Cycle 140 5.152245e-05
-## Cycle 141 4.362926e-05
-## Cycle 142 3.693198e-05
-## Cycle 143 3.125162e-05
+## Cycle 1   1.365273e+03
+## Cycle 2   1.348881e+03
+## Cycle 3   1.321610e+03
+## Cycle 4   1.287432e+03
+## Cycle 5   1.247999e+03
+## Cycle 6   1.204502e+03
+## Cycle 7   1.157912e+03
+## Cycle 8   1.109063e+03
+## Cycle 9   1.058677e+03
+## Cycle 10  1.007386e+03
+## Cycle 11  9.557356e+02
+## Cycle 12  9.041999e+02
+## Cycle 13  8.531830e+02
+## Cycle 14  8.030276e+02
+## Cycle 15  7.540195e+02
+## Cycle 16  7.063935e+02
+## Cycle 17  6.603384e+02
+## Cycle 18  6.160017e+02
+## Cycle 19  5.734944e+02
+## Cycle 20  5.328950e+02
+## Cycle 21  4.942538e+02
+## Cycle 22  4.575964e+02
+## Cycle 23  4.229271e+02
+## Cycle 24  3.902322e+02
+## Cycle 25  3.594825e+02
+## Cycle 26  3.306365e+02
+## Cycle 27  3.036418e+02
+## Cycle 28  2.784380e+02
+## Cycle 29  2.549582e+02
+## Cycle 30  2.331305e+02
+## Cycle 31  2.128796e+02
+## Cycle 32  1.941281e+02
+## Cycle 33  1.767973e+02
+## Cycle 34  1.608083e+02
+## Cycle 35  1.460829e+02
+## Cycle 36  1.325439e+02
+## Cycle 37  1.201159e+02
+## Cycle 38  1.087257e+02
+## Cycle 39  9.830265e+01
+## Cycle 40  8.877866e+01
+## Cycle 41  8.008876e+01
+## Cycle 42  7.217103e+01
+## Cycle 43  6.496673e+01
+## Cycle 44  5.842030e+01
+## Cycle 45  5.247942e+01
+## Cycle 46  4.709493e+01
+## Cycle 47  4.222077e+01
+## Cycle 48  3.781394e+01
+## Cycle 49  3.383438e+01
+## Cycle 50  3.024484e+01
+## Cycle 51  2.701079e+01
+## Cycle 52  2.410029e+01
+## Cycle 53  2.148384e+01
+## Cycle 54  1.913426e+01
+## Cycle 55  1.702657e+01
+## Cycle 56  1.513783e+01
+## Cycle 57  1.344701e+01
+## Cycle 58  1.193491e+01
+## Cycle 59  1.058395e+01
+## Cycle 60  9.378150e+00
+## Cycle 61  8.302928e+00
+## Cycle 62  7.345048e+00
+## Cycle 63  6.492495e+00
+## Cycle 64  5.734378e+00
+## Cycle 65  5.060844e+00
+## Cycle 66  4.462984e+00
+## Cycle 67  3.932760e+00
+## Cycle 68  3.462924e+00
+## Cycle 69  3.046954e+00
+## Cycle 70  2.678980e+00
+## Cycle 71  2.353735e+00
+## Cycle 72  2.066491e+00
+## Cycle 73  1.813012e+00
+## Cycle 74  1.589507e+00
+## Cycle 75  1.392586e+00
+## Cycle 76  1.219222e+00
+## Cycle 77  1.066713e+00
+## Cycle 78  9.326523e-01
+## Cycle 79  8.148959e-01
+## Cycle 80  7.115375e-01
+## Cycle 81  6.208827e-01
+## Cycle 82  5.414276e-01
+## Cycle 83  4.718381e-01
+## Cycle 84  4.109323e-01
+## Cycle 85  3.576637e-01
+## Cycle 86  3.111067e-01
+## Cycle 87  2.704436e-01
+## Cycle 88  2.349520e-01
+## Cycle 89  2.039949e-01
+## Cycle 90  1.770109e-01
+## Cycle 91  1.535053e-01
+## Cycle 92  1.330430e-01
+## Cycle 93  1.152413e-01
+## Cycle 94  9.976420e-02
+## Cycle 95  8.631644e-02
+## Cycle 96  7.463923e-02
+## Cycle 97  6.450565e-02
+## Cycle 98  5.571700e-02
+## Cycle 99  4.809936e-02
+## Cycle 100 4.150062e-02
+## Cycle 101 3.578787e-02
+## Cycle 102 3.084504e-02
+## Cycle 103 2.657083e-02
+## Cycle 104 2.287691e-02
+## Cycle 105 1.968630e-02
+## Cycle 106 1.693197e-02
+## Cycle 107 1.455558e-02
+## Cycle 108 1.250640e-02
+## Cycle 109 1.074033e-02
+## Cycle 110 9.219087e-03
+## Cycle 111 7.909425e-03
+## Cycle 112 6.782513e-03
+## Cycle 113 5.813358e-03
+## Cycle 114 4.980307e-03
+## Cycle 115 4.264614e-03
+## Cycle 116 3.650059e-03
+## Cycle 117 3.122614e-03
+## Cycle 118 2.670158e-03
+## Cycle 119 2.282222e-03
+## Cycle 120 1.949767e-03
+## Cycle 121 1.664997e-03
+## Cycle 122 1.421189e-03
+## Cycle 123 1.212551e-03
+## Cycle 124 1.034092e-03
+## Cycle 125 8.815189e-04
+## Cycle 126 7.511368e-04
+## Cycle 127 6.397690e-04
+## Cycle 128 5.446856e-04
+## Cycle 129 4.635417e-04
+## Cycle 130 3.943246e-04
+## Cycle 131 3.353071e-04
+## Cycle 132 2.850081e-04
+## Cycle 133 2.421580e-04
+## Cycle 134 2.056694e-04
+## Cycle 135 1.746108e-04
+## Cycle 136 1.481853e-04
+## Cycle 137 1.257110e-04
+## Cycle 138 1.066050e-04
+## Cycle 139 9.036897e-05
+## Cycle 140 7.657737e-05
+## Cycle 141 6.486681e-05
+## Cycle 142 5.492718e-05
+## Cycle 143 4.649395e-05
 ```
 
 ```r
@@ -7340,149 +7346,149 @@ v_tc_Exp
 
 ```
 ##                   [,1]
-## Cycle 1   2.330828e+03
-## Cycle 2   2.304758e+03
-## Cycle 3   2.262846e+03
-## Cycle 4   2.211992e+03
-## Cycle 5   2.154741e+03
-## Cycle 6   2.092703e+03
-## Cycle 7   2.027071e+03
-## Cycle 8   1.958792e+03
-## Cycle 9   1.888653e+03
-## Cycle 10  1.817314e+03
-## Cycle 11  1.745343e+03
-## Cycle 12  1.673226e+03
-## Cycle 13  1.601380e+03
-## Cycle 14  1.530165e+03
-## Cycle 15  1.459890e+03
-## Cycle 16  1.390817e+03
-## Cycle 17  1.323167e+03
-## Cycle 18  1.257125e+03
-## Cycle 19  1.192845e+03
-## Cycle 20  1.130449e+03
-## Cycle 21  1.070036e+03
-## Cycle 22  1.011680e+03
-## Cycle 23  9.554348e+02
-## Cycle 24  9.013359e+02
-## Cycle 25  8.494025e+02
-## Cycle 26  7.996398e+02
-## Cycle 27  7.520401e+02
-## Cycle 28  7.065850e+02
-## Cycle 29  6.632465e+02
-## Cycle 30  6.219888e+02
-## Cycle 31  5.827687e+02
-## Cycle 32  5.455376e+02
-## Cycle 33  5.102419e+02
-## Cycle 34  4.768242e+02
-## Cycle 35  4.452241e+02
-## Cycle 36  4.153786e+02
-## Cycle 37  3.872232e+02
-## Cycle 38  3.606922e+02
-## Cycle 39  3.357193e+02
-## Cycle 40  3.122380e+02
-## Cycle 41  2.901822e+02
-## Cycle 42  2.694863e+02
-## Cycle 43  2.500854e+02
-## Cycle 44  2.319160e+02
-## Cycle 45  2.149159e+02
-## Cycle 46  1.990243e+02
-## Cycle 47  1.841824e+02
-## Cycle 48  1.703329e+02
-## Cycle 49  1.574205e+02
-## Cycle 50  1.453919e+02
-## Cycle 51  1.341960e+02
-## Cycle 52  1.237833e+02
-## Cycle 53  1.141069e+02
-## Cycle 54  1.051217e+02
-## Cycle 55  9.678471e+01
-## Cycle 56  8.905494e+01
-## Cycle 57  8.189347e+01
-## Cycle 58  7.526336e+01
-## Cycle 59  6.912958e+01
-## Cycle 60  6.345895e+01
-## Cycle 61  5.822016e+01
-## Cycle 62  5.338363e+01
-## Cycle 63  4.892146e+01
-## Cycle 64  4.480743e+01
-## Cycle 65  4.101686e+01
-## Cycle 66  3.752656e+01
-## Cycle 67  3.431481e+01
-## Cycle 68  3.136122e+01
-## Cycle 69  2.864675e+01
-## Cycle 70  2.615355e+01
-## Cycle 71  2.386498e+01
-## Cycle 72  2.176551e+01
-## Cycle 73  1.984064e+01
-## Cycle 74  1.807689e+01
-## Cycle 75  1.646170e+01
-## Cycle 76  1.498341e+01
-## Cycle 77  1.363118e+01
-## Cycle 78  1.239495e+01
-## Cycle 79  1.126540e+01
-## Cycle 80  1.023388e+01
-## Cycle 81  9.292394e+00
-## Cycle 82  8.433549e+00
-## Cycle 83  7.650505e+00
-## Cycle 84  6.936948e+00
-## Cycle 85  6.287049e+00
-## Cycle 86  5.695434e+00
-## Cycle 87  5.157153e+00
-## Cycle 88  4.667644e+00
-## Cycle 89  4.222712e+00
-## Cycle 90  3.818498e+00
-## Cycle 91  3.451458e+00
-## Cycle 92  3.118334e+00
-## Cycle 93  2.816140e+00
-## Cycle 94  2.542135e+00
-## Cycle 95  2.293809e+00
-## Cycle 96  2.068860e+00
-## Cycle 97  1.865183e+00
-## Cycle 98  1.680853e+00
-## Cycle 99  1.514109e+00
-## Cycle 100 1.363341e+00
-## Cycle 101 1.227082e+00
-## Cycle 102 1.103989e+00
-## Cycle 103 9.928413e-01
-## Cycle 104 8.925233e-01
-## Cycle 105 8.020199e-01
-## Cycle 106 7.204065e-01
-## Cycle 107 6.468418e-01
-## Cycle 108 5.805606e-01
-## Cycle 109 5.208672e-01
-## Cycle 110 4.671297e-01
-## Cycle 111 4.187743e-01
-## Cycle 112 3.752802e-01
-## Cycle 113 3.361748e-01
-## Cycle 114 3.010299e-01
-## Cycle 115 2.694573e-01
-## Cycle 116 2.411055e-01
-## Cycle 117 2.156562e-01
-## Cycle 118 1.928215e-01
-## Cycle 119 1.723409e-01
-## Cycle 120 1.539791e-01
-## Cycle 121 1.375233e-01
-## Cycle 122 1.227815e-01
-## Cycle 123 1.095803e-01
-## Cycle 124 9.776333e-02
-## Cycle 125 8.718945e-02
-## Cycle 126 7.773155e-02
-## Cycle 127 6.927505e-02
-## Cycle 128 6.171680e-02
-## Cycle 129 5.496392e-02
-## Cycle 130 4.893285e-02
-## Cycle 131 4.354845e-02
-## Cycle 132 3.874314e-02
-## Cycle 133 3.445623e-02
-## Cycle 134 3.063320e-02
-## Cycle 135 2.722507e-02
-## Cycle 136 2.418793e-02
-## Cycle 137 2.148237e-02
-## Cycle 138 1.907304e-02
-## Cycle 139 1.692827e-02
-## Cycle 140 1.501970e-02
-## Cycle 141 1.332190e-02
-## Cycle 142 1.181213e-02
-## Cycle 143 1.047004e-02
+## Cycle 1   3.640802e+03
+## Cycle 2   3.599889e+03
+## Cycle 3   3.534150e+03
+## Cycle 4   3.454429e+03
+## Cycle 5   3.364724e+03
+## Cycle 6   3.267560e+03
+## Cycle 7   3.164807e+03
+## Cycle 8   3.057947e+03
+## Cycle 9   2.948207e+03
+## Cycle 10  2.836621e+03
+## Cycle 11  2.724073e+03
+## Cycle 12  2.611320e+03
+## Cycle 13  2.499013e+03
+## Cycle 14  2.387715e+03
+## Cycle 15  2.277902e+03
+## Cycle 16  2.169984e+03
+## Cycle 17  2.064304e+03
+## Cycle 18  1.961151e+03
+## Cycle 19  1.860760e+03
+## Cycle 20  1.763325e+03
+## Cycle 21  1.668995e+03
+## Cycle 22  1.577887e+03
+## Cycle 23  1.490082e+03
+## Cycle 24  1.405636e+03
+## Cycle 25  1.324577e+03
+## Cycle 26  1.246913e+03
+## Cycle 27  1.172630e+03
+## Cycle 28  1.101700e+03
+## Cycle 29  1.034078e+03
+## Cycle 30  9.697063e+02
+## Cycle 31  9.085184e+02
+## Cycle 32  8.504373e+02
+## Cycle 33  7.953791e+02
+## Cycle 34  7.432536e+02
+## Cycle 35  6.939662e+02
+## Cycle 36  6.474182e+02
+## Cycle 37  6.035086e+02
+## Cycle 38  5.621347e+02
+## Cycle 39  5.231927e+02
+## Cycle 40  4.865788e+02
+## Cycle 41  4.521893e+02
+## Cycle 42  4.199217e+02
+## Cycle 43  3.896748e+02
+## Cycle 44  3.613494e+02
+## Cycle 45  3.348481e+02
+## Cycle 46  3.100761e+02
+## Cycle 47  2.869414e+02
+## Cycle 48  2.653546e+02
+## Cycle 49  2.452294e+02
+## Cycle 50  2.264826e+02
+## Cycle 51  2.090341e+02
+## Cycle 52  1.928073e+02
+## Cycle 53  1.777284e+02
+## Cycle 54  1.637272e+02
+## Cycle 55  1.507366e+02
+## Cycle 56  1.386928e+02
+## Cycle 57  1.275349e+02
+## Cycle 58  1.172053e+02
+## Cycle 59  1.076493e+02
+## Cycle 60  9.881534e+01
+## Cycle 61  9.065441e+01
+## Cycle 62  8.312042e+01
+## Cycle 63  7.616988e+01
+## Cycle 64  6.976187e+01
+## Cycle 65  6.385791e+01
+## Cycle 66  5.842187e+01
+## Cycle 67  5.341984e+01
+## Cycle 68  4.882007e+01
+## Cycle 69  4.459284e+01
+## Cycle 70  4.071036e+01
+## Cycle 71  3.714668e+01
+## Cycle 72  3.387756e+01
+## Cycle 73  3.088045e+01
+## Cycle 74  2.813431e+01
+## Cycle 75  2.561957e+01
+## Cycle 76  2.331807e+01
+## Cycle 77  2.121290e+01
+## Cycle 78  1.928839e+01
+## Cycle 79  1.753002e+01
+## Cycle 80  1.592432e+01
+## Cycle 81  1.445883e+01
+## Cycle 82  1.312202e+01
+## Cycle 83  1.190324e+01
+## Cycle 84  1.079265e+01
+## Cycle 85  9.781184e+00
+## Cycle 86  8.860460e+00
+## Cycle 87  8.022768e+00
+## Cycle 88  7.261007e+00
+## Cycle 89  6.568639e+00
+## Cycle 90  5.939658e+00
+## Cycle 91  5.368541e+00
+## Cycle 92  4.850218e+00
+## Cycle 93  4.380037e+00
+## Cycle 94  3.953731e+00
+## Cycle 95  3.567389e+00
+## Cycle 96  3.217431e+00
+## Cycle 97  2.900578e+00
+## Cycle 98  2.613833e+00
+## Cycle 99  2.354453e+00
+## Cycle 100 2.119934e+00
+## Cycle 101 1.907990e+00
+## Cycle 102 1.716534e+00
+## Cycle 103 1.543663e+00
+## Cycle 104 1.387641e+00
+## Cycle 105 1.246888e+00
+## Cycle 106 1.119966e+00
+## Cycle 107 1.005565e+00
+## Cycle 108 9.024944e-01
+## Cycle 109 8.096716e-01
+## Cycle 110 7.261131e-01
+## Cycle 111 6.509261e-01
+## Cycle 112 5.833002e-01
+## Cycle 113 5.225002e-01
+## Cycle 114 4.678599e-01
+## Cycle 115 4.187752e-01
+## Cycle 116 3.746993e-01
+## Cycle 117 3.351371e-01
+## Cycle 118 2.996407e-01
+## Cycle 119 2.678049e-01
+## Cycle 120 2.392636e-01
+## Cycle 121 2.136860e-01
+## Cycle 122 1.907732e-01
+## Cycle 123 1.702557e-01
+## Cycle 124 1.518902e-01
+## Cycle 125 1.354573e-01
+## Cycle 126 1.207593e-01
+## Cycle 127 1.076180e-01
+## Cycle 128 9.587293e-02
+## Cycle 129 8.537976e-02
+## Cycle 130 7.600854e-02
+## Cycle 131 6.764242e-02
+## Cycle 132 6.017636e-02
+## Cycle 133 5.351597e-02
+## Cycle 134 4.757650e-02
+## Cycle 135 4.228183e-02
+## Cycle 136 3.756366e-02
+## Cycle 137 3.336075e-02
+## Cycle 138 2.961816e-02
+## Cycle 139 2.628665e-02
+## Cycle 140 2.332214e-02
+## Cycle 141 2.068510e-02
+## Cycle 142 1.834021e-02
+## Cycle 143 1.625580e-02
 ```
 
 ```r
@@ -7491,6 +7497,91 @@ v_tc_Exp
 # v_tc_SoC  <- m_M_SoC  %*% c(c_H, c_S, c_D)  
 # v_tc_trtA <- m_M_trtA %*% c(c_H + c_trtA, c_S, c_D)  
 # v_tc_trtB <- m_M_trtB %*% c(c_H + c_trtB, c_S, c_D)
+
+# I actually take a different strategy, as below:
+
+
+
+
+
+
+# I want to add a one-off cost to the experimental arm of the cost of subtyping individuals with the subtype we are studying. That is, the cost of the test. The cost of the test itself is 200 Euro, but apparently it is necessary to test 2 people to find 1 with our subtype, so I would double this to 400 Euro. Then I would apply it as a one-off cost in the experimental arm. It's a one-off as they are only tested once, then they are treated. I also would like to apply this in the first cycle of the model as they get tested at the start of the intervention and I don't want to discount the test cost when I do discounting later on in the model code as though it happened at a later cycle.
+
+# I added the subtyping cost to the list of costs at the start of the code-base as below:
+# subtyping_test_cost <- 400
+
+# Now I take the costs for the Experimental arm and I increase the first cycles cost by the subtyping cost as below:
+v_tc_Exp["Cycle 1", ] <- v_tc_Exp["Cycle 1", ] + subtyping_test_cost
+
+# Basically, what I'm doing here is selecting "Cycle 1" and adding the value for "subtyping_test_cost" to the value already > v_tc_Exp# As you can see, in v_tc_Exp row one where I want to make the addition is named or labelled Cycle 1.# So, using v_tc_Exp["Cycle 1", ] allows me to access and manipulate the data associated with Cycle 1.
+# [,1]
+# Cycle 1  2330.82820000
+# Cycle 2  2304.75826402
+# Cycle 3  2262.84641547
+
+# I'm fairly happy that I'm on the right track here, as the value assigned to Cycle 1 initially was 2330.82820000.
+
+# Which should be the cost of one person in cycle one:
+# Cost (Per Cycle)
+# FOLFOX	ESP:
+# 285.54
+# Bevacizumab	ESP: 
+# 1325.87
+# Administration Cost	ESP:
+# 314.94
+
+
+# The cost of all of the above is:
+# 285.54+1325.87+314.94 = 1926.35
+
+
+# Then we need to incorporate the following adverse event costs:
+# Adverse Event Cost	
+# Leukopenia	ESP:
+# 4885.95
+# Diarrhea	ESP: 
+# 507.36
+# Nausea	ESP:
+# 95.03
+# However, as below, the adverse events arent guranteed to happen:
+
+# Adverse Event Incidence - With bevacizumab	
+# Leukopenia	0.07
+# Diarrhea	0.11
+# Nausea	0.07
+
+
+# So, we get the probability times the cost as follows:# 4885.95*0.07 = 342.0165
+# 507.36*0.11 = 55.8096
+# 95.03*0.07 = 6.6521
+
+# Giving us:
+# 6.6521+55.8096+342.0165 = 404.4782
+
+# Altogether giving us a cost of:
+# 285.54+1325.87+314.94+404.4782 = 2330.8282
+
+# Which matches what we had above from the model of the cost in cycle 1:
+# And this makes sense, because in cycle 1 (as below) everyone is in the PFS state, so the only costs we need to think about are the costs of being in the PFS state, that is, the FOLFOX, plus Bev plus administration plus any adverse events. But then in cycle 2 onwards people can move into the OS state and then we need to think about the costs I just mentioned plus the cost of FOLFIRI instead of FOLFOX and Bev for those who are in the OS state. So cycle 1 costs from the model should match up with the costs hand calculated from the paper.
+#> m_M_Exp
+#                     PFS             OS        Dead
+# Cycle 1  1.000000000000 0.000000000000 0.000000000
+# Cycle 2  0.986847718283 0.010089265902 0.003063016
+# Cycle 3  0.966063070135 0.024463980960 0.009472949
+# Cycle 4  0.941303760268 0.039547468020 0.019148772
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -8079,7 +8170,7 @@ sum(v_tc_SoC)
 ```
 
 ```
-## [1] 17935.34
+## [1] 25190.26
 ```
 
 ```r
@@ -8087,7 +8178,7 @@ sum(v_tc_Exp)
 ```
 
 ```
-## [1] 51786.63
+## [1] 81204.12
 ```
 
 ```r
@@ -8165,7 +8256,7 @@ v_tc_d
 ```
 
 ```
-## [1] 17591.16 50539.94
+## [1] 24703.48 79260.21
 ```
 
 ```r
@@ -8185,7 +8276,7 @@ v_tc_d
 
 ```
 ##       Standard of Care Experimental Treatment 
-##               17591.16               50539.94
+##               24703.48               79260.21
 ```
 
 ```r
@@ -8274,8 +8365,8 @@ sum(Discounted_Qalys_gained)
 
 ```
 ##                 Strategy     Cost    Effect Inc_Cost Inc_Effect     ICER Status
-## 1       Standard of Care 17591.16 0.5296938       NA         NA       NA     ND
-## 2 Experimental Treatment 50539.94 0.7368351 32948.78  0.2071414 159064.2     ND
+## 1       Standard of Care 24703.48 0.5296938       NA         NA       NA     ND
+## 2 Experimental Treatment 79260.21 0.7368351 54556.73  0.2071414 263379.2     ND
 ```
 
 ```r
@@ -8284,8 +8375,8 @@ df_cea
 
 ```
 ##                 Strategy     Cost    Effect Inc_Cost Inc_Effect     ICER Status
-## 1       Standard of Care 17591.16 0.5296938       NA         NA       NA     ND
-## 2 Experimental Treatment 50539.94 0.7368351 32948.78  0.2071414 159064.2     ND
+## 1       Standard of Care 24703.48 0.5296938       NA         NA       NA     ND
+## 2 Experimental Treatment 79260.21 0.7368351 54556.73  0.2071414 263379.2     ND
 ```
 
 ```r
@@ -8318,11 +8409,11 @@ table_cea
 
 ```
 ##                 Strategy Costs ($) QALYs Incremental Costs ($)
-## 1       Standard of Care    17,591  0.53                  <NA>
-## 2 Experimental Treatment    50,540  0.74                32,949
+## 1       Standard of Care    24,703  0.53                  <NA>
+## 2 Experimental Treatment    79,260  0.74                54,557
 ##   Incremental QALYs ICER ($/QALY) Status
 ## 1                NA          <NA>     ND
-## 2              0.21       159,064     ND
+## 2              0.21       263,379     ND
 ```
 
 ```r
@@ -8415,6 +8506,7 @@ l_params_all <- list(
   c_PFS_Folfox = c_PFS_Folfox,
   c_PFS_Bevacizumab = c_PFS_Bevacizumab,
   c_OS_Folfiri = c_OS_Folfiri,
+  subtyping_test_cost  = subtyping_test_cost,
   c_D       = c_D,    
   c_AE1 = c_AE1,
   c_AE2 = c_AE2,
@@ -8442,8 +8534,8 @@ oncologySemiMarkov(l_params_all = l_params_all, n_wtp = n_wtp)
 
 ```
 ##                 Strategy  Cost Effect DSAICER
-## 1       Standard of Care 17591 0.3346  105767
-## 2 Experimental Treatment 50540 0.6462  105767
+## 1       Standard of Care 24703 0.3346  175130
+## 2 Experimental Treatment 79260 0.6462  175130
 ```
 
 ```r
@@ -8641,7 +8733,7 @@ administration_cost
 ```
 
 ```
-## [1] 314.9
+## [1] 365
 ```
 
 ```r
@@ -8652,7 +8744,7 @@ c_PFS_Folfox
 ```
 
 ```
-## [1] 285.5
+## [1] 307.8
 ```
 
 ```r
@@ -8663,7 +8755,7 @@ c_PFS_Bevacizumab
 ```
 
 ```
-## [1] 1326
+## [1] 2580
 ```
 
 ```r
@@ -8674,12 +8766,23 @@ c_OS_Folfiri
 ```
 
 ```
-## [1] 139.6
+## [1] 326
 ```
 
 ```r
 Minimum_c_OS_Folfiri  <- c_OS_Folfiri - 0.20*c_OS_Folfiri
 Maximum_c_OS_Folfiri  <- c_OS_Folfiri + 0.20*c_OS_Folfiri
+
+subtyping_test_cost 
+```
+
+```
+## [1] 400
+```
+
+```r
+Minimum_subtyping_test_cost  <- subtyping_test_cost - 0.20*subtyping_test_cost
+Maximum_subtyping_test_cost <- subtyping_test_cost + 0.20*subtyping_test_cost
 
 c_D  
 ```
@@ -8696,7 +8799,7 @@ c_AE1
 ```
 
 ```
-## [1] 4886
+## [1] 2836
 ```
 
 ```r
@@ -8707,7 +8810,7 @@ c_AE2
 ```
 
 ```
-## [1] 507.4
+## [1] 1459
 ```
 
 ```r
@@ -8718,7 +8821,7 @@ c_AE3
 ```
 
 ```
-## [1] 95.03
+## [1] 409
 ```
 
 ```r
@@ -9034,9 +9137,9 @@ Maximum_AE3_DisUtil<- replace(Maximum_AE3_DisUtil, Maximum_AE3_DisUtil>1, 1)
 # options(scipen = 999) # disabling scientific notation in R
 
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "HR_PD_SoC", "HR_PD_Exp", "P_OSD_SoC", "P_OSD_Exp", "p_FA1_STD", "p_FA2_STD", "p_FA3_STD", "p_FA1_EXPR", "p_FA2_EXPR", "p_FA3_EXPR", "administration_cost", "c_PFS_Folfox", "c_PFS_Bevacizumab", "c_OS_Folfiri", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "AE1_DisUtil", "AE2_DisUtil", "AE3_DisUtil"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_P_OSD_SoC, Minimum_P_OSD_Exp, Minimum_p_FA1_STD, Minimum_p_FA2_STD, Minimum_p_FA3_STD, Minimum_p_FA1_EXPR, Minimum_p_FA2_EXPR, Minimum_p_FA3_EXPR, Minimum_administration_cost, Minimum_c_PFS_Folfox, Minimum_c_PFS_Bevacizumab, Minimum_c_OS_Folfiri, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_AE1_DisUtil, Minimum_AE2_DisUtil, Minimum_AE3_DisUtil),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_P_OSD_SoC, Maximum_P_OSD_Exp, Maximum_p_FA1_STD, Maximum_p_FA2_STD, Maximum_p_FA3_STD, Maximum_p_FA1_EXPR, Maximum_p_FA2_EXPR, Maximum_p_FA3_EXPR, Maximum_administration_cost, Maximum_c_PFS_Folfox, Maximum_c_PFS_Bevacizumab, Maximum_c_OS_Folfiri, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_AE1_DisUtil, Maximum_AE2_DisUtil, Maximum_AE3_DisUtil)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "HR_PD_SoC", "HR_PD_Exp", "P_OSD_SoC", "P_OSD_Exp", "p_FA1_STD", "p_FA2_STD", "p_FA3_STD", "p_FA1_EXPR", "p_FA2_EXPR", "p_FA3_EXPR", "administration_cost", "c_PFS_Folfox", "c_PFS_Bevacizumab", "c_OS_Folfiri", "subtyping_test_cost", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "AE1_DisUtil", "AE2_DisUtil", "AE3_DisUtil"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_P_OSD_SoC, Minimum_P_OSD_Exp, Minimum_p_FA1_STD, Minimum_p_FA2_STD, Minimum_p_FA3_STD, Minimum_p_FA1_EXPR, Minimum_p_FA2_EXPR, Minimum_p_FA3_EXPR, Minimum_administration_cost, Minimum_c_PFS_Folfox, Minimum_c_PFS_Bevacizumab, Minimum_c_OS_Folfiri, Minimum_subtyping_test_cost, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_AE1_DisUtil, Minimum_AE2_DisUtil, Minimum_AE3_DisUtil),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_P_OSD_SoC, Maximum_P_OSD_Exp, Maximum_p_FA1_STD, Maximum_p_FA2_STD, Maximum_p_FA3_STD, Maximum_p_FA1_EXPR, Maximum_p_FA2_EXPR, Maximum_p_FA3_EXPR, Maximum_administration_cost, Maximum_c_PFS_Folfox, Maximum_c_PFS_Bevacizumab, Maximum_c_OS_Folfiri, Maximum_subtyping_test_cost, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_AE1_DisUtil, Maximum_AE2_DisUtil, Maximum_AE3_DisUtil)          # max parameter values
 )
 
 
@@ -9125,7 +9228,7 @@ DSAICER  <- run_owsa_det(
 ```
 
 ```
-##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |                                                                      |   0%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |=========                                                             |  14%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |                                                                      |   0%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |                                                                      |   0%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |                                                                      |   0%  |                                                                              |================                                                      |  23%  |                                                                              |================                                                      |  24%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |                                                                      |   0%  |                                                                              |===================                                                   |  27%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |                                                                      |   0%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |=======================                                               |  34%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |                                                                      |   0%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |==========================                                            |  38%  |                                                                              |===========================                                           |  38%  |                                                                              |                                                                      |   0%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |============================                                          |  41%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  42%  |                                                                              |                                                                      |   0%  |                                                                              |==============================                                        |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |==============================                                        |  44%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |                                                                      |   0%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |=================================                                     |  48%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |                                                                      |   0%  |                                                                              |===================================                                   |  50%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |=====================================                                 |  54%  |                                                                              |======================================                                |  54%  |                                                                              |                                                                      |   0%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  56%  |                                                                              |========================================                              |  57%  |                                                                              |========================================                              |  58%  |                                                                              |                                                                      |   0%  |                                                                              |========================================                              |  58%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |                                                                      |   0%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  62%  |                                                                              |============================================                          |  63%  |                                                                              |============================================                          |  64%  |                                                                              |=============================================                         |  64%  |                                                                              |=============================================                         |  65%  |                                                                              |==============================================                        |  65%  |                                                                              |                                                                      |   0%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |===============================================                       |  68%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |                                                                      |   0%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |=================================================                     |  71%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |                                                                      |   0%  |                                                                              |===================================================                   |  73%  |                                                                              |===================================================                   |  74%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  76%  |                                                                              |======================================================                |  77%  |                                                                              |                                                                      |   0%  |                                                                              |======================================================                |  77%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  79%  |                                                                              |========================================================              |  80%  |                                                                              |========================================================              |  81%  |                                                                              |=========================================================             |  81%  |                                                                              |                                                                      |   0%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |==========================================================            |  84%  |                                                                              |===========================================================           |  84%  |                                                                              |===========================================================           |  85%  |                                                                              |                                                                      |   0%  |                                                                              |===========================================================           |  85%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  88%  |                                                                              |                                                                      |   0%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |===============================================================       |  91%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  92%  |                                                                              |                                                                      |   0%  |                                                                              |=================================================================     |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |=================================================================     |  94%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |                                                                      |   0%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================|  99%  |                                                                              |======================================================================| 100%
+##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |                                                                      |   0%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |                                                                      |   0%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |                                                                      |   0%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |=========                                                             |  14%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |                                                                      |   0%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |                                                                      |   0%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |                                                                      |   0%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |================                                                      |  24%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |                                                                      |   0%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |                                                                      |   0%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |                                                                      |   0%  |                                                                              |=======================                                               |  33%  |                                                                              |=======================                                               |  34%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |                                                                      |   0%  |                                                                              |==========================                                            |  37%  |                                                                              |==========================                                            |  38%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |============================                                          |  41%  |                                                                              |=============================                                         |  41%  |                                                                              |                                                                      |   0%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |==============================                                        |  44%  |                                                                              |===============================                                       |  44%  |                                                                              |                                                                      |   0%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |=================================                                     |  48%  |                                                                              |==================================                                    |  48%  |                                                                              |                                                                      |   0%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |                                                                      |   0%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |=====================================                                 |  54%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |                                                                      |   0%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  56%  |                                                                              |========================================                              |  57%  |                                                                              |========================================                              |  58%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |                                                                      |   0%  |                                                                              |==========================================                            |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  62%  |                                                                              |============================================                          |  63%  |                                                                              |                                                                      |   0%  |                                                                              |============================================                          |  63%  |                                                                              |============================================                          |  64%  |                                                                              |=============================================                         |  64%  |                                                                              |=============================================                         |  65%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |                                                                      |   0%  |                                                                              |===============================================                       |  67%  |                                                                              |===============================================                       |  68%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |                                                                      |   0%  |                                                                              |=================================================                     |  70%  |                                                                              |=================================================                     |  71%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |===================================================                   |  74%  |                                                                              |====================================================                  |  74%  |                                                                              |                                                                      |   0%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  76%  |                                                                              |======================================================                |  77%  |                                                                              |======================================================                |  78%  |                                                                              |                                                                      |   0%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  79%  |                                                                              |========================================================              |  80%  |                                                                              |========================================================              |  81%  |                                                                              |=========================================================             |  81%  |                                                                              |                                                                      |   0%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |==========================================================            |  84%  |                                                                              |===========================================================           |  84%  |                                                                              |===========================================================           |  85%  |                                                                              |============================================================          |  85%  |                                                                              |                                                                      |   0%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |                                                                      |   0%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |===============================================================       |  91%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |                                                                      |   0%  |                                                                              |=================================================================     |  93%  |                                                                              |=================================================================     |  94%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |                                                                      |   0%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================|  99%  |                                                                              |======================================================================| 100%
 ```
 
 ```r
@@ -10408,6 +10511,42 @@ a.cIntervention_c_AE3 <-a.cIntervention,
 b.cIntervention_c_AE3 <-b.cIntervention, 
 
 
+
+#  subtyping_test_cost 
+
+Maximum <- Maximum_subtyping_test_cost,
+Mean <- subtyping_test_cost,
+
+se <- ((Maximum) - (Mean)) / 2,
+se,                                  
+
+mean <-Mean,
+mean,
+
+mn.cIntervention <- mean, ## mean cost of intervention
+se.cIntervention <- se, ## standard error of cost of intervention
+
+a.cIntervention <- (mn.cIntervention/se.cIntervention)^2, ## alpha value for cost of intervention (shape)
+b.cIntervention <- (se.cIntervention^2)/mn.cIntervention, ## beta value for cost of intervention (scale)
+
+a.cIntervention,
+b.cIntervention,
+
+subtyping_test_cost = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention), 
+
+a.cIntervention_subtyping_test_cost  <-a.cIntervention,
+b.cIntervention_subtyping_test_cost  <-b.cIntervention, 
+
+
+
+
+
+
+
+
+
+
+
   # Utility vectors with length n_runs 
 
 # There may be helpful books here: C:\Users\Jonathan\Dropbox\PhD\HTA\Markov Modelling\books
@@ -11036,26 +11175,26 @@ head(df_PA_input)
 ## 5   1235    0.05440                     92.93                    1235
 ## 6   1235    0.07169                     92.93                    1235
 ##   Maximum....Maximum_administration_cost Mean....administration_cost
-## 1                                  377.9                       314.9
-## 2                                  377.9                       314.9
-## 3                                  377.9                       314.9
-## 4                                  377.9                       314.9
-## 5                                  377.9                       314.9
-## 6                                  377.9                       314.9
-##   se......Maximum.....Mean...2  se.6 mean....Mean  mean
-## 1                        31.49 31.49        314.9 314.9
-## 2                        31.49 31.49        314.9 314.9
-## 3                        31.49 31.49        314.9 314.9
-## 4                        31.49 31.49        314.9 314.9
-## 5                        31.49 31.49        314.9 314.9
-## 6                        31.49 31.49        314.9 314.9
-##   mn.cIntervention....mean se.cIntervention....se
-## 1                    314.9                  31.49
-## 2                    314.9                  31.49
-## 3                    314.9                  31.49
-## 4                    314.9                  31.49
-## 5                    314.9                  31.49
-## 6                    314.9                  31.49
+## 1                                    438                         365
+## 2                                    438                         365
+## 3                                    438                         365
+## 4                                    438                         365
+## 5                                    438                         365
+## 6                                    438                         365
+##   se......Maximum.....Mean...2 se.6 mean....Mean mean mn.cIntervention....mean
+## 1                         36.5 36.5          365  365                      365
+## 2                         36.5 36.5          365  365                      365
+## 3                         36.5 36.5          365  365                      365
+## 4                         36.5 36.5          365  365                      365
+## 5                         36.5 36.5          365  365                      365
+## 6                         36.5 36.5          365  365                      365
+##   se.cIntervention....se
+## 1                   36.5
+## 2                   36.5
+## 3                   36.5
+## 4                   36.5
+## 5                   36.5
+## 6                   36.5
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2
 ## 1                                                      100
 ## 2                                                      100
@@ -11064,19 +11203,19 @@ head(df_PA_input)
 ## 5                                                      100
 ## 6                                                      100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention a.cIntervention
-## 1                                                    3.149             100
-## 2                                                    3.149             100
-## 3                                                    3.149             100
-## 4                                                    3.149             100
-## 5                                                    3.149             100
-## 6                                                    3.149             100
+## 1                                                     3.65             100
+## 2                                                     3.65             100
+## 3                                                     3.65             100
+## 4                                                     3.65             100
+## 5                                                     3.65             100
+## 6                                                     3.65             100
 ##   b.cIntervention administration_cost
-## 1           3.149               279.3
-## 2           3.149               345.7
-## 3           3.149               299.2
-## 4           3.149               319.5
-## 5           3.149               310.9
-## 6           3.149               278.6
+## 1            3.65               323.7
+## 2            3.65               400.6
+## 3            3.65               346.8
+## 4            3.65               370.2
+## 5            3.65               360.3
+## 6            3.65               322.9
 ##   a.cIntervention_administration_cost....a.cIntervention
 ## 1                                                    100
 ## 2                                                    100
@@ -11085,33 +11224,33 @@ head(df_PA_input)
 ## 5                                                    100
 ## 6                                                    100
 ##   b.cIntervention_administration_cost....b.cIntervention
-## 1                                                  3.149
-## 2                                                  3.149
-## 3                                                  3.149
-## 4                                                  3.149
-## 5                                                  3.149
-## 6                                                  3.149
+## 1                                                   3.65
+## 2                                                   3.65
+## 3                                                   3.65
+## 4                                                   3.65
+## 5                                                   3.65
+## 6                                                   3.65
 ##   Maximum....Maximum_c_PFS_Folfox Mean....c_PFS_Folfox
-## 1                           342.6                285.5
-## 2                           342.6                285.5
-## 3                           342.6                285.5
-## 4                           342.6                285.5
-## 5                           342.6                285.5
-## 6                           342.6                285.5
+## 1                           369.4                307.8
+## 2                           369.4                307.8
+## 3                           369.4                307.8
+## 4                           369.4                307.8
+## 5                           369.4                307.8
+## 6                           369.4                307.8
 ##   se......Maximum.....Mean...2.1  se.7 mean....Mean.1 mean.1
-## 1                          28.55 28.55          285.5  285.5
-## 2                          28.55 28.55          285.5  285.5
-## 3                          28.55 28.55          285.5  285.5
-## 4                          28.55 28.55          285.5  285.5
-## 5                          28.55 28.55          285.5  285.5
-## 6                          28.55 28.55          285.5  285.5
+## 1                          30.78 30.78          307.8  307.8
+## 2                          30.78 30.78          307.8  307.8
+## 3                          30.78 30.78          307.8  307.8
+## 4                          30.78 30.78          307.8  307.8
+## 5                          30.78 30.78          307.8  307.8
+## 6                          30.78 30.78          307.8  307.8
 ##   mn.cIntervention....mean.1 se.cIntervention....se.1
-## 1                      285.5                    28.55
-## 2                      285.5                    28.55
-## 3                      285.5                    28.55
-## 4                      285.5                    28.55
-## 5                      285.5                    28.55
-## 6                      285.5                    28.55
+## 1                      307.8                    30.78
+## 2                      307.8                    30.78
+## 3                      307.8                    30.78
+## 4                      307.8                    30.78
+## 5                      307.8                    30.78
+## 6                      307.8                    30.78
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.1
 ## 1                                                        100
 ## 2                                                        100
@@ -11120,19 +11259,19 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.1 a.cIntervention.1
-## 1                                                      2.855               100
-## 2                                                      2.855               100
-## 3                                                      2.855               100
-## 4                                                      2.855               100
-## 5                                                      2.855               100
-## 6                                                      2.855               100
+## 1                                                      3.078               100
+## 2                                                      3.078               100
+## 3                                                      3.078               100
+## 4                                                      3.078               100
+## 5                                                      3.078               100
+## 6                                                      3.078               100
 ##   b.cIntervention.1 c_PFS_Folfox
-## 1             2.855        320.8
-## 2             2.855        313.7
-## 3             2.855        253.5
-## 4             2.855        269.8
-## 5             2.855        286.4
-## 6             2.855        218.9
+## 1             3.078        345.8
+## 2             3.078        338.2
+## 3             3.078        273.3
+## 4             3.078        290.8
+## 5             3.078        308.7
+## 6             3.078        236.0
 ##   a.cIntervention_c_PFS_Folfox....a.cIntervention
 ## 1                                             100
 ## 2                                             100
@@ -11141,33 +11280,33 @@ head(df_PA_input)
 ## 5                                             100
 ## 6                                             100
 ##   b.cIntervention_c_PFS_Folfox....b.cIntervention
-## 1                                           2.855
-## 2                                           2.855
-## 3                                           2.855
-## 4                                           2.855
-## 5                                           2.855
-## 6                                           2.855
+## 1                                           3.078
+## 2                                           3.078
+## 3                                           3.078
+## 4                                           3.078
+## 5                                           3.078
+## 6                                           3.078
 ##   Maximum....Maximum_c_PFS_Bevacizumab Mean....c_PFS_Bevacizumab
-## 1                                 1591                      1326
-## 2                                 1591                      1326
-## 3                                 1591                      1326
-## 4                                 1591                      1326
-## 5                                 1591                      1326
-## 6                                 1591                      1326
-##   se......Maximum.....Mean...2.2  se.8 mean....Mean.2 mean.2
-## 1                          132.6 132.6           1326   1326
-## 2                          132.6 132.6           1326   1326
-## 3                          132.6 132.6           1326   1326
-## 4                          132.6 132.6           1326   1326
-## 5                          132.6 132.6           1326   1326
-## 6                          132.6 132.6           1326   1326
+## 1                                 3096                      2580
+## 2                                 3096                      2580
+## 3                                 3096                      2580
+## 4                                 3096                      2580
+## 5                                 3096                      2580
+## 6                                 3096                      2580
+##   se......Maximum.....Mean...2.2 se.8 mean....Mean.2 mean.2
+## 1                            258  258           2580   2580
+## 2                            258  258           2580   2580
+## 3                            258  258           2580   2580
+## 4                            258  258           2580   2580
+## 5                            258  258           2580   2580
+## 6                            258  258           2580   2580
 ##   mn.cIntervention....mean.2 se.cIntervention....se.2
-## 1                       1326                    132.6
-## 2                       1326                    132.6
-## 3                       1326                    132.6
-## 4                       1326                    132.6
-## 5                       1326                    132.6
-## 6                       1326                    132.6
+## 1                       2580                      258
+## 2                       2580                      258
+## 3                       2580                      258
+## 4                       2580                      258
+## 5                       2580                      258
+## 6                       2580                      258
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.2
 ## 1                                                        100
 ## 2                                                        100
@@ -11176,19 +11315,19 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.2 a.cIntervention.2
-## 1                                                      13.26               100
-## 2                                                      13.26               100
-## 3                                                      13.26               100
-## 4                                                      13.26               100
-## 5                                                      13.26               100
-## 6                                                      13.26               100
+## 1                                                       25.8               100
+## 2                                                       25.8               100
+## 3                                                       25.8               100
+## 4                                                       25.8               100
+## 5                                                       25.8               100
+## 6                                                       25.8               100
 ##   b.cIntervention.2 c_PFS_Bevacizumab
-## 1             13.26              1321
-## 2             13.26              1113
-## 3             13.26              1302
-## 4             13.26              1325
-## 5             13.26              1393
-## 6             13.26              1380
+## 1              25.8              2570
+## 2              25.8              2166
+## 3              25.8              2533
+## 4              25.8              2578
+## 5              25.8              2711
+## 6              25.8              2686
 ##   a.cIntervention_c_PFS_Bevacizumab....a.cIntervention
 ## 1                                                  100
 ## 2                                                  100
@@ -11197,33 +11336,33 @@ head(df_PA_input)
 ## 5                                                  100
 ## 6                                                  100
 ##   b.cIntervention_c_PFS_Bevacizumab....b.cIntervention
-## 1                                                13.26
-## 2                                                13.26
-## 3                                                13.26
-## 4                                                13.26
-## 5                                                13.26
-## 6                                                13.26
+## 1                                                 25.8
+## 2                                                 25.8
+## 3                                                 25.8
+## 4                                                 25.8
+## 5                                                 25.8
+## 6                                                 25.8
 ##   Maximum....Maximum_c_OS_Folfiri Mean....c_OS_Folfiri
-## 1                           167.5                139.6
-## 2                           167.5                139.6
-## 3                           167.5                139.6
-## 4                           167.5                139.6
-## 5                           167.5                139.6
-## 6                           167.5                139.6
-##   se......Maximum.....Mean...2.3  se.9 mean....Mean.3 mean.3
-## 1                          13.96 13.96          139.6  139.6
-## 2                          13.96 13.96          139.6  139.6
-## 3                          13.96 13.96          139.6  139.6
-## 4                          13.96 13.96          139.6  139.6
-## 5                          13.96 13.96          139.6  139.6
-## 6                          13.96 13.96          139.6  139.6
+## 1                           391.2                  326
+## 2                           391.2                  326
+## 3                           391.2                  326
+## 4                           391.2                  326
+## 5                           391.2                  326
+## 6                           391.2                  326
+##   se......Maximum.....Mean...2.3 se.9 mean....Mean.3 mean.3
+## 1                           32.6 32.6            326    326
+## 2                           32.6 32.6            326    326
+## 3                           32.6 32.6            326    326
+## 4                           32.6 32.6            326    326
+## 5                           32.6 32.6            326    326
+## 6                           32.6 32.6            326    326
 ##   mn.cIntervention....mean.3 se.cIntervention....se.3
-## 1                      139.6                    13.96
-## 2                      139.6                    13.96
-## 3                      139.6                    13.96
-## 4                      139.6                    13.96
-## 5                      139.6                    13.96
-## 6                      139.6                    13.96
+## 1                        326                     32.6
+## 2                        326                     32.6
+## 3                        326                     32.6
+## 4                        326                     32.6
+## 5                        326                     32.6
+## 6                        326                     32.6
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.3
 ## 1                                                        100
 ## 2                                                        100
@@ -11232,19 +11371,19 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.3 a.cIntervention.3
-## 1                                                      1.396               100
-## 2                                                      1.396               100
-## 3                                                      1.396               100
-## 4                                                      1.396               100
-## 5                                                      1.396               100
-## 6                                                      1.396               100
+## 1                                                       3.26               100
+## 2                                                       3.26               100
+## 3                                                       3.26               100
+## 4                                                       3.26               100
+## 5                                                       3.26               100
+## 6                                                       3.26               100
 ##   b.cIntervention.3 c_OS_Folfiri
-## 1             1.396        131.4
-## 2             1.396        111.7
-## 3             1.396        154.8
-## 4             1.396        156.4
-## 5             1.396        136.8
-## 6             1.396        113.2
+## 1              3.26        306.9
+## 2              3.26        260.8
+## 3              3.26        361.6
+## 4              3.26        365.3
+## 5              3.26        319.6
+## 6              3.26        264.3
 ##   a.cIntervention_c_OS_Folfiri....a.cIntervention
 ## 1                                             100
 ## 2                                             100
@@ -11253,26 +11392,26 @@ head(df_PA_input)
 ## 5                                             100
 ## 6                                             100
 ##   b.cIntervention_c_OS_Folfiri....b.cIntervention c_D Maximum....Maximum_c_AE1
-## 1                                           1.396   0                     5863
-## 2                                           1.396   0                     5863
-## 3                                           1.396   0                     5863
-## 4                                           1.396   0                     5863
-## 5                                           1.396   0                     5863
-## 6                                           1.396   0                     5863
+## 1                                            3.26   0                     3403
+## 2                                            3.26   0                     3403
+## 3                                            3.26   0                     3403
+## 4                                            3.26   0                     3403
+## 5                                            3.26   0                     3403
+## 6                                            3.26   0                     3403
 ##   Mean....c_AE1 se......Maximum.....Mean...2.4 se.10 mean....Mean.4 mean.4
-## 1          4886                          488.6 488.6           4886   4886
-## 2          4886                          488.6 488.6           4886   4886
-## 3          4886                          488.6 488.6           4886   4886
-## 4          4886                          488.6 488.6           4886   4886
-## 5          4886                          488.6 488.6           4886   4886
-## 6          4886                          488.6 488.6           4886   4886
+## 1          2836                          283.6 283.6           2836   2836
+## 2          2836                          283.6 283.6           2836   2836
+## 3          2836                          283.6 283.6           2836   2836
+## 4          2836                          283.6 283.6           2836   2836
+## 5          2836                          283.6 283.6           2836   2836
+## 6          2836                          283.6 283.6           2836   2836
 ##   mn.cIntervention....mean.4 se.cIntervention....se.4
-## 1                       4886                    488.6
-## 2                       4886                    488.6
-## 3                       4886                    488.6
-## 4                       4886                    488.6
-## 5                       4886                    488.6
-## 6                       4886                    488.6
+## 1                       2836                    283.6
+## 2                       2836                    283.6
+## 3                       2836                    283.6
+## 4                       2836                    283.6
+## 5                       2836                    283.6
+## 6                       2836                    283.6
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.4
 ## 1                                                        100
 ## 2                                                        100
@@ -11281,40 +11420,40 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.4 a.cIntervention.4
-## 1                                                      48.86               100
-## 2                                                      48.86               100
-## 3                                                      48.86               100
-## 4                                                      48.86               100
-## 5                                                      48.86               100
-## 6                                                      48.86               100
+## 1                                                      28.36               100
+## 2                                                      28.36               100
+## 3                                                      28.36               100
+## 4                                                      28.36               100
+## 5                                                      28.36               100
+## 6                                                      28.36               100
 ##   b.cIntervention.4 c_AE1 a.cIntervention_c_AE1....a.cIntervention
-## 1             48.86  4799                                      100
-## 2             48.86  5590                                      100
-## 3             48.86  4872                                      100
-## 4             48.86  4293                                      100
-## 5             48.86  4085                                      100
-## 6             48.86  4727                                      100
+## 1             28.36  2786                                      100
+## 2             28.36  3244                                      100
+## 3             28.36  2828                                      100
+## 4             28.36  2492                                      100
+## 5             28.36  2371                                      100
+## 6             28.36  2744                                      100
 ##   b.cIntervention_c_AE1....b.cIntervention Maximum....Maximum_c_AE2
-## 1                                    48.86                    608.8
-## 2                                    48.86                    608.8
-## 3                                    48.86                    608.8
-## 4                                    48.86                    608.8
-## 5                                    48.86                    608.8
-## 6                                    48.86                    608.8
+## 1                                    28.36                     1751
+## 2                                    28.36                     1751
+## 3                                    28.36                     1751
+## 4                                    28.36                     1751
+## 5                                    28.36                     1751
+## 6                                    28.36                     1751
 ##   Mean....c_AE2 se......Maximum.....Mean...2.5 se.11 mean....Mean.5 mean.5
-## 1         507.4                          50.74 50.74          507.4  507.4
-## 2         507.4                          50.74 50.74          507.4  507.4
-## 3         507.4                          50.74 50.74          507.4  507.4
-## 4         507.4                          50.74 50.74          507.4  507.4
-## 5         507.4                          50.74 50.74          507.4  507.4
-## 6         507.4                          50.74 50.74          507.4  507.4
+## 1          1459                          145.9 145.9           1459   1459
+## 2          1459                          145.9 145.9           1459   1459
+## 3          1459                          145.9 145.9           1459   1459
+## 4          1459                          145.9 145.9           1459   1459
+## 5          1459                          145.9 145.9           1459   1459
+## 6          1459                          145.9 145.9           1459   1459
 ##   mn.cIntervention....mean.5 se.cIntervention....se.5
-## 1                      507.4                    50.74
-## 2                      507.4                    50.74
-## 3                      507.4                    50.74
-## 4                      507.4                    50.74
-## 5                      507.4                    50.74
-## 6                      507.4                    50.74
+## 1                       1459                    145.9
+## 2                       1459                    145.9
+## 3                       1459                    145.9
+## 4                       1459                    145.9
+## 5                       1459                    145.9
+## 6                       1459                    145.9
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.5
 ## 1                                                        100
 ## 2                                                        100
@@ -11323,40 +11462,40 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.5 a.cIntervention.5
-## 1                                                      5.074               100
-## 2                                                      5.074               100
-## 3                                                      5.074               100
-## 4                                                      5.074               100
-## 5                                                      5.074               100
-## 6                                                      5.074               100
+## 1                                                      14.59               100
+## 2                                                      14.59               100
+## 3                                                      14.59               100
+## 4                                                      14.59               100
+## 5                                                      14.59               100
+## 6                                                      14.59               100
 ##   b.cIntervention.5 c_AE2 a.cIntervention_c_AE2....a.cIntervention
-## 1             5.074 506.2                                      100
-## 2             5.074 596.6                                      100
-## 3             5.074 559.7                                      100
-## 4             5.074 448.1                                      100
-## 5             5.074 579.2                                      100
-## 6             5.074 515.6                                      100
+## 1             14.59  1455                                      100
+## 2             14.59  1716                                      100
+## 3             14.59  1609                                      100
+## 4             14.59  1288                                      100
+## 5             14.59  1665                                      100
+## 6             14.59  1483                                      100
 ##   b.cIntervention_c_AE2....b.cIntervention Maximum....Maximum_c_AE3
-## 1                                    5.074                      114
-## 2                                    5.074                      114
-## 3                                    5.074                      114
-## 4                                    5.074                      114
-## 5                                    5.074                      114
-## 6                                    5.074                      114
+## 1                                    14.59                    490.8
+## 2                                    14.59                    490.8
+## 3                                    14.59                    490.8
+## 4                                    14.59                    490.8
+## 5                                    14.59                    490.8
+## 6                                    14.59                    490.8
 ##   Mean....c_AE3 se......Maximum.....Mean...2.6 se.12 mean....Mean.6 mean.6
-## 1         95.03                          9.503 9.503          95.03  95.03
-## 2         95.03                          9.503 9.503          95.03  95.03
-## 3         95.03                          9.503 9.503          95.03  95.03
-## 4         95.03                          9.503 9.503          95.03  95.03
-## 5         95.03                          9.503 9.503          95.03  95.03
-## 6         95.03                          9.503 9.503          95.03  95.03
+## 1           409                           40.9  40.9            409    409
+## 2           409                           40.9  40.9            409    409
+## 3           409                           40.9  40.9            409    409
+## 4           409                           40.9  40.9            409    409
+## 5           409                           40.9  40.9            409    409
+## 6           409                           40.9  40.9            409    409
 ##   mn.cIntervention....mean.6 se.cIntervention....se.6
-## 1                      95.03                    9.503
-## 2                      95.03                    9.503
-## 3                      95.03                    9.503
-## 4                      95.03                    9.503
-## 5                      95.03                    9.503
-## 6                      95.03                    9.503
+## 1                        409                     40.9
+## 2                        409                     40.9
+## 3                        409                     40.9
+## 4                        409                     40.9
+## 5                        409                     40.9
+## 6                        409                     40.9
 ##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.6
 ## 1                                                        100
 ## 2                                                        100
@@ -11365,33 +11504,89 @@ head(df_PA_input)
 ## 5                                                        100
 ## 6                                                        100
 ##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.6 a.cIntervention.6
-## 1                                                     0.9503               100
-## 2                                                     0.9503               100
-## 3                                                     0.9503               100
-## 4                                                     0.9503               100
-## 5                                                     0.9503               100
-## 6                                                     0.9503               100
-##   b.cIntervention.6  c_AE3 a.cIntervention_c_AE3....a.cIntervention
-## 1            0.9503  87.34                                      100
-## 2            0.9503 100.36                                      100
-## 3            0.9503  76.43                                      100
-## 4            0.9503  99.79                                      100
-## 5            0.9503  88.33                                      100
-## 6            0.9503  88.64                                      100
-##   b.cIntervention_c_AE3....b.cIntervention max....1 min....0.68 mean....u_F
-## 1                                   0.9503        1        0.68        0.85
-## 2                                   0.9503        1        0.68        0.85
-## 3                                   0.9503        1        0.68        0.85
-## 4                                   0.9503        1        0.68        0.85
-## 5                                   0.9503        1        0.68        0.85
-## 6                                   0.9503        1        0.68        0.85
-##   altbriggsse.....max...min...2...1.96. std.error....altbriggsse
-## 1                               0.08163                  0.08163
-## 2                               0.08163                  0.08163
-## 3                               0.08163                  0.08163
-## 4                               0.08163                  0.08163
-## 5                               0.08163                  0.08163
-## 6                               0.08163                  0.08163
+## 1                                                       4.09               100
+## 2                                                       4.09               100
+## 3                                                       4.09               100
+## 4                                                       4.09               100
+## 5                                                       4.09               100
+## 6                                                       4.09               100
+##   b.cIntervention.6 c_AE3 a.cIntervention_c_AE3....a.cIntervention
+## 1              4.09 375.9                                      100
+## 2              4.09 432.0                                      100
+## 3              4.09 329.0                                      100
+## 4              4.09 429.5                                      100
+## 5              4.09 380.2                                      100
+## 6              4.09 381.5                                      100
+##   b.cIntervention_c_AE3....b.cIntervention
+## 1                                     4.09
+## 2                                     4.09
+## 3                                     4.09
+## 4                                     4.09
+## 5                                     4.09
+## 6                                     4.09
+##   Maximum....Maximum_subtyping_test_cost Mean....subtyping_test_cost
+## 1                                    480                         400
+## 2                                    480                         400
+## 3                                    480                         400
+## 4                                    480                         400
+## 5                                    480                         400
+## 6                                    480                         400
+##   se......Maximum.....Mean...2.7 se.13 mean....Mean.7 mean.7
+## 1                             40    40            400    400
+## 2                             40    40            400    400
+## 3                             40    40            400    400
+## 4                             40    40            400    400
+## 5                             40    40            400    400
+## 6                             40    40            400    400
+##   mn.cIntervention....mean.7 se.cIntervention....se.7
+## 1                        400                       40
+## 2                        400                       40
+## 3                        400                       40
+## 4                        400                       40
+## 5                        400                       40
+## 6                        400                       40
+##   a.cIntervention.....mn.cIntervention.se.cIntervention..2.7
+## 1                                                        100
+## 2                                                        100
+## 3                                                        100
+## 4                                                        100
+## 5                                                        100
+## 6                                                        100
+##   b.cIntervention.....se.cIntervention.2..mn.cIntervention.7 a.cIntervention.7
+## 1                                                          4               100
+## 2                                                          4               100
+## 3                                                          4               100
+## 4                                                          4               100
+## 5                                                          4               100
+## 6                                                          4               100
+##   b.cIntervention.7 subtyping_test_cost
+## 1                 4               391.0
+## 2                 4               408.4
+## 3                 4               397.6
+## 4                 4               422.2
+## 5                 4               358.4
+## 6                 4               403.1
+##   a.cIntervention_subtyping_test_cost....a.cIntervention
+## 1                                                    100
+## 2                                                    100
+## 3                                                    100
+## 4                                                    100
+## 5                                                    100
+## 6                                                    100
+##   b.cIntervention_subtyping_test_cost....b.cIntervention max....1 min....0.68
+## 1                                                      4        1        0.68
+## 2                                                      4        1        0.68
+## 3                                                      4        1        0.68
+## 4                                                      4        1        0.68
+## 5                                                      4        1        0.68
+## 6                                                      4        1        0.68
+##   mean....u_F altbriggsse.....max...min...2...1.96. std.error....altbriggsse
+## 1        0.85                               0.08163                  0.08163
+## 2        0.85                               0.08163                  0.08163
+## 3        0.85                               0.08163                  0.08163
+## 4        0.85                               0.08163                  0.08163
+## 5        0.85                               0.08163                  0.08163
+## 6        0.85                               0.08163                  0.08163
 ##   alpha.plus.beta....mean....1...mean...std.error.2....1.8 alpha.plus.beta.2
 ## 1                                                    18.13             18.13
 ## 2                                                    18.13             18.13
@@ -11407,12 +11602,12 @@ head(df_PA_input)
 ## 5                             15.41                              2.72   15.41
 ## 6                             15.41                              2.72   15.41
 ##   beta.8    u_F mean.u_F. u_F_alpha....alpha u_F_beta....beta max....0.78
-## 1   2.72 0.8669      0.85              15.41             2.72        0.78
-## 2   2.72 0.9104      0.85              15.41             2.72        0.78
-## 3   2.72 0.7911      0.85              15.41             2.72        0.78
-## 4   2.72 0.7779      0.85              15.41             2.72        0.78
-## 5   2.72 0.9294      0.85              15.41             2.72        0.78
-## 6   2.72 0.8624      0.85              15.41             2.72        0.78
+## 1   2.72 0.8730      0.85              15.41             2.72        0.78
+## 2   2.72 0.8255      0.85              15.41             2.72        0.78
+## 3   2.72 0.8750      0.85              15.41             2.72        0.78
+## 4   2.72 0.8122      0.85              15.41             2.72        0.78
+## 5   2.72 0.9484      0.85              15.41             2.72        0.78
+## 6   2.72 0.7443      0.85              15.41             2.72        0.78
 ##   min....0.52 mean....u_P briggsse......max.....mean...1.96.2
 ## 1        0.52        0.65                             0.06633
 ## 2        0.52        0.65                             0.06633
@@ -11442,12 +11637,12 @@ head(df_PA_input)
 ## 5                             32.96                             17.75   32.96
 ## 6                             32.96                             17.75   32.96
 ##   beta.9    u_P mean.u_P. u_P_alpha....alpha u_P_beta....beta u_D
-## 1  17.75 0.6770      0.65              32.96            17.75   0
-## 2  17.75 0.7057      0.65              32.96            17.75   0
-## 3  17.75 0.6445      0.65              32.96            17.75   0
-## 4  17.75 0.7649      0.65              32.96            17.75   0
-## 5  17.75 0.7018      0.65              32.96            17.75   0
-## 6  17.75 0.6397      0.65              32.96            17.75   0
+## 1  17.75 0.6433      0.65              32.96            17.75   0
+## 2  17.75 0.6903      0.65              32.96            17.75   0
+## 3  17.75 0.6884      0.65              32.96            17.75   0
+## 4  17.75 0.5993      0.65              32.96            17.75   0
+## 5  17.75 0.7200      0.65              32.96            17.75   0
+## 6  17.75 0.6678      0.65              32.96            17.75   0
 ##   mean....AE1_DisUtil Maximum....Maximum_AE1_DisUtil Maximum.6
 ## 1                0.45                           0.54      0.54
 ## 2                0.45                           0.54      0.54
@@ -11455,7 +11650,7 @@ head(df_PA_input)
 ## 4                0.45                           0.54      0.54
 ## 5                0.45                           0.54      0.54
 ## 6                0.45                           0.54      0.54
-##   se......Maximum.....mean...2.6 se.13 std.error....se.6
+##   se......Maximum.....mean...2.6 se.14 std.error....se.6
 ## 1                          0.045 0.045             0.045
 ## 2                          0.045 0.045             0.045
 ## 3                          0.045 0.045             0.045
@@ -11477,12 +11672,12 @@ head(df_PA_input)
 ## 5                              54.55                              66.67
 ## 6                              54.55                              66.67
 ##   alpha.10 beta.10 AE1_DisUtil alpha_u_AE1....alpha beta_u_AE1....beta
-## 1    54.55   66.67      0.3976                54.55              66.67
-## 2    54.55   66.67      0.4539                54.55              66.67
-## 3    54.55   66.67      0.4483                54.55              66.67
-## 4    54.55   66.67      0.4742                54.55              66.67
-## 5    54.55   66.67      0.3977                54.55              66.67
-## 6    54.55   66.67      0.5031                54.55              66.67
+## 1    54.55   66.67      0.4786                54.55              66.67
+## 2    54.55   66.67      0.3525                54.55              66.67
+## 3    54.55   66.67      0.4152                54.55              66.67
+## 4    54.55   66.67      0.5064                54.55              66.67
+## 5    54.55   66.67      0.4447                54.55              66.67
+## 6    54.55   66.67      0.4173                54.55              66.67
 ##   mean....AE2_DisUtil Maximum....Maximum_AE2_DisUtil Maximum.7
 ## 1                0.19                          0.228     0.228
 ## 2                0.19                          0.228     0.228
@@ -11490,7 +11685,7 @@ head(df_PA_input)
 ## 4                0.19                          0.228     0.228
 ## 5                0.19                          0.228     0.228
 ## 6                0.19                          0.228     0.228
-##   se......Maximum.....mean...2.7 se.14 std.error....se.7
+##   se......Maximum.....mean...2.7 se.15 std.error....se.7
 ## 1                          0.019 0.019             0.019
 ## 2                          0.019 0.019             0.019
 ## 3                          0.019 0.019             0.019
@@ -11512,12 +11707,12 @@ head(df_PA_input)
 ## 5                              80.81                              344.5
 ## 6                              80.81                              344.5
 ##   alpha.11 beta.11 AE2_DisUtil alpha_u_AE2....alpha beta_u_AE2....beta
-## 1    80.81   344.5      0.2194                80.81              344.5
-## 2    80.81   344.5      0.2090                80.81              344.5
-## 3    80.81   344.5      0.1865                80.81              344.5
-## 4    80.81   344.5      0.1809                80.81              344.5
-## 5    80.81   344.5      0.1911                80.81              344.5
-## 6    80.81   344.5      0.2070                80.81              344.5
+## 1    80.81   344.5      0.2045                80.81              344.5
+## 2    80.81   344.5      0.1845                80.81              344.5
+## 3    80.81   344.5      0.2017                80.81              344.5
+## 4    80.81   344.5      0.1690                80.81              344.5
+## 5    80.81   344.5      0.1734                80.81              344.5
+## 6    80.81   344.5      0.2060                80.81              344.5
 ##   mean....AE3_DisUtil Maximum....Maximum_AE3_DisUtil Maximum.8
 ## 1                0.36                          0.432     0.432
 ## 2                0.36                          0.432     0.432
@@ -11525,7 +11720,7 @@ head(df_PA_input)
 ## 4                0.36                          0.432     0.432
 ## 5                0.36                          0.432     0.432
 ## 6                0.36                          0.432     0.432
-##   se......Maximum.....mean...2.8 se.15 std.error....se.8
+##   se......Maximum.....mean...2.8 se.16 std.error....se.8
 ## 1                          0.036 0.036             0.036
 ## 2                          0.036 0.036             0.036
 ## 3                          0.036 0.036             0.036
@@ -11547,19 +11742,19 @@ head(df_PA_input)
 ## 5                              63.64                              113.1
 ## 6                              63.64                              113.1
 ##   alpha.12 beta.12 AE3_DisUtil alpha_u_AE3....alpha beta_u_AE3....beta
-## 1    63.64   113.1      0.4002                63.64              113.1
-## 2    63.64   113.1      0.3636                63.64              113.1
-## 3    63.64   113.1      0.3401                63.64              113.1
-## 4    63.64   113.1      0.3618                63.64              113.1
-## 5    63.64   113.1      0.3304                63.64              113.1
-## 6    63.64   113.1      0.4056                63.64              113.1
+## 1    63.64   113.1      0.3871                63.64              113.1
+## 2    63.64   113.1      0.4000                63.64              113.1
+## 3    63.64   113.1      0.4042                63.64              113.1
+## 4    63.64   113.1      0.3916                63.64              113.1
+## 5    63.64   113.1      0.3393                63.64              113.1
+## 6    63.64   113.1      0.3677                63.64              113.1
 ##         d_c       d_e n_cycle t_cycle
-## 1 2.098e-04 8.106e-05     143      14
-## 2 8.086e-05 1.228e-04     143      14
-## 3 1.562e-04 5.348e-05     143      14
-## 4 9.401e-05 1.453e-04     143      14
-## 5 5.925e-05 1.024e-04     143      14
-## 6 8.537e-05 2.045e-05     143      14
+## 1 7.780e-05 9.469e-05     143      14
+## 2 2.184e-04 1.229e-05     143      14
+## 3 1.491e-04 1.628e-04     143      14
+## 4 2.147e-05 2.057e-04     143      14
+## 5 6.411e-05 8.195e-05     143      14
+## 6 3.498e-05 1.037e-04     143      14
 ```
 
 ```r
@@ -11691,8 +11886,8 @@ l_PA <- make_psa_obj(cost          = df_c,
 
 ```
 ##   Strategy meanCost meanEffect
-## 1      SoC    17638     0.3372
-## 2      Exp    50615     0.6493
+## 1      SoC    24781     0.3367
+## 2      Exp    79402     0.6481
 ```
 
 ```r
@@ -11706,8 +11901,8 @@ l_PA <- make_psa_obj(cost          = df_c,
 
 ```
 ##   Strategy  Cost Effect Inc_Cost Inc_Effect   ICER Status
-## 1      SoC 17638 0.3372       NA         NA     NA     ND
-## 2      Exp 50615 0.6493    32977     0.3121 105663     ND
+## 1      SoC 24781 0.3367       NA         NA     NA     ND
+## 2      Exp 79402 0.6481    54621     0.3114 175379     ND
 ```
 
 ```r
@@ -11717,8 +11912,8 @@ df_cea_PA
 
 ```
 ##   Strategy  Cost Effect Inc_Cost Inc_Effect   ICER Status
-## 1      SoC 17638 0.3372       NA         NA     NA     ND
-## 2      Exp 50615 0.6493    32977     0.3121 105663     ND
+## 1      SoC 24781 0.3367       NA         NA     NA     ND
+## 2      Exp 79402 0.6481    54621     0.3114 175379     ND
 ```
 
 ```r
@@ -11738,11 +11933,11 @@ table_cea_PA
 
 ```
 ##   Strategy Costs ($) QALYs Incremental Costs ($) Incremental QALYs
-## 1      SoC    17,638  0.34                  <NA>                NA
-## 2      Exp    50,615  0.65                32,977              0.31
+## 1      SoC    24,781  0.34                  <NA>                NA
+## 2      Exp    79,402  0.65                54,621              0.31
 ##   ICER ($/QALY) Status
 ## 1          <NA>     ND
-## 2       105,663     ND
+## 2       175,379     ND
 ```
 
 
@@ -11784,8 +11979,8 @@ summary(CEAC_obj)
 
 ```
 ##   range_min range_max cost_eff_strat
-## 1         0    110000            SoC
-## 2    110000    500000            Exp
+## 1         0    180000            SoC
+## 2    180000    500000            Exp
 ```
 
 ```r
@@ -11820,106 +12015,106 @@ elc_obj
 ```
 ##        WTP Strategy Expected_Loss On_Frontier
 ## 1        0      SoC     0.000e+00        TRUE
-## 2        0      Exp     3.298e+04       FALSE
+## 2        0      Exp     5.462e+04       FALSE
 ## 3    10000      SoC     0.000e+00        TRUE
-## 4    10000      Exp     2.986e+04       FALSE
+## 4    10000      Exp     5.151e+04       FALSE
 ## 5    20000      SoC     0.000e+00        TRUE
-## 6    20000      Exp     2.674e+04       FALSE
+## 6    20000      Exp     4.839e+04       FALSE
 ## 7    30000      SoC     0.000e+00        TRUE
-## 8    30000      Exp     2.361e+04       FALSE
+## 8    30000      Exp     4.528e+04       FALSE
 ## 9    40000      SoC     0.000e+00        TRUE
-## 10   40000      Exp     2.049e+04       FALSE
+## 10   40000      Exp     4.216e+04       FALSE
 ## 11   50000      SoC     0.000e+00        TRUE
-## 12   50000      Exp     1.737e+04       FALSE
+## 12   50000      Exp     3.905e+04       FALSE
 ## 13   60000      SoC     0.000e+00        TRUE
-## 14   60000      Exp     1.425e+04       FALSE
-## 15   70000      SoC     4.611e+00        TRUE
-## 16   70000      Exp     1.114e+04       FALSE
-## 17   80000      SoC     7.174e+01        TRUE
-## 18   80000      Exp     8.081e+03       FALSE
-## 19   90000      SoC     4.262e+02        TRUE
-## 20   90000      Exp     5.315e+03       FALSE
-## 21  100000      SoC     1.378e+03        TRUE
-## 22  100000      Exp     3.145e+03       FALSE
-## 23  110000      SoC     3.064e+03       FALSE
-## 24  110000      Exp     1.710e+03        TRUE
-## 25  120000      SoC     5.360e+03       FALSE
-## 26  120000      Exp     8.856e+02        TRUE
-## 27  130000      SoC     8.050e+03       FALSE
-## 28  130000      Exp     4.550e+02        TRUE
-## 29  140000      SoC     1.095e+04       FALSE
-## 30  140000      Exp     2.345e+02        TRUE
-## 31  150000      SoC     1.396e+04       FALSE
-## 32  150000      Exp     1.264e+02        TRUE
-## 33  160000      SoC     1.703e+04       FALSE
-## 34  160000      Exp     6.978e+01        TRUE
-## 35  170000      SoC     2.012e+04       FALSE
-## 36  170000      Exp     3.839e+01        TRUE
-## 37  180000      SoC     2.322e+04       FALSE
-## 38  180000      Exp     2.133e+01        TRUE
-## 39  190000      SoC     2.633e+04       FALSE
-## 40  190000      Exp     1.179e+01        TRUE
-## 41  200000      SoC     2.945e+04       FALSE
-## 42  200000      Exp     6.216e+00        TRUE
-## 43  210000      SoC     3.257e+04       FALSE
-## 44  210000      Exp     3.589e+00        TRUE
-## 45  220000      SoC     3.569e+04       FALSE
-## 46  220000      Exp     2.008e+00        TRUE
-## 47  230000      SoC     3.881e+04       FALSE
-## 48  230000      Exp     1.243e+00        TRUE
-## 49  240000      SoC     4.193e+04       FALSE
-## 50  240000      Exp     7.661e-01        TRUE
-## 51  250000      SoC     4.505e+04       FALSE
-## 52  250000      Exp     3.957e-01        TRUE
-## 53  260000      SoC     4.817e+04       FALSE
-## 54  260000      Exp     1.165e-01        TRUE
-## 55  270000      SoC     5.129e+04       FALSE
-## 56  270000      Exp     1.012e-02        TRUE
-## 57  280000      SoC     5.441e+04       FALSE
-## 58  280000      Exp     0.000e+00        TRUE
-## 59  290000      SoC     5.753e+04       FALSE
-## 60  290000      Exp     0.000e+00        TRUE
-## 61  300000      SoC     6.065e+04       FALSE
-## 62  300000      Exp     0.000e+00        TRUE
-## 63  310000      SoC     6.377e+04       FALSE
-## 64  310000      Exp     0.000e+00        TRUE
-## 65  320000      SoC     6.689e+04       FALSE
-## 66  320000      Exp     0.000e+00        TRUE
-## 67  330000      SoC     7.002e+04       FALSE
-## 68  330000      Exp     0.000e+00        TRUE
-## 69  340000      SoC     7.314e+04       FALSE
-## 70  340000      Exp     0.000e+00        TRUE
-## 71  350000      SoC     7.626e+04       FALSE
-## 72  350000      Exp     0.000e+00        TRUE
-## 73  360000      SoC     7.938e+04       FALSE
-## 74  360000      Exp     0.000e+00        TRUE
-## 75  370000      SoC     8.250e+04       FALSE
-## 76  370000      Exp     0.000e+00        TRUE
-## 77  380000      SoC     8.562e+04       FALSE
-## 78  380000      Exp     0.000e+00        TRUE
-## 79  390000      SoC     8.874e+04       FALSE
-## 80  390000      Exp     0.000e+00        TRUE
-## 81  400000      SoC     9.186e+04       FALSE
-## 82  400000      Exp     0.000e+00        TRUE
-## 83  410000      SoC     9.498e+04       FALSE
-## 84  410000      Exp     0.000e+00        TRUE
-## 85  420000      SoC     9.810e+04       FALSE
-## 86  420000      Exp     0.000e+00        TRUE
-## 87  430000      SoC     1.012e+05       FALSE
-## 88  430000      Exp     0.000e+00        TRUE
-## 89  440000      SoC     1.043e+05       FALSE
+## 14   60000      Exp     3.593e+04       FALSE
+## 15   70000      SoC     0.000e+00        TRUE
+## 16   70000      Exp     3.282e+04       FALSE
+## 17   80000      SoC     0.000e+00        TRUE
+## 18   80000      Exp     2.971e+04       FALSE
+## 19   90000      SoC     0.000e+00        TRUE
+## 20   90000      Exp     2.659e+04       FALSE
+## 21  100000      SoC     4.135e-01        TRUE
+## 22  100000      Exp     2.348e+04       FALSE
+## 23  110000      SoC     4.469e+00        TRUE
+## 24  110000      Exp     2.037e+04       FALSE
+## 25  120000      SoC     2.859e+01        TRUE
+## 26  120000      Exp     1.728e+04       FALSE
+## 27  130000      SoC     1.167e+02        TRUE
+## 28  130000      Exp     1.425e+04       FALSE
+## 29  140000      SoC     3.529e+02        TRUE
+## 30  140000      Exp     1.137e+04       FALSE
+## 31  150000      SoC     8.608e+02        TRUE
+## 32  150000      Exp     8.765e+03       FALSE
+## 33  160000      SoC     1.736e+03        TRUE
+## 34  160000      Exp     6.526e+03       FALSE
+## 35  170000      SoC     3.031e+03        TRUE
+## 36  170000      Exp     4.707e+03       FALSE
+## 37  180000      SoC     4.761e+03       FALSE
+## 38  180000      Exp     3.322e+03        TRUE
+## 39  190000      SoC     6.858e+03       FALSE
+## 40  190000      Exp     2.304e+03        TRUE
+## 41  200000      SoC     9.250e+03       FALSE
+## 42  200000      Exp     1.582e+03        TRUE
+## 43  210000      SoC     1.186e+04       FALSE
+## 44  210000      Exp     1.079e+03        TRUE
+## 45  220000      SoC     1.463e+04       FALSE
+## 46  220000      Exp     7.367e+02        TRUE
+## 47  230000      SoC     1.752e+04       FALSE
+## 48  230000      Exp     5.038e+02        TRUE
+## 49  240000      SoC     2.047e+04       FALSE
+## 50  240000      Exp     3.414e+02        TRUE
+## 51  250000      SoC     2.347e+04       FALSE
+## 52  250000      Exp     2.307e+02        TRUE
+## 53  260000      SoC     2.651e+04       FALSE
+## 54  260000      Exp     1.559e+02        TRUE
+## 55  270000      SoC     2.958e+04       FALSE
+## 56  270000      Exp     1.070e+02        TRUE
+## 57  280000      SoC     3.266e+04       FALSE
+## 58  280000      Exp     7.389e+01        TRUE
+## 59  290000      SoC     3.575e+04       FALSE
+## 60  290000      Exp     5.125e+01        TRUE
+## 61  300000      SoC     3.885e+04       FALSE
+## 62  300000      Exp     3.616e+01        TRUE
+## 63  310000      SoC     4.195e+04       FALSE
+## 64  310000      Exp     2.496e+01        TRUE
+## 65  320000      SoC     4.506e+04       FALSE
+## 66  320000      Exp     1.677e+01        TRUE
+## 67  330000      SoC     4.817e+04       FALSE
+## 68  330000      Exp     1.142e+01        TRUE
+## 69  340000      SoC     5.128e+04       FALSE
+## 70  340000      Exp     7.748e+00        TRUE
+## 71  350000      SoC     5.439e+04       FALSE
+## 72  350000      Exp     5.449e+00        TRUE
+## 73  360000      SoC     5.750e+04       FALSE
+## 74  360000      Exp     3.832e+00        TRUE
+## 75  370000      SoC     6.062e+04       FALSE
+## 76  370000      Exp     2.647e+00        TRUE
+## 77  380000      SoC     6.373e+04       FALSE
+## 78  380000      Exp     2.025e+00        TRUE
+## 79  390000      SoC     6.684e+04       FALSE
+## 80  390000      Exp     1.554e+00        TRUE
+## 81  400000      SoC     6.996e+04       FALSE
+## 82  400000      Exp     1.083e+00        TRUE
+## 83  410000      SoC     7.307e+04       FALSE
+## 84  410000      Exp     7.632e-01        TRUE
+## 85  420000      SoC     7.619e+04       FALSE
+## 86  420000      Exp     4.449e-01        TRUE
+## 87  430000      SoC     7.930e+04       FALSE
+## 88  430000      Exp     1.266e-01        TRUE
+## 89  440000      SoC     8.241e+04       FALSE
 ## 90  440000      Exp     0.000e+00        TRUE
-## 91  450000      SoC     1.075e+05       FALSE
+## 91  450000      SoC     8.553e+04       FALSE
 ## 92  450000      Exp     0.000e+00        TRUE
-## 93  460000      SoC     1.106e+05       FALSE
+## 93  460000      SoC     8.864e+04       FALSE
 ## 94  460000      Exp     0.000e+00        TRUE
-## 95  470000      SoC     1.137e+05       FALSE
+## 95  470000      SoC     9.176e+04       FALSE
 ## 96  470000      Exp     0.000e+00        TRUE
-## 97  480000      SoC     1.168e+05       FALSE
+## 97  480000      SoC     9.487e+04       FALSE
 ## 98  480000      Exp     0.000e+00        TRUE
-## 99  490000      SoC     1.200e+05       FALSE
+## 99  490000      SoC     9.799e+04       FALSE
 ## 100 490000      Exp     0.000e+00        TRUE
-## 101 500000      SoC     1.231e+05       FALSE
+## 101 500000      SoC     1.011e+05       FALSE
 ## 102 500000      Exp     0.000e+00        TRUE
 ```
 

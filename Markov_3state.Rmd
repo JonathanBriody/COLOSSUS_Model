@@ -163,24 +163,24 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-#country_name <- "Ireland"
+country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-#c_PFS_Folfox <- 307.81 
-#c_PFS_Bevacizumab <- 2580.38  
-#c_OS_Folfiri <- 326.02  
-#administration_cost <- 365.00 
-#subtyping_test_cost <- 400 
+c_PFS_Folfox <- 307.81 
+c_PFS_Bevacizumab <- 2580.38  
+c_OS_Folfiri <- 326.02  
+administration_cost <- 365.00 
+subtyping_test_cost <- 400 
 
 
 # 2. Cost of treating the AE conditional on it occurring
-#c_AE1 <- 2835.89
-#c_AE2 <- 1458.80
-#c_AE3 <- 409.03 
+c_AE1 <- 2835.89
+c_AE2 <- 1458.80
+c_AE3 <- 409.03 
 
 # 3. Willingness to pay threshold
-#n_wtp = 45000
+n_wtp = 45000
 
 
 
@@ -208,23 +208,23 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Spain:
 
-country_name <- "Spain"
+#country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 285.54
-c_PFS_Bevacizumab <- 1325.87
-c_OS_Folfiri <- 139.58
-administration_cost <- 314.94
-subtyping_test_cost <- 400 
+#c_PFS_Folfox <- 285.54
+#c_PFS_Bevacizumab <- 1325.87
+#c_OS_Folfiri <- 139.58
+#administration_cost <- 314.94
+#subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 4885.95
-c_AE2 <- 507.36
-c_AE3 <- 95.03
+#c_AE1 <- 4885.95
+#c_AE2 <- 507.36
+#c_AE3 <- 95.03
 
 # 3. Willingness to pay threshold
-n_wtp = 30000
+#n_wtp = 30000
 
 
 
