@@ -163,24 +163,24 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-country_name <- "Ireland"
+#country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 141.66
-c_PFS_Bevacizumab <- 1187.55
-c_OS_Folfiri <- 150.04
-administration_cost <- 365.00 
-subtyping_test_cost <- 400 
+#c_PFS_Folfox <- 141.66
+#c_PFS_Bevacizumab <- 1187.55
+#c_OS_Folfiri <- 150.04
+#administration_cost <- 365.00 
+#subtyping_test_cost <- 400 
 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03 
+#c_AE1 <- 2835.89
+#c_AE2 <- 1458.80
+#c_AE3 <- 409.03 
 
 # 3. Willingness to pay threshold
-n_wtp = 45000
+#n_wtp = 45000
 
 
 
@@ -190,16 +190,17 @@ n_wtp = 45000
 #country_name <- "Germany"
 
 # 1. Cost of treatment in this country
-#c_PFS_Folfox <- 1276.66
-#c_PFS_Bevacizumab <- 2952.24
-#c_OS_Folfiri <- 1309.64
+
+#c_PFS_Folfox <- ((1276.66 / 30) * 14)
+#c_PFS_Bevacizumab <- ((2952.24 / 30) * 14)
+#c_OS_Folfiri <- ((1309.64 / 30) * 14)
 #administration_cost <- 1794.40
 #subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
 #c_AE1 <- 3837
 #c_AE2 <- 1816.37
-#c_AE3 <- 526.70
+#c_AE3 <- 68
 
 # 3. Willingness to pay threshold
 #n_wtp = 78871
@@ -208,23 +209,23 @@ n_wtp = 45000
 
 # Spain:
 
-#country_name <- "Spain"
+country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-#c_PFS_Folfox <- 285.54
-#c_PFS_Bevacizumab <- 1325.87
-#c_OS_Folfiri <- 139.58
-#administration_cost <- 314.94
-#subtyping_test_cost <- 400 
+c_PFS_Folfox <- 285.54
+c_PFS_Bevacizumab <- 1325.87
+c_OS_Folfiri <- 139.58
+administration_cost <- 314.94
+subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
-#c_AE1 <- 4885.95
-#c_AE2 <- 507.36
-#c_AE3 <- 95.03
+c_AE1 <- 4885.95
+c_AE2 <- 507.36
+c_AE3 <- 95.03
 
 # 3. Willingness to pay threshold
-#n_wtp = 30000
+n_wtp = 30000
 
 
 
@@ -4886,8 +4887,8 @@ for(i_run in 1:n_runs){
 # # To check that the above DSAICER is actually calculating the ICER values, I manually checked this by exporting the dataframe of costs and effects from SoC and Exp to Excel and then manually calculated the ICERs, and the ICERs calculated in the Excel match those in DSAICER (in MANUAL ICER CALCULATIONS IRELAND.xlsx):
 # 
 # write.csv(DSAICER,'DSAICER.csv')
-# write.csv(df_e,'df_e.csv')
-# write.csv(df_c,'df_c.csv')
+# write.csv(df_e,'df_eGER.csv')
+# write.csv(df_c,'df_cGER.csv')
 # 
 
 # When I averaged the ICERs in DSAICER they didnt match the ICER created below, in table_cea_PA, but I did match the ICER in the table with the ICER I created by averaging the incremental costs and effects (which matchered the incremental costs and effects in the table when I averaged these) and creating the ICER by dividing the average incremental cost by the average incremental utility, so it must just be that they calculate their ICER in the table by dividing the average incremental cost by the average incremental utility, rather than average all the ICERs created in the PSA. Which would make sense as I updated their function code to include DSAICER, originally it was NMB in the function where I create DSAICER in the first place, so they wouldnt have had a DSAICER to average across all the runs. So it makes sense theyd have to go this way as they'll always be calculating costs and effects, but they won't always know what you are interested in as your final measure, i.e., ICER, NMB, etc.,
@@ -4910,6 +4911,8 @@ for(i_run in 1:n_runs){
 # so 100-0.18, 99.82% of simulations were not cost-effective. 
 
 # And the CEAC I created reflects this, you'll see that in the CEAC for Ireland, the probability of cost-effectiveness hovers at around 0 for standard of care up until WTP thresholds go above 50k, at which point it starts to climb (slowly).
+
+# And that's really the whole point of the CEAC, it's fed by the PSA and basically puts the PSA ICERs in order from smallest to biggest so you can see what percentage of them fall under the different WTP thresholds. Try to remember that the CEAC is just taking the PSA values for ICERs and putting them on a graph that shows how many are under the WTP threshold described at the bottom.
 
 
 ```
