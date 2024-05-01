@@ -4977,6 +4977,9 @@ df_cea_PA
 ## CEA table in proper format ---- per: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\R-HTA in LMICs Intermediate R-HTA Modelling Tutorial\September-Workshop-main\September-Workshop-main\analysis\cSTM_time_dep_simulation.r
 table_cea_PA <- format_table_cea(df_cea_PA) # Function included in "R/Functions.R"; depends on the `scales` package
 table_cea_PA
+# Save the dataframe of the CEA table to a CSV file
+write.csv(table_cea_PA, file = paste0("ICER_For_", country_name, ".csv"), row.names = FALSE)
+
 ```
 
 ```{r}
@@ -5051,6 +5054,20 @@ EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
 # EVPI plot
 #plot(EVPI_obj, effect_units = "QALY")
 # I don't plot this anymore.
+```
+
+```{r}
+
+# Necessary cost reduction in Bevacizumab:
+
+# I want to know how much of a cost reduction in bevacizumab would be required to produce an ICER at or below the WTP threshold, so I source the following R script where I decrement the cost of bevacizumab over and over again in loops that compare the associated ICER produced by these cost decreases to the WTP and that saves a note text document of the price required for the ICER to be <= the WTP:
+
+source("bev_cost_reduction_required.R")
+
+
+# This is quite a time-consuming piece of code to run, so it's likely best to comment it out and only run it as and when is necessary to figure out the necessary cost reduction in bev for the paper.
+
+
 ```
 
 ```{r}
