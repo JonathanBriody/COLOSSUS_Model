@@ -3328,10 +3328,12 @@ while (!is.null(dev.list()))  dev.off()
 # dataframe containing all parameters, their basecase values, and the min and 
 # max values of the parameters of interest
 
-df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
-                             min  = c(Minimum_HR_FP_SoC, Minimum_HR_FP_Exp),  # min parameter values
-                             max  = c(Maximum_HR_FP_SoC, Maximum_HR_FP_Exp) # max parameter values
-)
+# I rcently (01/05/24) commented out the below as #@# because it increases my compute time and I don't use it: 
+
+#@# df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
+#@#                             min  = c(Minimum_HR_FP_SoC, Minimum_HR_FP_Exp),  # min parameter values
+#@#                             max  = c(Maximum_HR_FP_SoC, Maximum_HR_FP_Exp) # max parameter values
+#@# )
 
 
 
@@ -3355,10 +3357,13 @@ df_params_TWSA <- data.frame(pars = c("HR_FP_SoC", "HR_FP_Exp"),
 # The TWSA is performed using the run_twsa_det function
 
 
-TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with parameters for TWSA
-                         params_basecase = l_params_all,      # list with all parameters, the "pars" chosen in the data.frame to be analysed here must be a subset of these.
+# I rcently (01/05/24) commented out the below as #@# because it increases my compute time and I don't use it: 
+
+
+ #@# TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe with parameters for TWSA
+ #@#                         params_basecase = l_params_all,      # list with all parameters, the "pars" chosen in the data.frame to be analysed here must be a subset of these.
                          
-                         nsamp           = 40,                # number of parameter values. If NULL, 40 parameter values are used
+ #@#                         nsamp           = 40,                # number of parameter values. If NULL, 40 parameter values are used
 
  # number of parameter values
 
@@ -3371,7 +3376,7 @@ TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe wi
 # cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html
                          
                          
-                         FUN             = oncologySemiMarkov,  # function to compute outputs
+ #@#                         FUN             = oncologySemiMarkov,  # function to compute outputs
 
 # Function that takes the basecase in params_all and produces the outcome of interest. The FUN must return a dataframe where the first column is the strategy names and the rest of the columns must be outcomes. Which df_ce in the function does.
 
@@ -3379,12 +3384,12 @@ TWSA_DSAICER <- run_twsa_det(params_range    = df_params_TWSA,    # dataframe wi
 
 # https://rdrr.io/cran/dampack/man/run_twsa_det.html
 
-                         outcomes        = c("DSAICER"),             # output to do the TWSA on
-                         strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
-                         progress        = TRUE, #Progress bar like before
+ #@#                         outcomes        = c("DSAICER"),             # output to do the TWSA on
+ #@#                         strategies      = v_names_strats,       # names of the strategies.The default (NULL) will use strategy names in FUN
+ #@#                         progress        = TRUE, #Progress bar like before
 
-                         n_wtp           = n_wtp               # extra argument to pass to FUN to specify the willingness to pay
-)
+ #@#                         n_wtp           = n_wtp               # extra argument to pass to FUN to specify the willingness to pay
+ #@# )
 
 # plot(TWSA_DSAICER)
 
