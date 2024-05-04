@@ -1,3 +1,7 @@
+# I record the original value of c_PFS_Bevacizumab here on the understanding that this will be updated later by the fact that I keep changing this in continuous decrements to bring cost down and see the effect on ICERs:
+
+Original_Price_c_PFS_Bevacizumab <- c_PFS_Bevacizumab
+
 # Initialize c_PFS_BevacizumabReduction as NULL
 c_PFS_BevacizumabReduction <- NULL
 
@@ -1565,18 +1569,24 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
   if(df_cea_PA$ICER[2] <= n_wtp) {
     # If it is, assign the current value of c_PFS_Bevacizumab to c_PFS_BevacizumabReduction
     c_PFS_BevacizumabReduction <- c_PFS_Bevacizumab
+
+
+# Calculate the percentage reduction of c_PFS_Bevacizumab from Original_Price_c_PFS_Bevacizumab
+    percentage_reduction <- (Original_Price_c_PFS_Bevacizumab - c_PFS_Bevacizumab) / Original_Price_c_PFS_Bevacizumab * 100        
     
+        
     # Save the value of c_PFS_BevacizumabReduction to a notepad document
 #    write(c_PFS_BevacizumabReduction, file = paste0("necessary_bev_cost_reduction_",country_name, ".txt"))
     
     
     # Actually, I want to save the value of c_PFS_BevacizumabReduction and the ICER this produces to a notepad document, which I now do as below:
     
+    # Save the value of c_PFS_BevacizumabReduction, df_cea_PA$ICER[2], and the percentage reduction to a notepad document
+    
     write(paste("c_PFS_BevacizumabReduction:", c_PFS_BevacizumabReduction, 
-                "\ndf_cea_PA$ICER[2]:", df_cea_PA$ICER[2]), 
+                "\ndf_cea_PA$ICER[2]:", df_cea_PA$ICER[2], 
+          "\nNecessary Percentage Bevacizumab reduction:", percentage_reduction, "%"),
           file = paste0("necessary_bev_cost_reduction_",country_name, ".txt"))
-    
-    
     
     
     # Print the value of c_PFS_BevacizumabReduction

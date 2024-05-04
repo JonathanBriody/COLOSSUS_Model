@@ -98,8 +98,9 @@ options(knitr.duplicate.label = "allow")
 ```
 
 ```{r}
-#rm(list = ls())  
+rm(list = ls())  
 # clear memory (removes all the variables from the work space) - I turn this off on the understanding that the markdown doc that calls this file will clear memory.
+# I Temporarily turn this on again, as Iim hoping to call this document multiple times and don't wan the variables created to stack up, when really each time the code runs they should be created from scratch. If they arent it might mean they start getting increased or decreased or somehow else changed in a manner that I don't notice and ultimately mess up my results with incorrect inputs.
 #options(scipen=999) 
 # turns scientific notation off
 # options(scipen=0) turns it back on, per: https://stackoverflow.com/questions/5352099/how-can-i-disable-scientific-notation
@@ -163,24 +164,24 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-country_name <- "Ireland"
+# country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 141.66
-c_PFS_Bevacizumab <- 1187.55
-c_OS_Folfiri <- 150.04
-administration_cost <- 365.00
-subtyping_test_cost <- 400
+# c_PFS_Folfox <- 141.66
+# c_PFS_Bevacizumab <- 1187.55
+# c_OS_Folfiri <- 150.04
+# administration_cost <- 365.00
+# subtyping_test_cost <- 400
 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03
+# c_AE1 <- 2835.89
+# c_AE2 <- 1458.80
+# c_AE3 <- 409.03
 
 # 3. Willingness to pay threshold
-n_wtp = 45000
+# n_wtp = 45000
 
 
 
@@ -209,23 +210,23 @@ n_wtp = 45000
 
 # Spain:
 
-# country_name <- "Spain"
+country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 285.54
-# c_PFS_Bevacizumab <- 1325.87
-# c_OS_Folfiri <- 139.58
-# administration_cost <- 314.94
-# subtyping_test_cost <- 400 
+c_PFS_Folfox <- 297.97
+c_PFS_Bevacizumab <- 1325.87
+c_OS_Folfiri <- 139.58
+administration_cost <- 314.94
+subtyping_test_cost <- 400 
 
 # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 4885.95
-# c_AE2 <- 507.36
-# c_AE3 <- 95.03
+c_AE1 <- 4885.95
+c_AE2 <- 285.92 
+c_AE3 <- 32.86
 
 # 3. Willingness to pay threshold
-# n_wtp = 30000
+n_wtp = 30000
 
 
 
@@ -5029,8 +5030,12 @@ while (!is.null(dev.list()))  dev.off()
 ```{r}
 #09.4.4 Expected Loss Curves (ELCs)
 #The expected loss is the the quantification of the foregone benefits when choosing a suboptimal strategy given current evidence.
-elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_PA)
-elc_obj
+
+# I comment out the elc_obj below for the time being (02/05/24), as I don't really use it in the paper:
+
+# elc_obj <- calc_exp_loss(wtp = v_wtp, psa = l_PA)
+# elc_obj
+
 # ELC plot
 #plot(elc_obj, log_y = FALSE)
 # I don't use this plot anymore
@@ -5050,10 +5055,22 @@ elc_obj
 
 #There's also a paper on this here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\Betadist utility\EVSI.doc
 
-EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
+# I comment out the EVPI_obj below for the time being (02/05/24), as I don't really use it in the paper:
+
+#EVPI_obj <- calc_evpi(wtp = v_wtp, psa = l_PA)
+
 # EVPI plot
 #plot(EVPI_obj, effect_units = "QALY")
 # I don't plot this anymore.
+```
+
+```{r}
+
+# What percentage of ICERs in our PSA are cost-effective?
+
+# source("percent_ICERS_cost_effective.R")
+
+
 ```
 
 ```{r}

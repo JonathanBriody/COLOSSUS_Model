@@ -1,0 +1,3 @@
+c_PFS_BevacizumabReduction: 669.665608921733 
+df_cea_PA$ICER[2]: 44817.3024409339 
+Necessary Percentage Bevacizumab reduction: 22.2178640600853 %
