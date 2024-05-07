@@ -192,6 +192,8 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # 1. Cost of treatment in this country
 
+# I received my costs as cost's per month, so I update these to be fortnightly mobths as below:
+
 # c_PFS_Folfox <- ((1276.66 / 30) * 14)
 # c_PFS_Bevacizumab <- ((2952.24 / 30) * 14)
 # c_OS_Folfiri <- ((1309.64 / 30) * 14)
@@ -222,8 +224,8 @@ subtyping_test_cost <- 400
 
 # 2. Cost of treating the AE conditional on it occurring
 c_AE1 <- 4885.95
-c_AE2 <- 285.92 
-c_AE3 <- 32.86
+c_AE2 <- 285.49 
+c_AE3 <- 32.81
 
 # 3. Willingness to pay threshold
 n_wtp = 30000
@@ -5066,7 +5068,9 @@ while (!is.null(dev.list()))  dev.off()
 
 ```{r}
 
-# What percentage of ICERs in our PSA are cost-effective?
+# What percentage of ICERs in our PSA are cost-effective at the values included in this analysis?
+
+# I need to figure out some bugs in the below, I would have expected 10,000 ICERs and thus far I am only seeing 5,400... Maybe I just update the below to manually calculate it with df_c and df_e 
 
 # source("percent_ICERS_cost_effective.R")
 
@@ -5083,6 +5087,10 @@ source("bev_cost_reduction_required.R")
 
 
 # This is quite a time-consuming piece of code to run, so it's likely best to comment it out and only run it as and when is necessary to figure out the necessary cost reduction in bev for the paper.
+
+
+# I also include this piece of code to shut down my computer when all simulations are done, it doesnt need to always be on, I really just include it when running the simulations overnight:
+
 
 
 ```

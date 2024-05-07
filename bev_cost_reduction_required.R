@@ -1603,3 +1603,15 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
 # The loop will continue until df_cea_PA$ICER is less than or equal to n_wtp or the counter reaches 300
 
 
+# At the very end, I want to set Bevacizumab back to the price it started with before all these reductions:
+
+c_PFS_Bevacizumab <- Original_Price_c_PFS_Bevacizumab
+
+
+
+
+
+
+
+
+
