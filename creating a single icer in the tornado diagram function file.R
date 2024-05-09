@@ -147,7 +147,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     
     
     
-   
+    
     
     
     # I create S_FP_Exp (below) after the code above for SoC in my function, and with XNU_S_FP_SoC in the place of S_FP_SoC, because XNU_S_FP_SoC is S_FP_SoC post multiplication by the SoC hazard ratio. In the OWSA everything but the one thing being varied is held at it's basecase values, so if I am considering changes in HR_FP_Exp for the OWSA the hazard ratio for SoC won't be changing by 20% and thus effecting the S_FP_Exp created by multiplying the exp hazard ratio by the SoC rates because it will be kept at it's base values. However, for the hazard ratio adjustments for SoC and Exp to have a logical covariance in the TWSA, one needs to be drawing from the other so that I can say they are related because the hazard ratio for the experimental strategy is multiplied by the rate of events under soc, and that's not the case if I use S_FP_SoC rather than XNU_S_FP_SoC because they won't be changing together as S_FP_SoC isnt multiplied by the hazard ratio, XNU_S_FP_SoC is, so the rate of events under S_FP_SoC aren't changing. Also, if I don't have this piece of code second, then I apply the exp hazard ratio to the XNU_S_FP_SoC before the XNU_S_FP_SoC has been varied by the SoC hazard ratio and thus they are again not moving together. [Although now that I'm using XNU_S_FP_SoC putting this piece of code first wouldnt work anyway, because XNU_S_FP_SoC would need to be generated first, unlike S_FP_SoC which is generated straight away in this function.]
@@ -160,11 +160,11 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     
     # If I apply the hazard ratio to the rate after it has changed then they will be covarying, because when the rate goes down by 20% the hazard ratio will create a new experimental treatment rate that is a hazard ratio by a SoC rate that is 20% lower, and when the rate goes up by 20%, the hazard ratio will create a new experimental treatment rate that is a hazard ratio by an SoC rate that is 20% higher. So, the hazard ratio will move down when the rate moves down, and the hazard ratio will move up when the rate goes up - because it is created after the rate has changed.
     
-# That's the whole point of the hazard ratio, it's supposed to be making one thing higher or lower than the other, and if I don't apply it as above, then if I do a TWSA the difference between treatment strategies will be more muted.
+    # That's the whole point of the hazard ratio, it's supposed to be making one thing higher or lower than the other, and if I don't apply it as above, then if I do a TWSA the difference between treatment strategies will be more muted.
     
-# i.e., if I say in the TWSA, oh the actual event rate under SoC is 5% less than I thought it was, then by not applying the hazard ratio to this updated 5% lower event rate I am not applying hazard ratios as they are meant to be applied, i.e. to the basecase number of events:
+    # i.e., if I say in the TWSA, oh the actual event rate under SoC is 5% less than I thought it was, then by not applying the hazard ratio to this updated 5% lower event rate I am not applying hazard ratios as they are meant to be applied, i.e. to the basecase number of events:
     
-# i.e, for a hazard ratio that is 10% lower:
+    # i.e, for a hazard ratio that is 10% lower:
     
     # SoC: 5% 40 = 2 = 40 - 2 = 38 -> so we are wondering if there are 5% less events than we originally thought how that would change things, so 38 instead of the original 40.
     # Exp: 10% of 40 = 4 = 40 - 4 = 36 -> This is the hazard ratio being applied to SoC pre-changes to what event rates under SoC could be, so the difference between SoC and Exp is two events.
@@ -181,10 +181,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     
     
     # head(cbind(t, S_FP_SoC, H_FP_SoC, H_FP_Exp, S_FP_Exp))
-
-# The question is, for the probabilistic model where things other than the parameter we are interested in varying arent being held constant and we'll be varying all the parameters all at once, does it make sense to have two things that vary when they are combined to make another parameter? Or is that doubling up in the varying and does it mess things up?
     
-# Well, in oncologySemiMarkov_illustration in the ISPOR demonstration (C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R), both m_coef_weibull_SoC and HR_FP_Exp have values taken randomly from their distributions as below:
+    # The question is, for the probabilistic model where things other than the parameter we are interested in varying arent being held constant and we'll be varying all the parameters all at once, does it make sense to have two things that vary when they are combined to make another parameter? Or is that doubling up in the varying and does it mess things up?
+    
+    # Well, in oncologySemiMarkov_illustration in the ISPOR demonstration (C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\R Code\Parametric Survival Analysis\ISPOR WEBINAR Health Economic Modelling in R), both m_coef_weibull_SoC and HR_FP_Exp have values taken randomly from their distributions as below:
     
     # m_coef_weibull_SoC <- mvrnorm(
     #   n     = n_runs, 
@@ -213,7 +213,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     #   t_cycle   = 0.25
     # )
     
-# And then the S_FP_SoC is created from m_coef_weibull_SoC and H_FP_Exp is created from this S_FP_SoC multiplied by the similarly varied HR_FP_Exp and this H_FP_Exp is used to create p_PFSOS_Exp. So, two things that were varied were used to create p_PFSOS_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
+    # And then the S_FP_SoC is created from m_coef_weibull_SoC and H_FP_Exp is created from this S_FP_SoC multiplied by the similarly varied HR_FP_Exp and this H_FP_Exp is used to create p_PFSOS_Exp. So, two things that were varied were used to create p_PFSOS_Exp which is used in our cost-effectiveness Markov model, so it must be OK to have two things draw randomly from their distributions, even when they are combined to create something else.
     
     #   t <- seq(from = 0, by = t_cycle, length.out = n_cycle + 1)
     #   S_FP_SoC <- pweibull(
@@ -231,13 +231,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     #     p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     #   }    
     # 
-        
-
+    
+    
     # This is also supported by: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Health Economic Modeling in R A Hands-on Introduction\Health-Eco\Markov models\markov_smoking_probabilistic where two probabilistically generated vectors of parameters drawn from distributions are multiplied by each other.    
     
     
     
-
+    
     # 4) Obtaining the time-dependent transition probabilities from the event-free (i.e. survival) probabilities
     
     # Now we can take the probability of being in the PFS state at each of our cycles, as created above, from 100% (i.e. from 1) in order to get the probability of NOT being in the PFS state, i.e. in order to get the probability of moving into the progressed state, or the OS state.
@@ -250,7 +250,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
       p_PFSOS_SoC[i] <- 1 - XNU_S_FP_SoC[i+1] / XNU_S_FP_SoC[i]
       p_PFSOS_Exp[i] <- 1 - S_FP_Exp[i+1] / S_FP_Exp[i]
     }
-
+    
     # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
@@ -538,7 +538,7 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
       p_PFSD_SoC[i] <- 1 - XNU_S_PD_SoC[i+1] / XNU_S_PD_SoC[i]
       p_PFSD_Exp[i] <- 1 - S_PD_Exp[i+1] / S_PD_Exp[i]
     }
-
+    
     # Then we generate our transition probability under standard of care and under the experimental treatement using survival functions that havent and have had the hazard ratio from above applied to them, respectively.
     
     
@@ -762,68 +762,38 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     # I have to include the generation of utility in this function to ensure that when I change the utility value in PFS and the disutility of the various adverse events in the code for the sensitivity analysis, that these value will change here also to ensure that my analysis results will change for these values in the sensitivity analysis:
     
     
-    # The below was my initial strategy for discounting utility by adverse events:
+    daily_utility <- u_F/14
+    AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
+    AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
+    AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
     
     
-    # daily_utility <- u_F/14
-    # AE1_discounted_daily_utility <- daily_utility * (1-AE1_DisUtil)
-    # AE2_discounted_daily_utility <- daily_utility * (1-AE2_DisUtil)
-    # AE3_discounted_daily_utility <- daily_utility * (1-AE3_DisUtil)
-    # 
-    # 
-    # u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
-    # u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
-    # u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
-    
-    
-    # This strategy resulted in an ICER from the basecase analysis (calculated by the function pre-application of the PSA or Tornado by applying the following line of code "source(file = "oncologySemiMarkov_function.R")" in #08.3 One-way sensitivity analysis (OWSA)) that was drastically different to that reported by the Markdown basecase (calculated in the Markdown by #07.3 Compute ICERs of the Markov model), i.e., 119435.055529 vs 79380.6161746
-    
-    # Instead it's as simple as the below (per the Markdown document):
-    
-    u_AE1 <- AE1_DisUtil*u_F # I find the proportion of the baseline utility (that is, the utility without beofre an adverse event) that the adverse event would remove if it occured, that is, a 1o percentage disutility of an adverse event would decrease a utility of 0.85 by 0.085. 
-    u_AE2 <- AE2_DisUtil*u_F
-    u_AE3 <- AE3_DisUtil*u_F
-    
-    u_AE1
-    u_AE2
-    u_AE3
-    
-    # I then adjust my state utilities:
-    
-    # uState<-uState-pAE1*duAE1
-    
-    
-    u_F_SoC<-u_F
-    u_F_Exp<-u_F
-    
-    u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
-    
-    u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
-    
-    
+    u_AE1 <- (AE1_discounted_daily_utility*7) + (daily_utility*7)
+    u_AE2 <- (AE2_discounted_daily_utility*7) + (daily_utility*7)
+    u_AE3 <- (AE3_discounted_daily_utility*7) + (daily_utility*7)
     
     
     # I then adjust my state costs and utilities:
     
     # uState<-uState-pAE1*duAE1
-    # 
-    # u_F_SoC<-u_F
-    # u_F_Exp<-u_F
-    # 
-    # 
-    # u_F_SoC<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
-    # u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
+    
+    u_F_SoC<-u_F
+    u_F_Exp<-u_F
+    
+    
+    u_F_SoC<-u_F-p_FA1_STD*u_AE1 -p_FA2_STD*u_AE2 -p_FA3_STD*u_AE3
+    u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 -p_FA2_EXPR*u_AE2 -p_FA3_EXPR*u_AE3
     
     c_F_SoC       <- administration_cost + c_PFS_Folfox  # cost of one cycle in PFS state under standard of care
     c_F_Exp       <- administration_cost + c_PFS_Folfox + c_PFS_Bevacizumab # cost of one cycle in PFS state under the experimental treatment 
-     c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
-
+    c_P       <- c_OS_Folfiri  + administration_cost# cost of one cycle in progression state (I assume in OS everyone gets the same treatment so it costs everyone the same to be treated).
+    
     
     c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
     c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
     
     
-   # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
+    # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
     
     v_tc_SoC <- m_M_SoC %*% c(c_F_SoC, c_P, c_D)
     v_tc_Exp <- m_M_Exp %*% c(c_F_Exp, c_P, c_D)
@@ -913,34 +883,33 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     
     
     (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
-                                   effect     = c(tu_d_SoC, tu_d_Exp),
-                                   strategies = v_names_strats))
-    return(df_DSAcea)
-     
+                                  effect     = c(tu_d_SoC, tu_d_Exp),
+                                  strategies = v_names_strats))
+    df_DSAcea
+    
     DSA_ICER    <- c(df_DSAcea[2,6])
-   #  
-   #  # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
-   
-    # I used to use the below [up to return(df_ce)] as my return, but I've commented this out now and use the above return instead:   
-   # 
-    df_ce <- data.frame(Strategy = v_names_strats,
-                        Cost     = v_tc_d,
-                        Effect   = v_tu_d,
+    
+    # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
+    
+    
+    df_ce <- data.frame(Strategy = "Experimental Treatment",
+                        Cost     = tc_d_Exp,
+                        Effect   = tu_d_Exp,
                         DSAICER  = DSA_ICER)
-   # 
-   # return(df_ce)
-#    return(c(v_names_strats, DSA_ICER))
-  
+    
+    return(df_ce)
+    #    return(c(v_names_strats, DSA_ICER))
+    
     # I'm not using NMB so I remove this from the above dataframe and put the DSAICER in it's spot
     
     # ,
     # NMB      = v_nmb_d)    
-
+    
     # Previously where DSAICER was, there was the above.
     
-        
-#   If I was creating an ICER tornado plot I would add the below to the df_ce above:  
-#    DSAICER  = DSA_ICER,
+    
+    #   If I was creating an ICER tornado plot I would add the below to the df_ce above:  
+    #    DSAICER  = DSA_ICER,
     
     # Generate the ouput
     # return(c(v_names_strats, v_tc_d, v_tu_d, DSA_ICER))
@@ -948,3 +917,6 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
   })
   
 }
+
+
+

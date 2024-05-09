@@ -1,12 +1,13 @@
-# I was somewhat perturbed by the fact that the ICER displayed as the mean on the tornado diagram and the ICER reported following the PSA were so similar.
+#08.1 Load Markov model function
 
-# That is, I would have expected them to differ more, given that the tornado is not probabilistic like the PSA, so the tornado is only varying by 20%, I would have anticipated that the tornado would have been closer to the deterministic reults reported earlier in the code, whereas the range for the PSA is a lot wider, as described in my email to Eline and James.
+#08.3 One-way sensitivity analysis (OWSA)
 
-# To look into this, the first thing I did was run the PSA without running the tornado first, in case there was some copy over of my tornado ICER into the PSA ICER, but the PSA ICER remained unchanged. The next thing I did was copy the tornado code as below, but vary the minimum values more widely, because the PSA typically uses the maximum values in it's calculations from the range, rather than the minimum, if I change the minimum here it shouldnt change the PSA results, but I should see a change in the tornado diagram average.
+# A brief note on how parameters are varied one at a time:
 
-# I changed the minimum value to be -0.99 rather than -0.20, so it is 99% lowerrather than 20% and my tornado diagram does change, not by a huge amount but it shifts closer to 80 than it previously was, but my results from my PSA stay completely the same (that is 79486 for Ireland).
+# A simple one-way DSA starts with choosing a model parameter to be investigated. Next, the modeler specifies a range for this parameter and the number of evenly spaced points along this range at which to evaluate model outcomes. The model is then run for each element of the vector of parameter values by setting the parameter of interest to the value, holding all other model parameters at their default base case values.
 
-# So, from this I can conclude that it's not some issue with the OWSA code messing up the PSA code and somehow changing it, they are producing values independent of eachtoher.
+# To conduct the one-way DSA, we then call the function run_owsa_det with my_owsa_params_range, specifying the parameters to be varied and over which ranges, and my_params_basecase as the fixed parameter values to be used in the model when a parameter is not being explicitly varied in the one-way sensitivity analysis.
+
 
 options(digits=4)
 
@@ -17,7 +18,7 @@ options(digits=4)
 # Test function
 # calculate_ce_out(l_params_all)
 
-source(file = "oncologySemiMarkov_function.R")
+# source(file = "oncologySemiMarkov_function.R")
 # If I change any code in this main model code file, I will also need to update the function that I call.
 
 
@@ -88,7 +89,7 @@ Maximum_HR_FP_Exp <- UpperCI
 
 HR_FP_SoC
 
-Minimum_HR_FP_SoC <- HR_FP_SoC - 0.99*HR_FP_SoC
+Minimum_HR_FP_SoC <- HR_FP_SoC - 0.20*HR_FP_SoC
 Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
 
 
@@ -96,7 +97,7 @@ Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
 
 HR_PD_SoC
 
-Minimum_HR_PD_SoC <- HR_PD_SoC - 0.99*HR_PD_SoC
+Minimum_HR_PD_SoC <- HR_PD_SoC - 0.20*HR_PD_SoC
 Maximum_HR_PD_SoC <- HR_PD_SoC + 0.20*HR_PD_SoC
 
 
@@ -142,12 +143,12 @@ Maximum_P_OSD_Exp <- 0.22
 
 # p_FD_SoC
 # 
-# Minimum_p_FD_SoC <- p_FD_SoC - 0.99*p_FD_SoC
+# Minimum_p_FD_SoC <- p_FD_SoC - 0.20*p_FD_SoC
 # Maximum_p_FD_SoC <- p_FD_SoC + 0.20*p_FD_SoC
 # 
 # p_FD_Exp
 # 
-# Minimum_p_FD_Exp<- p_FD_Exp - 0.99*p_FD_Exp
+# Minimum_p_FD_Exp<- p_FD_Exp - 0.20*p_FD_Exp
 # Maximum_p_FD_Exp <- p_FD_Exp + 0.20*p_FD_Exp
 
 
@@ -155,28 +156,28 @@ Maximum_P_OSD_Exp <- 0.22
 # Probability of Adverse Events:
 
 p_FA1_STD
-Minimum_p_FA1_STD <- p_FA1_STD - 0.99*p_FA1_STD
+Minimum_p_FA1_STD <- p_FA1_STD - 0.20*p_FA1_STD
 Maximum_p_FA1_STD <- p_FA1_STD + 0.20*p_FA1_STD
 
 p_FA2_STD
-Minimum_p_FA2_STD <- p_FA2_STD - 0.99*p_FA2_STD
+Minimum_p_FA2_STD <- p_FA2_STD - 0.20*p_FA2_STD
 Maximum_p_FA2_STD <- p_FA2_STD + 0.20*p_FA2_STD
 
 p_FA3_STD
-Minimum_p_FA3_STD <- p_FA3_STD - 0.99*p_FA3_STD
+Minimum_p_FA3_STD <- p_FA3_STD - 0.20*p_FA3_STD
 Maximum_p_FA3_STD <- p_FA3_STD + 0.20*p_FA3_STD
 
 
 p_FA1_EXPR
-Minimum_p_FA1_EXPR <- p_FA1_EXPR - 0.99*p_FA1_EXPR
+Minimum_p_FA1_EXPR <- p_FA1_EXPR - 0.20*p_FA1_EXPR
 Maximum_p_FA1_EXPR <- p_FA1_EXPR + 0.20*p_FA1_EXPR
 
 p_FA2_EXPR
-Minimum_p_FA2_EXPR <- p_FA2_EXPR - 0.99*p_FA2_EXPR
+Minimum_p_FA2_EXPR <- p_FA2_EXPR - 0.20*p_FA2_EXPR
 Maximum_p_FA2_EXPR <- p_FA2_EXPR + 0.20*p_FA2_EXPR
 
 p_FA3_EXPR
-Minimum_p_FA3_EXPR <- p_FA3_EXPR - 0.99*p_FA3_EXPR
+Minimum_p_FA3_EXPR <- p_FA3_EXPR - 0.20*p_FA3_EXPR
 Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
 
 
@@ -188,47 +189,47 @@ Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
 
 administration_cost
 
-Minimum_administration_cost <- administration_cost - 0.99*administration_cost
+Minimum_administration_cost <- administration_cost - 0.20*administration_cost
 Maximum_administration_cost <- administration_cost + 0.20*administration_cost
 
 c_PFS_Folfox
 
-Minimum_c_PFS_Folfox  <- c_PFS_Folfox - 0.99*c_PFS_Folfox
+Minimum_c_PFS_Folfox  <- c_PFS_Folfox - 0.20*c_PFS_Folfox
 Maximum_c_PFS_Folfox  <- c_PFS_Folfox + 0.20*c_PFS_Folfox
 
 c_PFS_Bevacizumab 
 
-Minimum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab - 0.99*c_PFS_Bevacizumab
+Minimum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab - 0.20*c_PFS_Bevacizumab
 Maximum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab + 0.20*c_PFS_Bevacizumab
 
 c_OS_Folfiri 
 
-Minimum_c_OS_Folfiri  <- c_OS_Folfiri - 0.99*c_OS_Folfiri
+Minimum_c_OS_Folfiri  <- c_OS_Folfiri - 0.20*c_OS_Folfiri
 Maximum_c_OS_Folfiri  <- c_OS_Folfiri + 0.20*c_OS_Folfiri
 
 subtyping_test_cost 
 
-Minimum_subtyping_test_cost  <- subtyping_test_cost - 0.99*subtyping_test_cost
+Minimum_subtyping_test_cost  <- subtyping_test_cost - 0.20*subtyping_test_cost
 Maximum_subtyping_test_cost <- subtyping_test_cost + 0.20*subtyping_test_cost
 
 c_D  
 
-Minimum_c_D  <- c_D - 0.99*c_D
+Minimum_c_D  <- c_D - 0.20*c_D
 Maximum_c_D  <- c_D + 0.20*c_D
 
 c_AE1
 
-Minimum_c_AE1  <- c_AE1 - 0.99*c_AE1
+Minimum_c_AE1  <- c_AE1 - 0.20*c_AE1
 Maximum_c_AE1  <- c_AE1 + 0.20*c_AE1
 
 c_AE2
 
-Minimum_c_AE2  <- c_AE2 - 0.99*c_AE2
+Minimum_c_AE2  <- c_AE2 - 0.20*c_AE2
 Maximum_c_AE2  <- c_AE2 + 0.20*c_AE2
 
 c_AE3
 
-Minimum_c_AE3  <- c_AE3 - 0.99*c_AE3
+Minimum_c_AE3  <- c_AE3 - 0.20*c_AE3
 Maximum_c_AE3  <- c_AE3 + 0.20*c_AE3
 
 
@@ -248,25 +249,25 @@ Maximum_u_P <- 0.78
 
 u_D
 
-Minimum_u_D <- u_D - 0.99*u_D
+Minimum_u_D <- u_D - 0.20*u_D
 Maximum_u_D <- u_D + 0.20*u_D 
 
 
 AE1_DisUtil
 
-Minimum_AE1_DisUtil <- AE1_DisUtil - 0.99*AE1_DisUtil
+Minimum_AE1_DisUtil <- AE1_DisUtil - 0.20*AE1_DisUtil
 Maximum_AE1_DisUtil <- AE1_DisUtil + 0.20*AE1_DisUtil 
 
 
 AE2_DisUtil
 
-Minimum_AE2_DisUtil <- AE2_DisUtil - 0.99*AE2_DisUtil
+Minimum_AE2_DisUtil <- AE2_DisUtil - 0.20*AE2_DisUtil
 Maximum_AE2_DisUtil <- AE2_DisUtil + 0.20*AE2_DisUtil 
 
 
 AE3_DisUtil
 
-Minimum_AE3_DisUtil <- AE3_DisUtil - 0.99*AE3_DisUtil
+Minimum_AE3_DisUtil <- AE3_DisUtil - 0.20*AE3_DisUtil
 Maximum_AE3_DisUtil <- AE3_DisUtil + 0.20*AE3_DisUtil 
 
 
@@ -362,6 +363,7 @@ Minimum_AE3_DisUtil<- replace(Minimum_AE3_DisUtil, Minimum_AE3_DisUtil<0, 0)
 Maximum_AE3_DisUtil<- replace(Maximum_AE3_DisUtil, Maximum_AE3_DisUtil>1, 1)
 
 
+
 # A one-way sensitivity analysis (OWSA) can be defined by specifying the names of the parameters that are to be incuded and their minimum and maximum values.
 
 
@@ -443,7 +445,7 @@ DSAICER  <- run_owsa_det(
   
   # outcomes	
   
-  strategies       = v_names_strats,       # names of the strategies
+  strategies       = "Experimental Treatment",       # names of the strategies
   
   # strategies
   # Set it equal to a vector of strategy names. The default NULL will use strategy names in FUN (  strategies = NULL,)
@@ -489,7 +491,7 @@ DSAICER  <- run_owsa_det(
 # https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
 owsa_tornado(owsa = DSAICER, txtsize = 11)
-ggsave(paste("Tornado_Diagram_Bigger_Reduction_", country_name[1], ".png", sep = ""), width = 8, height = 4, dpi=300)
+ggsave(paste("Tornado_Diagram_Singular_ICERs", country_name[1], ".png", sep = ""), width = 8, height = 4, dpi=300)
 while (!is.null(dev.list()))  dev.off()
 #png(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""))
 #dev.off()
