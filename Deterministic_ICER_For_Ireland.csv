@@ -1,0 +1,3 @@
+"Strategy","Costs ($)","QALYs","Incremental Costs ($)","Incremental QALYs","ICER ($/QALY)","Status"
+"Standard of Care","21,291",0.53,NA,NA,NA,"ND"
+"Experimental Treatment","46,026",0.74,"24,734",0.21,"119,408","ND"

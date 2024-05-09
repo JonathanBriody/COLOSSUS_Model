@@ -2635,8 +2635,8 @@ Incremental_Cost<- noquote(table_cea$"Incremental Costs"[2])
 Incremental_Effect<- round(df_cea$Inc_Effect[2], digits=3)
 ICER<- noquote(table_cea$"ICER"[2])
 
-
-
+# Save the dataframe of the CEA table to a CSV file
+write.csv(table_cea, file = paste0("Deterministic_ICER_For_", country_name, ".csv"), row.names = FALSE)
 
 ```
 
@@ -5043,7 +5043,7 @@ df_cea_PA
 table_cea_PA <- format_table_cea(df_cea_PA) # Function included in "R/Functions.R"; depends on the `scales` package
 table_cea_PA
 # Save the dataframe of the CEA table to a CSV file
-write.csv(table_cea_PA, file = paste0("ICER_For_", country_name, ".csv"), row.names = FALSE)
+write.csv(table_cea_PA, file = paste0("Probabilistic_ICER_For_", country_name, ".csv"), row.names = FALSE)
 
 ```
 
