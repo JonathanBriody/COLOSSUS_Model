@@ -2738,6 +2738,53 @@ l_params_all <- list(
 
 oncologySemiMarkov(l_params_all = l_params_all, n_wtp = n_wtp)
 
+# OK, so I was wondering why the values reported by the PSA/Tornado plot, differed so significantly to the values found with the baseline Markov model.
+# Reviewing the code, I've determined that the reason for these differences is the manner in which the disutility of adverse events is handled in the function in comparison to the baseline analysis in the R Markdown document.
+# I've now updated the utility values calculated in the function to match those calculated in the R Markdown document.
+
+# I figured this out because the analysis differed in the effects it reported, which are utilities, but not the costs, which meant that costs and transition probabilities were the same across the different ways I conducted the analysis, but that the utilities were somehow different (transition probabilities would have to be the same, because if they differed even slightly this would change the time people spent in different health states and thus the differences in costs in the different health states would result in differences in overall costs):
+
+# The effects between SoC and Exp for the markdown analysis was:
+
+# 0.7368 -0.5297 = 0.2071
+
+# The costs for the SoC and Exp for the analysis was:
+# 46025.56 - 21291.28 = 24734.28
+
+# This produced an ICER calculated as follows for the markdown analysis:
+# 24735/0.2071 = 119435.055529
+
+# names (v_tc_d) <- v_names_strats
+# v_tc_d
+
+# names (v_tu_d) <- v_names_strats
+# v_tu_d
+#Standard of Care Experimental Treatment <- Costs
+#21291.28 46025.56 
+#Standard of Care Experimental Treatment <- Effects
+#0.5296938 0.7368351
+
+
+# The effects between SoC and Exp for the function analysis was:
+# 0.6461645 - 0.3346428 = 0.3115217
+
+# The costs for the SoC and Exp for the function analysis was:
+#46025.56 - 21291.28 = 24734.28
+
+# This produced an ICER calculated as follows using the function:
+# 24735/0.3116 = 79380.6161746
+
+#Standard of Care Experimental Treatment <- Costs
+#21291.28 46025.56
+#Standard of Care Experimental Treatment <- Effects
+#0.3346428 0.6461645
+
+
+
+
+
+
+
 
 # Entering parameter values:
 
@@ -3110,6 +3157,9 @@ DSAICER  <- run_owsa_det(
 # outcomes	
 
   strategies       = v_names_strats,       # names of the strategies
+
+# If I went back to trying to produce one ICER for the tornado diagram I would replace the above with this and similarly update my function per the commented code therein:  strategies       = "Experimental Treatment",       # names of the strategies
+
 
 # strategies
 # Set it equal to a vector of strategy names. The default NULL will use strategy names in FUN (  strategies = NULL,)

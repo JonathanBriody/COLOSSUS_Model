@@ -915,20 +915,34 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     (df_DSAcea <- calculate_icers(cost       = c(tc_d_SoC, tc_d_Exp),
                                    effect     = c(tu_d_SoC, tu_d_Exp),
                                    strategies = v_names_strats))
-    return(df_DSAcea)
+    df_DSAcea
      
     DSA_ICER    <- c(df_DSAcea[2,6])
-   #  
-   #  # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
-   
-    # I used to use the below [up to return(df_ce)] as my return, but I've commented this out now and use the above return instead:   
-   # 
+    
+    # I'm picking the row and column where the ICER value appears in the df_DSAcea dataframe created by calculate_icers.
+    
+
     df_ce <- data.frame(Strategy = v_names_strats,
                         Cost     = v_tc_d,
                         Effect   = v_tu_d,
                         DSAICER  = DSA_ICER)
-   # 
-   # return(df_ce)
+
+   return(df_ce)
+
+    
+    # When I update the above to return a single ICER in the tornado diagram, on the understanding that  the ICER is always going to be the same whether its under the Exp or SoC strategy, because it is a ratio and  I update the dataframe above to just give me one ICER, rather than both, I find that I get the exact same ICER with one value. I don't keep this as it means that no ICER value is created for the PSA, which makes use of 
+    
+    # df_ce <- data.frame(Strategy = "Experimental Treatment",
+    #                     Cost     = tc_d_Exp,
+    #                     Effect   = tu_d_Exp,
+    #                     DSAICER  = DSA_ICER)
+    # 
+    # return(df_ce)        
+    # 
+        
+    # I used  the below (df_DSAcea)] as my return, but I've commented this out now and use the above return instead:   
+#   return(df_DSAcea)
+    
 #    return(c(v_names_strats, DSA_ICER))
   
     # I'm not using NMB so I remove this from the above dataframe and put the DSAICER in it's spot
