@@ -72,7 +72,17 @@ The EU Commission takes no responsibility for any use made of the information se
 
 It's a while since I did it, but I just remember that I think I used the return a data frame with ranges of parameters for which each strategy is optimal in "owsa_tornado" to see how much costs would need to reduce for the biosimilars to bevacizuma to be cost-effective, although I'd have to check that again in the below code and the following url if I wanted to be sure on how I did it: <https://rdrr.io/github/DARTH-git/dampack/man/owsa_tornado.html>
 
-# 
+```{r}
+# Parallel computing
+# Resampling can be significantly sped up by using parallel computing. This can be done in the following way:
+
+# Define a cluster with the use_cluster() functions (i.e. use_cluster(4) to use 4 cores).
+# Run the analysis as usual.
+# To stop using parallel computing use the close_cluster() function.
+# Results may vary depending on the machine, but we found speed gains to be quite limited beyond 4 cores.
+
+# https://cran.r-project.org/web/packages/heemod/vignettes/e_probabilistic.html
+```
 
 ```{r setup, include=FALSE}
 #00 Set up general state of play
@@ -2636,7 +2646,7 @@ Incremental_Effect<- round(df_cea$Inc_Effect[2], digits=3)
 ICER<- noquote(table_cea$"ICER"[2])
 
 # Save the dataframe of the CEA table to a CSV file
-write.csv(table_cea, file = paste0("Deterministic_ICER_For_", country_name, ".csv"), row.names = FALSE)
+write.csv(df_cea, file = paste0("Baseline_ICER_For_", country_name, ".csv"), row.names = FALSE)
 
 ```
 
@@ -3730,6 +3740,13 @@ HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 # FOR NON-MULTI STATE, I.E. FOR THE SICK TO DEAD STATE IN THE MARKOV MODEL YOU CAN APPLY THE BETA DISTRIBUTION, BECAUSE YOU CAN ONLY LEAVE (ALPHA) OR STAY (BETA).
 
 # Sometimes a Dirichlet is suggested, a Dirichlet distribution is the multidimensional generalization of the beta distribution, so it's the same as applying the beta distribution, - as per: https://www.rdocumentation.org/packages/rBeta2009/versions/1.0/topics/rdirichlet but I would need to have all the counts included I think, which works when you are drawing all your transition data from one larger dataset, like in a clinical trial, but my data necessarily comes from several sources, so I if I just build everything as conditional probabilities, per my notes in this Notepad [search 19/08/22: in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt] in combination with the slides [C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf] these are notes on, that is 1-Probabilities like I've done in R already, then I should be able to apply a Beta distribution to each probability and not have to worry about applying a Dirichlet.
+
+
+# If I ever wanted to do a Dirichlet from say a clinical trial or something and I wanted to do a PSA with this, here's how: https://cran.r-project.org/web/packages/heemod/vignettes/e_probabilistic.html
+
+
+# This source also demonstrates how to use a gamma distribution for costs: https://cran.r-project.org/web/packages/heemod/vignettes/e_probabilistic.html 
+
 
 # Here's a quote explaining how best to do that from my notes above:
 
@@ -5043,7 +5060,7 @@ df_cea_PA
 table_cea_PA <- format_table_cea(df_cea_PA) # Function included in "R/Functions.R"; depends on the `scales` package
 table_cea_PA
 # Save the dataframe of the CEA table to a CSV file
-write.csv(table_cea_PA, file = paste0("Probabilistic_ICER_For_", country_name, ".csv"), row.names = FALSE)
+write.csv(df_cea_PA, file = paste0("Probabilistic_ICER_For_", country_name, ".csv"), row.names = FALSE)
 
 ```
 
