@@ -4839,6 +4839,12 @@ head(df_PA_input)
 # If I wanted to save the dataframe, I would do this as follows:
 
 #save(df_PA_input, file = "df_PA_input.rda")
+
+
+# An additional note that I shared the file describing the manner in which I calculate the se's and distributions with Joshua Soboil and Qiushi Chen and they both supported that the strategy I took was reasonable. 
+
+# I'm going to reach out to Jack Williams to discuss his publication on the Crash Mild Model. This also calculateda PSA and described shapes and scales and mean values, so there may be additional information there that could be useful to me in the future: https://github.com/jackrdwilliams/CRASH-Mild-Model/blob/master/CRASH-Mild%20R%20Model.R
+
 ```
 
 ```{r}
