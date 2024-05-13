@@ -6,6 +6,16 @@
 
 # I changed the minimum value to be -0.99 rather than -0.20, so it is 99% lowerrather than 20% and my tornado diagram does change, not by a huge amount but it shifts closer to 80 than it previously was, but my results from my PSA stay completely the same (that is 79486 for Ireland). --> It's actually not moving the dotted vertical line at all, it's just that the units of the bottom line change, so, the range of the bottom line produced from Tornado_Diagram_Bigger_Reduction_Ireland is 0 - 180,000 (unlike the original non 99% minimum Tornado_Diagram_Ireland which goes from 95,000 to 150,000) and where the dotted line intersects the outcomes axis the two ticks are now 100,000 and 120,000 which is 4 times the distance between the two ticks of 115,000 and 120,000 in the original non 99% minimum Tornado_Diagram_Ireland - this makes the vertical dotted line artificially looks like it has moved as the range of the bottom axis is different, in fact, it sticks on it's original value to match the ICER calculated without any probabilistic changes.
 
+# I wanted to make sure my PSA was actually creating random draws for the parameters I included in the PSA code. 
+
+# To check this, I outputted the ten thousand simulations to an Excel sheet as follows:
+
+# write.csv(df_PA_input,'df_PA_input.csv')
+
+# I then reviewed these, I could see that for the parameters maximum and minimum values were created that were above and below those values for each mean parameter value, and these could be quite far away from the starting parameter value. It did also like the values in the middle appeared more than the extreme max and min values, but I was just eyeballing that...
+
+# So, the take away is that the PSA code is working and is actually taking random draws for the parameters to be included in the PSA to create the 10,000 costs and effects, such that these vectors of costs and effects are ready to be applied in the cost-effectiveness analysis to create 10,000 ICERs.
+
 
 options(digits=4)
 
@@ -88,7 +98,7 @@ Maximum_HR_FP_Exp <- UpperCI
 HR_FP_SoC
 
 Minimum_HR_FP_SoC <- HR_FP_SoC - 0.99*HR_FP_SoC
-Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
+Maximum_HR_FP_SoC <- HR_FP_SoC + 0.99*HR_FP_SoC
 
 
 # Now that we're using the OS curves, I add hazard ratios for PFS to dead that reflect the hazard ratio of the experimental strategy changing the probability of going from PFS to Death, and the hazard ratio of 1 that I apply in standard of care so that I can vary transition probabilities under standard of care in this one-way sensitivity analysis:
@@ -96,7 +106,7 @@ Maximum_HR_FP_SoC <- HR_FP_SoC + 0.20*HR_FP_SoC
 HR_PD_SoC
 
 Minimum_HR_PD_SoC <- HR_PD_SoC - 0.99*HR_PD_SoC
-Maximum_HR_PD_SoC <- HR_PD_SoC + 0.20*HR_PD_SoC
+Maximum_HR_PD_SoC <- HR_PD_SoC + 0.99*HR_PD_SoC
 
 
 OS_UpperCI <- 0.86
@@ -155,28 +165,28 @@ Maximum_P_OSD_Exp <- 0.22
 
 p_FA1_STD
 Minimum_p_FA1_STD <- p_FA1_STD - 0.99*p_FA1_STD
-Maximum_p_FA1_STD <- p_FA1_STD + 0.20*p_FA1_STD
+Maximum_p_FA1_STD <- p_FA1_STD + 0.99*p_FA1_STD
 
 p_FA2_STD
 Minimum_p_FA2_STD <- p_FA2_STD - 0.99*p_FA2_STD
-Maximum_p_FA2_STD <- p_FA2_STD + 0.20*p_FA2_STD
+Maximum_p_FA2_STD <- p_FA2_STD + 0.99*p_FA2_STD
 
 p_FA3_STD
 Minimum_p_FA3_STD <- p_FA3_STD - 0.99*p_FA3_STD
-Maximum_p_FA3_STD <- p_FA3_STD + 0.20*p_FA3_STD
+Maximum_p_FA3_STD <- p_FA3_STD + 0.99*p_FA3_STD
 
 
 p_FA1_EXPR
 Minimum_p_FA1_EXPR <- p_FA1_EXPR - 0.99*p_FA1_EXPR
-Maximum_p_FA1_EXPR <- p_FA1_EXPR + 0.20*p_FA1_EXPR
+Maximum_p_FA1_EXPR <- p_FA1_EXPR + 0.99*p_FA1_EXPR
 
 p_FA2_EXPR
 Minimum_p_FA2_EXPR <- p_FA2_EXPR - 0.99*p_FA2_EXPR
-Maximum_p_FA2_EXPR <- p_FA2_EXPR + 0.20*p_FA2_EXPR
+Maximum_p_FA2_EXPR <- p_FA2_EXPR + 0.99*p_FA2_EXPR
 
 p_FA3_EXPR
 Minimum_p_FA3_EXPR <- p_FA3_EXPR - 0.99*p_FA3_EXPR
-Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
+Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.99*p_FA3_EXPR
 
 
 
@@ -188,47 +198,47 @@ Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
 administration_cost
 
 Minimum_administration_cost <- administration_cost - 0.99*administration_cost
-Maximum_administration_cost <- administration_cost + 0.20*administration_cost
+Maximum_administration_cost <- administration_cost + 0.99*administration_cost
 
 c_PFS_Folfox
 
 Minimum_c_PFS_Folfox  <- c_PFS_Folfox - 0.99*c_PFS_Folfox
-Maximum_c_PFS_Folfox  <- c_PFS_Folfox + 0.20*c_PFS_Folfox
+Maximum_c_PFS_Folfox  <- c_PFS_Folfox + 0.99*c_PFS_Folfox
 
 c_PFS_Bevacizumab 
 
 Minimum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab - 0.99*c_PFS_Bevacizumab
-Maximum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab + 0.20*c_PFS_Bevacizumab
+Maximum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab + 0.99*c_PFS_Bevacizumab
 
 c_OS_Folfiri 
 
 Minimum_c_OS_Folfiri  <- c_OS_Folfiri - 0.99*c_OS_Folfiri
-Maximum_c_OS_Folfiri  <- c_OS_Folfiri + 0.20*c_OS_Folfiri
+Maximum_c_OS_Folfiri  <- c_OS_Folfiri + 0.99*c_OS_Folfiri
 
 subtyping_test_cost 
 
 Minimum_subtyping_test_cost  <- subtyping_test_cost - 0.99*subtyping_test_cost
-Maximum_subtyping_test_cost <- subtyping_test_cost + 0.20*subtyping_test_cost
+Maximum_subtyping_test_cost <- subtyping_test_cost + 0.99*subtyping_test_cost
 
 c_D  
 
 Minimum_c_D  <- c_D - 0.99*c_D
-Maximum_c_D  <- c_D + 0.20*c_D
+Maximum_c_D  <- c_D + 0.99*c_D
 
 c_AE1
 
 Minimum_c_AE1  <- c_AE1 - 0.99*c_AE1
-Maximum_c_AE1  <- c_AE1 + 0.20*c_AE1
+Maximum_c_AE1  <- c_AE1 + 0.99*c_AE1
 
 c_AE2
 
 Minimum_c_AE2  <- c_AE2 - 0.99*c_AE2
-Maximum_c_AE2  <- c_AE2 + 0.20*c_AE2
+Maximum_c_AE2  <- c_AE2 + 0.99*c_AE2
 
 c_AE3
 
 Minimum_c_AE3  <- c_AE3 - 0.99*c_AE3
-Maximum_c_AE3  <- c_AE3 + 0.20*c_AE3
+Maximum_c_AE3  <- c_AE3 + 0.99*c_AE3
 
 
 # Utilities:
@@ -248,25 +258,25 @@ Maximum_u_P <- 0.78
 u_D
 
 Minimum_u_D <- u_D - 0.99*u_D
-Maximum_u_D <- u_D + 0.20*u_D 
+Maximum_u_D <- u_D + 0.99*u_D 
 
 
 AE1_DisUtil
 
 Minimum_AE1_DisUtil <- AE1_DisUtil - 0.99*AE1_DisUtil
-Maximum_AE1_DisUtil <- AE1_DisUtil + 0.20*AE1_DisUtil 
+Maximum_AE1_DisUtil <- AE1_DisUtil + 0.99*AE1_DisUtil 
 
 
 AE2_DisUtil
 
 Minimum_AE2_DisUtil <- AE2_DisUtil - 0.99*AE2_DisUtil
-Maximum_AE2_DisUtil <- AE2_DisUtil + 0.20*AE2_DisUtil 
+Maximum_AE2_DisUtil <- AE2_DisUtil + 0.99*AE2_DisUtil 
 
 
 AE3_DisUtil
 
 Minimum_AE3_DisUtil <- AE3_DisUtil - 0.99*AE3_DisUtil
-Maximum_AE3_DisUtil <- AE3_DisUtil + 0.20*AE3_DisUtil 
+Maximum_AE3_DisUtil <- AE3_DisUtil + 0.99*AE3_DisUtil 
 
 
 
