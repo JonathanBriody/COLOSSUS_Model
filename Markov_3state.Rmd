@@ -4423,6 +4423,18 @@ a.cIntervention_administration_cost <-a.cIntervention,
 b.cIntervention_administration_cost <-b.cIntervention, 
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "administration_cost",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
+
+
 # c_PFS_Folfox
 
 Maximum <- Maximum_c_PFS_Folfox,
@@ -4447,6 +4459,22 @@ c_PFS_Folfox   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention
 
 a.cIntervention_c_PFS_Folfox <-a.cIntervention,
 b.cIntervention_c_PFS_Folfox <-b.cIntervention, 
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_PFS_Folfox",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
+
+
+
+
 
 # c_PFS_Bevacizumab
 
@@ -4474,6 +4502,17 @@ a.cIntervention_c_PFS_Bevacizumab <-a.cIntervention,
 b.cIntervention_c_PFS_Bevacizumab <-b.cIntervention, 
 
 
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_PFS_Bevacizumab",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
 #  c_OS_Folfiri
 
 Maximum <- Maximum_c_OS_Folfiri,
@@ -4498,6 +4537,18 @@ c_OS_Folfiri   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention
 
 a.cIntervention_c_OS_Folfiri <-a.cIntervention,
 b.cIntervention_c_OS_Folfiri <-b.cIntervention, 
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_OS_Folfiri",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
 
 # The cost of being dead doesnt vary, it always costs the same to treat a dead person, which is 0 because we don't give any of our chemo, etc., to a dead body.
   c_D = 0,
@@ -4528,6 +4579,17 @@ a.cIntervention_c_AE1 <-a.cIntervention,
 b.cIntervention_c_AE1 <-b.cIntervention, 
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_AE1",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
+
 #  c_AE2
 
 Maximum <- Maximum_c_AE2,
@@ -4554,6 +4616,19 @@ a.cIntervention_c_AE2 <-a.cIntervention,
 b.cIntervention_c_AE2 <-b.cIntervention, 
 
 
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_AE2",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
+
+
+
+
 #  c_AE3
 
 Maximum <- Maximum_c_AE3,
@@ -4578,6 +4653,16 @@ c_AE3   = rgamma(n_runs, shape = a.cIntervention, scale = b.cIntervention),
 
 a.cIntervention_c_AE3 <-a.cIntervention,
 b.cIntervention_c_AE3 <-b.cIntervention, 
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "c_AE3",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4607,7 +4692,14 @@ a.cIntervention_subtyping_test_cost  <-a.cIntervention,
 b.cIntervention_subtyping_test_cost  <-b.cIntervention, 
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "subtyping_test_cost",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Gamma.R"),
 
 
 
