@@ -4618,6 +4618,16 @@ b.cIntervention_subtyping_test_cost  <-b.cIntervention,
 
   # Utility vectors with length n_runs 
 
+
+
+
+# WHEN PLOTTING UTILITIES REMEMBER THAT THEY WILL BE SLIGHLTY SKEWED AS THEY CANNOT GO ANY HIGHER THAN 1 OR ANY LOWER THAN ZERO, SO WHEN TAKING RANDOM DRAWS WITH A MEAN THAT IS CLOSER TO 1 THAN 0, I.E., 0.68, YOU WILL HAVE A LARGER SELECTION OF VALUES BELOW THE MEAN THAT YOU CAN SAMPLE THAN VALUES ABOVE THE MEAN, I.E., THERE IS ONLY 0.32 VALUES ABOVE THE MEAN BUT THERE ARE 0.67 BELOW THE MEAN.
+
+
+
+
+
+
 # There may be helpful books here: C:\Users\Jonathan\Dropbox\PhD\HTA\Markov Modelling\books
 
 
@@ -4837,6 +4847,20 @@ mean(u_F),
 u_F_alpha <- alpha,
 u_F_beta <- beta,
 
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "u_F",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
+
+
 # Briggs code to generate the SE for a parameter with a range perfectly centered around the mean (briggsse), and then repeated but for the situations where the range isnt PERFECTLY centered around the mean (altbriggsse), i.e., the min is further away from the mean than the max, or vice versa (even a little):
 
 max <- 0.78,
@@ -4862,6 +4886,17 @@ u_P_alpha <- alpha,
 u_P_beta <- beta,
 
 
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "u_P",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
   u_D       = 0,
 # The utility of being dead doesnt vary, it always is the same utility to be a dead person, which is 0 because we don't have any quality of life, as we are no longer alive. I could have also just set u_D       = u_D, because when you set something equal to itself in here, that also means it's constant.
 
@@ -4883,6 +4918,16 @@ alpha_u_AE1 <- alpha,
 beta_u_AE1 <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "AE1_DisUtil",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
 mean<-   AE2_DisUtil,
 Maximum <- Maximum_AE2_DisUtil,
 Maximum,
@@ -4901,6 +4946,18 @@ alpha_u_AE2 <- alpha,
 beta_u_AE2 <- beta,
 
 
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "AE2_DisUtil",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
+
 mean<-   AE3_DisUtil,
 Maximum <- Maximum_AE3_DisUtil,
 Maximum,
@@ -4917,6 +4974,16 @@ AE3_DisUtil        = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
 
 alpha_u_AE3 <- alpha,
 beta_u_AE3 <- beta,
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "AE3_DisUtil",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
 
 
 

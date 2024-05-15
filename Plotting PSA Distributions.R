@@ -90,6 +90,8 @@ hist(random_values, freq = FALSE, main = "", xlab = "Values", ylim = c(0, max(hi
 # Then, I add theoretical beta distribution curve
 curve(dbeta(x, shape1 = alpha, shape2 = beta), add = TRUE, col = "darkblue", lwd = 2)
 
+# Overlaying the theoretical beta distribution on your histogram is a great way to visually compare your data to the expected theoretical distribution. The dbeta function in R gives the density of the beta distribution for given alpha and beta parameters. Remember, the histogram and the theoretical beta distribution are plotted on different scales. The histogram shows the actual frequencies of your data, while the theoretical beta distribution shows the expected probabilities. So, they might not match exactly, but they should have similar shapes if your data follows a beta distribution.
+
 # Here, dbeta is the density function of the beta distribution, which gives the height of the probability density function at each point x. The curve function then adds the theoretical beta distribution curve to the existing plot.
 
 # The dbeta function is used to generate the density of the beta distribution for a sequence of x values. The add=TRUE argument ensures that the curve is added to the existing plot rather than creating a new one. The col and lwd arguments set the color and line width of the curve, respectively.
@@ -396,6 +398,41 @@ dev.off()
 # abline(v = mean(random_values), col = "green", lwd = 2, lty = 2) # Mean
 # abline(v = min(random_values), col = "blue", lwd = 2, lty = 2) # Minimum
 # abline(v = max(random_values), col = "blue", lwd = 2, lty = 2) # Maximum
+
+
+
+# Kernel Density Estimation (KDE)
+
+
+
+# I notice that in your code you add a density curve as follows: # Add density curve
+#  lines(density(u_F), col = "darkblue", lwd = 2) which I assume is to overlay the I read that you can overlay the theoretical beta distribution curve on your histogram by using the curve function in R, I do this as follows: curve(dbeta(x, shape1 = alpha, shape2 = beta), add = TRUE, col = "yellow", lwd = 2) I notice that although the yellow line and the darkblue line are close to eachother, they are not exactly overlaid, I was wondering then what the difference is between the lines created, and why they are not exactly overlaid?
+
+
+# Great observation! The difference between the two lines comes from what they represent:
+
+#  1. `lines(density(u_F), col = "darkblue", lwd = 2)` is adding a **Kernel Density Estimation (KDE)** to the plot. KDE is a non-parametric way to estimate the probability density function of a random variable. It is used when you don't know the distribution of the data or the parameters of that distribution. In this case, it's estimating the density based on the random values you generated (`u_F`).
+
+# 2. `curve(dbeta(x, shape1 = alpha, shape2 = beta), add = TRUE, col = "yellow", lwd = 2)` is adding the **theoretical beta distribution** to the plot. This is the expected distribution based on the `alpha` and `beta` parameters you calculated. It's not based on the actual data (`u_F`), but on the theoretical distribution that the data should follow.
+
+# The reason these two lines are not exactly overlaid is because the KDE is based on the actual data, which is a random sample and will have some variation, while the theoretical beta distribution represents the idealized version of the data. If you increase the number of random values you generate (`n_runs`), the KDE should get closer to the theoretical distribution as the sample better approximates the population.
+
+# In summary, the dark blue line represents the estimated density of your actual data, while the yellow line represents the theoretical density you expect your data to have. They are not exactly the same because there is variation in your data, and the KDE is just an estimate. 
+
+# Which is more informative and why?
+
+# Both the Kernel Density Estimation (KDE) and the theoretical beta distribution provide valuable information, but in different ways:
+
+#   1. **Kernel Density Estimation (KDE)**: The KDE (the dark blue line in your plot) provides an empirical density estimate based on your actual data. It can be more informative when you want to understand the distribution of your observed data, especially when the underlying distribution is unknown or complex. The KDE does not assume any specific distribution and can capture patterns in the data that parametric methods might miss.
+
+# 2. **Theoretical Beta Distribution**: The theoretical beta distribution (the yellow line in your plot) is based on the theoretical model you've assumed for your data. It can be more informative when you want to understand how your data compares to the theoretical expectations. If your data fits this distribution well, it can provide a succinct and mathematically tractable description of your data.
+
+# In summary, the KDE is more data-driven and flexible, while the theoretical distribution is more model-driven and assumes a specific form for the data. Both can be informative depending on the context and the specific question you're trying to answer. 
+
+# In your case, since you're generating data from a beta distribution, the theoretical beta distribution can serve as a useful check: if your data fits this distribution well, it suggests that your data generation process is working as expected. On the other hand, the KDE can help you visualize any unexpected patterns or anomalies in your data.
+
+
+
 
 
 
