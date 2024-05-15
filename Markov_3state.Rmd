@@ -2670,6 +2670,51 @@ while (!is.null(dev.list()))  dev.off()
 ```
 
 ```{r}
+# Labelling variables:
+
+# I label each variable in my dataset so that when I plot their distributions in the PSA and when I plot the tornado diagram the variable labels appear rather than the variable names, as the variable names are often things like P_OSD_SoC which is more confusing than a simple name describing what the variable is:
+
+# Add the comment (label)
+
+# Probabilities:
+
+comment(P_OSD_SoC) <- "Probability Death Second Line Treatment - SoC"
+comment(P_OSD_Exp) <- "Probability Death Second Line Treatment - Exp"
+comment(p_FA1_STD) <- "Probability Leukopenia - SoC"
+comment(p_FA2_STD) <- "Probability Diarrhea - SoC"
+comment(p_FA3_STD) <- "Probability Nausea - SoC"
+comment(p_FA1_EXPR) <- "Probability Leukopenia - Exp"
+comment(p_FA2_EXPR) <- "Probability Diarrhea - Exp"
+comment(p_FA3_EXPR) <- "Probability Nausea - Exp"
+
+# Costs:
+
+comment(administration_cost) <- "Administration Cost"
+comment(c_PFS_Folfox) <- "Folfox Cost"
+comment(c_PFS_Bevacizumab) <- "Bevacizumab Cost"
+comment(c_OS_Folfiri) <- "Folfiri Cost"
+comment(c_AE1) <- "Leukopenia Cost"
+comment(c_AE2) <- "Diarrhea Cost"
+comment(c_AE3) <- "Nausea Cost"
+comment(subtyping_test_cost) <- "Subtyping Test Cost"
+
+# Utilities:
+
+comment(u_F) <- "Utility First Line Treatment"
+comment(u_P) <- "Utility Second Line Treatment"
+comment(u_D) <- "Utility Dead"
+
+comment(AE1_DisUtil) <- "Leukopenia Disutility"
+comment(AE2_DisUtil) <- "Diarrhea Disutility"
+comment(AE3_DisUtil) <- "Nausea Disutility"
+
+# Discounting:
+
+comment(d_c) <- "Cost Discount Rate"
+comment(d_e) <- "Utility Discount Rate"
+```
+
+```{r}
 
 #08.1 Load Markov model function
 
@@ -3874,6 +3919,16 @@ P_OSD_SoC_alpha <- alpha,
 P_OSD_SoC_beta <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "P_OSD_SoC",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
 
 max <- 0.22,
 min <- 0.12,  
@@ -3898,6 +3953,16 @@ P_OSD_Exp_alpha <- alpha,
 P_OSD_Exp_beta <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "P_OSD_Exp",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
 
 
 mean<-   p_FA1_STD,
@@ -3918,6 +3983,16 @@ alpha_p_FA1_STD <- alpha,
 beta_p_FA1_STD <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA1_STD",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
 
 mean<-   p_FA2_STD,
 Maximum <- Maximum_p_FA2_STD,
@@ -3935,6 +4010,15 @@ p_FA2_STD        = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
 
 alpha_p_FA2_STD <- alpha,
 beta_p_FA2_STD <- beta,
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA2_STD",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
 
 
 
@@ -3956,6 +4040,15 @@ alpha_p_FA3_STD <- alpha,
 beta_p_FA3_STD <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA3_STD",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
 
 mean<-   p_FA1_EXPR,
 Maximum <- Maximum_p_FA1_EXPR,
@@ -3975,6 +4068,16 @@ alpha_p_FA1_EXPR <- alpha,
 beta_p_FA1_EXPR <- beta,
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA1_EXPR",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
+
+
 
 mean<-   p_FA2_EXPR,
 Maximum <- Maximum_p_FA2_EXPR,
@@ -3992,6 +4095,16 @@ p_FA2_EXPR        = rbeta(n_runs, shape1 =  alpha, shape2 = beta),
 
 alpha_p_FA2_EXPR <- alpha,
 beta_p_FA2_EXPR <- beta,
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA2_EXPR",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
+
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
 
 
 
@@ -4014,7 +4127,14 @@ beta_p_FA3_EXPR <- beta,
 
 
 
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "p_FA3_EXPR",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions.R"),
 
 
   
