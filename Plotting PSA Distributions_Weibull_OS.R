@@ -42,6 +42,9 @@ empirical_variance_scale <- var(df.m_coef_weibull_OS_SoC$scale)
 
 # Empirical Mean and Variance: Calculated directly from your data using the mean and var functions.
 
+# Fit Weibull distribution to the 'shape' data
+shape_fit <- fitdist(df.m_coef_weibull_SoC$shape, "weibull")
+
 # Extract the estimated parameters for 'shape'
 shape_params <- shape_fit$estimate
 shape_shape <- shape_params["shape"]
@@ -155,7 +158,7 @@ y_shape <- dweibull(x_shape, shape = shape_shape, scale = shape_scale)
 hist_data <- hist(df.m_coef_weibull_OS_SoC$shape, plot = FALSE)
 
 # Open a graphics device to save the plot to a file
-png(filename = paste0(variable_label, "_", country_name, "shape_histogram.png"), width = 800, height = 600)
+png(filename = paste0(variable_label, "_", country_name, "_shape_histogram.png"), width = 800, height = 600)
 
 # Plot histogram and overlay Weibull density curve
 hist(df.m_coef_weibull_OS_SoC$shape, breaks = 30, freq = FALSE, main = "", xlab = "Shape")
@@ -164,7 +167,9 @@ lines(x_shape, y_shape, col = "darkblue", lwd = 2)
 # In this code the col parameter sets the color of the line, lwd sets the line width, and lty sets the line type (1 = solid, 2 = dashed, etc.).
 
 # Add rug plot
-rug(random_values, col = "darkred")
+#rug(random_values, col = "darkred")
+rug(df.m_coef_weibull_OS_SoC$shape, col = "darkred")
+
 
 # In this code, rug(random_values) adds a rug plot at the bottom of the histogram, which shows the individual data points as small vertical lines.
 
@@ -213,7 +218,7 @@ y_scale <- dweibull(x_scale, shape = scale_shape, scale = scale_scale)
 hist_data <- hist(df.m_coef_weibull_OS_SoC$scale, plot = FALSE)
 
 # Open a graphics device to save the plot to a file
-png(filename = paste0(variable_label, "_", country_name, "shape_histogram.png"), width = 800, height = 600)
+png(filename = paste0(variable_label, "_", country_name, "_scale_histogram.png"), width = 800, height = 600)
 
 # Plot histogram and overlay Weibull density curve
 hist(df.m_coef_weibull_OS_SoC$scale, breaks = 30, freq = FALSE, main = "", xlab = "Scale")
@@ -223,7 +228,8 @@ lines(x_scale, y_scale, col = "darkblue", lwd = 2)
 # In this code the col parameter sets the color of the line, lwd sets the line width, and lty sets the line type (1 = solid, 2 = dashed, etc.).
 
 # Add rug plot
-rug(random_values, col = "darkred")
+# rug(random_values, col = "darkred")
+rug(df.m_coef_weibull_OS_SoC$scale, col = "darkred")
 
 # In this code, rug(random_values) adds a rug plot at the bottom of the histogram, which shows the individual data points as small vertical lines.
 
