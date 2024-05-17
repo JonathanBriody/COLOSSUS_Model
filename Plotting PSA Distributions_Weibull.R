@@ -170,7 +170,7 @@ legend("topright", inset = c(-0.037, 0), legend = c(paste("Data Mean: ", round(e
 # In this code, inset = c(-0.2, 0) shifts the legend 20% of the plot width to the left from the top right corner. You can adjust these values as needed to move the legend to the desired position. The negative value for the x-coordinate shifts the legend to the left.
 
 # Add title
-title(main = paste("Histogram of Shape Parameters with Weibull fit for first to second line treatment in PSA for", country_name), line = 2, cex.main = 1)
+title(main = paste("Histogram of Shape Parameters with Weibull fit for first to second line treatment from the multivariate normal distribution in PSA for", country_name), line = 2, cex.main = 1)
 
 # Decrease the size of the title text: You can use the cex.main argument in the title function to adjust the size of the title text. cex.main is a numerical value giving the amount by which plotting text and symbols should be scaled relative to the default. 1=default, 1.5 is 50% larger, 0.5 is 50% smaller, etc. In this code, cex.main = 0.8 decreases the size of the title text by 20%.
 
@@ -229,7 +229,7 @@ legend("topright", inset = c(-0.037, 0), legend = c(paste("Data Mean: ", round(e
 # In this code, inset = c(-0.2, 0) shifts the legend 20% of the plot width to the left from the top right corner. You can adjust these values as needed to move the legend to the desired position. The negative value for the x-coordinate shifts the legend to the left.
 
 # Add title
-title(main = paste("Histogram of Scale Parameters with Weibull fit for first to second line treatment in PSA for", country_name), line = 2, cex.main = 1)
+title(main = paste("Histogram of Scale Parameters with Weibull fit for first to second line treatment from the multivariate normal distribution in PSA for", country_name), line = 2, cex.main = 1)
 
 # Decrease the size of the title text: You can use the cex.main argument in the title function to adjust the size of the title text. cex.main is a numerical value giving the amount by which plotting text and symbols should be scaled relative to the default. 1=default, 1.5 is 50% larger, 0.5 is 50% smaller, etc. In this code, cex.main = 0.8 decreases the size of the title text by 20%.
 
