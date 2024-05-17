@@ -2715,12 +2715,12 @@ comment(d_e) <- "Utility Discount Rate"
 
 
 # Survival Data: 
-
-comment(m_coef_weibull_SoC) <- "First to Second Line Parametric Survival Distributions"
-
-comment(m_coef_weibull_OS_SoC) <- "First Line to Death Parametric Survival Distributions"
-
-
+# 
+# comment(m_coef_weibull_SoC) <- "First to Second Line Parametric Survival Distributions"
+# 
+# comment(m_coef_weibull_OS_SoC) <- "First Line to Death Parametric Survival Distributions"
+# 
+# 
 
 # Hazard Ratios:
 
@@ -3779,19 +3779,27 @@ HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
 
 # Plotting
 plotted_variable <- MEAN_HR_FP_Exp,
+# I have to create variable_label separately below or else the code won't run as a string value is entered rather than a numeric.
+variable_label <- "MEAN_HR_FP_Exp",
 plotted_sd <- SD,
 comment(MEAN_HR_FP_Exp) <- "Hazard Ratio First to Second Line Under Experimental Treatment",
-variable_label <- comment(get(plotted_variable)),
+variable_label <- comment(get(variable_label)),
 source("plotting PSA Distributions lognormal.R"),
+
+
+
+
+
 
 
 HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
 
 # Plotting
 plotted_variable <- MEAN_HR_PD_Exp,
+variable_label <- "MEAN_HR_PD_Exp",
 plotted_sd <- OS_SD,
 comment(MEAN_HR_PD_Exp) <- "Hazard Ratio First Line to Death Under Experimental Treatment",
-variable_label <- comment(get(plotted_variable)),
+variable_label <- comment(get(variable_label)),
 source("plotting PSA Distributions lognormal.R"),
 
 
@@ -5154,6 +5162,9 @@ source("plotting PSA Distributions.R"),
 
   d_c    = runif(n_runs,  min = 0, max = 0.08/365),
   d_e    = runif(n_runs,  min = 0, max = 0.08/365),
+
+source("Plotting PSA Distributions uniform.R"),
+
 
   n_cycle   = n_cycle,
   t_cycle   = t_cycle
