@@ -1,10 +1,23 @@
-# it is necessary to ensure that m_coef_weibull_SoC is properly converted to a data frame before performing operations that use the $ operator.
+# library(MASS)  # For fitdistr
+# install.packages("fitdistrplus")
+# install.packages("ggplot2")
+# library(fitdistrplus)
+# library(ggplot2)
+# Load necessary package for the gamma function
+# library(stats)
 
-# Here is how to can handle this in R, assuming m_coef_weibull_SoC is initially a matrix:
+############## m_coef_weibull_OS_SoC
 
-# Assuming df.m_coef_weibull_SoC is a matrix
-df.m_coef_weibull_SoC <- as.data.frame(m_coef_weibull_SoC)
-colnames(df.m_coef_weibull_SoC) <- c("shape", "scale")  # Set the column names
+# I want to plot the shape and scale parameters that make up m_coef_weibull_OS_SoC to show that my random draws for shape and scale matched a Weibull dsitribution and that the theoeretical mean and variance I produced was basically the same as that produced by the data:
+
+
+# it is necessary to ensure that m_coef_weibull_OS_SoC is properly converted to a data frame before performing operations that use the $ operator.
+
+# Here is how to can handle this in R, assuming m_coef_weibull_OS_SoC is initially a matrix:
+
+# Assuming df.m_coef_weibull_OS_SoC is a matrix
+df.m_coef_weibull_OS_SoC <- as.data.frame(m_coef_weibull_OS_SoC)
+colnames(df.m_coef_weibull_OS_SoC) <- c("shape", "scale")  # Set the column names
 
 # Calculate the mean and variance of the shape and scales below:
 
@@ -16,16 +29,16 @@ colnames(df.m_coef_weibull_SoC) <- c("shape", "scale")  # Set the column names
 # Compare the empirical and theoretical values.
 
 # Check for non-positive values
-if(any(df.m_coef_weibull_SoC$shape <= 0) | any(df.m_coef_weibull_SoC$scale <= 0)) {
+if(any(df.m_coef_weibull_OS_SoC$shape <= 0) | any(df.m_coef_weibull_OS_SoC$scale <= 0)) {
   stop("Data contains non-positive values, which are not suitable for Weibull distribution fitting.")
 }
 
 # Calculate the empirical mean and variance
-empirical_mean_shape <- mean(df.m_coef_weibull_SoC$shape)
-empirical_variance_shape <- var(df.m_coef_weibull_SoC$shape)
+empirical_mean_shape <- mean(df.m_coef_weibull_OS_SoC$shape)
+empirical_variance_shape <- var(df.m_coef_weibull_OS_SoC$shape)
 
-empirical_mean_scale <- mean(df.m_coef_weibull_SoC$scale)
-empirical_variance_scale <- var(df.m_coef_weibull_SoC$scale)
+empirical_mean_scale <- mean(df.m_coef_weibull_OS_SoC$scale)
+empirical_variance_scale <- var(df.m_coef_weibull_OS_SoC$scale)
 
 # Empirical Mean and Variance: Calculated directly from your data using the mean and var functions.
 
@@ -51,8 +64,6 @@ shape_scale <- shape_params["scale"]
 
 # This is supported by: https://stats.libretexts.org/Courses/Saint_Mary%27s_College_Notre_Dame/MATH_345__-_Probability_(Kuter)/4%3A_Continuous_Random_Variables/4.6%3A_Weibull_Distributions also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\4.6_ Weibull Distributions - Statistics LibreTexts.pdf
 
-# In the markdown script I load the necessary package for the gamma function:
-# library(stats)
 
 theoretical_mean_shape <- shape_scale * gamma(1 + 1 / shape_shape)
 theoretical_variance_shape <- (shape_scale^2) * (gamma(1 + 2 / shape_shape) - (gamma(1 + 1 / shape_shape))^2)
@@ -113,21 +124,21 @@ cat("Theoretical Variance: ", theoretical_variance_scale, "\n")
 # Fitting the Distribution: Using fitdistr with the start argument to provide initial estimates.
 
 # Fit Weibull distribution to the 'shape' data
-# shape_fit <- fitdistr(m_coef_weibull_SoC$shape, "weibull", start = shape_initial)
+# shape_fit <- fitdistr(m_coef_weibull_OS_SoC$shape, "weibull", start = shape_initial)
 
 
 # If you prefer not to provide initial parameter estimates, you can use a more robust fitting method that is less sensitive to initial conditions. One such method is the fitdist function from the fitdistrplus package, which can automatically handle initial parameter estimates.
 
-# Fitting the Weibull distribution: fitdist(m_coef_weibull_SoC$shape, "weibull") fits the Weibull distribution to the shape data and fitdist(m_coef_weibull_SoC$scale, "weibull") fits it to the scale data.
+# Fitting the Weibull distribution: fitdist(m_coef_weibull_OS_SoC$shape, "weibull") fits the Weibull distribution to the shape data and fitdist(m_coef_weibull_OS_SoC$scale, "weibull") fits it to the scale data.
 
 # Check for non-positive values
-if(any(df.m_coef_weibull_SoC$shape <= 0) | any(df.m_coef_weibull_SoC$scale <= 0)) {
+if(any(df.m_coef_weibull_OS_SoC$shape <= 0) | any(df.m_coef_weibull_OS_SoC$scale <= 0)) {
   stop("Data contains non-positive values, which are not suitable for Weibull distribution fitting.")
 }
 
 
 # Fit Weibull distribution to the 'shape' data
-shape_fit <- fitdist(df.m_coef_weibull_SoC$shape, "weibull")
+shape_fit <- fitdist(df.m_coef_weibull_OS_SoC$shape, "weibull")
 
 # Extract the estimated parameters
 shape_params <- shape_fit$estimate
@@ -135,19 +146,19 @@ shape_shape <- shape_params["shape"]
 shape_scale <- shape_params["scale"]
 
 # Generate theoretical Weibull density values
-x_shape <- seq(min(df.m_coef_weibull_SoC$shape), max(df.m_coef_weibull_SoC$shape), length.out = 100)
+x_shape <- seq(min(df.m_coef_weibull_OS_SoC$shape), max(df.m_coef_weibull_OS_SoC$shape), length.out = 100)
 y_shape <- dweibull(x_shape, shape = shape_shape, scale = shape_scale)
 
 # Generating density values: dweibull generates the density values for the theoretical Weibull distribution.
 
 
-hist_data <- hist(df.m_coef_weibull_SoC$shape, plot = FALSE)
+hist_data <- hist(df.m_coef_weibull_OS_SoC$shape, plot = FALSE)
 
 # Open a graphics device to save the plot to a file
 png(filename = paste0(variable_label, "_", country_name, "shape_histogram.png"), width = 800, height = 600)
 
 # Plot histogram and overlay Weibull density curve
-hist(df.m_coef_weibull_SoC$shape, breaks = 30, freq = FALSE, main = "", xlab = "Shape")
+hist(df.m_coef_weibull_OS_SoC$shape, breaks = 30, freq = FALSE, main = "", xlab = "Shape")
 lines(x_shape, y_shape, col = "darkblue", lwd = 2)
 
 # In this code the col parameter sets the color of the line, lwd sets the line width, and lty sets the line type (1 = solid, 2 = dashed, etc.).
@@ -170,7 +181,7 @@ legend("topright", inset = c(-0.037, 0), legend = c(paste("Data Mean: ", round(e
 # In this code, inset = c(-0.2, 0) shifts the legend 20% of the plot width to the left from the top right corner. You can adjust these values as needed to move the legend to the desired position. The negative value for the x-coordinate shifts the legend to the left.
 
 # Add title
-title(main = paste("Histogram of Shape Parameters with Weibull fit for first to second line treatment in PSA for", country_name), line = 2, cex.main = 1)
+title(main = paste("Histogram of Shape Parameters with Weibull fit for first line treatment to death in PSA for", country_name), line = 2, cex.main = 1)
 
 # Decrease the size of the title text: You can use the cex.main argument in the title function to adjust the size of the title text. cex.main is a numerical value giving the amount by which plotting text and symbols should be scaled relative to the default. 1=default, 1.5 is 50% larger, 0.5 is 50% smaller, etc. In this code, cex.main = 0.8 decreases the size of the title text by 20%.
 
@@ -183,7 +194,7 @@ dev.off()
 
 
 # Repeat for the 'scale' data
-scale_fit <- fitdist(df.m_coef_weibull_SoC$scale, "weibull")
+scale_fit <- fitdist(df.m_coef_weibull_OS_SoC$scale, "weibull")
 
 # Extract the estimated parameters
 scale_params <- scale_fit$estimate
@@ -191,7 +202,7 @@ scale_shape <- scale_params["shape"]
 scale_scale <- scale_params["scale"]
 
 # Generate theoretical Weibull density values
-x_scale <- seq(min(df.m_coef_weibull_SoC$scale), max(df.m_coef_weibull_SoC$scale), length.out = 100)
+x_scale <- seq(min(df.m_coef_weibull_OS_SoC$scale), max(df.m_coef_weibull_OS_SoC$scale), length.out = 100)
 y_scale <- dweibull(x_scale, shape = scale_shape, scale = scale_scale)
 
 
@@ -199,13 +210,13 @@ y_scale <- dweibull(x_scale, shape = scale_shape, scale = scale_scale)
 
 # Generating density values: dweibull generates the density values for the theoretical Weibull distribution.
 
-hist_data <- hist(df.m_coef_weibull_SoC$scale, plot = FALSE)
+hist_data <- hist(df.m_coef_weibull_OS_SoC$scale, plot = FALSE)
 
 # Open a graphics device to save the plot to a file
 png(filename = paste0(variable_label, "_", country_name, "shape_histogram.png"), width = 800, height = 600)
 
 # Plot histogram and overlay Weibull density curve
-hist(df.m_coef_weibull_SoC$scale, breaks = 30, freq = FALSE, main = "", xlab = "Scale")
+hist(df.m_coef_weibull_OS_SoC$scale, breaks = 30, freq = FALSE, main = "", xlab = "Scale")
 lines(x_scale, y_scale, col = "darkblue", lwd = 2)
 
 
@@ -229,7 +240,7 @@ legend("topright", inset = c(-0.037, 0), legend = c(paste("Data Mean: ", round(e
 # In this code, inset = c(-0.2, 0) shifts the legend 20% of the plot width to the left from the top right corner. You can adjust these values as needed to move the legend to the desired position. The negative value for the x-coordinate shifts the legend to the left.
 
 # Add title
-title(main = paste("Histogram of Scale Parameters with Weibull fit for first to second line treatment in PSA for", country_name), line = 2, cex.main = 1)
+title(main = paste("Histogram of Scale Parameters with Weibull fit for first line treatment to death in PSA for", country_name), line = 2, cex.main = 1)
 
 # Decrease the size of the title text: You can use the cex.main argument in the title function to adjust the size of the title text. cex.main is a numerical value giving the amount by which plotting text and symbols should be scaled relative to the default. 1=default, 1.5 is 50% larger, 0.5 is 50% smaller, etc. In this code, cex.main = 0.8 decreases the size of the title text by 20%.
 
@@ -241,14 +252,14 @@ dev.off()
 # If I needed to create a scatter plot to observe any potential relationship between the shape and scale parameters.
 
 # Summary statistics
-summary(m_coef_weibull_SoC)
+summary(m_coef_weibull_OS_SoC)
 
 # Summary Statistics: Compute the mean, median, standard deviation, and range for both the shape and scale parameters.
 
 # These analyses should help  gain insights into the distribution and relationship of the Weibull parameters in my dataset.
 
 # Scatter plot of Shape Vs Scale:
-# plot(df.m_coef_weibull_SoC$shape, df.m_coef_weibull_SoC$scale, 
+# plot(df.m_coef_weibull_OS_SoC$shape, df.m_coef_weibull_OS_SoC$scale, 
 #     main = "Scatter Plot of Shape vs Scale", 
 #     xlab = "Shape", ylab = "Scale")
 

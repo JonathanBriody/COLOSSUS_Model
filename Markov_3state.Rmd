@@ -123,7 +123,7 @@ rm(list = ls())
 
 # Package names
 
-packages <- c("pacman", "utils", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
+packages <- c("pacman", "utils", "stats", "fitdistrplus", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
 
 # Install packages not yet installed
 
@@ -2712,6 +2712,16 @@ comment(AE3_DisUtil) <- "Nausea Disutility"
 
 comment(d_c) <- "Cost Discount Rate"
 comment(d_e) <- "Utility Discount Rate"
+
+
+# Survival Data
+
+comment(m_coef_weibull_SoC) <- "First to Second Line Parametric Survival Distributions"
+
+comment(m_coef_weibull_OS_SoC) <- "First Line to Death Parametric Survival Distributions"
+
+
+
 ```
 
 ```{r}
@@ -3677,12 +3687,29 @@ MEAN_HR_PD_Exp <- HR_PD_Exp
 # Below I create the data.frame that I will use in the PSA.
 # So, this is the PSA input dataset.
 
+
 df_PA_input <- data.frame(
   coef_weibull_shape_SoC = m_coef_weibull_SoC[ , "shape"],
   coef_weibull_scale_SoC = m_coef_weibull_SoC[ , "scale"],
   coef_TTD_weibull_shape_SoC = m_coef_weibull_OS_SoC[ , "shape"],
   coef_TTD_weibull_scale_SoC = m_coef_weibull_OS_SoC[ , "scale"],
              
+# You'll notice a lot of plotting below. This is not needed to run the PSA. I just create all these plots because it gives a visual representation of my 10,000 draws for each variable. I can see what values were being drawn for each variable, whether they were on average at the mean I started out with, and whether they fit the distribution I assigned to them, i.e., gamma, beta, etc., because I overlay the line from these distributions on the draws I made and see how similar they look to eachother. 
+  
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "m_coef_weibull_SoC",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Weibull.R"),
+
+
+# Assign the variable I am looking at to "plotted_variable"
+plotted_variable <- "m_coef_weibull_OS_SoC",
+# Assign the label of the variable I am looking at to "variable_label"
+variable_label <- comment(get(plotted_variable)),
+# Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
+source("plotting PSA Distributions_Weibull_OS.R"),
 
   
 ### Hazard Ratios  
