@@ -2714,13 +2714,19 @@ comment(d_c) <- "Cost Discount Rate"
 comment(d_e) <- "Utility Discount Rate"
 
 
-# Survival Data
+# Survival Data: 
 
 comment(m_coef_weibull_SoC) <- "First to Second Line Parametric Survival Distributions"
 
 comment(m_coef_weibull_OS_SoC) <- "First Line to Death Parametric Survival Distributions"
 
 
+
+# Hazard Ratios:
+
+comment(HR_FP_Exp) <- "Hazard Ratio First to Second Line Under Experimental Treatment"
+
+comment(HR_PD_Exp) <- "Hazard Ratio First Line to Death Under Experimental Treatment"
 
 ```
 
@@ -3770,7 +3776,23 @@ source("plotting PSA Distributions_Weibull_OS.R"),
 # it's the log of the mean (the ratio value, so the hazard ratio) and the log of the standard deviation (which we put on the log scale when we calculate it so we don't need to put in as sdlog = log() here, just sdlog = ) in order to be taking random draws from a log-normal distribution (i.e. a log normally distributed HAZARD RATIO).
 
 HR_FP_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_FP_Exp), sdlog = SD),
+
+# Plotting
+plotted_variable <- MEAN_HR_FP_Exp,
+plotted_sd <- SD,
+comment(MEAN_HR_FP_Exp) <- "Hazard Ratio First to Second Line Under Experimental Treatment",
+variable_label <- comment(get(plotted_variable)),
+source("plotting PSA Distributions lognormal.R"),
+
+
 HR_PD_Exp = rlnorm(n_runs, meanlog = log(MEAN_HR_PD_Exp), sdlog = OS_SD),
+
+# Plotting
+plotted_variable <- MEAN_HR_PD_Exp,
+plotted_sd <- OS_SD,
+comment(MEAN_HR_PD_Exp) <- "Hazard Ratio First Line to Death Under Experimental Treatment",
+variable_label <- comment(get(plotted_variable)),
+source("plotting PSA Distributions lognormal.R"),
 
 
 # Per [SLIDE 16] onwards in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt I don't think we need to worry about the duration of time a hazard ratio refers to. In my model I definitely don't, as the hazard ratio and underlying rate survival curves that make up SoC transition probabilities come from the same paper, and thus the same time period. 
