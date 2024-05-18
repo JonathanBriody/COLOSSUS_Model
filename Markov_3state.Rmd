@@ -2748,12 +2748,12 @@ options(digits=4)
 ## Initialization ----
 
 # Load the model as a function that is defined in the supporting script
-# source("Functions_markov_3state.R")
+# #source("Functions_markov_3state.R")
 # Test function
 # calculate_ce_out(l_params_all)
 
 
-source(file = "oncologySemiMarkov_function.R")
+#source(file = "oncologySemiMarkov_function.R")
 # If I change any code in this main model code file, I will also need to update the function that I call.
 
 
@@ -3707,7 +3707,7 @@ plotted_variable <- "m_coef_weibull_SoC",
 # Assign the label of the variable I am looking at to "variable_label"
 variable_label <- comment(get(plotted_variable)),
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Weibull.R"),
+#source("plotting PSA Distributions_Weibull.R"),
 
 
 # Assign the variable I am looking at to "plotted_variable"
@@ -3715,7 +3715,7 @@ plotted_variable <- "m_coef_weibull_OS_SoC",
 # Assign the label of the variable I am looking at to "variable_label"
 variable_label <- comment(get(plotted_variable)),
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Weibull_OS.R"),
+#source("plotting PSA Distributions_Weibull_OS.R"),
 
   
 ### Hazard Ratios  
@@ -3784,7 +3784,7 @@ variable_label <- "MEAN_HR_FP_Exp",
 plotted_sd <- SD,
 comment(MEAN_HR_FP_Exp) <- "Hazard Ratio First to Second Line Under Experimental Treatment",
 variable_label <- comment(get(variable_label)),
-source("plotting PSA Distributions lognormal.R"),
+#source("plotting PSA Distributions lognormal.R"),
 
 
 
@@ -3800,7 +3800,7 @@ variable_label <- "MEAN_HR_PD_Exp",
 plotted_sd <- OS_SD,
 comment(MEAN_HR_PD_Exp) <- "Hazard Ratio First Line to Death Under Experimental Treatment",
 variable_label <- comment(get(variable_label)),
-source("plotting PSA Distributions lognormal.R"),
+#source("plotting PSA Distributions lognormal.R"),
 
 
 # Per [SLIDE 16] onwards in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt I don't think we need to worry about the duration of time a hazard ratio refers to. In my model I definitely don't, as the hazard ratio and underlying rate survival curves that make up SoC transition probabilities come from the same paper, and thus the same time period. 
@@ -3983,7 +3983,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4017,7 +4017,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4047,7 +4047,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4075,7 +4075,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4104,7 +4104,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 mean<-   p_FA1_EXPR,
@@ -4132,7 +4132,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4161,7 +4161,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -4191,7 +4191,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
   
@@ -4487,7 +4487,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4525,7 +4525,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4567,7 +4567,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 #  c_OS_Folfiri
@@ -4603,7 +4603,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4643,7 +4643,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4681,7 +4681,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4719,7 +4719,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -4756,7 +4756,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions_Gamma.R"),
+#source("plotting PSA Distributions_Gamma.R"),
 
 
 
@@ -5005,7 +5005,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -5043,7 +5043,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
   u_D       = 0,
@@ -5074,7 +5074,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 mean<-   AE2_DisUtil,
@@ -5103,7 +5103,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -5132,7 +5132,7 @@ variable_label <- comment(get(plotted_variable)),
 # These two steps allow me to source the PSA plotting script over and over again for each variable I am looking at, because in that script I apply my code to plotted_variable and variable_label  - such that the above always updates these to the variables I am interested in.
 
 # Source the PSA plotting script - this then applys the plotting script to the variable in question and saves the resultant plot:
-source("plotting PSA Distributions.R"),
+#source("plotting PSA Distributions.R"),
 
 
 
@@ -5163,7 +5163,7 @@ source("plotting PSA Distributions.R"),
   d_c    = runif(n_runs,  min = 0, max = 0.08/365),
   d_e    = runif(n_runs,  min = 0, max = 0.08/365),
 
-source("Plotting PSA Distributions uniform.R"),
+#source("Plotting PSA Distributions uniform.R"),
 
 
   n_cycle   = n_cycle,
@@ -5496,7 +5496,7 @@ while (!is.null(dev.list()))  dev.off()
 
 # I need to figure out some bugs in the below, I would have expected 10,000 ICERs and thus far I am only seeing 5,400... Maybe I just update the below to manually calculate it with df_c and df_e 
 
-# source("percent_ICERS_cost_effective.R")
+# #source("percent_ICERS_cost_effective.R")
 
 
 ```
@@ -5507,7 +5507,7 @@ while (!is.null(dev.list()))  dev.off()
 
 # I want to know how much of a cost reduction in bevacizumab would be required to produce an ICER at or below the WTP threshold, so I source the following R script where I decrement the cost of bevacizumab over and over again in loops that compare the associated ICER produced by these cost decreases to the WTP and that saves a note text document of the price required for the ICER to be <= the WTP:
 
-source("bev_cost_reduction_required.R")
+#source("bev_cost_reduction_required.R")
 
 
 # This is quite a time-consuming piece of code to run, so it's likely best to comment it out and only run it as and when is necessary to figure out the necessary cost reduction in bev for the paper.
@@ -5551,7 +5551,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------------------------------------------------|-----------------------|-------------------------------|-------------------------------|---------------|-------------------------------------------------------------------------------------|
+|-----------|-----------|-----------|-----------|-----------|------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
