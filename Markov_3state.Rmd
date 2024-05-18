@@ -178,17 +178,17 @@ country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 141.66
-c_PFS_Bevacizumab <- 1187.55
-c_OS_Folfiri <- 150.04
-administration_cost <- 365.00
+c_PFS_Folfox <- 157.77 
+c_PFS_Bevacizumab <- 1322.58 
+c_OS_Folfiri <- 167.10
+administration_cost <- 406.50
 subtyping_test_cost <- 400
 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 2835.89
-c_AE2 <- 1458.80
-c_AE3 <- 409.03
+c_AE1 <- 3158.35 
+c_AE2 <- 1624.67 
+c_AE3 <- 455.54 
 
 # 3. Willingness to pay threshold
 n_wtp = 45000
