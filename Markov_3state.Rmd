@@ -178,17 +178,17 @@ country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 157.77 
-c_PFS_Bevacizumab <- 1322.58 
+c_PFS_Folfox <- 157.77
+c_PFS_Bevacizumab <- 1425.84
 c_OS_Folfiri <- 167.10
 administration_cost <- 406.50
 subtyping_test_cost <- 400
 
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 3158.35 
-c_AE2 <- 1624.67 
-c_AE3 <- 455.54 
+c_AE1 <- 3485.23
+c_AE2 <- 1792.82
+c_AE3 <- 502.69
 
 # 3. Willingness to pay threshold
 n_wtp = 45000
@@ -204,16 +204,16 @@ n_wtp = 45000
 # # 
 # # # I received my costs as cost's per month, so I update these to be fortnightly mobths as below:
 # # 
-# c_PFS_Folfox <- ((1276.66 / 30) * 14)
-# c_PFS_Bevacizumab <- ((2952.24 / 30) * 14)
-# c_OS_Folfiri <- ((1309.64 / 30) * 14)
-# administration_cost <- 1794.40
+# c_PFS_Folfox <- ((1406.37 / 30) * 14)
+# c_PFS_Bevacizumab <- ((3252.19 / 30) * 14)
+# c_OS_Folfiri <- ((1442.70 / 30) * 14)
+# administration_cost <- 1927.72
 # subtyping_test_cost <- 400
 # # 
 # # # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3837
-# c_AE2 <- 1816.37
-# c_AE3 <- 68
+# c_AE1 <- 4188.31
+# c_AE2 <- 1982.68
+# c_AE3 <- 1307.72
 # # 
 # # # 3. Willingness to pay threshold
 # n_wtp = 78871
@@ -223,21 +223,21 @@ n_wtp = 45000
 # Spain:
 
 # country_name <- "Spain"
-# 
-# 
-# # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 297.97
-# c_PFS_Bevacizumab <- 1325.87
-# c_OS_Folfiri <- 139.58
-# administration_cost <- 314.94
+
+
+# 1. Cost of treatment in this country
+# c_PFS_Folfox <- 323.39
+# c_PFS_Bevacizumab <- 1399.33
+# c_OS_Folfiri <- 147.31
+# administration_cost <- 332.39
 # subtyping_test_cost <- 400
-# 
-# # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 4885.95
-# c_AE2 <- 285.49
-# c_AE3 <- 32.81
-# 
-# # 3. Willingness to pay threshold
+
+# 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 5710.97
+# c_AE2 <- 305.55
+# c_AE3 <- 35.11
+
+# 3. Willingness to pay threshold
 # n_wtp = 30000
 
 
@@ -1920,9 +1920,9 @@ c_AE3 <- c_AE3
 # AE3_DisUtil <-0.36
 
 
-AE1_DisUtil <-0.45 # The percentage disutility of the adverse event.
-AE2_DisUtil <-0.19 # The percentage disutility of the adverse event.
-AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
+AE1_DisUtil <-0.45/(14/5) # The percentage disutility of the adverse event.
+AE2_DisUtil <-0.19/(14/5) # The percentage disutility of the adverse event.
+AE3_DisUtil <-0.36/(14/5) # The percentage disutility of the adverse event.
 
 
 # According to the original study these percentage reductions come from:
@@ -2052,7 +2052,40 @@ u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
 
 
 
+# This is how this code works to apply disutilities, it's the probability of the event happening and taking the disutility amount away from the utility you started with, for illustration purposes I set the utility you started with to 100 and the discount to 10% and the probability of the adverse event happening to 100%, so you should 100% lose 10% of your utility, and there are three adverse events following this rule, so you should 100% lose 10% of your baseline utility for each adverse event, so you should lose 30% of your baseline utility. The way this is coded, it basically figures out what x% of your baseline utility is, then it takes that number away from the baseline utility if that adverse event happens, so 10% of 100 is 10, so if that adverse event happens you take away 100-10 giving you 90, if all 3 adverse events happen, it's 100-10-10-10 giving you 70. That's why you have to be careful with your disutilities, because, if all three happen and they were 50%, 50% and 50% you could have a situation of 100-50-50-50, which would mean your utility would be -50, which isnt possible in utilities, as they are bounded by 1 and 0, so you might have to write a piece of code that checks if it is below 0, and when it is to set it == 0 instead.
 
+# In my situation that can't happen, as my disutilities are 0.45+0.19+0.36 which add up to 1, so the very most that could be taken from my baseline utility is 100% of it's value, leaving it at 0 exactly, and my probabilities of each event are quite low, significantly decreasing the likelihood of all three occurring:
+
+# 
+# u_F <- 100
+# u_F
+# 100
+# 
+# AE1_DisUtil <- 0.10
+# u_AE1 <- AE1_DisUtil*u_F
+# u_AE1
+# 10
+# 
+# AE2_DisUtil <- 0.10
+# u_AE2 <- AE2_DisUtil*u_F
+# u_AE2
+# 10
+# 
+# AE3_DisUtil <- 0.10
+# u_AE3 <- AE3_DisUtil*u_F
+# u_AE3
+# 10
+# 
+# p_FA1_STD <-1
+# p_FA2_STD <-1
+# p_FA3_STD <-1
+# 
+# u_F_SoC<-u_F
+# 
+# u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3
+# 
+# u_F_SoC
+# 70
 
 
 
