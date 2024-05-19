@@ -123,7 +123,7 @@ rm(list = ls())
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
+packages <- c("pacman", "flexsurv", "flextable", "officer", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
 
 # Install packages not yet installed
 
@@ -1920,9 +1920,14 @@ c_AE3 <- c_AE3
 # AE3_DisUtil <-0.36
 
 
-AE1_DisUtil <-0.45/(14/5) # The percentage disutility of the adverse event.
-AE2_DisUtil <-0.19/(14/5) # The percentage disutility of the adverse event.
-AE3_DisUtil <-0.36/(14/5) # The percentage disutility of the adverse event.
+# AE1_DisUtil <-0.45/(14/5) # The percentage disutility of the adverse event adjusted for 5 out of 14 days.
+# AE2_DisUtil <-0.19/(14/5) # The percentage disutility of the adverse event for 5 out of 14 days.
+# AE3_DisUtil <-0.36/(14/5) # The percentage disutility of the adverse event for 5 out of 14 days.
+
+
+AE1_DisUtil <-0.45 # The percentage disutility of the adverse event.
+AE2_DisUtil <-0.19 # The percentage disutility of the adverse event.
+AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
 
 
 # According to the original study these percentage reductions come from:
@@ -5142,6 +5147,15 @@ while (!is.null(dev.list()))  dev.off()
 ```
 
 ```{r}
+
+# I source the code to create Table 1 in the paper, that is, the description of all the parameters, ranges and distributions:
+
+source(file = "Creating Table 1.R")
+
+
+```
+
+```{r}
 #09.4.3 Plot cost-effectiveness frontier
 # plot(df_cea_PA)
 # I don't use this plot in my paper anymore
@@ -5245,7 +5259,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------|------------|------------|------------|------------|------------|
+|-----------|-----------|-----------|-----------|-----------|------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
