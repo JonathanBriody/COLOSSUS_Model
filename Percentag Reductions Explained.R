@@ -34,23 +34,23 @@
 # 70
 
 
+# When disutilities are only for a portion of your cycle:
 
-
-# Let's say your utlity in u_F was 90 at baseline:
+# Let's say your utility in u_F was 90 at baseline (I recognise utilities are typically like 0.90, but I find it easier to think in whole numbers):
 
 u_F <- 90
 u_F
 
 # The disutility of AE1 is 60%, but adverse event 1 only last for 1 week, and cycles are 3 weeks in length.
 
-# So, you divide this disutility by 3 and then apply it to the whole cycles utility:
+# So, you divide this disutility by the portion of the cycle it lasts for (21/7 = 3) and then apply it to the whole cycles utility:
 
 AE1_DisUtil <- 0.60/(21/7)
 u_AE1 <- AE1_DisUtil*u_F
 u_AE1
 
 
-# Then, in a situation where the event 100% happens, you should have a utility that is equal to 2 weeks of normal utility and 1 week of reduced utility, so if the u_F is == 90, you can think of this as two weeks of 30 (where the event is not happening) and one week of 30 - 0.60% or 30- 18 (which is 60% of 30), such that u_F is 30 + 30 + 12 = 72.
+# Then, in a situation where the event 100% happens, you should have a utility that is equal to 2 weeks of normal utility and 1 week of reduced utility, so if the u_F is == 90, you can think of this as two weeks of 30 each (where the event is not happening) and one week of 30 - 0.60% or 30- 18 (which is 60% of 30), such that u_F is 30 + 30 + 12 = 72 or a full utility week plus a full utility week plus a week with a utility decrement of 60%.
 
 p_FA1_STD <-1
 
@@ -63,6 +63,63 @@ u_F_SoC
 90/3
 
 30*0.60
+
+# When you experience an adverse event, you are in the adverse event state for 5 out of the 14 days of the 14-day cycle, so I divide the adverse event diutility by 14/5 as below:
+
+
+
+AE1_DisUtil <-0.45/(14/5) # The percentage disutility of the adverse event.
+AE2_DisUtil <-0.19/(14/5) # The percentage disutility of the adverse event.
+AE3_DisUtil <-0.36/(14/5) # The percentage disutility of the adverse event.
+
+
+
+
+
+
+
+
+
+
+
+
+0.085/14
+# [1] 0.006071
+
+0.006071*9
+# [1] 0.05464
+
+0.006071*5
+# [1] 0.03036
+
+
+
+
+
+
+
+
+
+
+
+# Maybe an addition like this could work:
+
+0.085/14
+# [1] 0.006071
+
+AE1_DisUtil <-0.45/14/5
+AE2_DisUtil <-0.19
+AE3_DisUtil <-0.36
+
+u_AE1 <- (0.006071*9+(0.006071*AE1_DisUtil)*5)
+u_AE2 <- (0.006071*9+(0.006071*AE2_DisUtil)*5)
+u_AE3 <- (0.006071*9+(0.006071*AE3_DisUtil)*5)
+
+
+
+
+u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+
 
 
 

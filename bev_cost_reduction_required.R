@@ -4,8 +4,8 @@ Original_Price_c_PFS_Bevacizumab <- c_PFS_Bevacizumab
 
 # This code actually takes a long time to run, so I start c_PFS_Bevacizumab with a pretty hefty initial reduction
 
-# Decrease the value of c_PFS_Bevacizumab by 30%
-c_PFS_Bevacizumab <- c_PFS_Bevacizumab * 0.30
+# I set c_PFS_Bevacizumab to 50% of it's value below:
+c_PFS_Bevacizumab <- c_PFS_Bevacizumab * 0.50
 
 # Initialize c_PFS_BevacizumabReduction as NULL
 c_PFS_BevacizumabReduction <- NULL
