@@ -1909,10 +1909,28 @@ p_FA2_EXPR     <- 0.110   # probability of adverse event 2 when progression-free
 p_FA3_EXPR     <- 0.070   # probability of adverse event 3 when progression-free under EXPR
 
 
+# James asked that I consider including adverse events in the OS state.
+
+# So, first I need to include the probability of adverse events 1,2 3 in the OS state under FOLFIRI. Everyone get's the same second line treatment (FOLFIRI) so once in the OS state everyone (Exp or SoC) has the same probability of an adverse event:
+
+p_OSA1_FOLFIRI     <- 0.020   # probability of adverse event 1 when progressed and recieving FOLFIRI
+p_OSA2_FOLFIRI     <- 0.260   # probability of adverse event 2 when progressed and recieving FOLFIRI
+p_OSA3_FOLFIRI     <- 0.240   # probability of adverse event 3 when progressed and recieving FOLFIRI
+
+
+
 # 2. Cost of treating the AE conditional on it occurring
 c_AE1 <- c_AE1
 c_AE2 <- c_AE2
 c_AE3 <- c_AE3 
+
+
+# I don't need to update these costs when including adverse events in the OS state, because the adverse events people experiece are the same three described above, and because these are event specific costs we assume their costs are the same in PFS or OS.
+
+
+# I also don't need to update the utility adjustments because I assume that the negative impact on your utiltiy is the same regardless of the health state you are in:
+
+
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
 # AE1_DisUtil <-0.45
@@ -2042,6 +2060,18 @@ u_AE1
 u_AE2
 u_AE3
 
+
+# I also find for u_P the proportion of the baseline utility (that is, the utility without beofre an adverse event) that the adverse event would remove if it occured, that is, a 1o percentage disutility of an adverse event would decrease a utility of 0.85 by 0.085. 
+
+u_AE1_OS <- AE1_DisUtil*u_P 
+u_AE2_OS <- AE2_DisUtil*u_P
+u_AE3_OS <- AE3_DisUtil*u_P
+
+u_AE1_OS
+u_AE2_OS 
+u_AE3_OS
+
+
 # I then adjust my state utilities:
 
 # uState<-uState-pAE1*duAE1
@@ -2054,6 +2084,14 @@ u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take t
 
 u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
 
+
+# I also adjust my state utilities for OS:
+
+# uState<-uState-pAE1*duAE1
+
+u_OS<-u_P
+
+u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS - p_OSA2_FOLFIRI*u_AE2_OS - p_OSA3_FOLFIRI*u_AE3_OS # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
 
 
 
@@ -2104,6 +2142,14 @@ u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
 
 c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
 c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
+
+
+# If I am going to include AE's in OS, I will also need to include the costs of these AEs in OS, much like the above:
+
+c_P<-c_P+p_OSA1_FOLFIRI*c_AE1 +p_OSA2_FOLFIRI*c_AE2 +p_OSA3_FOLFIRI*c_AE3
+
+
+
 
 
 # I get it, the cost is the cost of treatment (say c_F_SoC), and then we have some probability "p" of adding on to this cost with how much it might cost to have nausea, vomiting or diarrhoea, so we have the chance to increase this cost by the cost of these adverse events. 
@@ -2329,8 +2375,19 @@ v_tc_Exp["Cycle 1", ] <- v_tc_Exp["Cycle 1", ] + subtyping_test_cost
 
 
 
-v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_P, u_D)
-v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_P, u_D)
+
+
+# Moving on
+
+# At the moment I only have 1 utility for the OS state, because once progressed, we assume everyone gets the same treatment (FOLFIRI).
+
+# This is unlike STD and Exp care where people are getting chemo with or without Bev so u_F_SoC stands for utility under SoC and u_F_Exp stands for utility under Bev.
+
+# Above I set u_OS<-u_P, so below I set OS utility equal to this from it's prior u_P value, i.e., c(u_F_SoC, u_P, u_D)
+
+
+v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_OS, u_D)
+v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_OS, u_D)
 
 v_tu_SoC
 v_tu_Exp
@@ -2756,6 +2813,9 @@ l_params_all <- list(
   p_FA1_EXPR = p_FA1_EXPR,
   p_FA2_EXPR = p_FA2_EXPR,
   p_FA3_EXPR = p_FA3_EXPR,
+  p_OSA1_FOLFIRI = p_OSA1_FOLFIRI,
+  p_OSA2_FOLFIRI = p_OSA2_FOLFIRI,
+  p_OSA3_FOLFIRI = p_OSA3_FOLFIRI,
   administration_cost = administration_cost,
     #ITS FINE TO INCLUDE THE INGRIDENIENTS THAT MAKE UP c_F_SoC, c_F_Exp, c_P, but don't include c_F_SoC, c_F_Exp, c_P themsleves, BECAUSE WE ARE CHANGING WHAT BUILDS THESE COSTS WITH THE INGRIEDIENTS, SO WE DON'T WANT TO CHANGE IT AGAIN HERE ONCE WE'VE CHANGED WHAT BUILDS IT
   c_PFS_Folfox = c_PFS_Folfox,
@@ -2940,6 +3000,17 @@ Minimum_p_FA3_EXPR <- p_FA3_EXPR - 0.20*p_FA3_EXPR
 Maximum_p_FA3_EXPR <- p_FA3_EXPR + 0.20*p_FA3_EXPR
 
 
+p_OSA1_FOLFIRI
+Minimum_p_OSA1_FOLFIRI <- p_OSA1_FOLFIRI - 0.20*p_OSA1_FOLFIRI
+Maximum_p_OSA1_FOLFIRI <- p_OSA1_FOLFIRI + 0.20*p_OSA1_FOLFIRI
+
+p_OSA2_FOLFIRI
+Minimum_p_OSA2_FOLFIRI <- p_OSA2_FOLFIRI - 0.20*p_OSA2_FOLFIRI
+Maximum_p_OSA2_FOLFIRI <- p_OSA2_FOLFIRI + 0.20*p_OSA2_FOLFIRI
+
+p_OSA3_FOLFIRI
+Minimum_p_OSA3_FOLFIRI <- p_OSA3_FOLFIRI - 0.20*p_OSA3_FOLFIRI
+Maximum_p_OSA3_FOLFIRI <- p_OSA3_FOLFIRI + 0.20*p_OSA3_FOLFIRI
 
 
 # Cost:
@@ -3133,9 +3204,9 @@ Maximum_AE3_DisUtil<- replace(Maximum_AE3_DisUtil, Maximum_AE3_DisUtil>1, 1)
 # options(scipen = 999) # disabling scientific notation in R
 
 df_params_OWSA <- data.frame(
-  pars = c("HR_FP_Exp", "HR_FP_SoC", "HR_PD_SoC", "HR_PD_Exp", "P_OSD_SoC", "P_OSD_Exp", "p_FA1_STD", "p_FA2_STD", "p_FA3_STD", "p_FA1_EXPR", "p_FA2_EXPR", "p_FA3_EXPR", "administration_cost", "c_PFS_Folfox", "c_PFS_Bevacizumab", "c_OS_Folfiri", "subtyping_test_cost", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "AE1_DisUtil", "AE2_DisUtil", "AE3_DisUtil"),   # names of the parameters to be changed
-  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_P_OSD_SoC, Minimum_P_OSD_Exp, Minimum_p_FA1_STD, Minimum_p_FA2_STD, Minimum_p_FA3_STD, Minimum_p_FA1_EXPR, Minimum_p_FA2_EXPR, Minimum_p_FA3_EXPR, Minimum_administration_cost, Minimum_c_PFS_Folfox, Minimum_c_PFS_Bevacizumab, Minimum_c_OS_Folfiri, Minimum_subtyping_test_cost, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_AE1_DisUtil, Minimum_AE2_DisUtil, Minimum_AE3_DisUtil),         # min parameter values
-  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_P_OSD_SoC, Maximum_P_OSD_Exp, Maximum_p_FA1_STD, Maximum_p_FA2_STD, Maximum_p_FA3_STD, Maximum_p_FA1_EXPR, Maximum_p_FA2_EXPR, Maximum_p_FA3_EXPR, Maximum_administration_cost, Maximum_c_PFS_Folfox, Maximum_c_PFS_Bevacizumab, Maximum_c_OS_Folfiri, Maximum_subtyping_test_cost, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_AE1_DisUtil, Maximum_AE2_DisUtil, Maximum_AE3_DisUtil)          # max parameter values
+  pars = c("HR_FP_Exp", "HR_FP_SoC", "HR_PD_SoC", "HR_PD_Exp", "P_OSD_SoC", "P_OSD_Exp", "p_FA1_STD", "p_FA2_STD", "p_FA3_STD", "p_FA1_EXPR", "p_FA2_EXPR", "p_FA3_EXPR", "p_OSA1_FOLFIRI", "p_OSA2_FOLFIRI", "p_OSA3_FOLFIRI", "administration_cost", "c_PFS_Folfox", "c_PFS_Bevacizumab", "c_OS_Folfiri", "subtyping_test_cost", "c_AE1", "c_AE2", "c_AE3", "d_e", "d_c", "u_F", "u_P", "AE1_DisUtil", "AE2_DisUtil", "AE3_DisUtil"),   # names of the parameters to be changed
+  min  = c(Minimum_HR_FP_Exp, Minimum_HR_FP_SoC, Minimum_HR_PD_SoC, Minimum_HR_PD_Exp, Minimum_P_OSD_SoC, Minimum_P_OSD_Exp, Minimum_p_FA1_STD, Minimum_p_FA2_STD, Minimum_p_FA3_STD, Minimum_p_FA1_EXPR, Minimum_p_FA2_EXPR, Minimum_p_FA3_EXPR, Minimum_p_OSA1_FOLFIRI, Minimum_p_OSA2_FOLFIRI, Minimum_p_OSA3_FOLFIRI, Minimum_administration_cost, Minimum_c_PFS_Folfox, Minimum_c_PFS_Bevacizumab, Minimum_c_OS_Folfiri, Minimum_subtyping_test_cost, Minimum_c_AE1, Minimum_c_AE2, Minimum_c_AE3, Minimum_d_e, Minimum_d_c, Minimum_u_F, Minimum_u_P, Minimum_AE1_DisUtil, Minimum_AE2_DisUtil, Minimum_AE3_DisUtil),         # min parameter values
+  max  = c(Maximum_HR_FP_Exp, Maximum_HR_FP_SoC, Maximum_HR_PD_SoC, Maximum_HR_PD_Exp, Maximum_P_OSD_SoC, Maximum_P_OSD_Exp, Maximum_p_FA1_STD, Maximum_p_FA2_STD, Maximum_p_FA3_STD, Maximum_p_FA1_EXPR, Maximum_p_FA2_EXPR, Maximum_p_FA3_EXPR, Maximum_p_OSA1_FOLFIRI, Maximum_p_OSA2_FOLFIRI, Maximum_p_OSA3_FOLFIRI, Maximum_administration_cost, Maximum_c_PFS_Folfox, Maximum_c_PFS_Bevacizumab, Maximum_c_OS_Folfiri, Maximum_subtyping_test_cost, Maximum_c_AE1,  Maximum_c_AE2, Maximum_c_AE3, Maximum_d_e, Maximum_d_c, Maximum_u_F, Maximum_u_P, Maximum_AE1_DisUtil, Maximum_AE2_DisUtil, Maximum_AE3_DisUtil)          # max parameter values
 )
 
 
@@ -3333,6 +3404,9 @@ DSAICER <- DSAICER %>%
     parameter == "p_FA1_EXPR" ~ "Prob Leukopenia - Exp",
     parameter == "p_FA2_EXPR" ~ "Prob Diarrhea - Exp",
     parameter == "p_FA3_EXPR" ~ "Prob Nausea - Exp",
+    parameter == "p_OSA1_FOLFIRI" ~ "Prob Leukopenia - Second Line",
+    parameter == "p_OSA2_FOLFIRI" ~ "Prob Diarrhea - Second Line",
+    parameter == "p_OSA3_FOLFIRI" ~ "Prob Nausea - Second Line",
     parameter == "administration_cost" ~ "Administration Cost",
     parameter == "c_PFS_Folfox" ~ "Folfox Cost",
     parameter == "c_PFS_Bevacizumab" ~ "Bevacizumab Cost",

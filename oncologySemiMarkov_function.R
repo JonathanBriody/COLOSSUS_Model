@@ -787,7 +787,19 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     u_AE1
     u_AE2
     u_AE3
+
     
+    # I also find for u_P the proportion of the baseline utility (that is, the utility without beofre an adverse event) that the adverse event would remove if it occured, that is, a 1o percentage disutility of an adverse event would decrease a utility of 0.85 by 0.085. 
+    
+    u_AE1_OS <- AE1_DisUtil*u_P 
+    u_AE2_OS <- AE2_DisUtil*u_P
+    u_AE3_OS <- AE3_DisUtil*u_P
+    
+    u_AE1_OS
+    u_AE2_OS 
+    u_AE3_OS
+    
+        
     # I then adjust my state utilities:
     
     # uState<-uState-pAE1*duAE1
@@ -801,6 +813,13 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
     
     
+    # I also adjust my state utilities for OS:
+    
+    # uState<-uState-pAE1*duAE1
+    
+    u_OS<-u_P
+    
+    u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS - p_OSA2_FOLFIRI*u_AE2_OS - p_OSA3_FOLFIRI*u_AE3_OS # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
     
     
     # I then adjust my state costs and utilities:
@@ -822,6 +841,10 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     c_F_SoC<-c_F_SoC +p_FA1_STD*c_AE1 +p_FA2_STD*c_AE2 +p_FA3_STD*c_AE3
     c_F_Exp<-c_F_Exp +p_FA1_EXPR*c_AE1 +p_FA2_EXPR*c_AE2 +p_FA3_EXPR*c_AE3
     
+    # If I am going to include AE's in OS, I will also need to include the costs of these AEs in OS, much like the above:
+    
+    c_P<-c_P+p_OSA1_FOLFIRI*c_AE1 +p_OSA2_FOLFIRI*c_AE2 +p_OSA3_FOLFIRI*c_AE3
+    
     
    # Calculate the costs and QALYs per cycle by multiplying m_M (the Markov trace) with the cost/utility           vectors for the different states
     
@@ -837,8 +860,15 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     
     v_tc_Exp
     
-    v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_P, u_D)
-    v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_P, u_D)
+        
+    # At the moment I only have 1 utility for the OS state, because once progressed, we assume everyone gets the same treatment (FOLFIRI).
+        
+    # This is unlike STD and Exp care where people are getting chemo with or without Bev so u_F_SoC stands for utility under SoC and u_F_Exp stands for utility under Bev.
+        
+        # Above I set u_OS<-u_P, so below I set OS utility equal to this from it's prior u_P value, i.e., c(u_F_SoC, u_P, u_D)
+   
+    v_tu_SoC <- m_M_SoC %*% c(u_F_SoC, u_OS, u_D)
+    v_tu_Exp <- m_M_Exp %*% c(u_F_Exp, u_OS, u_D)
     
     
     v_tu_SoC
