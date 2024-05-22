@@ -123,7 +123,7 @@ rm(list = ls())
 
 # Package names
 
-packages <- c("pacman", "flexsurv", "flextable", "officer", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "dplyr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
+packages <- c("pacman", "flexsurv", "flextable", "officer", "MASS", "dplyr", "devtools", "scales", "ellipse", "ggplot2", "lazyeval", "igraph", "ggraph", "reshape2", "knitr", "stringr", "diagram", "survival", "lubridate", "ggsurvfit", "gtsummary", "tidycmprsk", "magrittr", "diffr", "gdata", "gridGraphics", "sjPlot", "stargazer", "tibble", "here", "collapse")
 
 # Install packages not yet installed
 
@@ -196,49 +196,49 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 
 
-# Germany:
-
-country_name <- "Germany"
-#
-# # 1. Cost of treatment in this country
-#
-# # I received my costs as cost's per month, so I update these to be fortnightly mobths as below:
-#
-c_PFS_Folfox <- ((1406.37 / 30) * 14)
-c_PFS_Bevacizumab <- ((3252.19 / 30) * 14)
-c_OS_Folfiri <- ((1442.70 / 30) * 14)
-administration_cost <- 1927.72
-subtyping_test_cost <- 400
-#
-# # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 4188.31
-c_AE2 <- 1982.68
-c_AE3 <- 1307.72
-#
-# # 3. Willingness to pay threshold
-n_wtp = 78871
+# # Germany:
+# 
+# country_name <- "Germany"
+# #
+# # # 1. Cost of treatment in this country
+# #
+# # # I received my costs as cost's per month, so I update these to be fortnightly mobths as below:
+# #
+# c_PFS_Folfox <- ((1406.37 / 30) * 14)
+# c_PFS_Bevacizumab <- ((3252.19 / 30) * 14)
+# c_OS_Folfiri <- ((1442.70 / 30) * 14)
+# administration_cost <- 1927.72
+# subtyping_test_cost <- 400
+# #
+# # # 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 4188.31
+# c_AE2 <- 1982.68
+# c_AE3 <- 1307.72
+# #
+# # # 3. Willingness to pay threshold
+# n_wtp = 78871
 
 
 
 # Spain:
-# 
-# country_name <- "Spain"
-# 
-# 
-# # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 323.39
-# c_PFS_Bevacizumab <- 1399.33
-# c_OS_Folfiri <- 147.31
-# administration_cost <- 332.39
-# subtyping_test_cost <- 400
-# 
-# # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 5710.97
-# c_AE2 <- 305.55
-# c_AE3 <- 35.11
-# 
-# # 3. Willingness to pay threshold
-# n_wtp = 30000
+
+country_name <- "Spain"
+
+
+# 1. Cost of treatment in this country
+c_PFS_Folfox <- 323.39
+c_PFS_Bevacizumab <- 1399.33
+c_OS_Folfiri <- 147.31
+administration_cost <- 332.39
+subtyping_test_cost <- 400
+
+# 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 5710.97
+c_AE2 <- 305.55
+c_AE3 <- 35.11
+
+# 3. Willingness to pay threshold
+n_wtp = 30000
 
 
 
@@ -3252,6 +3252,143 @@ DSAICER  <- run_owsa_det(
 
 # https://cran.r-project.org/web/packages/dampack/vignettes/dsa_generation.html 
 
+
+# To include more descriptive names for the parameters in the tornado diagram, rather than the variable names (i.e., c_PFS_Bevacizumab), I remember that: 
+
+# DSAICER  <- run_owsa_det( is creating a data frame, and then uses owsa_tornado(owsa = DSAICER, txtsize = 11) on this dataframe (DSAICER in the case of the model) to plot this, according to https://rdrr.io/github/DARTH-git/dampack/man/run_owsa_det.html 
+
+
+# Thus, it is creating DSAICER which exists seperately to the variables I have created in this markdown file. Thus, I can edit the names of the parameters within DSAICER without changing their names within this markdown document (as that would complicate some of the other code I've written which expects their original names).
+
+# So, we output the below for DSAICER:
+
+# > DSAICER
+#     parameter               strategy param_val outcome_val
+# 1   HR_FP_Exp       Standard.of.Care    0.5300       48900
+# 2   HR_FP_Exp       Standard.of.Care    0.5334       48944
+# 3   HR_FP_Exp       Standard.of.Care    0.5369       48988
+# 4   HR_FP_Exp       Standard.of.Care    0.5403       49033
+# 5   HR_FP_Exp       Standard.of.Care    0.5437       49077
+# 6   HR_FP_Exp       Standard.of.Care    0.5472       49123
+# 7   HR_FP_Exp       Standard.of.Care    0.5506       49168
+# 8   HR_FP_Exp       Standard.of.Care    0.5540       49214
+# 9   HR_FP_Exp       Standard.of.Care    0.5575       49260
+# 10  HR_FP_Exp       Standard.of.Care    0.5609       49307
+
+
+# We can edit variables in our dataframe as below:
+
+
+# That is, we can change the names of the variables in our data frame using the dplyr package’s mutate() function.
+
+
+# Assuming DSAICER is our data frame:
+
+# DSAICER <- DSAICER %>%
+#   mutate(parameter = ifelse(parameter == "HR_FP_Exp", "Hazard Ratio First to Second Line Treatment Bev", parameter))
+
+# In this code, I’m using the mutate() function to create a new parameter column. If the parameter is “HR_FP_Exp”, it gets replaced with “Hazard Ratio First to Second Line Treatment Bev”. Otherwise, the original value is kept.
+
+
+# Which gives us the following result:
+
+# DSAICER
+
+#                                           parameter               strategy param_val outcome_val
+# 1   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5300       48900
+# 2   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5334       48944
+# 3   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5369       48988
+# 4   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5403       49033
+# 5   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5437       49077
+# 6   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5472       49123
+# 7   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5506       49168
+# 8   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5540       49214
+# 9   Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5575       49260
+# 10  Hazard Ratio First to Second Line Treatment Bev       Standard.of.Care    0.5609       49307
+
+
+# Thus, I apply this to all the parameters included in df_params_OWSA <- data.frame( above:
+
+
+
+
+
+# Change the values in the 'parameter' column
+
+# I use the mutate() function from the dplyr package to change the values of the parameter column in my DSAICER data frame based on conditions.
+
+# First I look at DSAICER before any changes to learn the variable names and see what it looks like before:
+
+DSAICER
+
+# Then I change the values in the 'parameter' column
+
+DSAICER <- DSAICER %>%
+  mutate(parameter = case_when(
+    parameter == "P_OSD_SoC" ~ "Probability Death Second Line Treatment - SoC",
+    parameter == "P_OSD_Exp" ~ "Probability Death Second Line Treatment - Exp",
+    parameter == "p_FA1_STD" ~ "Probability Leukopenia - SoC",
+    parameter == "p_FA2_STD" ~ "Probability Diarrhea - SoC",
+    parameter == "p_FA3_STD" ~ "Probability Nausea - SoC",
+    parameter == "p_FA1_EXPR" ~ "Probability Leukopenia - Exp",
+    parameter == "p_FA2_EXPR" ~ "Probability Diarrhea - Exp",
+    parameter == "p_FA3_EXPR" ~ "Probability Nausea - Exp",
+    parameter == "administration_cost" ~ "Administration Cost",
+    parameter == "c_PFS_Folfox" ~ "Folfox Cost",
+    parameter == "c_PFS_Bevacizumab" ~ "Bevacizumab Cost",
+    parameter == "c_OS_Folfiri" ~ "Folfiri Cost",
+    parameter == "c_AE1" ~ "Leukopenia Cost",
+    parameter == "c_AE2" ~ "Diarrhea Cost",
+    parameter == "c_AE3" ~ "Nausea Cost",
+    parameter == "subtyping_test_cost" ~ "Subtyping Test Cost",
+    parameter == "u_F" ~ "Utility First Line Treatment",
+    parameter == "u_P" ~ "Utility Second Line Treatment",
+    parameter == "AE1_DisUtil" ~ "Leukopenia Disutility",
+    parameter == "AE2_DisUtil" ~ "Diarrhea Disutility",
+    parameter == "AE3_DisUtil" ~ "Nausea Disutility",
+    parameter == "d_c" ~ "Cost Discount Rate",
+    parameter == "d_e" ~ "Utility Discount Rate",
+    parameter == "HR_PD_SoC" ~ "Probability First Line - Death SoC",
+    parameter == "HR_FP_SoC" ~ "Probability First - Second Line SoC",
+    parameter == "HR_PD_Exp" ~ "HR First Line - Death Bev",
+    parameter == "HR_FP_Exp" ~ "HR First - Second Line Treatment Bev",
+    TRUE ~ parameter  # I keep the original value if none of the above conditions are met
+  ))
+
+# In this code, case_when() is used inside mutate() to change the values of the parameter column based on multiple conditions. The format is condition ~ new_value. If none of the conditions are met, the original value is kept (TRUE ~ parameter).
+
+
+# The tilde symbol (~) is used in R as a binary infix operator to separate the left-hand side and the right-hand side in a model formula. In the context of the mutate() function and the case_when() function from the dplyr package, it’s used to separate conditions from their corresponding values.
+
+# Here’s how it works:
+
+# mutate(df, new_column = case_when(
+#   condition1 ~ value1,
+#   condition2 ~ value2,
+#   TRUE ~ parameter
+# ))
+
+# In this code, ~ separates each condition (condition1, condition2, etc.) from its corresponding value (value1, value2, etc.). If a condition is met (i.e., it evaluates to TRUE), the corresponding value is used. If none of the conditions are met, the parameter value is used (specified by TRUE ~ parameter).
+
+# So, in the context of my code, parameter == "HR_FP_Exp" ~ "Hazard Ratio First to Second Line Treatment Bev" means “if parameter equals HR_FP_Exp, use Hazard Ratio First to Second Line Treatment Bev”.
+
+# In the context of my code, TRUE ~ parameter serves as a default case in the case_when() function.
+
+# That is, in this code, each condition is checked in order. If condition1 is TRUE, value1 is used. If condition2 is TRUE, value2 is used. If none of the conditions are TRUE, then the TRUE ~ parameter line is executed. Since TRUE is always TRUE, this line serves as a catch-all or default case.
+
+# So, TRUE ~ parameter means “if none of the above conditions are met, keep the original value of parameter”. This ensures that the values of parameter that don’t meet any of the specified conditions remain unchanged.
+
+# I look at DSAICER again to see how the above has changed my parameter names:
+
+DSAICER
+
+
+
+
+
+
+
+
 owsa_tornado(owsa = DSAICER, txtsize = 11)
 ggsave(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""), width = 8, height = 4, dpi=300)
 while (!is.null(dev.list()))  dev.off()
@@ -5222,6 +5359,17 @@ source("bev_cost_reduction_required.R")
 
 
 # I also include this piece of code to shut down my computer when all simulations are done, it doesnt need to always be on, I really just include it when running the simulations overnight:
+
+
+
+```
+
+```{r}
+
+# I create the Tornado Diagram once again, but this time I rename all the variables I include to make the diagram more legible:
+
+
+
 
 
 
