@@ -274,6 +274,13 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     
     # Sometimes a Dirichlet is suggested, a Dirichlet distribution is the multidimensional generalization of the beta distribution, so it's the same as applying the beta distribution, - as per: https://www.rdocumentation.org/packages/rBeta2009/versions/1.0/topics/rdirichlet but I would need to have all the counts included I think, which works when you are drawing all your transition data from one larger dataset, like in a clinical trial, but my data necessarily comes from several sources, so I if I just build everything as conditional probabilities, per my notes in this Notepad [search 19/08/22: in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\notes.txt] in combination with the slides [C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\a212ProbabilisticDistributions-210604-154.pdf] these are notes on, that is 1-Probabilities like I've done in R already, then I should be able to apply a Beta distribution to each probability and not have to worry about applying a Dirichlet.
     
+    
+    # If I ever wanted to do a Dirichlet from say a clinical trial or something and I wanted to do a PSA with this, here's how: https://cran.r-project.org/web/packages/heemod/vignettes/e_probabilistic.html
+    
+    
+    # This source also demonstrates how to use a gamma distribution for costs: https://cran.r-project.org/web/packages/heemod/vignettes/e_probabilistic.html 
+    
+    
     # Here's a quote explaining how best to do that from my notes above:
     
     # "In the above you would have a beta distribution with parameters 731, 527 [the 512+15] to look at whether you stayed in State B and then, conditional on leaving State B, we could assign another beta distribution with parameters 512 and 15 to whether you, conditional on having left State B then transited to State C. And, of course, death is then the third category. Death is the residual probability. [i.e., conditional on having left state B is 1-the probability of staying in State B, so you could apply a Beta distribution to the probability of going into State C multiplied by 1-the probability of staying in State B. Death would be 1-the probability you create of moving into State C, because if you're not going into State C then you're going into Death as there's nowhere else for you to go, I think if you wanted to apply a Beta distribution to Death you could apply a Beta distribution to the probability of going into Death and then multiply that by 1-the probability of staying in the B state]."
@@ -539,12 +546,60 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     beta_p_FA3_EXPR <- beta,
     
     
+    mean<-   p_OSA1_FOLFIRI,
+    Maximum <- Maximum_p_OSA1_FOLFIRI,
+    Maximum,
+    se <- ((Maximum) - (mean)) / 2,
+    se,  
+    std.error <- se,
+    alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+    alpha <- mean*alpha.plus.beta, ## alpha (a)
+    beta <- alpha*(1-mean)/mean, ## beta(b)
+    alpha,
+    beta,
+    
+    p_OSA1_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+    
+    alpha_p_OSA1_FOLFIRI <- alpha,
+    beta_p_OSA1_FOLFIRI <- beta,
     
     
     
+    mean<-   p_OSA2_FOLFIRI,
+    Maximum <- Maximum_p_OSA2_FOLFIRI,
+    Maximum,
+    se <- ((Maximum) - (mean)) / 2,
+    se,  
+    std.error <- se,
+    alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+    alpha <- mean*alpha.plus.beta, ## alpha (a)
+    beta <- alpha*(1-mean)/mean, ## beta(b)
+    alpha,
+    beta,
+    
+    p_OSA2_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+    
+    alpha_p_OSA2_FOLFIRI <- alpha,
+    beta_p_OSA2_FOLFIRI <- beta,
     
     
     
+    mean<-   p_OSA3_FOLFIRI,
+    Maximum <- Maximum_p_OSA3_FOLFIRI,
+    Maximum,
+    se <- ((Maximum) - (mean)) / 2,
+    se,  
+    std.error <- se,
+    alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+    alpha <- mean*alpha.plus.beta, ## alpha (a)
+    beta <- alpha*(1-mean)/mean, ## beta(b)
+    alpha,
+    beta,
+    
+    p_OSA3_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+    
+    alpha_p_OSA3_FOLFIRI <- alpha,
+    beta_p_OSA3_FOLFIRI <- beta,
     
     
     # Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
@@ -855,11 +910,6 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     b.cIntervention_c_PFS_Folfox <-b.cIntervention, 
     
     # c_PFS_Bevacizumab
-    
-    # Because I am updating the cost of bev at the start of this loop, it is also necessary to update the associated max and min using this new updated cost:
-    
-    Minimum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab - 0.20*c_PFS_Bevacizumab,
-    Maximum_c_PFS_Bevacizumab  <- c_PFS_Bevacizumab + 0.20*c_PFS_Bevacizumab,
     
     Maximum <- Maximum_c_PFS_Bevacizumab,
     Mean <- c_PFS_Bevacizumab,
@@ -1598,14 +1648,14 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     print(c_PFS_BevacizumabReduction)
   }
   
-  # If the counter reaches 300 and the condition is never met
+  # If the counter reaches 30000 and the condition is never met
   if(counter == 30000 && is.null(c_PFS_BevacizumabReduction)) {
     # Create a notepad document with "never_cost_effective" written ahead of the country_name
     write(c_PFS_Bevacizumab, file = paste0("never_cost_effective_", country_name, ".txt"))
   }
 }
 
-# The loop will continue until df_cea_PA$ICER is less than or equal to n_wtp or the counter reaches 300
+# The loop will continue until df_cea_PA$ICER is less than or equal to n_wtp or the counter reaches 30000
 
 
 # At the very end, I want to set Bevacizumab back to the price it started with before all these reductions:
