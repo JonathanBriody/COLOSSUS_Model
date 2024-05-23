@@ -4298,12 +4298,60 @@ alpha_p_FA3_EXPR <- alpha,
 beta_p_FA3_EXPR <- beta,
 
 
+mean<-   p_OSA1_FOLFIRI,
+Maximum <- Maximum_p_OSA1_FOLFIRI,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_OSA1_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_OSA1_FOLFIRI <- alpha,
+beta_p_OSA1_FOLFIRI <- beta,
 
 
 
+mean<-   p_OSA2_FOLFIRI,
+Maximum <- Maximum_p_OSA2_FOLFIRI,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
 
-  
+p_OSA2_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
 
+alpha_p_OSA2_FOLFIRI <- alpha,
+beta_p_OSA2_FOLFIRI <- beta,
+
+
+
+mean<-   p_OSA3_FOLFIRI,
+Maximum <- Maximum_p_OSA3_FOLFIRI,
+Maximum,
+se <- ((Maximum) - (mean)) / 2,
+se,  
+std.error <- se,
+alpha.plus.beta <- mean*(1-mean)/(std.error^2)-1, ## alpha + beta (ab)
+alpha <- mean*alpha.plus.beta, ## alpha (a)
+beta <- alpha*(1-mean)/mean, ## beta(b)
+alpha,
+beta,
+
+p_OSA3_FOLFIRI        = rbeta(n_runs, shape1 =  alpha, shape2 = beta), 
+
+alpha_p_OSA3_FOLFIRI <- alpha,
+beta_p_OSA3_FOLFIRI <- beta,
 
 
 # Calculate the mean, maximum and variance of the Beta and Gamma here: https://www.pluralsight.com/guides/beta-and-gamma-function-implementation-in-r also saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Training Resources\Decision Modelling - Advanced Course\A2_Making Models Probabilistic\A2.1.2 Distributions for parameters\R Guide_ Beta and Gamma Function Implementation _ Pluralsight.pdf
