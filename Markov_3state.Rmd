@@ -174,24 +174,24 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 
-# country_name <- "Ireland"
+country_name <- "Ireland"
 
 
 # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 157.77
-# c_PFS_Bevacizumab <- 1425.84
-# c_OS_Folfiri <- 167.10
-# administration_cost <- 406.50
-# subtyping_test_cost <- 400
+c_PFS_Folfox <- 157.77
+c_PFS_Bevacizumab <- 1425.84
+c_OS_Folfiri <- 167.10
+administration_cost <- 406.50
+subtyping_test_cost <- 400
 
 
 # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3485.23
-# c_AE2 <- 1792.82
-# c_AE3 <- 502.69
+c_AE1 <- 3485.23
+c_AE2 <- 1792.82
+c_AE3 <- 502.69
 
 # 3. Willingness to pay threshold
-# n_wtp = 45000
+n_wtp = 45000
 
 
 
@@ -222,23 +222,121 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Spain:
 
-country_name <- "Spain"
+# country_name <- "Spain"
 
 
 # 1. Cost of treatment in this country
-c_PFS_Folfox <- 323.39
-c_PFS_Bevacizumab <- 1399.33
-c_OS_Folfiri <- 147.31
-administration_cost <- 332.39
-subtyping_test_cost <- 400
+# c_PFS_Folfox <- 323.39
+# c_PFS_Bevacizumab <- 1399.33
+# c_OS_Folfiri <- 147.31
+# administration_cost <- 332.39
+# subtyping_test_cost <- 400
 
 # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 5710.97
-c_AE2 <- 305.55
-c_AE3 <- 35.11
+# c_AE1 <- 5710.97
+# c_AE2 <- 305.55
+# c_AE3 <- 35.11
 
 # 3. Willingness to pay threshold
-n_wtp = 30000
+# n_wtp = 30000
+
+
+
+
+
+
+
+
+
+# Cost Breakdowns: (Pulled from the appendix of C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Drafts\Updated Drafts 2024\Bevacizumab for Metastatic Colorectal Cancer_19_05_24_01.docx)
+
+# Here’s a breakdown of my cost calculations for each drug in the FOLFOX-4 regimen for Spain to get the total FOLFOX cost, considering that Leucovorin, 5-FU bolus, and 5-FU continuous infusion are provided twice in each cycle, once on day 1 and once on day 2 of the treatment cycle:
+#   1.	Oxaliplatin:
+#   o	Dosage: 85 mg/m²
+# o	Patient’s BSA: 1.71 m²
+# o	Cost/mg: €1.27
+# o	Total dosage = Dosage per m² * BSA = 85 mg/m² * 1.71 m² = 145.35 mg
+# o	Cost = Total dosage * Cost per mg = 145.35 mg * €1.27/mg = €184.59
+# 2.	Leucovorin (provided twice):
+#   o	Dosage: 200 mg/m²
+# o	Patient’s BSA: 1.71 m²
+# o	Cost/mg: €0.068
+# o	Total dosage = Dosage per m² * BSA = 200 mg/m² * 1.71 m² = 342 mg
+# o	Cost for one day = Total dosage * Cost per mg = 342 mg * €0.068/mg = €23.26
+# o	Total cost for two days = Cost for one day * 2 = €23.26 * 2 = €46.52
+# 3.	5-FU bolus (provided twice):
+#   o	Dosage: 400 mg/m²
+# o	Patient’s BSA: 1.71 m²
+# o	Cost/mg: €0.008
+# o	Total dosage = Dosage per m² * BSA = 400 mg/m² * 1.71 m² = 684 mg
+# o	Cost for one day = Total dosage * Cost per mg = 684 mg * €0.008/mg = €5.47
+# o	Total cost for two days = Cost for one day * 2 = €5.47 * 2 = €10.94
+# 4.	5-FU continuous infusion (provided twice):
+#   o	Dosage: 600 mg/m²
+# o	Patient’s BSA: 1.71 m²
+# o	Cost/mg: €0.008
+# o	Total dosage = Dosage per m² * BSA = 600 mg/m² * 1.71 m² = 1026 mg
+# o	Cost for one day = Total dosage * Cost per mg = 1026 mg * €0.008/mg = €8.21
+# o	Total cost for two days = Cost for one day * 2 = €8.21 * 2 = €16.42
+# Adding up all these costs gives the total cost for one cycle of FOLFOX-4 treatment:
+#   Total cost = Cost of Oxaliplatin + Total cost of Leucovorin + Total cost of 5-FU bolus + Total cost of 5-FU continuous infusion = €184.59 + €46.52 + €10.94 + €16.42 = €258.47
+# So, the total cost for one cycle of FOLFOX-4 treatment for a patient with a BSA of 1.71 m² would be approximately €258.47.
+# Therefore, the total cost of one FOLFOX-4 cycle for a patient weighing 68 kg with a body surface area of 1.71 m² [BOTH WEIGHT AND BODY SURFACE AREA FIGURES TAKEN FROM THE RIVERA STUDY], considering the provided drug dosages and costs, and accounting for the two administrations of Leucovorin, 5-FU bolus, and 5-FU continuous infusion, would be approximately €258.47.
+# Then I inflated these from 2013 to 2022 values using this website to get €297.97:  https://www.officialdata.org/spain/inflation/2013?endYear=2022&amount=258.47 
+# I took these costs from the following publication by Rivera, as his original publication that I used in Table 1 for Folfiri compared Folfiri to FOLFOX-6 and so had costs for FOLFOX-6 rather than FOLFOX-4, which I study in this paper:
+#   Rivera, F., García Alfonso, P., Salazar, R., Maurel, J., Sevilla, I., Darbá, J., ... & Martín-Escudero, V. (2013). Evaluación económica de XELOX y FOLFOX-4 en el tratamiento en primera línea de cáncer colorrectal metastásico en España. PharmacoEconomics Spanish Research Articles, 10, 61-67. https://link.springer.com/article/10.1007/s40277-013-0008-5 
+# I’ve saved the original version of this document, and a version which was translated by Google Translate in Zotero, and also here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Drafts\Updated Drafts 2024\s40277-013-0008-5 (1).pdf
+# 
+# The costs were actually originally reported in 2012 values and I’ve updated these to 2024 values  using this website to get €323.39:  https://www.officialdata.org/spain/inflation/2012?endYear=2024&amount=258.47 
+# 
+# My calculation strategy is supported by the following document 6.1.2 Target Dose Banding or Drug Centred Dose Banding: 
+#   “The patient’s dose is prescribed as per BSA and then rounded up or down to the nearest band e.g. doxorubicin 60mg/m2 for patient of 1.82 m 2 , the calculated dose is 109.2mg [THIS CALCULATION MATCHES MY STRATEGY - 1.82*60 = 109.2]. This would then fall into a pre-designated band e.g. 105mg to 114mg for which a dose of 110mg is given.” 
+# NCCP GUIDANCE DOCUMENT DOSE BANDING FOR SYSTEMIC ANTICANCER THERAPY (SACT) https://www.hse.ie/eng/services/list/5/cancer/profinfo/medonc/nccp%20dose%20banding%20guidance%20document.pdf (also saved in Zotero).
+# Lesleys Excel file on Irish costs also calculates the Dose/person (mg) as the Body area (mg/m2)* Dose/cycle (mg/m2).
+# This is similarly confirmed by the following:
+#   2.14 Dose-banding
+# State whether or not dose-banding of drugs to ±5% is acceptable3. Indicate which drugs this applies to.
+# Please note, rounding the calculated dose to the nearest dose it is possible to give is not dose-banding. (e.g. if oxaliplatin 85mg/m2and BSA 1.79m2; calculated dose = 152.15mg [which is what I calculated by applying the strategy above of multiplying the mg/m2 by the BSA m2 -> 85* 1.79 = 152.15], dose to give = 150mg; this is NOT dose-banding). 
+# -	Saved in Zotero as Standard Protocol Template - NIHR Clinical Research Network and in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Drafts\Updated Drafts 2024\Standard Protocol Template - NIHR Clinical Research Network.pdf  https://studylib.net/doc/7505387/standard-protocol-template---nihr-clinical-research-network 
+# Also supported by this: https://iu.instructure.com/courses/1491754/files/56997420/download similarly saved in Zotero as “Chapter 14” and in C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Drafts\Updated Drafts 2024\Chapter 14.pdf  
+# 
+# The Rivera study uses the same administration cost for FOLFOX-6 and FOLFIRI, I suspect that this is because they both require only one day of administration, however, FOLFOX-4 (which we apply, rather than FOLFOX 6) requires two days of administration (because patients first receive 5FU as an injection into their line or cannula and then have the rest of the 5FU through a small pump that they carry on a belt or in a holder, once they have had all the 5FU, a nurse will disconnect the pump for them. This is usually done at the hospital, but sometimes a district nurse will do it.), therefore, I believe that for the FOLFOX portion of treatment (before patients progress into FOLFIRI) we should double the administration cost per cycle, to reflect that they experience the administration cost twice in each cycle when treated with FOLFOX-4 (Once on Day 1 and then again on Day 2 per the NCCP FOLFOX-4 Therapy-14 day: https://www.hse.ie/eng/services/list/5/cancer/profinfo/chemoprotocols/gastrointestinal/210.pdf compared with the NCCP FOLFOX-6 and FOLFIRI therapy guides: Modified FOLFOX-6 Therapy-14 day www.hse.ie/eng/services/list/5/cancer/profinfo/chemoprotocols/gastrointestinal/modified-folfox-6-therapy-14-day.pdf and FOLFIRI Therapy-14 day https://www.hse.ie/eng/services/list/5/cancer/profinfo/chemoprotocols/gastrointestinal/227-folfiri-therapy-14-day.pdf)
+# 
+# Rivera, Fernando, et al. "Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer." Journal of Medical Economics 20.6 (2017): 574-584. – costs in this study were expressed in 2015 euro values.
+# Although, actually, the above only includes a 1 day administration cost, even though patients on FOLFOX are on 46h continuous IV and thus would have to return to the hospital to have their pump removed, just like FOLFOX 4, actually the only extra thing from FOLFOX 4 seems to be the additional IV bolus study doesn’t seem to include.
+# Actually, Rivera provide an administration cost per cycle of 267.65 which they apply to FOLFIRI or FOLFOX6 regardless of the fact that FOLFOX6 requires the patient to come in and get treatment with a bolus on days 1 and 2 a 46 h intravenous infusion administered over 46h on day 2. I guess what I'm getting at, is that they used the same administration cost per cycle for FOLFOX6 and FOLFIRI even though FOLFIRI only needed you to come in for one day and FOLFOX6 required you to come in for 2 (just like FOLFOX4) in our study. This may be due to the fact that in the other Rivera study the FOLFOX-4 visit was only another 10 minutes with the nurse on the second day so maybe they didnt feel there was a need to include additional cost for those ten minutes. In this respect we probably don't need to change our FOLFOX cost to reflect the second day, just like they didnt.
+# The fact that they use the same chemotherapy administration cost per cycle for FOLFOX and FOLFIRI (even though FOLFOX6 has a second day while FOLFIRI doesn’t) indicates I only need to include a singular administration for Ireland and for Germany cost as well. It also means that I can use the same administration cost from the Rivera study for FOLFOX and FOLFIRI in my own study for Spain
+# FOLFIRI was 118.62 in 2015 values in Rivera, Fernando, et al. "Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer." Journal of Medical Economics 20.6 (2017): 574-584. – costs in this study were expressed in 2015 euro values. So I inflated this to 2024 values using: https://www.officialdata.org/spain/inflation/2015?amount=118.62 to get 147.31
+# Bev was 1126.78 in 2015 values in Rivera, Fernando, et al. "Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer." Journal of Medical Economics 20.6 (2017): 574-584. – costs in this study were expressed in 2015 euro values. So I inflated this to 2024 values using: https://www.officialdata.org/spain/inflation/2015?amount=1126.78 to get 1399.33
+# Administration cost was 267.65 in 2015 values in Rivera, Fernando, et al. "Cost-effectiveness analysis in the Spanish setting of the PEAK trial of panitumumab plus mFOLFOX6 compared with bevacizumab plus mFOLFOX6 for first-line treatment of patients with wild-type RAS metastatic colorectal cancer." Journal of Medical Economics 20.6 (2017): 574-584. – costs in this study were expressed in 2015 euro values. So I inflated this to 2024 values using: https://www.officialdata.org/spain/inflation/2015?amount=267.65 to get 332.39
+# 
+# AE1 Leukopenia this comes from where costs refer to July 2005 euro values. €3,841 in 2005 → €5,710.97 in 2024 Mayordomo, J. I., López, A., Viñolas, N., Castellanos, J., Pernas, S., Domingo Alonso, J., Frau, A., Layola, M., Antonio Gasquet, J., Sánchez, J., & ENIA Study Group. (2009). Retrospective cost analysis of management of febrile neutropenia in cancer patients in Spain. Current Medical Research and Opinion, 25(10), 2533–2542. https://doi.org/10.1185/03007990903209563
+# 
+# I’ve update the diarrhea cost (AE2) in Spain €247.65 in 2013 → €305.55 in 2024 using the costs from the below and the cost inflation calculation. I’ve also used this to update the nausea cost €28.46 in 2013 → €35.11 in 2024 (AE3) (also inflating this). Because in this study, costs were reported in 2013 values: https://www.officialdata.org/spain/inflation/2013?amount=28.46 
+# Pericay, C., Frías, C., Abad, A., Lamas, M. J., Echave, M., Oyagüez, I., ... & Joulain, F. (2014). Análisis coste-efectividad de aflibercept en combinación con FOLFIRI en el tratamiento de pacientes con cáncer colorrectal metastásico. Farmacia Hospitalaria, 38(4), 317-327. Which I’ve added the google translate English version of to Zotero and saved here: C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\Drafts\Updated Drafts 2024\08original08 (1).pdf 
+# 
+# Germany:
+#   
+#   The costs that I did receive from German cohort members are assumedly relevant for the year 2022, as this is the year in which they supplied them. I update all the supplied costs in 2022 to 2024 values using this website: https://www.officialdata.org/germany/inflation/2022?amount=3841
+# 
+# FOLFOX	€1,276.66 in 2022 → €1,406.37 in 2024
+# FOLFIRI	€1,309.64 in 2022 → €1442.70 in 2024	
+# Bevacizumab	€2,952.24 in 2022 → €3252.19 in 2024
+# 
+# Administration cost came from C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\DATA\Germany\COLOSSUS_Cost_Data_Gathering_rev.docx and was inflated as above: Result: €1,386 in 2008 → €1927.72 in 2024
+# Leukopenia also came from this word doc, €3,227.93 in 2013 → €4188.31 in 2024
+# Diarrhea 1,528.05 in 2013 → €1982.68 in 2024
+# Nausea costs in Germany:
+#   I take my costs of €1,017 in 2014 from: Turini, M., Piovesana, V., Ruffo, P., Ripellino, C., & Cataldo, N. (2015). An assessment of chemotherapy-induced nausea and vomiting direct costs in three EU countries. Drugs in context, 4.  €1,017 in 2014 → €1307.72 in 2024
+# 
+# Ireland: 
+#   
+#   The adverse events in the Excel file are reported for 2020 so I inflate them to 2024.
+# Leukopenia €2,835.89 in 2020 → €3485.23 in 2024
+# Diarrhea €1,458.80 in 2020 → €1792.82 in 2024
+# Nausea €409.03 in 2020 → €502.69 in 2024
+# Bev seems to be reported for 2021 €1,187.55 in 2021 → €1425.84 in 2024
+# The time for the other costs is not reported, so I assume these are for the year in which the file was supplied to me (2022): C:\Users\Jonathan\OneDrive - Royal College of Surgeons in Ireland\COLOSSUS\DATA\NCPE Data\Cost data final draft_my_edits.xlsx
 
 
 
@@ -5618,7 +5716,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|-----------|-----------|-----------|-----------|-----------|------------------|
+|------------|------------|------------|------------|------------|------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
