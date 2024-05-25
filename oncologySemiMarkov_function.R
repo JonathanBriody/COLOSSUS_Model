@@ -805,23 +805,32 @@ oncologySemiMarkov <- function(l_params_all, n_wtp = n_wtp) {
     # uState<-uState-pAE1*duAE1
     
     
+    # However, the study I take the adverse event percentage utility decrement of 45% from indicates     that the duration of the adverse event is only 5 days. With my cycles being 14 days, I worried      that the following equation would apply the utility decrement of the adverse event to all 14        days of my cycle, rather than just 5 out of these 14 days: 
+    
+    # u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+    
+    # That is, I note that the duration of the adverse events are all 5 days, and my model cycles       are 14 days, thus, I create a variable reflecting duration of adverse event, which reflects the     proportion of the cycle the adverse event lasts for:
+    
+    Duration_AE <- 5/14
+    
     u_F_SoC<-u_F
     u_F_Exp<-u_F
     
-    u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
+    u_F_SoC<-u_F-p_FA1_STD*u_AE1*Duration_AE - p_FA2_STD*u_AE2*Duration_AE - p_FA3_STD*u_AE3*Duration_AE 
+
     
-    u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+    # Then I take this decrement from baseline utility, dependent on the probability of this            decrement occuring.
     
-    
+    u_F_Exp<-u_F-p_FA1_EXPR*u_AE1*Duration_AE - p_FA2_EXPR*u_AE2*Duration_AE - p_FA3_EXPR*u_AE3*Duration_AE
+
     # I also adjust my state utilities for OS:
     
     # uState<-uState-pAE1*duAE1
     
     u_OS<-u_P
     
-    u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS - p_OSA2_FOLFIRI*u_AE2_OS - p_OSA3_FOLFIRI*u_AE3_OS # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
-    
-    
+    u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS*Duration_AE - p_OSA2_FOLFIRI*u_AE2_OS*Duration_AE - p_OSA3_FOLFIRI*u_AE3_OS*Duration_AE # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
+
     # I then adjust my state costs and utilities:
     
     # uState<-uState-pAE1*duAE1

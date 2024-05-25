@@ -2016,6 +2016,24 @@ p_OSA2_FOLFIRI     <- 0.260   # probability of adverse event 2 when progressed a
 p_OSA3_FOLFIRI     <- 0.240   # probability of adverse event 3 when progressed and recieving FOLFIRI
 
 
+# As part of the above, I need to convert my 30 day probability to a 14 day probability:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 2. Cost of treating the AE conditional on it occurring
 c_AE1 <- c_AE1
@@ -2031,15 +2049,18 @@ c_AE3 <- c_AE3
 
 #3. Disutiltiy of AE (negative qol impact x duration of event)
 
-# AE1_DisUtil <-0.45
-# AE2_DisUtil <-0.19
-# AE3_DisUtil <-0.36
+
+# I never did quite get the hang of the "duration of event" part of (negative qol impact x duration of event) until recently. Now I understand and describe it as below (You could similarly phrase this (negative qol impact x duration of event) as impact on HRQoL x duration of the AE):
 
 
 # AE1_DisUtil <-0.45/(14/5) # The percentage disutility of the adverse event adjusted for 5 out of 14 days.
 # AE2_DisUtil <-0.19/(14/5) # The percentage disutility of the adverse event for 5 out of 14 days.
 # AE3_DisUtil <-0.36/(14/5) # The percentage disutility of the adverse event for 5 out of 14 days.
 
+
+# Percentage decrement of the event (45%):
+
+# I code the percentage utility reduction of the adverse events as below:
 
 AE1_DisUtil <-0.45 # The percentage disutility of the adverse event.
 AE2_DisUtil <-0.19 # The percentage disutility of the adverse event.
@@ -2150,6 +2171,8 @@ AE3_DisUtil <-0.36 # The percentage disutility of the adverse event.
 
 # Instead it's as simple as the below:
 
+# I calculate the utility decrement for the adverse event as your utility in the first line health state where the adverse event can occur (u_F), multiplied by the percentage decrement of the event (45%):
+
 u_AE1 <- AE1_DisUtil*u_F # I find the proportion of the baseline utility (that is, the utility without beofre an adverse event) that the adverse event would remove if it occured, that is, a 1o percentage disutility of an adverse event would decrease a utility of 0.85 by 0.085. 
 u_AE2 <- AE2_DisUtil*u_F
 u_AE3 <- AE3_DisUtil*u_F
@@ -2174,13 +2197,26 @@ u_AE3_OS
 
 # uState<-uState-pAE1*duAE1
 
+# However, the study I take the adverse event percentage utility decrement of 45% from indicates that the duration of the adverse event is only 5 days. With my cycles being 14 days, I worried that the following equation would apply the utility decrement of the adverse event to all 14 days of my cycle, rather than just 5 out of these 14 days: 
+
+# u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+
+# That is, I note that the duration of the adverse events are all 5 days, and my model cycles are 14 days, thus, I create a variable reflecting duration of adverse event, which reflects the proportion of the cycle the adverse event lasts for:
+
+Duration_AE <- 5/14
+
+# Then I apply the following equation to apply the utility decrement of the adverse events to the first line health state, conditional on their probability of occuring and their duration:
+
 
 u_F_SoC<-u_F
 u_F_Exp<-u_F
 
-u_F_SoC<-u_F-p_FA1_STD*u_AE1 - p_FA2_STD*u_AE2 - p_FA3_STD*u_AE3 # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
+u_F_SoC<-u_F-p_FA1_STD*u_AE1*Duration_AE - p_FA2_STD*u_AE2*Duration_AE - p_FA3_STD*u_AE3*Duration_AE
 
-u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
+
+# Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
+
+u_F_Exp<-u_F-p_FA1_EXPR*u_AE1*Duration_AE - p_FA2_EXPR*u_AE2*Duration_AE - p_FA3_EXPR*u_AE3*Duration_AE
 
 
 # I also adjust my state utilities for OS:
@@ -2189,7 +2225,7 @@ u_F_Exp<-u_F-p_FA1_EXPR*u_AE1 - p_FA2_EXPR*u_AE2 - p_FA3_EXPR*u_AE3
 
 u_OS<-u_P
 
-u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS - p_OSA2_FOLFIRI*u_AE2_OS - p_OSA3_FOLFIRI*u_AE3_OS # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
+u_OS<-u_P-p_OSA1_FOLFIRI*u_AE1_OS*Duration_AE - p_OSA2_FOLFIRI*u_AE2_OS*Duration_AE - p_OSA3_FOLFIRI*u_AE3_OS*Duration_AE # Then I take this decrement from baseline utility, dependent on the probability of this decrement occuring.
 
 
 
@@ -5949,7 +5985,7 @@ This paper says in technical terms which distributions fit and why:
 Model Parameter Estimation and Uncertainty Analysis: A Report of the ISPOR-SMDM Modeling Good Research Practices Task Force Working Group--6 <file:///C:/Users/Jonathan/OneDrive%20-%20Royal%20College%20of%20Surgeons%20in%20Ireland/COLOSSUS/Briggs%20et%20al%202012%20model%20parameter%20estimation%20and%20uncertainty.pdf>
 
 | Parameter                                            | Base Case Value       | Minimum Value                 | Maximum Value                 | Source        | Distribution                                                                        |
-|------------|------------|------------|------------|------------|------------|
+|-----------|-----------|-----------|-----------|-----------|------------------|
 | **Cost (Per Cycle)**                                 |                       |                               |                               |               |                                                                                     |
 | FOLFOX                                               | `c_PFS_Folfox`        | `Minimum_c_PFS_Folfox`        | `Maximum_c_PFS_Folfox`        |               | GAMMA(`a.cIntervention_c_PFS_Folfox`, `b.cIntervention_c_PFS_Folfox`)               |
 | FOLFIRI                                              | `c_OS_Folfiri`        | `Minimum_c_OS_Folfiri`        | `Maximum_c_OS_Folfiri`        |               | GAMMA(`a.cIntervention_c_OS_Folfiri`, `b.cIntervention_c_OS_Folfiri`)               |
