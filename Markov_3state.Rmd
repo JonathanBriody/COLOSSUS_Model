@@ -2035,6 +2035,8 @@ p_OSA3_FOLFIRI     <- 0.240   # probability of adverse event 3 when progressed a
 
 # To do this, we assume that the event follows a constant hazard rate, meaning the probability of the event occurring is uniformly distributed over time. This is a common assumption for such problems and implies an exponential distribution of time until the event occurs.
 
+# I do the following as per the query I send Qiushi as pdf in email to maintain formatting on the 24/05/24, also saved here: 
+
 # 1. So first, we define the given probability and time period: - Probability of the event occurring within 30 days: P30 = 0.07
 
 # 2. Calculate the daily hazard rate: The hazard rate λ can be derived from the given probability using the exponential distribution formula:
@@ -3787,6 +3789,18 @@ Maximum_p_FA2_EXPR<- replace(Maximum_p_FA2_EXPR, Maximum_p_FA2_EXPR>1, 1)
 p_FA3_EXPR
 Minimum_p_FA3_EXPR<- replace(Minimum_p_FA3_EXPR, Minimum_p_FA3_EXPR<0, 0)
 Maximum_p_FA3_EXPR<- replace(Maximum_p_FA3_EXPR, Maximum_p_FA3_EXPR>1, 1)
+
+p_OSA1_FOLFIRI
+Minimum_p_OSA1_FOLFIRI<- replace(Minimum_p_OSA1_FOLFIRI, Minimum_p_OSA1_FOLFIRI<0, 0)
+Maximum_p_OSA1_FOLFIRI<- replace(Maximum_p_OSA1_FOLFIRI, Maximum_p_OSA1_FOLFIRI>1, 1)
+
+p_OSA2_FOLFIRI
+Minimum_p_OSA2_FOLFIRI<- replace(Minimum_p_OSA2_FOLFIRI, Minimum_p_OSA2_FOLFIRI<0, 0)
+Maximum_p_OSA2_FOLFIRI<- replace(Maximum_p_OSA2_FOLFIRI, Maximum_p_OSA2_FOLFIRI>1, 1)
+
+p_OSA3_FOLFIRI
+Minimum_p_OSA3_FOLFIRI<- replace(Minimum_p_OSA3_FOLFIRI, Minimum_p_OSA3_FOLFIRI<0, 0)
+Maximum_p_OSA3_FOLFIRI<- replace(Maximum_p_OSA3_FOLFIRI, Maximum_p_OSA3_FOLFIRI>1, 1)
 
 u_F
 Minimum_u_F<- replace(Minimum_u_F, Minimum_u_F<0, 0)
