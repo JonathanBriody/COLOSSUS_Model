@@ -2019,6 +2019,255 @@ p_OSA3_FOLFIRI     <- 0.240   # probability of adverse event 3 when progressed a
 # As part of the above, I need to convert my 30 day probability to a 14 day probability:
 
 
+# I determined the probability of AEs per cycle from the following study (also described in Table 1 in the paper):  https://doi.org/10.1200/JCO.2007.15.4138 
+
+# In this study, Table 3 reports the % patients for selected adverse events occurring during or within 30 days of treatment.
+
+# From this I took the incidence of Leukopenia, Diarrhea and Nausea and Vomiting, aka p_FA1_STD, p_FA2_STD and p_FA3_STD for the three treatments included in our study (i.e., the probability of these AEs for Folfox, Folfiri and Folfox + Bevacizumab).
+
+# Because in this table the events occurred during or within 30 days of treatment, and our cycles are 14 days, I update my per cycle probability of these adverse events when applying them in our model. 
+  
+# That is, daily probability = 0.07/30 = 0.0023333, multiply the daily probability by 14 to get the probability for 14 days = 14*0.0023333 = 0.032666 = 0.033, such that I could update the 14 day probability of Leukopenia (adverse event 1) from 0.07 in the table to 0.033 in our model.
+
+# However, technically we cannot divide probability by 30 to transform monthly probability to daily probability. To transform probability p for time period t to probability b’ for time t’, we usually apply the transformation assuming an exponential distribution (i.e., constant hazard):
+
+# p’=1-(1-p)^(t’/t)
+
+# To do this, we assume that the event follows a constant hazard rate, meaning the probability of the event occurring is uniformly distributed over time. This is a common assumption for such problems and implies an exponential distribution of time until the event occurs.
+
+# 1. So first, we define the given probability and time period: - Probability of the event occurring within 30 days: P30 = 0.07
+
+# 2. Calculate the daily hazard rate: The hazard rate λ can be derived from the given probability using the exponential distribution formula:
+
+# P(t) = 1 − e^−λt
+
+# For t = 30 days:
+
+#  0.07 = 1 − e^−30λ
+
+# Rearrange to solve for λ:
+
+#  e^−30λ = 1 − 0.07 = 0.93
+
+# −30λ = ln(0.93)
+
+# λ = −(ln(0.93)/30)
+
+# 3. Calculate λ:
+
+# λ = −(ln(0.93)/30)
+
+# Using a calculator:
+
+#   ln(0.93) ≈ −0.07257
+
+# λ ≈ 0.07257/30 ≈ 0.002419
+
+# 4. Calculate the probability for 14 days: 
+
+# Using the hazard rate λ, we can find the probability for 14 days (P14):
+
+#   P14 = 1 − e^−14λ
+
+# Substitute λ:
+
+#  P14 = 1 − e^−14×0.002419
+
+#  P14 = 1 − e^−0.033866
+
+# Using a calculator:
+
+#   e^−0.033866 ≈ 0.96667
+
+# P14 = 1 − 0.96667 ≈ 0.03333
+
+# Result: The probability of the event occurring within 14 days is approximately 0.03333.
+
+
+# Putting this all together in R: 
+
+# p_FA1_STD:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA1_STD
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA1_STD <- P_14
+
+
+# p_FA2_STD:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA2_STD
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA2_STD <- P_14
+
+# p_FA3_STD
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA3_STD
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA3_STD <- P_14
+
+
+
+
+# p_FA1_EXPR:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA1_EXPR
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA1_EXPR <- P_14
+
+
+# p_FA2_EXPR:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA2_EXPR
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA2_EXPR <- P_14
+
+# p_FA3_EXPR
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_FA3_EXPR
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_FA3_EXPR <- P_14
+
+
+
+
+
+# p_OSA1_FOLFIRI:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_OSA1_FOLFIRI
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_OSA1_FOLFIRI <- P_14
+
+
+# p_OSA2_FOLFIRI:
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_OSA2_FOLFIRI
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_OSA2_FOLFIRI <- P_14
+
+# p_OSA3_FOLFIRI
+
+# Given probability of the event occurring within 30 days
+P_30 <- p_OSA3_FOLFIRI
+
+# Calculate the daily hazard rate lambda
+lambda <- -log(1 - P_30) / 30
+
+# Calculate the probability of the event occurring within 14 days
+P_14 <- 1 - exp(-lambda * 14)
+
+# Print the results
+cat("Daily hazard rate (lambda):", lambda, "\n")
+cat("Probability of the event occurring within 14 days:", P_14, "\n")
+
+# Recode the AE from 30 to 14 days
+
+p_OSA3_FOLFIRI <- P_14
+
+
 
 
 
