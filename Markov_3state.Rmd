@@ -193,6 +193,12 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # # 3. Willingness to pay threshold
 # n_wtp = 45000
 
+# 4. Country-specific discount rate:
+
+country_discount_rate     <- 0.04                          
+country_max_discount_rate     <- 0.08                          
+country_min_discount_rate     <- 0.00                          
+
 
 
 
@@ -218,6 +224,12 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 # # # 3. Willingness to pay threshold
 # n_wtp = 78871
 
+# 4. Country-specific discount rate:
+
+country_discount_rate     <- 0.03                          
+country_max_discount_rate     <- 0.06                          
+country_min_discount_rate     <- 0.00                          
+
 
 
 # Spain:
@@ -240,7 +252,11 @@ c_AE3 <- 35.11
 # # 3. Willingness to pay threshold
 n_wtp = 30000
 
+# 4. Country-specific discount rate:
 
+country_discount_rate     <- 0.03                          
+country_max_discount_rate     <- 0.06                          
+country_min_discount_rate     <- 0.00  
 
 
 
@@ -1454,10 +1470,12 @@ u_F       <- 0.850     # utility when PFS
 u_P       <- 0.650   # utility when OS
 u_D       <- 0     # utility when dead
 
+# 4. Country-specific discount rate:
+
 # Discounting factors
-d_c             <- 0.04                          
+d_c             <- country_discount_rate                          
 # discount rate for costs (per year)
-d_e             <- 0.04                          
+d_e             <- country_discount_rate                          
 # discount rate for QALYs (per year)
 
 # Discount weight (equal discounting is assumed for costs and effects):
@@ -3726,17 +3744,22 @@ Maximum_AE3_DisUtil <- AE3_DisUtil + 0.20*AE3_DisUtil
 # Utility Discount Factor
 # I divided these by 365 earlier in the R markdown document, so no need to do that again here:
 
+
+
+
 d_e
 
-Minimum_d_e <- 0
-Maximum_d_e <- 0.08/365
+
+
+Minimum_d_e <- country_min_discount_rate
+Maximum_d_e <- country_max_discount_rate/365
 
 
 
 d_c
 
-Minimum_d_c <- 0
-Maximum_d_c <- 0.08/365
+Minimum_d_c <- country_min_discount_rate
+Maximum_d_c <- country_max_discount_rate/365
 
 
 # I am concerned that the min or max may go above 1 or below 0 in cases where parameter values should be bounded at 1 or 0, therefore, in such cases I say, replace the minimum I created with 0 or the maximum I created with 1, if the minimum is below 0 or the maximum is above 1:
@@ -5787,8 +5810,10 @@ beta_u_AE3 <- beta,
 # If I wanted constant values for the discount rates I would have set them as above.
 # Earlier I divided 0.04 by 365, so now I divide the upper value by 365 also.
 
-  d_c    = runif(n_runs,  min = 0, max = 0.08/365),
-  d_e    = runif(n_runs,  min = 0, max = 0.08/365),
+ 
+
+d_c    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate/365),
+d_e    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate/365),
 
   n_cycle   = n_cycle,
   t_cycle   = t_cycle

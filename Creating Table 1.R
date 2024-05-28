@@ -42,7 +42,7 @@ data <- data.frame(
     "", sprintf("%.2f", Minimum_AE1_DisUtil), sprintf("%.2f", Minimum_AE2_DisUtil), sprintf("%.2f", Minimum_AE3_DisUtil),
     "", sprintf("%.2f", Minimum_HR_FP_Exp), sprintf("%.2f", Minimum_HR_PD_Exp),
     sprintf("%.2f", Minimum_P_OSD_SoC),
-    "", sprintf("%.2f", 0), sprintf("%.2f", 0)
+    "", sprintf("%.2f", country_min_discount_rate), sprintf("%.2f", country_min_discount_rate)
   ),
   Maximum_Value = c(
     "", sprintf("%.2f", Maximum_c_PFS_Folfox), sprintf("%.2f", Maximum_c_OS_Folfiri), sprintf("%.2f", Maximum_c_PFS_Bevacizumab), sprintf("%.2f", Maximum_subtyping_test_cost), sprintf("%.2f", Maximum_administration_cost),
@@ -54,7 +54,7 @@ data <- data.frame(
     "", sprintf("%.2f", Maximum_AE1_DisUtil), sprintf("%.2f", Maximum_AE2_DisUtil), sprintf("%.2f", Maximum_AE3_DisUtil),
     "", sprintf("%.2f", Maximum_HR_FP_Exp), sprintf("%.2f", Maximum_HR_PD_Exp),
     sprintf("%.2f", Maximum_P_OSD_SoC),
-    "", sprintf("%.2f", 0.08), sprintf("%.2f", 0.08)
+    "", sprintf("%.2f", country_max_discount_rate), sprintf("%.2f", country_max_discount_rate)
   ),
   Source = c(
     "", "", "", "", "", "", 

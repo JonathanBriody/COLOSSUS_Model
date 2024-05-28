@@ -1405,8 +1405,11 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     # If I wanted constant values for the discount rates I would have set them as above.
     # Earlier I divided 0.04 by 365, so now I divide the upper value by 365 also.
     
-    d_c    = runif(n_runs,  min = 0, max = 0.08/365),
-    d_e    = runif(n_runs,  min = 0, max = 0.08/365),
+
+    
+    
+    d_c    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate/365),
+    d_e    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate/365),
     
     n_cycle   = n_cycle,
     t_cycle   = t_cycle
