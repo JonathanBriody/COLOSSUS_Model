@@ -1405,10 +1405,9 @@ while(is.null(c_PFS_BevacizumabReduction) & counter < 30000) {
     # If I wanted constant values for the discount rates I would have set them as above.
     # Earlier I divided 0.04 by 365, and I also divided the upper and lower values by 365 to be used     in the tornado diagram as maxes and mins, so I don't need to divide anythig by 365 below:
     
-    
-    
-    d_c    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate),
-    d_e    = runif(n_runs,  min = country_min_discount_rate, max = country_max_discount_rate),
+
+    d_c    = runif(n_runs,  min = Minimum_d_c, max = Maximum_d_c),
+    d_e    = runif(n_runs,  min = Minimum_d_e, max = Maximum_d_e),
     
     n_cycle   = n_cycle,
     t_cycle   = t_cycle

@@ -30,7 +30,7 @@ data <- data.frame(
     "", sprintf("%.2f", AE1_DisUtil), sprintf("%.2f", AE2_DisUtil), sprintf("%.2f", AE3_DisUtil),
     "", sprintf("%.2f", HR_FP_Exp), sprintf("%.2f", HR_PD_Exp),
     sprintf("%.2f", P_OSD_SoC),
-    "", sprintf("%.2f", d_c), sprintf("%.2f", d_e)
+    "", sprintf("%.2f", country_discount_rate), sprintf("%.2f", country_discount_rate)
   ),
   Minimum_Value = c(
     "", sprintf("%.2f", Minimum_c_PFS_Folfox), sprintf("%.2f", Minimum_c_OS_Folfiri), sprintf("%.2f", Minimum_c_PFS_Bevacizumab), sprintf("%.2f", Minimum_subtyping_test_cost), sprintf("%.2f", Minimum_administration_cost),
