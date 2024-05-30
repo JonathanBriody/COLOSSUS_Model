@@ -174,30 +174,30 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 # 
-# country_name <- "Ireland"
-# #
-# #
-# # # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 157.77
-# c_PFS_Bevacizumab <- 1425.84
-# c_OS_Folfiri <- 167.10
-# administration_cost <- 406.50
-# subtyping_test_cost <- 400
-# 
-# 
-# # # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3485.23
-# c_AE2 <- 1792.82
-# c_AE3 <- 502.69
-# 
-# # # 3. Willingness to pay threshold
-# n_wtp = 45000
-# 
-# # 4. Country-specific discount rate:
-# 
-# country_discount_rate     <- 0.04
-# country_max_discount_rate     <- 0.08
-# country_min_discount_rate     <- 0.00
+country_name <- "Ireland"
+#
+#
+# # 1. Cost of treatment in this country
+c_PFS_Folfox <- 157.77
+c_PFS_Bevacizumab <- 1425.84
+c_OS_Folfiri <- 167.10
+administration_cost <- 406.50
+subtyping_test_cost <- 400
+
+
+# # 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 3485.23
+c_AE2 <- 1792.82
+c_AE3 <- 502.69
+
+# # 3. Willingness to pay threshold
+n_wtp = 45000
+
+# 4. Country-specific discount rate:
+
+country_discount_rate     <- 0.04
+country_max_discount_rate     <- 0.08
+country_min_discount_rate     <- 0.00
 
 
 
@@ -234,30 +234,30 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Spain:
 
-country_name <- "Spain"
+# country_name <- "Spain"
 # # 
 # # 
 # # 1. Cost of treatment in this country
-c_PFS_Folfox <- 323.39
-c_PFS_Bevacizumab <- 1399.33
-c_OS_Folfiri <- 147.31
-administration_cost <- 332.39
-subtyping_test_cost <- 400
+# c_PFS_Folfox <- 323.39
+# c_PFS_Bevacizumab <- 1399.33
+# c_OS_Folfiri <- 147.31
+# administration_cost <- 332.39
+# subtyping_test_cost <- 400
 # 
 # # # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 5710.97
-c_AE2 <- 305.55
-c_AE3 <- 35.11
+# c_AE1 <- 5710.97
+# c_AE2 <- 305.55
+# c_AE3 <- 35.11
 # # 
 # # # 3. Willingness to pay threshold
-n_wtp = 30000
+# n_wtp = 30000
 # 
 # # 4. Country-specific discount rate:
 # 
-country_discount_rate     <- 0.03
-country_max_discount_rate     <- 0.06
-country_min_discount_rate     <- 0.00
-
+# country_discount_rate     <- 0.03
+# country_max_discount_rate     <- 0.06
+# country_min_discount_rate     <- 0.00
+# 
 
 
 
@@ -5808,12 +5808,17 @@ beta_u_AE3 <- beta,
 #  d_c       = 0.04/365,
 #  d_e       = 0.04/365,
 # If I wanted constant values for the discount rates I would have set them as above.
+
+# Actually, I could set them as below because I am using country specific discount rates now which I set earlier in the document and because I set d_c and d_e equal to these country specific valus divided by 365 also earlier in the document:
+
+d_c       = d_c,
+d_e       = d_e,
+
 # Earlier I divided 0.04 by 365, and I also divided the upper and lower values by 365 to be used in the tornado diagram as maxes and mins, so I don't need to divide anythig by 365 below:
 
- 
 
-d_c    = runif(n_runs,  min = Minimum_d_c, max = Maximum_d_c),
-d_e    = runif(n_runs,  min = Minimum_d_e, max = Maximum_d_e),
+# d_c    = runif(n_runs,  min = Minimum_d_c, max = Maximum_d_c),
+# d_e    = runif(n_runs,  min = Minimum_d_e, max = Maximum_d_e),
 
   n_cycle   = n_cycle,
   t_cycle   = t_cycle
