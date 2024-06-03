@@ -174,30 +174,30 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 # 
-country_name <- "Ireland"
-#
-#
-# # 1. Cost of treatment in this country
-c_PFS_Folfox <- 157.77
-c_PFS_Bevacizumab <- 1425.84
-c_OS_Folfiri <- 167.10
-administration_cost <- 406.50
-subtyping_test_cost <- 400
-
-
-# # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 3485.23
-c_AE2 <- 1792.82
-c_AE3 <- 502.69
-
-# # 3. Willingness to pay threshold
-n_wtp = 45000
-
-# 4. Country-specific discount rate:
-
-country_discount_rate     <- 0.04
-country_max_discount_rate     <- 0.08
-country_min_discount_rate     <- 0.00
+# country_name <- "Ireland"
+# #
+# #
+# # # 1. Cost of treatment in this country
+# c_PFS_Folfox <- 157.77
+# c_PFS_Bevacizumab <- 1425.84
+# c_OS_Folfiri <- 167.10
+# administration_cost <- 406.50
+# subtyping_test_cost <- 400
+# 
+# 
+# # # 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 3485.23
+# c_AE2 <- 1792.82
+# c_AE3 <- 502.69
+# 
+# # # 3. Willingness to pay threshold
+# n_wtp = 45000
+# 
+# # 4. Country-specific discount rate:
+# 
+# country_discount_rate     <- 0.04
+# country_max_discount_rate     <- 0.08
+# country_min_discount_rate     <- 0.00
 
 
 
@@ -234,30 +234,30 @@ country_min_discount_rate     <- 0.00
 
 # Spain:
 
-# country_name <- "Spain"
+country_name <- "Spain"
 # # 
 # # 
 # # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 323.39
-# c_PFS_Bevacizumab <- 1399.33
-# c_OS_Folfiri <- 147.31
-# administration_cost <- 332.39
-# subtyping_test_cost <- 400
+c_PFS_Folfox <- 323.39
+c_PFS_Bevacizumab <- 1399.33
+c_OS_Folfiri <- 147.31
+administration_cost <- 332.39
+subtyping_test_cost <- 400
 # 
 # # # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 5710.97
-# c_AE2 <- 305.55
-# c_AE3 <- 35.11
+c_AE1 <- 5710.97
+c_AE2 <- 305.55
+c_AE3 <- 35.11
 # # 
 # # # 3. Willingness to pay threshold
-# n_wtp = 30000
+n_wtp = 30000
 # 
 # # 4. Country-specific discount rate:
 # 
-# country_discount_rate     <- 0.03
-# country_max_discount_rate     <- 0.06
-# country_min_discount_rate     <- 0.00
-# 
+country_discount_rate     <- 0.03
+country_max_discount_rate     <- 0.06
+country_min_discount_rate     <- 0.00
+
 
 
 
@@ -941,6 +941,120 @@ l_TTD_SoC_weibull$coefficients
 coef_TTD_weibull_shape_SoC <- l_TTD_SoC_weibull$coefficients["shape"]
 coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 ```
+
+
+```{r}
+# To fully replicate the Smeets et al study in Appendix 1 I need to plot the PFS and OS curves with and without chemo on the same plots, I now do this as below:
+
+#02 Individual Data for Parametric Code
+
+# Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
+# 
+# df_TTP_EXP <- read.csv(file='PFS_WITHBEV.csv', header=TRUE)
+# save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTP_EXP.RData")
+# df_TTD_EXP <- read.csv(file='OS_WITHBEV.csv', header=TRUE)
+# save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTD_EXP.RData")
+
+# Previously I loaded this simply as the below:
+# load(file = "df_TTP_EXP.RData")
+#However, now that the repository will be public I have changed the loading of the data so that it loads the data locally from my computer in a folder that is not part of the public repository, when I can add these data into the public repository I will go back to this simple approach.
+
+# I have time-to-death (TTD) data, I'll load it in here.
+
+# Previously I loaded this simply as the below:
+# load(file = "df_TTD_EXP.RData")
+
+# To plot both sets of survival curves on the same graph for Baseline_PFS_Curves.png and Baseline_OS_Curves.png, I combine the datasets and plot them together. Here is how I  modify my code to achieve this.
+
+# Load both datasets.
+load(file = "df_TTP.RData") # loaded earlier
+df_TTP_SOC <- df_TTP
+# I don't want to mess with my original data informing transition rates in this analysis, so I clone df_TTP here
+load(file = "df_TTP_EXP.RData")
+
+
+# Combine them into a single dataframe with an additional column to differentiate between the two datasets.
+# Add a new column to differentiate between the datasets
+# Basically, a new column called group is added to each dataframe to differentiate between the two datasets.
+
+df_TTP_SOC$group <- "Chemo"
+df_TTP_EXP$group <- "Chemo+Bev"
+
+# Combine the datasets
+df_combined_TTP <- rbind(df_TTP_SOC, df_TTP_EXP)
+# The datasets are combined using rbind.
+
+
+# To show the number at risk at specific times (0, 150, 300, 450, 600, 750, 900, 1050, 1200, 1350 days) in the risk table, you need to specify these times in the add_risktable() function. Here’s how you can modify your code to achieve this:
+
+# Adding Risk Table Times: The add_risktable() function is modified to include the times argument, specifying the exact times at which I want to display the number at risk.
+
+# Plotting: The combined data is plotted with ggsurvfit, using the group column to distinguish between the two sets of survival curves.
+# This will create a single plot for each type of survival curve, showing both datasets on the same graph.
+
+
+
+# Plot the combined data
+survfit2(Surv(time, status) ~ group, data = df_combined_TTP) %>% ggsurvfit() +
+  labs(
+    x = "Days",
+    y = "Progression Free Survival Probability"
+  ) + 
+  add_risktable(times = c(0, 150, 300, 450, 600, 750, 900, 1050, 1200, 1350)) +
+  theme_minimal()
+
+# Save the plot
+ggsave("Baseline_PFS_Curves_BothEXPANDSOC.png", width = 8, height = 6, dpi = 300)
+
+# Here I update the height of the image to push the title closer to the middle.
+
+# Close any remaining graphics devices
+while (!is.null(dev.list())) dev.off()
+
+
+# Load the datasets
+# Load both datasets.
+load(file = "df_TTD.RData") # loaded earlier
+df_TTD_SOC <- df_TTD 
+# I don'y wamt to mess with my original data informing transition rates in this analysis, so I clone df_TTD here
+load(file = "df_TTD_EXP.RData")
+
+# Add a new column to differentiate between the datasets
+df_TTD_SOC$group <- "Chemo"
+df_TTD_EXP$group <- "Chemo+Bev"
+
+# Combine the datasets
+df_combined_TTD <- rbind(df_TTD_SOC, df_TTD_EXP)
+
+# Plot the combined data
+survfit2(Surv(time, status) ~ group, data = df_combined_TTD) %>% ggsurvfit() +
+  labs(
+    x = "Days",
+    y = "Overall Survival Probability"
+  ) + 
+  add_risktable(times = c(0,  319,  638,  957, 1276, 1595, 1914, 2233, 2552, 2871)) +
+  theme_minimal()
+
+# Above, there were no times in the Smeets et al., study to ape for the OS curves, as opposed to the PFS curves, consequently, I ensure the risk table has ten evenly spaced values, to better match the risk table for PFS. I calculate the times dynamically based on the range of my data. I determine the maximum time in my dataset and then generating evenly spaced intervals as follows:
+
+# Basically, I determine the maximum time value, that is, I calculate the maximum time in the combined dataset:
+
+# max_time <- max(df_combined_TTD$time, na.rm = TRUE)
+
+# Generate 10 evenly spaced time points from 0 to max_time
+# times <- seq(0, max_time, length.out = 10)
+
+# > times
+# [1]    0  319  638  957 1276 1595 1914 2233 2552 2871
+
+# Save the plot
+ggsave("Baseline_OS_Curves_BothEXPANDSOC.png", width = 8, height = 4, dpi = 300)
+
+# Close any remaining graphics devices
+while (!is.null(dev.list())) dev.off()
+```
+
+
 
 ```{r}
 #03 Input model parameters
@@ -5811,14 +5925,14 @@ beta_u_AE3 <- beta,
 
 # Actually, I could set them as below because I am using country specific discount rates now which I set earlier in the document and because I set d_c and d_e equal to these country specific valus divided by 365 also earlier in the document:
 
-d_c       = d_c,
-d_e       = d_e,
+# d_c       = d_c,
+# d_e       = d_e,
 
 # Earlier I divided 0.04 by 365, and I also divided the upper and lower values by 365 to be used in the tornado diagram as maxes and mins, so I don't need to divide anythig by 365 below:
 
 
-# d_c    = runif(n_runs,  min = Minimum_d_c, max = Maximum_d_c),
-# d_e    = runif(n_runs,  min = Minimum_d_e, max = Maximum_d_e),
+d_c    = runif(n_runs,  min = Minimum_d_c, max = Maximum_d_c),
+d_e    = runif(n_runs,  min = Minimum_d_e, max = Maximum_d_e),
 
   n_cycle   = n_cycle,
   t_cycle   = t_cycle
