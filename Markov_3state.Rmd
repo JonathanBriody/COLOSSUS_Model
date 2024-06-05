@@ -4276,7 +4276,7 @@ while (!is.null(dev.list()))  dev.off()
 # The [1] in country_name[1] is used to ensure that only the first element of the country_name vector is used, assuming country_name might be a vector with multiple entries. However, if country_name is a single-element character vector, you can directly use country_name without the [1].
 
 
-# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions on this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
+# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions of this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
 
 unlimited_tornado_plot <- owsa_tornado(owsa = DSAICER, txtsize = 11)
 
@@ -6233,7 +6233,7 @@ ggsave(paste("CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = ce_s
 # Close the graphics device
 while (!is.null(dev.list())) dev.off()
 
-# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions on this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
+# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions of this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
 
 unlimited_ce_scatter_plot <- plot(l_PA)
 plot_title <- paste("Scatter Plot", country_name)
