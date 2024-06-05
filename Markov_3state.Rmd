@@ -4234,7 +4234,7 @@ DSAICER
 # owsa_tornado(owsa = DSAICER, txtsize = 11)
 
 # First I generate the tornado plot using the owsa_tornado function
-tornado_plot <- owsa_tornado(owsa = DSAICER, txtsize = 11)
+tornado_plot <- owsa_tornado(owsa = DSAICER, txtsize = 11, ylim = c(100000, 400000))
 
 
 # If I wanted to create the tornado plot with custom x-axis limits I could do this as below, per: https://rdrr.io/github/DARTH-git/dampack/man/owsa_tornado.html
@@ -4274,6 +4274,20 @@ while (!is.null(dev.list()))  dev.off()
 #dev.off()
 
 # The [1] in country_name[1] is used to ensure that only the first element of the country_name vector is used, assuming country_name might be a vector with multiple entries. However, if country_name is a single-element character vector, you can directly use country_name without the [1].
+
+
+# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions on this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
+
+unlimited_tornado_plot <- owsa_tornado(owsa = DSAICER, txtsize = 11)
+
+unlimited_tornado_plot <- unlimited_tornado_plot + labs(y = "ICER")
+
+plot_title <- paste("Tornado Plot", country_name[1])
+
+unlimited_tornado_plot <- unlimited_tornado_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.5), axis.title.y = element_text(vjust = 0.25))
+
+ggsave(paste("Unlimited_Tornado_Diagram_", country_name[1], ".png", sep = ""), plot = unlimited_tornado_plot, width = 8, height = 4, dpi=300)
+while (!is.null(dev.list()))  dev.off()
 
 
 
@@ -6207,7 +6221,7 @@ write.csv(df_cea_PA, file = paste0("Probabilistic_ICER_For_", country_name, ".cs
 # To add a title to my cost-effectiveness scatter plot using ggplot2, I modify the plot object created by plot(l_PA) to include a title.
 
 # I Create the plot object using plot(l_PA):
-ce_scatter_plot <- plot(l_PA)
+ce_scatter_plot <- plot(l_PA, ylim = c(0, 200000))
 
 # I add a the title to the plot object using ggtitle (as before the title will be centered above the plot):
 plot_title <- paste("Scatter Plot", country_name)
@@ -6217,6 +6231,14 @@ ce_scatter_plot <- ce_scatter_plot + ggtitle(plot_title) + theme(plot.title = el
 ggsave(paste("CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = ce_scatter_plot, width = 8, height = 4, dpi = 300)
 
 # Close the graphics device
+while (!is.null(dev.list())) dev.off()
+
+# Because I'm setting limits to put everything on the same range without actually knowing how these limits fit with the actual data, I create two versions on this plot, one with the limits applied, and one without the limits applied, so I can compare the two plots produced:
+
+unlimited_ce_scatter_plot <- plot(l_PA)
+plot_title <- paste("Scatter Plot", country_name)
+unlimited_ce_scatter_plot <- unlimited_ce_scatter_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.5))
+ggsave(paste("Unlimited_CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = unlimited_ce_scatter_plot, width = 8, height = 4, dpi = 300)
 while (!is.null(dev.list())) dev.off()
 
 # I Create the plot object using plot(l_PA):
