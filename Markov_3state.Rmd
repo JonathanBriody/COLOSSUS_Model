@@ -467,7 +467,7 @@ survfit2(Surv(time, status) ~ 1, data = df_TTP) %>% ggsurvfit() +
   ) + 
   add_risktable()
 #print(plot)
-ggsave("Baseline_PFS_Curves.png", width = 8, height = 4, dpi=300)
+ggsave("Baseline_PFS_Curves.png", width = 8, height = 4, dpi=600)
 #dev.off()
 while (!is.null(dev.list()))  dev.off()
 
@@ -488,7 +488,7 @@ survfit2(Surv(time, status) ~ 1, data = df_TTD) %>% ggsurvfit() +
     y = "Overall survival probability"
   ) + 
   add_risktable()
-ggsave("Baseline_OS_Curves.png", width = 4, height = 4, dpi=300)
+ggsave("Baseline_OS_Curves.png", width = 4, height = 4, dpi=600)
 #png(paste("Baseline_OS_Curves", ".png"))
 #dev.off()
 while (!is.null(dev.list()))  dev.off()
@@ -1003,7 +1003,7 @@ survfit2(Surv(time, status) ~ group, data = df_combined_TTP) %>% ggsurvfit() +
   theme_minimal()
 
 # Save the plot
-ggsave("Baseline_PFS_Curves_BothEXPANDSOC.png", width = 8, height = 6, dpi = 300)
+ggsave("Baseline_PFS_Curves_BothEXPANDSOC.png", width = 8, height = 6, dpi = 600)
 
 # Here I update the height of the image to push the title closer to the middle.
 
@@ -1047,7 +1047,7 @@ survfit2(Surv(time, status) ~ group, data = df_combined_TTD) %>% ggsurvfit() +
 # [1]    0  319  638  957 1276 1595 1914 2233 2552 2871
 
 # Save the plot
-ggsave("Baseline_OS_Curves_BothEXPANDSOC.png", width = 8, height = 4, dpi = 300)
+ggsave("Baseline_OS_Curves_BothEXPANDSOC.png", width = 8, height = 4, dpi = 600)
 
 # Close any remaining graphics devices
 while (!is.null(dev.list())) dev.off()
@@ -1942,7 +1942,16 @@ v_names_states_updated <- c("First-Line", "Second-Line", "Death")
 v_names_states_updated
 
 # Open a PNG device
-png("Markov_Cohort_Traces.png", width = 8, height = 6,  units = "in", res = 300)
+png("Markov_Cohort_Traces.png", width = 8, height = 6,  units = "in", res = 600)
+
+# res = 600 sets the resolution to 600 DPI, which is higher than the default 300 DPI. You can adjust this value to achieve the desired resolution.
+
+# The width and height arguments specify the dimensions of the image in inches.
+
+# By increasing the res value, you will get a higher resolution image, which is useful for publication-quality graphics. You can experiment with different res values to find the best quality for your needs.
+
+
+
 
 # Plotting the Markov cohort traces
 matplot(m_M_SoC, 
@@ -3514,7 +3523,7 @@ write.csv(df_cea, file = paste0("Baseline_ICER_For_", country_name, ".csv"), row
 #07.4 Plot frontier of the Markov model
 
 plot(df_cea, effect_units = "QALYs", label = "all")
-ggsave(paste("Frontier_Markov_Model_", country_name[1], ".png", sep = ""), width = 8, height = 4, dpi=300)
+ggsave(paste("Frontier_Markov_Model_", country_name[1], ".png", sep = ""), width = 8, height = 4, dpi=600)
 
 
 
@@ -4285,7 +4294,7 @@ tornado_plot <- tornado_plot + ggtitle(plot_title) + theme(plot.title = element_
 # By adjusting the vjust parameter for axis.title.y, the y-axis label "ICER" is vertically centered. If we also want to adjust the horizontal alignment of the y-axis label, we can use hjust similarly.
 
 # I save the modified plot to a file as before, but now add "plot = tornado_plot":
-ggsave(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""), plot = tornado_plot, width = 8, height = 4, dpi=300)
+ggsave(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""), plot = tornado_plot, width = 8, height = 4, dpi=600)
 # Close the graphics device
 while (!is.null(dev.list()))  dev.off()
 #png(paste("Tornado_Diagram_", country_name[1], ".png", sep = ""))
@@ -4304,10 +4313,12 @@ plot_title <- paste("Tornado Plot", country_name[1])
 
 unlimited_tornado_plot <- unlimited_tornado_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.5), axis.title.y = element_text(vjust = 0.25))
 
-ggsave(paste("Unlimited_Tornado_Diagram_", country_name[1], ".png", sep = ""), plot = unlimited_tornado_plot, width = 8, height = 4, dpi=300)
+ggsave(paste("Unlimited_Tornado_Diagram_", country_name[1], ".png", sep = ""), plot = unlimited_tornado_plot, width = 8, height = 4, dpi=600)
 while (!is.null(dev.list()))  dev.off()
 
-
+# The dpi argument in the ggsave function has been set to 600 to increase the resolution of the saved images. Higher values of dpi (dots per inch) result in higher resolution images.
+# This setting is applied to both the limited and unlimited versions of the tornado plot.
+# By adjusting the dpi setting, you ensure that the output images are of higher resolution, making them suitable for high-quality prints or detailed analysis.
 
 
 # Plotting the outcomes of the OWSA in a tornado plot
@@ -6246,7 +6257,7 @@ plot_title <- paste("Scatter Plot", country_name)
 ce_scatter_plot <- ce_scatter_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.5))
 
 # Save the plot to a file
-ggsave(paste("CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = ce_scatter_plot, width = 8, height = 4, dpi = 300)
+ggsave(paste("CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = ce_scatter_plot, width = 8, height = 4, dpi = 600)
 
 # Close the graphics device
 while (!is.null(dev.list())) dev.off()
@@ -6256,7 +6267,7 @@ while (!is.null(dev.list())) dev.off()
 unlimited_ce_scatter_plot <- plot(l_PA)
 plot_title <- paste("Scatter Plot", country_name)
 unlimited_ce_scatter_plot <- unlimited_ce_scatter_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.5))
-ggsave(paste("Unlimited_CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = unlimited_ce_scatter_plot, width = 8, height = 4, dpi = 300)
+ggsave(paste("Unlimited_CE_Scatter_Plot_", country_name[1], ".png", sep = ""), plot = unlimited_ce_scatter_plot, width = 8, height = 4, dpi = 600)
 while (!is.null(dev.list())) dev.off()
 
 # I Create the plot object using plot(l_PA):
@@ -6314,7 +6325,7 @@ plot_title <- paste("CEAC Plot", country_name)
 ceac_plot <- ceac_plot + ggtitle(plot_title) + theme(plot.title = element_text(hjust = 0.45)) # AAgain I try to position the title in the middle of the plot.
 
 # Save the plot to a file
-ggsave(paste("CEAC_", country_name[1], ".png", sep = ""), plot = ceac_plot, width = 8, height = 4, dpi = 300)
+ggsave(paste("CEAC_", country_name[1], ".png", sep = ""), plot = ceac_plot, width = 8, height = 4, dpi = 600)
 
 # Close the graphics device
 while (!is.null(dev.list())) dev.off()
