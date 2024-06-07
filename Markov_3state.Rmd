@@ -174,30 +174,30 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 # 
-# country_name <- "Ireland"
-# #
-# #
-# # # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 157.77
-# c_PFS_Bevacizumab <- 1425.84
-# c_OS_Folfiri <- 167.10
-# administration_cost <- 406.50
-# subtyping_test_cost <- 400
-# 
-# 
-# # # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 3485.23
-# c_AE2 <- 1792.82
-# c_AE3 <- 502.69
-# 
-# # # 3. Willingness to pay threshold
-# n_wtp = 45000
-# 
-# # 4. Country-specific discount rate:
-# 
-# country_discount_rate     <- 0.04
-# country_max_discount_rate     <- 0.08
-# country_min_discount_rate     <- 0.00
+country_name <- "Ireland"
+#
+#
+# # 1. Cost of treatment in this country
+c_PFS_Folfox <- 157.77
+c_PFS_Bevacizumab <- 1425.84
+c_OS_Folfiri <- 167.10
+administration_cost <- 406.50
+subtyping_test_cost <- 400
+
+
+# # 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 3485.23
+c_AE2 <- 1792.82
+c_AE3 <- 502.69
+
+# # 3. Willingness to pay threshold
+n_wtp = 45000
+
+# 4. Country-specific discount rate:
+
+country_discount_rate     <- 0.04
+country_max_discount_rate     <- 0.08
+country_min_discount_rate     <- 0.00
 
 
 
@@ -234,29 +234,29 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Spain:
 
-country_name <- "Spain"
-# # 
-# # 
-# # 1. Cost of treatment in this country
-c_PFS_Folfox <- 323.39
-c_PFS_Bevacizumab <- 1399.33
-c_OS_Folfiri <- 147.31
-administration_cost <- 332.39
-subtyping_test_cost <- 400
-# 
-# # # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 5710.97
-c_AE2 <- 305.55
-c_AE3 <- 35.11
-# # 
-# # # 3. Willingness to pay threshold
-n_wtp = 30000
-# 
-# # 4. Country-specific discount rate:
-# 
-country_discount_rate     <- 0.03
-country_max_discount_rate     <- 0.06
-country_min_discount_rate     <- 0.00
+# country_name <- "Spain"
+# # # # 
+# # # # 
+# # # # 1. Cost of treatment in this country
+# c_PFS_Folfox <- 323.39
+# c_PFS_Bevacizumab <- 1399.33
+# c_OS_Folfiri <- 147.31
+# administration_cost <- 332.39
+# subtyping_test_cost <- 400
+# # # 
+# # # # # 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 5710.97
+# c_AE2 <- 305.55
+# c_AE3 <- 35.11
+# # # # 
+# # # # # 3. Willingness to pay threshold
+# n_wtp = 30000
+# # # 
+# # # # 4. Country-specific discount rate:
+# # # 
+# country_discount_rate     <- 0.03
+# country_max_discount_rate     <- 0.06
+# country_min_discount_rate     <- 0.00
 
 
 
@@ -6283,6 +6283,26 @@ while (!is.null(dev.list())) dev.off()
 
 #plot(l_PA, xlim = c(9.5, 22.5))
 # In the DARTH package R code they use the additional bits above, I can see how they look in my own model, and if I'd like to use them.
+
+# In this plot, it would be easy to get caught off guard by the fact that some of the effectiveness values are above 1, however, in health economics, Quality-Adjusted Life Years (QALYs) are not inherently bound by 1. QALYs are used as a measure that combines the quantity and quality of life lived, and they are typically used in cost-utility analyses to assess the value for money of medical interventions.
+
+#Here are a few key points to understand about QALYs:
+
+# Calculation: QALYs are calculated by multiplying the duration of time spent in a health state by the quality of life score (utility value) associated with that health state. Utility values typically range from 0 to 1, where:
+
+# 0 represents a health state equivalent to death.
+# 1 represents perfect health.
+
+# Beyond One Year: Since QALYs represent both the quality and quantity of life, they can exceed 1 if the time period considered is more than one year. For example, 2 years in perfect health would equal 2 QALYs (2 years * 1 utility = 2 QALYs).
+
+# Utility Values: While utility values are generally between 0 and 1, in some cases, they can be negative, representing health states considered worse than death. This means that the QALYs for a period spent in such a state could be negative.
+
+# Lifetime QALYs: Over a person's lifetime, the total QALYs accumulated can be much greater than 1, depending on the length of life and the quality of health throughout that period.
+
+# In summary, while the utility value for any given health state is typically between 0 and 1, the total QALYs can exceed 1 since they are a cumulative measure over time.
+
+# This is supported by: https://www.scottishmedicines.org.uk/media/2839/guide-to-qalys.pdf
+
 ```
 
 ```{r}
