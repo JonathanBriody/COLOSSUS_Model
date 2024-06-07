@@ -6287,7 +6287,9 @@ summary(CEAC_obj)
 # Save the plot with ggsave.
 
 # Create the plot object
-ceac_plot <- plot(CEAC_obj)
+ceac_plot <- plot(CEAC_obj, currency = "€")
+
+# I update the above to ensure the currency used is euro, per: https://rdrr.io/github/DARTH-git/dampack/man/plot.ceac.html
 
 # Add a title to the plot
 plot_title <- paste("CEAC Plot", country_name)
