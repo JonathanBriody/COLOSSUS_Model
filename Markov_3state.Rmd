@@ -202,30 +202,30 @@ country_min_discount_rate     <- 0.00
 
 
 
-# Germany:
-# 
+# # Germany:
+#
 # country_name <- "Germany"
-# 
+#
 # # 1. Cost of treatment in this country
-# 
+#
 # # I received my costs as cost's per month, so I update these to be fortnightly costs as below:
-# 
+#
 # c_PFS_Folfox <- ((1406.37 / 30) * 14)
 # c_PFS_Bevacizumab <- ((3252.19 / 30) * 14)
 # c_OS_Folfiri <- ((1442.70 / 30) * 14)
 # administration_cost <- 1927.72
 # subtyping_test_cost <- 400
-# # #
-# # # 2. Cost of treating the AE conditional on it occurring
+# #
+# # 2. Cost of treating the AE conditional on it occurring
 # c_AE1 <- 4188.31
 # c_AE2 <- 1982.68
 # c_AE3 <- 1307.72
-# # #
-# # # 3. Willingness to pay threshold
+# #
+# # 3. Willingness to pay threshold
 # n_wtp = 78871
-# 
-# # 4. Country-specific discount rate:
-# 
+
+# 4. Country-specific discount rate:
+
 # country_discount_rate     <- 0.03
 # country_max_discount_rate     <- 0.06
 # country_min_discount_rate     <- 0.00
@@ -235,25 +235,25 @@ country_min_discount_rate     <- 0.00
 # Spain:
 
 # country_name <- "Spain"
-# # # #
-# # # #
+# # # # 
+# # # # 
 # # # # 1. Cost of treatment in this country
 # c_PFS_Folfox <- 323.39
 # c_PFS_Bevacizumab <- 1399.33
 # c_OS_Folfiri <- 147.31
 # administration_cost <- 332.39
 # subtyping_test_cost <- 400
-# # #
+# # # 
 # # # # # 2. Cost of treating the AE conditional on it occurring
 # c_AE1 <- 5710.97
 # c_AE2 <- 305.55
 # c_AE3 <- 35.11
-# # # #
+# # # # 
 # # # # # 3. Willingness to pay threshold
 # n_wtp = 30000
-# # #
+# # # 
 # # # # 4. Country-specific discount rate:
-# # #
+# # # 
 # country_discount_rate     <- 0.03
 # country_max_discount_rate     <- 0.06
 # country_min_discount_rate     <- 0.00
@@ -364,6 +364,9 @@ country_min_discount_rate     <- 0.00
 #02 Individual Data for Parametric Code
 
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
+
+# It's really important that I do this before creating any parameters to be used in the model, or I will have the issue where the country name keeps getting updated to Spain or whatever country name parameter is loaded when I create this! One solution would be to run this manually before doing anything else in the code and making sure that nothing, including any packages, is loaded in.
+
 
 # df_TTP <- read.csv(file='PFS.csv', header=TRUE)
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTP.RData")
@@ -948,6 +951,10 @@ coef_TTD_weibull_scale_SoC <- l_TTD_SoC_weibull$coefficients["scale"]
 #02 Individual Data for Parametric Code
 
 # Load the individual patient data for the time-to-progression (TTP) that you recovered by digitising published survival curves (actually, Ian Miller gave us the Angiopredict data directly).
+
+# It's really important that I do this before creating any parameters to be used in the model, or I will have the issue where the country name keeps getting updated to Spain or whatever country name parameter is loaded when I create this! One solution would be to run this manually before doing anything else in the code and making sure that nothing, including any packages, is loaded in.
+
+
 # 
 # df_TTP_EXP <- read.csv(file='PFS_WITHBEV.csv', header=TRUE)
 # save.image("C:/Users/Jonathan/OneDrive - Royal College of Surgeons in Ireland/COLOSSUS/R Code/GitHub/COLOSSUS_Model/df_TTP_EXP.RData")
