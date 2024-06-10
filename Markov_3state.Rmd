@@ -174,30 +174,30 @@ p_load_gh("DARTH-git/dampack", "DARTH-git/darthtools")
 
 # Ireland:
 # 
-country_name <- "Ireland"
-#
-#
-# # 1. Cost of treatment in this country
-c_PFS_Folfox <- 157.77
-c_PFS_Bevacizumab <- 1425.84
-c_OS_Folfiri <- 167.10
-administration_cost <- 406.50
-subtyping_test_cost <- 400
-
-
-# # 2. Cost of treating the AE conditional on it occurring
-c_AE1 <- 3485.23
-c_AE2 <- 1792.82
-c_AE3 <- 502.69
-
-# # 3. Willingness to pay threshold
-n_wtp = 45000
-
-# 4. Country-specific discount rate:
-
-country_discount_rate     <- 0.04
-country_max_discount_rate     <- 0.08
-country_min_discount_rate     <- 0.00
+# country_name <- "Ireland"
+# #
+# #
+# # # 1. Cost of treatment in this country
+# c_PFS_Folfox <- 157.77
+# c_PFS_Bevacizumab <- 1425.84
+# c_OS_Folfiri <- 167.10
+# administration_cost <- 406.50
+# subtyping_test_cost <- 400
+# 
+# 
+# # # 2. Cost of treating the AE conditional on it occurring
+# c_AE1 <- 3485.23
+# c_AE2 <- 1792.82
+# c_AE3 <- 502.69
+# 
+# # # 3. Willingness to pay threshold
+# n_wtp = 45000
+# 
+# # 4. Country-specific discount rate:
+# 
+# country_discount_rate     <- 0.04
+# country_max_discount_rate     <- 0.08
+# country_min_discount_rate     <- 0.00
 
 
 
@@ -234,29 +234,29 @@ country_min_discount_rate     <- 0.00
 
 # Spain:
 
-# country_name <- "Spain"
-# # # # 
-# # # # 
-# # # # 1. Cost of treatment in this country
-# c_PFS_Folfox <- 323.39
-# c_PFS_Bevacizumab <- 1399.33
-# c_OS_Folfiri <- 147.31
-# administration_cost <- 332.39
-# subtyping_test_cost <- 400
-# # # 
-# # # # # 2. Cost of treating the AE conditional on it occurring
-# c_AE1 <- 5710.97
-# c_AE2 <- 305.55
-# c_AE3 <- 35.11
-# # # # 
-# # # # # 3. Willingness to pay threshold
-# n_wtp = 30000
-# # # 
-# # # # 4. Country-specific discount rate:
-# # # 
-# country_discount_rate     <- 0.03
-# country_max_discount_rate     <- 0.06
-# country_min_discount_rate     <- 0.00
+country_name <- "Spain"
+# # #
+# # #
+# # # 1. Cost of treatment in this country
+c_PFS_Folfox <- 323.39
+c_PFS_Bevacizumab <- 1399.33
+c_OS_Folfiri <- 147.31
+administration_cost <- 332.39
+subtyping_test_cost <- 400
+# #
+# # # # 2. Cost of treating the AE conditional on it occurring
+c_AE1 <- 5710.97
+c_AE2 <- 305.55
+c_AE3 <- 35.11
+# # #
+# # # # 3. Willingness to pay threshold
+n_wtp = 30000
+# #
+# # # 4. Country-specific discount rate:
+# #
+country_discount_rate     <- 0.03
+country_max_discount_rate     <- 0.06
+country_min_discount_rate     <- 0.00
 
 
 
@@ -2620,6 +2620,9 @@ u_AE3_OS
 Duration_AE <- 5/14
 
 # Then I apply the following equation to apply the utility decrement of the adverse events to the first line health state, conditional on their probability of occuring and their duration:
+
+
+# I now update this to be multiplicative rather than additive per: multiplicative utilities
 
 
 u_F_SoC<-u_F
