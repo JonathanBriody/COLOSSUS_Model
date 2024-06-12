@@ -2609,7 +2609,6 @@ u_AE3_OS
 
 # I then adjust my state utilities:
 
-
 # If I want to update this to be multiplicative rather than additive I can do this per: multiplicative utilities.r
 
 # u_F_SoC <- u_F * (1 - (AE1_DisUtil * p_FA1_STD * Duration_AE)) * (1 - (AE2_DisUtil * p_FA2_STD * Duration_AE)) * (1 - (AE3_DisUtil * p_FA3_STD * Duration_AE))
@@ -2629,6 +2628,9 @@ u_AE3_OS
 Duration_AE <- 5/14
 
 # Then I apply the following equation to apply the utility decrement of the adverse events to the first line health state, conditional on their probability of occuring and their duration:
+
+
+# I now update this to be multiplicative rather than additive per: multiplicative utilities
 
 
 u_F_SoC<-u_F
